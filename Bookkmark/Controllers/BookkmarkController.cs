@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace JavaScriptProgram.Controllers
+namespace Bookkmark.Controllers
 {
-    public class BookkmarkController : Controller
+    public class BookkmarkController : BaseController
     {
         public ActionResult Show(string lnk, string h, string w, string sd)
         {
