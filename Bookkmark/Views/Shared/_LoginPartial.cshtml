@@ -1,4 +1,4 @@
-@using Microsoft.AspNet.Identity
+@*@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -14,10 +14,25 @@
     }
 }
 else
-{
+{*@
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Contact Us", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("Register", "Users", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+        <li>@Html.ActionLink("Contact Us", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "contactLink" })</li>
+
+@if (string.IsNullOrEmpty(ViewBag.UserEmail))
+{
+
+        <li> @Html.ActionLink("Register", "Users", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) </li>
+        <li> @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) </li>
 }
+else
+{
+    <li>
+            @Html.ActionLink("My Profile", "ViewUser", "Account", routeValues: null, htmlAttributes: new { id = "rmyprofileLink" })
+    </li>
+    <li>
+            @Html.ActionLink("Log Out", "LogOut", "Master", routeValues: null, htmlAttributes: new { id = "logoutLink" })
+    </li>
+}
+    </ul>
+
+@*}*@
