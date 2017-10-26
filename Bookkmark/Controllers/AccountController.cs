@@ -221,8 +221,33 @@ namespace Bookkmark.Controllers
 
         public ActionResult Users()
         {
-            if (Session["User"] != null)
-            {
+            //if (Session["User"] != null)
+            //{
+                user = (Users)Session["User"];
+                if (Request.Form["Edit"] != null)
+                {
+                    return View("../Account/EditUser", user);
+                    //return View(user);
+                }
+                else if (Request.Form["ChangePassword"] != null)
+                {
+                    ViewBag.OldPassword = user.Password;
+                    return View("../Account/ChangePassword", user);
+                }
+                return null;
+                 //}
+            //else
+            //{
+            //    user = new Users();
+            //    return View(user);
+            //}  
+            
+        }
+
+        public ActionResult Users()
+        {
+            //if (Session["User"] != null)
+            //{
                 user = (Users)Session["User"];
                 if (Request.Form["Edit"] != null)
                 {
