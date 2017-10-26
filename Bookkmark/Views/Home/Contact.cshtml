@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Bookkmark - ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using Bookkmark.AppCode
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script type="text/javascript" src="~/js/JavaScript1.js"></script>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<script>
+    function IsRecapchaValid() {
+        var response = grecaptcha.getResponse();
+        if (response.length == 0) {
+            //reCaptcha not verified
+            alert("Please validate the recaptcha");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
+
+<h2>Contact Us</h2><br />
+<div id="Content">
+
+
+@using (Html.BeginForm("Contact", "Home", FormMethod.Post, new {onsubmit="return IsRecapchaValid();" }))
+{
+   
+                <table style="width:100%;font-size:16px">
+
+                    <tr>
+                        <td align="center">
+                            <span style="font-weight:bold;color:green;font-size:14px">@Html.Raw(ViewBag.Ack)</span>                         
+                        </td>
+                    </tr>
+
+                    
+                     <tr>
+                        <td align="center">
+                            <span style="font-weight:bold;color:darkgreen;font-size:14px">You can also email us directly at admin@codeanalyze.com</span>
+                        </td>
+                    </tr>
+                   
+                    @*@if(string.IsNullOrEmpty(ViewBag.UserEMail))
+                    {
+                        <tr>
+                            <td align="left" style="font-family: Calibri;width:200px">
+                                @Html.TextBox("txtEMail", "", new { style = "width:40%;height:30px;", placeholder = "EMail Id", @class = "myText" })
+                                <br/>
+                            </td>
+                        </tr>
+                    }*@
+                   
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td style="font-family: Calibri;">
+                            @Html.TextArea("txtSuggestion", "", new { style = "width:90%;height:200px;", placeholder = "Message", @class = "myText" })
+                        </td>
+                    </tr>
+                     <tr>
+                                    <td align="center">
+                                             <div class="g-recaptcha" data-sitekey="6LfVsxATAAAAADNxqs-kXsBp1GHJMGGiENNpgpLF"></div>
+                                    </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="padding-left: 40%">
+                            &nbsp;<br />
+                            <input type="submit" value="Submit" id="btnSubmit" onclick="return ValidateSuggestion()" class="mysubmit" />
+                        </td>
+                    </tr>
+                    @*<tr>
+                        <td align="right" style="font-family: Calibri; font-size: medium">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td align="left">
+                                        CodeAnalyze
+                                        <br />
+                                        New Jersey,
+                                        <br />
+                                        USA
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td align="left" width="150px">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>*@
+                </table>
+
+            @*</td>
+        </tr>
+    </table>*@
+     @Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)
+}
+
+</div>
+
+
+

@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
+}
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script src="~/js/Facebook.js"></script>
+<script src="~/js/Google.js"></script>
+
+<h2>Login</h2><br />
+
+
+<div align="center" style="width:100%;">
+
+
+
+
+    <table style="border-radius:6%;background-color:#EFF0ED;width:40%;height:380px">
+        <tr>
+            <td align="center">
+                <table style="font-size:16px;width:90%" cellpadding="5">
+
+                    <tr>
+                        <td>
+                            <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.lblAck</span>
+                        </td>
+                    </tr>                  
+                   
+                    @using (Html.BeginForm("ProcessLogin", "Account"))
+                    {
+                      if(ViewBag.Activation != null)
+                      { 
+                       <tr>
+                        <td>
+                            <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Activation</span>
+                        </td>
+                       </tr>    
+                         
+                        <tr>
+                            <td>
+                                <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
+                                @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                            </td>
+                        </tr>    
+                      }        
+                        <tr>
+                            <td>
+                                @Html.TextBox("txtEMailId", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Email" })
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.Password("txtPassword", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Password" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Login" id="btnLogin" onclick="return ValidateLogin()" style="width:100%;height:40px;border-radius:10px" class="mysubmit" />
+                            </td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td>
+
+                            @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", null, new { style = "font-size:14px" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            @Html.ActionLink("New User? Register", "Users", "Account", null, new { style = "font-size:14px" })
+
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td align="center">
+                            <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
+                            <div id="my-signin2"></div>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+
+</div>
+
+
+
+

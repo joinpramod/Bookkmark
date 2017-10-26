@@ -1,0 +1,118 @@
+﻿.mysubmit {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    font-size:20px;
+    font-weight:bold;
+    font-family:Calibri;
+    color:black;
+    background-color:#F5E8AA;
+    border: solid 1px lightgrey;
+    width:auto;
+    height:40px;
+}
+
+
+.mysubmit:hover {    
+    background-color:#F3CD50;   
+}
+
+
+
+.mysubmitsmall {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    font-size:20px;
+    font-weight:bold;
+    font-family:Calibri;
+    color:black;
+    background-color:#F5E8AA;
+    border:none;
+    width:auto;
+    height:35px;
+    border: solid 1px lightgrey;
+}
+ 
+
+.mysubmitsmall:hover {    
+    background-color:#F3CD50;   
+}
+
+.demo {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 5px;
+    font-size:24px;
+    font-weight:bold;
+    font-family:Calibri;
+    color:black;
+    background-color:#AAF7C7;
+    border: solid 1px lightgrey;
+    width:140px;
+    display:inline-block;
+    text-decoration:none;
+}
+
+
+.demo:hover {    
+    background-color:#6CEF9C;   
+}
+
+.mysearch {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    font-size:15px;
+    font-weight:bold;
+    font-family:Calibri;
+    color:black;
+    background-color:#F5E8AA;
+    border:none;
+    width:auto;
+    height:25px;
+     border: solid 1px lightgrey;
+}
+
+
+.mysearch:hover {    
+    background-color:#F3CD50;   
+}
+
+
+
+.mylink {
+    font-size:20px;
+    font-weight:bold;
+    font-family:Calibri;
+    color:blue;
+    border:none;
+    width:auto;
+    height:40px;
+
+}
+
+
+.mylink:hover {    
+    background-color:#F3CD50;   
+    color:white;
+}
+
+
+.generalbutton {
+    background-color:#F5E8AA;
+}
+
+
+.generalbutton:hover {    
+    background-color:#F3CD50;   
+}
+
+.myText {
+    height:30px;
+    font-size:14px;
+    border-radius:5px;
+    border:solid;
+    border-color:lightgrey;
+    border-width:1px;
+}
