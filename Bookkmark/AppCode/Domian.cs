@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 
-namespace JavaScriptProgram
+namespace Bookkmark
 {
     public class Domain : ConnManager
     {
