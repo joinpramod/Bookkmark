@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace Bookkmark
 {
-    public class Bookkmark : ConnManager
+    public class BookkmarkCls : ConnManager
     {
         private SqlConnection CmdLCLDBConn;
         private SqlCommand CmdExecute;
