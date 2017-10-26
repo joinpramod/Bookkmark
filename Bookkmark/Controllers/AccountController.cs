@@ -660,6 +660,21 @@ namespace Bookkmark.Controllers
         //    return null;
         //}
 
+
+        [AllowAnonymous]
+        public ActionResult LogOut()
+        {
+            Session["User"] = null;
+            Session["Facebook"] = null;
+            Session.RemoveAll();
+            ViewBag.UserEmail = null;
+
+            Response.Redirect("../Home/Index");
+
+　
+            return View("../Home/Index");
+        }
+
         public ActionResult ChangePassword(string txtNewPassword)
         {
 
