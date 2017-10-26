@@ -1,1 +1,302 @@
-sdf
+@{
+
+    Layout = null;
+
+}
+
+
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Bookmark</title>
+
+</head>
+
+<body>
+
+    
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+
+        window.onload = function () {
+
+            var script = document.createElement("script");
+
+            script.type = "text/javascript";
+
+            script.src = "https://api.ipify.org?format=jsonp&callback=DisplayIP";
+
+            document.getElementsByTagName("head")[0].appendChild(script);
+
+            var curURL = window.location.href;
+
+            var hidden = document.createElement("hidden");
+
+            hidden.id = "ipAddr";
+
+            document.body.appendChild(hidden);
+
+            document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
+
+            document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
+
+            document.getElementById("imgBookkmark").src = @Html.Raw(Json.Encode(ViewData["bookkmarkImgSrc"]));
+
+        };
+
+
+        function DisplayIP(response) {
+
+            document.getElementById("ipAddr").value = response.ip.toString();
+
+        }
+
+
+　
+
+        function AddBookkmark()
+
+        {
+
+            var BookkmarkModel = {
+
+                Bookkmark: document.referrer,
+
+                title:window.parent.document.title,
+
+                ipAddr: document.getElementById("ipAddr").value,
+
+                bookkmarkImgSrc : document.getElementById("imgBookkmark").src
+
+            };
+
+
+　
+
+            $.ajax({
+
+                url: '/javascriptprogram/bookkmark/addbm',
+
+                type: 'POST',
+
+                dataType: "text",
+
+                data: BookkmarkModel,
+
+                success: function (data) {
+
+                    if(data == null || data == ""){
+
+                        //alert("Bookkmark not added");
+
+                        var left = (screen.width)-(0.30*screen.width);
+
+                        var top = (screen.height)-(0.60*screen.height);
+
+                        var height = screen.height*0.40
+
+                        var width = screen.height*0.40
+
+                        window.open("/javascriptprogram/home/index", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+""); 
+
+                    }
+
+                    else
+
+                    {
+
+                        alert(data);
+
+                        document.getElementById("imgBookkmark").src = data;     
+
+                    }                  
+
+                },
+
+                error: function(exception) {
+
+                    alert(exception);
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+    <div>
+
+        <a onclick="AddBookkmark()" href="javascript:void(0);">
+
+            <img id="imgBookkmark" tooltip="Bookkmark this page" />
+
+        </a><br />        
+
+        <span style="font-size:12px;">@ViewData["BookkmarkCount"]</span>
+
+    </div>
+
+</body>
+
+</html>
+
+
+　
+
+　
+
+　
+
+　
+
+        @*//function getcookie(cookiename) {
+
+    //    var cookiestring = document.cookie;
+
+    //    var cookiearray = cookiestring.split(';');
+
+    //    for (var i = 0 ; i < cookiearray.length ; ++i) {
+
+    //        if (cookiearray[i].trim().match('^' + cookiename + '=')) {
+
+    //            return cookiearray[i].replace.trim();
+
+    //        }
+
+    //    } return null;
+
+    //}
+
+
+    //function getCookie(name) {
+
+    //    var re = new RegExp(name + "=([^;]+)");
+
+    //    var value = re.exec(document.cookie);
+
+    //    return (value != null) ? unescape(value[1]) : null;
+
+    //}
+
+
+　
+
+      // return response.ip;
+
+        //$.ajax({
+
+        //    url: '//freegeoip.net/json/',
+
+        //    type: 'POST',
+
+        //    dataType: 'jsonp',
+
+        //    success: function (location) {
+
+        //        debugger;
+
+        //        clientIP = location.ip;
+
+        //    }
+
+        //});
+
+
+            //$.get("http://freegeoip.net/json/", function (response) {
+
+            //    // alert(response.ip.toString());
+
+            //    clientIP = response.ip.toString();
+
+            //   // alert(clientIP);
+
+            //    //return response.ip.toString();
+
+            //    //$('.ipAddr').text(response.ip.toString());
+
+            //    $("#ipAddr").text(response.ip.toString());
+
+            ////console.log(JSON.stringify(response, null, 2));
+
+            ////add some conditional here to handle edge cases hint " use an if() "
+
+            ////$("#address").html("City: " + response.city);
+
+            ////$("#details").html(JSON.stringify(response, null, 4));
+
+            ////"ip": "116.12.250.1",
+
+            ////"country_code": "SG",
+
+            ////"country_name": "Singapore",
+
+            ////"region_code": "01",
+
+            ////"region_name": "Central Singapore Community Development Council",
+
+            ////"city": "Singapore",
+
+            ////"zip_code": "",
+
+            ////"time_zone": "Asia/Singapore",
+
+            ////"latitude": 1.2931,
+
+            ////"longitude": 103.8558,
+
+            ////"metro_code": 0
+
+            ////freegeoip.net/json/158.57.150.68
+
+            //}, "jsonp");*@
+
+
+　
+
+           // @*@ViewData["Bookkmark"] = window.location.href;
+
+            //@ViewData["ipAddr"] = document.getElementById("ipAddr").value;*@
+
+
+            @*//$.ajax({
+
+            //    url: '/JavaScriptProgram/Home/AddBkkm',
+
+            //    type: 'POST',
+
+            //    data: {
+
+            //        Bookkmark: document.referrer,
+
+            //        ipAddr: document.getElementById("ipAddr").value
+
+            //    },
+
+            //    contentType: 'application/json; charset=utf-8',
+
+            //    dataType: "json",
+
+            //    success: function (data) {
+
+            //        alert("Bookkmark added");
+
+            //    },
+
+            //    error: function () {
+
+            //        alert("error");
+
+            //    }
+
+            //});*@
