@@ -1,9 +1,12 @@
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Data;
 using System;
 
 namespace Bookkmark
 {
+
+    public enum RegisType { WebUser, SiteOwner }
+
     public class Users : ConnManager
     {
         private SqlConnection CmdLCLDBConn;
@@ -44,7 +47,7 @@ namespace Bookkmark
             SqlCommand Cmd = new SqlCommand("User_Sp", CmdLCLDBConn);
             Cmd.CommandType = CommandType.StoredProcedure;
 
-　
+
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamUserId = Cmd.Parameters.Add("@UserId", SqlDbType.Float);
             SqlParameter ParamFirstName = Cmd.Parameters.Add("@FirstName", SqlDbType.VarChar);
@@ -103,7 +106,7 @@ namespace Bookkmark
             }
             ParamCreatedDateTime.Direction = ParameterDirection.Input;
 
-　
+
             if (ModifiedDateTime < DateTime.Parse("1-1-2000"))
             {
                 ParamModifiedDateTime.Value = DBNull.Value;
@@ -197,3 +200,4 @@ namespace Bookkmark
 
     }
 }
+
