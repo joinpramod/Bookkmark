@@ -71,19 +71,19 @@
             {
             <div>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Bookkmarks", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Reports", "HowItWorks", "Home")</li>
-                    <li>@Html.ActionLink("View Script", "WhatToExpect", "Home")</li>                    
-                    <li>@Html.ActionLink("My Domains", "Choice", "Account")</li>
+                    <li>@Html.ActionLink("My Bookkmarks", "MyBookkmarks", "Bookkmark")</li>
+                    <li>@Html.ActionLink("Reports", "Reports", "Bookkmark")</li>
+                    <li>@Html.ActionLink("View Script", "ScriptCode", "Bookkmark")</li>                    
+                    <li>@Html.ActionLink("My Domains", "Domains", "Bookkmark")</li>
                 </ul>             
             </div>
             }
 
         </div>
     </div>
-    <div style="height:100px"></div>
+    @*<div style="height:0px"></div>*@
     <div class="container body-content">
-        <div style="height:600px">
+        <div style="height:600px;padding-top:4%">
             @RenderBody()
         </div>
         <hr />
