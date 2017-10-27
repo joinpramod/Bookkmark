@@ -31,7 +31,7 @@ namespace Bookkmark.Controllers
             }
             else
             {
-                Bookkmark bookkmark = new Bookkmark();
+                BookkmarkCls bookkmark = new BookkmarkCls();
                 bookkmark.URL = lnk;
                 if (BookkmarkExist(bookkmark))
                 {
@@ -54,7 +54,7 @@ namespace Bookkmark.Controllers
         public string addbm(string Bookkmark, string title, string ipAddr, string bookkmarkImgSrc)
         {
             string resp = null;
-            Bookkmark bookkmark = new Bookkmark();
+            BookkmarkCls bookkmark = new BookkmarkCls();
             bookkmark.URL = Bookkmark;
             bookkmark.Name = title;
             bookkmark.IpAddr = ipAddr;
@@ -81,7 +81,7 @@ namespace Bookkmark.Controllers
             return resp;
         }
 
-        private void AddBookkmark(Bookkmark bookkmark)
+        private void AddBookkmark(BookkmarkCls bookkmark)
         {
             //get location details from IP
             //Session["user"]
@@ -90,7 +90,7 @@ namespace Bookkmark.Controllers
         }
 
 
-        private bool BookkmarkExist(Bookkmark bookkmark)
+        private bool BookkmarkExist(BookkmarkCls bookkmark)
         {
             //Session["User"]
             //ViewData["Bookkmark"] = bookkmark;
@@ -98,7 +98,7 @@ namespace Bookkmark.Controllers
         }
 
 
-        private void EditBookkmark(Bookkmark bookkmark)
+        private void EditBookkmark(BookkmarkCls bookkmark)
         {
             //Session["User"] &&  Session["bookkmark"]
             //ViewData["Bookkmark"] = bookkmark;
