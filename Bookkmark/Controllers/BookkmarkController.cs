@@ -105,5 +105,19 @@ namespace Bookkmark.Controllers
             return View();
         }
 
+        public ActionResult ScriptCode()
+        {
+            return View();
+        }
+
+        public ActionResult MyBookkmarks()
+        {
+            return View();
+        }
+
+        public ActionResult Reports()
+        {
+            return View();
+        }
     }
 }

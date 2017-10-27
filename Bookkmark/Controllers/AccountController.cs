@@ -200,7 +200,7 @@ namespace Bookkmark.Controllers
             }
         }
 
-        public ActionResult Register(RegisType regType)
+        public ActionResult Register()
         {
             if (Session["User"] != null)
             {
@@ -219,14 +219,12 @@ namespace Bookkmark.Controllers
             else
             {
                 user = new Users();
-                if (regType == RegisType.WebUser)
+                if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "WebUser")
                 {
-                    ViewData["RegisType"] = "WebUser";
                     return View("../Account/Register", user);
                 }
                 else
                 {
-                    ViewData["RegisType"] = "SiteOwner";
                     return View("../Account/Register", user);
                 }
             }
@@ -234,12 +232,14 @@ namespace Bookkmark.Controllers
 
         public ActionResult WebUserReg()
         {
-            return Register(RegisType.WebUser);
+            ViewData["RegisType"] = "WebUser";
+            return Register();
         }
 
         public ActionResult SiteOwnerReg()
         {
-            return Register(RegisType.SiteOwner);
+            ViewData["RegisType"] = "SiteOwner";
+            return Register();
         }
 
         [ReCaptcha]
