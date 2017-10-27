@@ -88,11 +88,7 @@
                                         @Html.TextBoxFor(m => m.Email, new { style = "width:75%;border:1px solid grey;", placeholder = "EMail", @class = "myText" })
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Address, new { style = "width:75%;border:1px solid grey;", placeholder = "Address", @class = "myText" })
-                                    </td>
-                                </tr>
+                                
                                  @if (Model.Email == null || ViewBag.Ack != null)
                                 {
                                 <tr>
@@ -109,12 +105,6 @@
                                 <tr>
                                     <td>
                                         <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @Html.TextAreaFor(m => m.Details, new {style="height:160px;width:90%;border:1px solid grey;", @class="myText",
-                                                 placeholder="Brief details on your experience, work and expertiece"})
                                     </td>
                                 </tr>
                                 <tr>
