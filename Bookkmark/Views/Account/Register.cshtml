@@ -89,7 +89,7 @@
                                     </td>
                                 </tr>
 
-                                @if(ViewData["RegisType"].ToString().Equals("SiteOwner")) { 
+                                @if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) { 
                                 @*DomainName*@
                                 <tr>
                                     <td>
