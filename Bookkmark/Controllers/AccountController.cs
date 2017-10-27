@@ -219,15 +219,14 @@ namespace Bookkmark.Controllers
             }
         }
 
-        public ActionResult Users()
+        public ActionResult Register()
         {
-            //if (Session["User"] != null)
-            //{
+            if (Session["User"] != null)
+            {
                 user = (Users)Session["User"];
                 if (Request.Form["Edit"] != null)
                 {
                     return View("../Account/EditUser", user);
-                    //return View(user);
                 }
                 else if (Request.Form["ChangePassword"] != null)
                 {
@@ -235,13 +234,13 @@ namespace Bookkmark.Controllers
                     return View("../Account/ChangePassword", user);
                 }
                 return null;
-                 //}
-            //else
-            //{
-            //    user = new Users();
-            //    return View(user);
-            //}  
-            
+            }
+            else
+            {
+                user = new Users();
+                return View(user);
+            }
+
         }
 
 

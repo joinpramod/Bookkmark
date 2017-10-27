@@ -1,8 +1,145 @@
 ﻿
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
 }
 
-<h2>Register</h2>
+@model Bookkmark.Users
+@using Bookkmark.AppCode
 
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script src="~/js/Facebook.js"></script>
+<script src="~/js/Google.js"></script>
+
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+
+ @if (Model.Email == null || ViewBag.Ack != null)
+ {
+<h2>Register</h2><br />
+ }
+ else
+ {
+    <h2>Edit Profile</h2><br />    <br />
+ }
+
+<table style="font-size:16px;font-family:Calibri;width:100%">
+                    @if (Model.Email == null || ViewBag.Ack != null)
+                    {
+                                    <tr>
+                                        <td style="padding-top: 2%;">
+                                            <b>Use any of the following options</b><br /><br />
+                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 5px">
+                                            <input type="image" onclick="FaceBookLogin()" value="FaceBook" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
+                                        </td>
+                                    </tr>
+                                    <tr><td>&nbsp</td></tr>
+                                    <tr>
+                                        <td style="padding-top: 5px">
+                                            <div id="my-signin2"></div>
+                                        </td>
+                                    </tr>
+                    }
+                    <tr>
+                        <td style="font-weight: bold; color: red">
+                            @ViewBag.Ack<br />
+                        </td>
+                    </tr>
+                    @using (Html.BeginForm("ProcessActivationCode", "Account"))
+                    {
+                       if (ViewBag.Activation != null)
+                        {
+                            <tr>
+                                <td>
+                                    <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Activation</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
+                                    @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                                </td>
+                            </tr>
+                        }    
+                    }
+                    <tr>
+                        <td style="padding-top: 5px">
+                            @using (Html.BeginForm("CreateEditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+
+                            <table style="height: 250px; width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
+                                <tr>
+                                    <td>
+                                        <br/>
+                                        @Html.TextBoxFor(m => m.FirstName, new { style = "width:55%;border:1px solid grey;", placeholder="First Name", @class="myText"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;border:1px solid grey;", placeholder = "Last Name", @class = "myText" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.Email, new { style = "width:75%;border:1px solid grey;", placeholder = "EMail", @class = "myText" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.Address, new { style = "width:75%;border:1px solid grey;", placeholder = "Address", @class = "myText" })
+                                    </td>
+                                </tr>
+                                 @if (Model.Email == null || ViewBag.Ack != null)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.Password("txtPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Password", @class = "myText" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.Password("txtConfirmPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Confirm Password", @class = "myText" })
+                                    </td>
+                                </tr>
+                                }
+                                <tr>
+                                    <td>
+                                        <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.TextAreaFor(m => m.Details, new {style="height:160px;width:90%;border:1px solid grey;", @class="myText",
+                                                 placeholder="Brief details on your experience, work and expertiece"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <img id="imgcaptcha" alternatetext="Captcha" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        @if (Model.Email == null || ViewBag.Ack != null)
+                                        {
+                                            @Html.GenerateCaptcha(Theme.White)
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <input type="submit" id="btnRegister" value="Submit"  onclick="return ValidateUserReg()" class="mysubmit" />
+                                        <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                            </table>
+                            }
+                        </td>
+                    </tr>
+                </table>
