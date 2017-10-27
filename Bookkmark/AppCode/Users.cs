@@ -20,15 +20,15 @@ namespace Bookkmark
                 CmdLCLDBConn = value;
             }
         }
-        private int OptID { get; set; }
-        private double Id { get; set; }
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private string Password { get; set; }
-        private string Email { get; set; }
-        private bool IsPublisher { get; set; }
-        private Domain DomainName { get; set; }
-        private string ScriptCode { get; set; }
+        public int OptID { get; set; }
+        public double Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public bool IsPublisher { get; set; }
+        public Domain DomainName { get; set; }
+        public string ScriptCode { get; set; }
         public string CreatedUserId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
