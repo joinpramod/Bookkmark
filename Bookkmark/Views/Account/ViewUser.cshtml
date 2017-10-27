@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "ViewUser";
     Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
@@ -8,26 +8,13 @@
 <h2>My Profile</h2><br />
 
 <div>
-@using (Html.BeginForm("Users", "Account", FormMethod.Post))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
-    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; font-size: 16px">
-        <tr align="right" style="width: 100%">
-            <td align="right" valign="middle" style="width: 33%;">
-                @Html.ActionLink("My Questions", "MyQues", "Account", null, new { @class= "mylink" })
-            </td>
-            <td align="center" valign="middle" style="width: 33%;">
-                @Html.ActionLink("My Answers", "MyAns", "Account", null, new { @class = "mylink" })
-            </td>
-            <td align="left" valign="middle" style="width: 33%;">
-                @Html.ActionLink("My Articles", "MyArts", "Account", null, new { @class = "mylink" })
-            </td>
-        </tr>
-    </table>
     <br />
-    if (Model.UserId != null && Model.UserId == 1)
+    @*if (Model.UserId != null && Model.UserId == 1)
     {
        <a href="~/ManageWeb.aspx">Admin</a><br/>
-    } 
+    }*@ 
     <div style="padding-left:5%">
         <table style="height: 100%; width: 90%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;
 border-color:lightgrey;background-color:#EFF0ED"
@@ -83,4 +70,3 @@ border-color:lightgrey;background-color:#EFF0ED"
     </div>
 }
 </div>
-
