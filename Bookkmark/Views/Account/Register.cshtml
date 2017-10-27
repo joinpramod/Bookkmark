@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
@@ -13,7 +13,7 @@
 
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
-
+　
  @if (Model.Email == null || ViewBag.Ack != null)
  {
 <h2>Register</h2><br />
@@ -71,7 +71,7 @@
                             @using (Html.BeginForm("CreateEditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             {
 
-                            <table style="height: 250px; width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
+                            <table style="width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
                                 <tr>
                                     <td>
                                         <br/>
@@ -107,11 +107,11 @@
                                         <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
                                     </td>
                                 </tr>
-                                <tr>
+                                @*<tr>
                                     <td align="center">
                                         <img id="imgcaptcha" alternatetext="Captcha" />
                                     </td>
-                                </tr>
+                                </tr>*@
                                 <tr>
                                     <td align="center">
                                         @if (Model.Email == null || ViewBag.Ack != null)
