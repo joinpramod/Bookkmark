@@ -1,7 +1,7 @@
-
+﻿
 @{
     ViewBag.Title = "Users";
-    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @model Bookkmark.Users
@@ -13,7 +13,7 @@
 
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
-　
+
  @if (Model.Email == null || ViewBag.Ack != null)
  {
 <h2>Register</h2><br />
@@ -88,12 +88,17 @@
                                         @Html.TextBoxFor(m => m.Email, new { style = "width:75%;border:1px solid grey;", placeholder = "EMail", @class = "myText" })
                                     </td>
                                 </tr>
+
+                                @if(ViewData["RegisType"].ToString().Equals("SiteOwner")) { 
+                                @*DomainName*@
                                 <tr>
                                     <td>
                                         @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookkmark.com", @class = "myText" })
                                     </td>
                                 </tr>
-                                 @if (Model.Email == null || ViewBag.Ack != null)
+                                }
+                                
+                                @if (Model.Email == null || ViewBag.Ack != null)
                                 {
                                 <tr>
                                     <td>
@@ -107,8 +112,8 @@
                                 </tr>
                                 }
 
-　
-　
+
+
                                 @*<tr>
                                     <td>
                                         <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
@@ -130,7 +135,7 @@
                                 <tr>
                                     <td align="center">
                                         <input type="submit" id="btnRegister" value="Submit"  onclick="return ValidateUserReg()" class="mysubmit" />
-                                        @*<input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />*@
+                                        <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
                                         <br />
                                     </td>
                                 </tr>
