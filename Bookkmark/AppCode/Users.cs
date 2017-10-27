@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+using System.Data.SqlClient;
 using System.Data;
 using System;
 
@@ -8,23 +8,6 @@ namespace Bookkmark
     {
         private SqlConnection CmdLCLDBConn;
         private SqlCommand CmdExecute;
-        private int IntOptID;
-        private double DblUserId;
-        private string StrFirstName;
-        private string StrLastName;
-        private string StrPassword;
-        private string StrEmail;
-        private string StrImageURL;
-        private string StrCompany;
-        private string StrDetails;
-        private string StrAddress;
-        private string StrStatus;
-        //private string StrArticlesPosted;
-        //private string StrQuestionsPosted;
-        //private string StrAnswersPosted;
-        private System.DateTime DtCreatedDateTime;
-        private System.DateTime DtModifiedDateTime;
-
 
         public SqlConnection SetConnection
         {
@@ -37,233 +20,92 @@ namespace Bookkmark
                 CmdLCLDBConn = value;
             }
         }
+        private int OptID { get; set; }
+        private double Id { get; set; }
+        private string FirstName { get; set; }
+        private string LastName { get; set; }
+        private string Password { get; set; }
+        private string Email { get; set; }
+        private bool IsPublisher { get; set; }
+        private Domain DomainName { get; set; }
+        private string ScriptCode { get; set; }
+        public string CreatedUserId { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime ModifiedDate { get; set; }
 
-
-        public int OptionID
+　
+        public bool SetCommandUser(ref SqlCommand CmdSent)
         {
-            get
-            {
-                return IntOptID;
-            }
-            set
-            {
-                IntOptID = value;
-            }
-        }
-
-        public double UserId
-        {
-            get
-            {
-                return DblUserId;
-            }
-            set
-            {
-                DblUserId = value;
-            }
-        }
-
-        public string FirstName
-        {
-            get
-            {
-                return StrFirstName;
-            }
-            set
-            {
-                StrFirstName = value;
-            }
-        }
-
-        public string LastName
-        {
-            get
-            {
-                return StrLastName;
-            }
-            set
-            {
-                StrLastName = value;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                return StrPassword;
-            }
-            set
-            {
-                StrPassword = value;
-            }
-        }
-
-        public string Email
-        {
-            get
-            {
-                return StrEmail;
-            }
-            set
-            {
-                StrEmail = value;
-            }
-        }
-
-        public string ImageURL
-        {
-            get
-            {
-                return StrImageURL;
-            }
-            set
-            {
-                StrImageURL = value;
-            }
-        }
-
-        public string Company
-        {
-            get
-            {
-                return StrCompany;
-            }
-            set
-            {
-                StrCompany = value;
-            }
-        }
-
-        public string Details
-        {
-            get
-            {
-                return StrDetails;
-            }
-            set
-            {
-                StrDetails = value;
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                return StrAddress;
-            }
-            set
-            {
-                StrAddress = value;
-            }
-        }
-
-        public string Status
-        {
-            get
-            {
-                return StrStatus;
-            }
-            set
-            {
-                StrStatus = value;
-            }
-        }
-
-        public string ArticlesPosted { get; set; }
-        public string QuestionsPosted { get; set; }
-        public string AnswersPosted { get; set; }
-
-
-        public System.DateTime CreatedDateTime
-        {
-            get
-            {
-                return DtCreatedDateTime;
-            }
-            set
-            {
-                DtCreatedDateTime = value;
-            }
-        }
-
-        public System.DateTime ModifiedDateTime
-        {
-            get
-            {
-                return DtModifiedDateTime;
-            }
-            set
-            {
-                DtModifiedDateTime = value;
-            }
-        }
-
-        public bool SetCommandUsers(ref SqlCommand CmdSent)
-        {
-            SqlCommand Cmd = new SqlCommand("Users_Sp", CmdLCLDBConn);
+            SqlCommand Cmd = new SqlCommand("User_Sp", CmdLCLDBConn);
             Cmd.CommandType = CommandType.StoredProcedure;
 
-
+　
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamUserId = Cmd.Parameters.Add("@UserId", SqlDbType.Float);
             SqlParameter ParamFirstName = Cmd.Parameters.Add("@FirstName", SqlDbType.VarChar);
             SqlParameter ParamLastName = Cmd.Parameters.Add("@LastName", SqlDbType.VarChar);
             SqlParameter ParamPassword = Cmd.Parameters.Add("@Password", SqlDbType.VarChar);
             SqlParameter ParamEmail = Cmd.Parameters.Add("@Email", SqlDbType.VarChar);
-            SqlParameter ParamImageURL = Cmd.Parameters.Add("@ImageURL", SqlDbType.VarChar);
-            SqlParameter ParamCompany = Cmd.Parameters.Add("@Company", SqlDbType.VarChar);
-            SqlParameter ParamDetails = Cmd.Parameters.Add("@Details", SqlDbType.VarChar);
-            SqlParameter ParamAddress = Cmd.Parameters.Add("@Address", SqlDbType.VarChar);
-            SqlParameter ParamStatus = Cmd.Parameters.Add("@Status", SqlDbType.VarChar);
+            SqlParameter ParamIsPublisher = Cmd.Parameters.Add("@IsPublisher", SqlDbType.Bit);
+            SqlParameter ParamDomainName = Cmd.Parameters.Add("@DomainName", SqlDbType.VarChar);
+            SqlParameter ParamScriptCode = Cmd.Parameters.Add("@ScriptCode", SqlDbType.VarChar);
+
+            //SqlParameter ParamImageURL = Cmd.Parameters.Add("@ImageURL", SqlDbType.VarChar);
+            //SqlParameter ParamCompany = Cmd.Parameters.Add("@Company", SqlDbType.VarChar);
+            //SqlParameter ParamDetails = Cmd.Parameters.Add("@Details", SqlDbType.VarChar);
+            //SqlParameter ParamAddress = Cmd.Parameters.Add("@Address", SqlDbType.VarChar);
+            //SqlParameter ParamStatus = Cmd.Parameters.Add("@Status", SqlDbType.VarChar);
             SqlParameter ParamCreatedDateTime = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
             SqlParameter ParamModifiedDateTime = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
 
-            ParamOptID.Value = IntOptID;
+            ParamOptID.Value = OptID;
             ParamOptID.Direction = ParameterDirection.Input;
-            ParamUserId.Value = DblUserId;
+            ParamUserId.Value = Id;
             ParamUserId.Direction = ParameterDirection.Input;
-            ParamFirstName.Value = StrFirstName;
+            ParamFirstName.Value = FirstName;
             ParamFirstName.Direction = ParameterDirection.Input;
-            ParamLastName.Value = StrLastName;
+            ParamLastName.Value = LastName;
             ParamLastName.Direction = ParameterDirection.Input;
-            ParamPassword.Value = StrPassword;
+            ParamPassword.Value = Password;
             ParamPassword.Direction = ParameterDirection.Input;
-            ParamEmail.Value = StrEmail;
+            ParamEmail.Value = Email;
             ParamEmail.Direction = ParameterDirection.Input;
-            ParamImageURL.Value = StrImageURL;
-            ParamImageURL.Direction = ParameterDirection.Input;
-            ParamCompany.Value = StrCompany;
-            ParamCompany.Direction = ParameterDirection.Input;
-            ParamDetails.Value = StrDetails;
-            ParamDetails.Direction = ParameterDirection.Input;
-            ParamStatus.Value = StrStatus;
-            ParamStatus.Direction = ParameterDirection.Input;
-            ParamAddress.Value = StrAddress;
-            ParamAddress.Direction = ParameterDirection.Input;
 
+            ParamIsPublisher.Value = IsPublisher;
+            ParamIsPublisher.Direction = ParameterDirection.Input;
+            ParamDomainName.Value = DomainName;
+            ParamDomainName.Direction = ParameterDirection.Input;
+            ParamScriptCode.Value = ScriptCode;
+            ParamScriptCode.Direction = ParameterDirection.Input;
+            //ParamImageURL.Value = StrImageURL;
+            //ParamImageURL.Direction = ParameterDirection.Input;
+            //ParamCompany.Value = StrCompany;
+            //ParamCompany.Direction = ParameterDirection.Input;
+            //ParamDetails.Value = StrDetails;
+            //ParamDetails.Direction = ParameterDirection.Input;
+            //ParamStatus.Value = StrStatus;
+            //ParamStatus.Direction = ParameterDirection.Input;
+            //ParamAddress.Value = StrAddress;
+            //ParamAddress.Direction = ParameterDirection.Input;
 
-
-
-            if (DtCreatedDateTime < DateTime.Parse("1-1-2000"))
+            if (CreatedDate < DateTime.Parse("1-1-2000"))
             {
                 ParamCreatedDateTime.Value = DBNull.Value;
             }
             else
             {
-                ParamCreatedDateTime.Value = DtCreatedDateTime;
+                ParamCreatedDateTime.Value = CreatedDate;
             }
             ParamCreatedDateTime.Direction = ParameterDirection.Input;
 
-
-            if (DtModifiedDateTime < DateTime.Parse("1-1-2000"))
+　
+            if (ModifiedDate < DateTime.Parse("1-1-2000"))
             {
                 ParamModifiedDateTime.Value = DBNull.Value;
             }
             else
             {
-                ParamModifiedDateTime.Value = DtModifiedDateTime;
+                ParamModifiedDateTime.Value = ModifiedDate;
             }
             ParamModifiedDateTime.Direction = ParameterDirection.Input;
 
@@ -271,9 +113,9 @@ namespace Bookkmark
             return true;
         }
 
-        public bool CreateUsers(ref double NewMasterID, SqlTransaction TrTransaction)
+        public bool CreateUser(ref double NewMasterID, SqlTransaction TrTransaction)
         {
-            if (SetCommandUsers(ref CmdExecute))
+            if (SetCommandUser(ref CmdExecute))
             {
                     if (TrTransaction != null)
                     {
@@ -315,14 +157,14 @@ namespace Bookkmark
                 user.Email = strEmail.Trim();
                 user.FirstName = strFirstName.Trim();
                 user.LastName = strLastName.Trim();
-                user.ImageURL = strImageURL.Trim();
-                user.OptionID = 1;
-                user.CreatedDateTime = DateTime.Now;
-                bool result = user.CreateUsers(ref dblUserID, SetTransaction);
+                //user.ImageURL = strImageURL.Trim();
+                user.OptID = 1;
+                user.CreatedDate = DateTime.Now;
+                bool result = user.CreateUser(ref dblUserID, SetTransaction);
                 if (IsinTransaction && result)
                 {
                     SetTransaction.Commit();
-                    user.UserId = dblUserID;
+                    user.Id = dblUserID;
                 }
                 else
                 {
@@ -350,4 +192,3 @@ namespace Bookkmark
 
     }
 }
-
