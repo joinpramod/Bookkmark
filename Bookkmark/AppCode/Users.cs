@@ -169,7 +169,7 @@ namespace Bookkmark
                 if (IsinTransaction && result)
                 {
                     SetTransaction.Commit();
-                    user.Id = dblUserID;
+                    user.UserId = dblUserID;
                 }
                 else
                 {
