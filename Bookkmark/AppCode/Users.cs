@@ -20,8 +20,8 @@ namespace Bookkmark
                 CmdLCLDBConn = value;
             }
         }
-        public int OptID { get; set; }
-        public double Id { get; set; }
+        public int OptionID { get; set; }
+        public double UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
@@ -30,14 +30,15 @@ namespace Bookkmark
         public Domain DomainName { get; set; }
         public string ScriptCode { get; set; }
         public string CreatedUserId { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public System.DateTime ModifiedDate { get; set; }
+        public System.DateTime CreatedDateTime { get; set; }
+        public System.DateTime ModifiedDateTime { get; set; }
+
         public string ImageURL { get; set; }
         public string Company { get; set; }
         public string Details { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
-　
+
         public bool SetCommandUser(ref SqlCommand CmdSent)
         {
             SqlCommand Cmd = new SqlCommand("User_Sp", CmdLCLDBConn);
@@ -62,9 +63,9 @@ namespace Bookkmark
             SqlParameter ParamCreatedDateTime = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
             SqlParameter ParamModifiedDateTime = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
 
-            ParamOptID.Value = OptID;
+            ParamOptID.Value = OptionID;
             ParamOptID.Direction = ParameterDirection.Input;
-            ParamUserId.Value = Id;
+            ParamUserId.Value = UserId;
             ParamUserId.Direction = ParameterDirection.Input;
             ParamFirstName.Value = FirstName;
             ParamFirstName.Direction = ParameterDirection.Input;
@@ -92,24 +93,24 @@ namespace Bookkmark
             //ParamAddress.Value = StrAddress;
             //ParamAddress.Direction = ParameterDirection.Input;
 
-            if (CreatedDate < DateTime.Parse("1-1-2000"))
+            if (CreatedDateTime < DateTime.Parse("1-1-2000"))
             {
                 ParamCreatedDateTime.Value = DBNull.Value;
             }
             else
             {
-                ParamCreatedDateTime.Value = CreatedDate;
+                ParamCreatedDateTime.Value = CreatedDateTime;
             }
             ParamCreatedDateTime.Direction = ParameterDirection.Input;
 
 　
-            if (ModifiedDate < DateTime.Parse("1-1-2000"))
+            if (ModifiedDateTime < DateTime.Parse("1-1-2000"))
             {
                 ParamModifiedDateTime.Value = DBNull.Value;
             }
             else
             {
-                ParamModifiedDateTime.Value = ModifiedDate;
+                ParamModifiedDateTime.Value = ModifiedDateTime;
             }
             ParamModifiedDateTime.Direction = ParameterDirection.Input;
 
@@ -117,7 +118,7 @@ namespace Bookkmark
             return true;
         }
 
-        public bool CreateUser(ref double NewMasterID, SqlTransaction TrTransaction)
+        public bool CreateUsers(ref double NewMasterID, SqlTransaction TrTransaction)
         {
             if (SetCommandUser(ref CmdExecute))
             {
@@ -135,7 +136,7 @@ namespace Bookkmark
             return true;
         }
 
-        public Users CreateUser(string strEmail, string strFirstName, string strLastName)
+        public Users CreateUsers(string strEmail, string strFirstName, string strLastName)
         {
             return CreateUser(strEmail, strFirstName, strLastName, null);
         }
@@ -162,9 +163,9 @@ namespace Bookkmark
                 user.FirstName = strFirstName.Trim();
                 user.LastName = strLastName.Trim();
                 //user.ImageURL = strImageURL.Trim();
-                user.OptID = 1;
-                user.CreatedDate = DateTime.Now;
-                bool result = user.CreateUser(ref dblUserID, SetTransaction);
+                user.OptionID = 1;
+                user.CreatedDateTime = DateTime.Now;
+                bool result = user.CreateUsers(ref dblUserID, SetTransaction);
                 if (IsinTransaction && result)
                 {
                     SetTransaction.Commit();
