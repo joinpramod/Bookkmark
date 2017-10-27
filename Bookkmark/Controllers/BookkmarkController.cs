@@ -119,5 +119,10 @@ namespace Bookkmark.Controllers
         {
             return View();
         }
+
+        public ActionResult Domains()
+        {
+            return View();
+        }
     }
 }
