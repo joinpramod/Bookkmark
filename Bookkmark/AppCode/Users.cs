@@ -32,7 +32,11 @@ namespace Bookkmark
         public string CreatedUserId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
-
+        public string ImageURL { get; set; }
+        public string Company { get; set; }
+        public string Details { get; set; }
+        public string Address { get; set; }
+        public string Status { get; set; }
 　
         public bool SetCommandUser(ref SqlCommand CmdSent)
         {
