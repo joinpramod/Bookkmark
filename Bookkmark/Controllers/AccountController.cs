@@ -672,6 +672,14 @@ namespace Bookkmark.Controllers
             return View("../Home/Index");
         }
 
+
+        [AllowAnonymous]
+        public ActionResult Choice()
+        {
+            return View();
+        }
+
+
         public ActionResult ChangePassword(string txtNewPassword)
         {
 
