@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 
 namespace Bookkmark.Controllers
 {
@@ -10,7 +10,7 @@ namespace Bookkmark.Controllers
             ViewData["ht"] = h;
             ViewData["wd"] = w;
 
-
+　
             if (sd == "true")
             {
                 @ViewData["BookkmarkCount"] = GetBookkmarkCount(lnk);
@@ -20,7 +20,7 @@ namespace Bookkmark.Controllers
                 @ViewData["BookkmarkCount"] = null;
             }
 
-
+　
             if (Session["User"] == null)
             {
                 ViewData["bookkmarkImgSrc"] = "../../JavaScriptProgram/Images/Bookmark.jpg";
@@ -70,14 +70,14 @@ namespace Bookkmark.Controllers
                 }
                 else
                 {
-                    AddBookkmark(bookkmark);
+                    InsertBookkmark(bookkmark);
                     resp = "../../JavaScriptProgram/Images/Bookmarked.jpg";
                 }
             }
             return resp;
         }
 
-        private void AddBookkmark(BookkmarkCls bookkmark)
+        private void InsertBookkmark(BookkmarkCls bookkmark)
         {
             //get location details from IP
             //Session["user"]
@@ -85,14 +85,12 @@ namespace Bookkmark.Controllers
             //ViewData["ipAddr"] = bookkmark.IpAddr;            
         }
 
-
         private bool BookkmarkExist(BookkmarkCls bookkmark)
         {
             //Session["User"]
             //ViewData["Bookkmark"] = bookkmark;
             return false;
         }
-
 
         private void EditBookkmark(BookkmarkCls bookkmark)
         {
@@ -105,9 +103,38 @@ namespace Bookkmark.Controllers
             return View();
         }
 
-        public ActionResult ScriptCode()
+        public ActionResult ScriptCode(string txtHeight, string txtWidth, string chkShowCount)
         {
+
+            if (!string.IsNullOrEmpty(txtHeight))
+                ViewData["txtHeight"] = txtHeight + "px";            
+            else
+                ViewData["txtHeight"] = "60px";
+
+            if (!string.IsNullOrEmpty(txtWidth))
+                ViewData["txtWidth"] = txtWidth + "px";
+            else
+                ViewData["txtWidth"] = "50px";
+            if (!string.IsNullOrEmpty(chkShowCount))
+                ViewData["chkShowCount"] = chkShowCount;
+            else
+                ViewData["chkShowCount"] = "false";
+
+　
+            if (Session["User"] != null)
+            {
+                //Get ScriptCode from DB and assign to ViewState
+                //ViewData["ScriptCode"] = 
+            }
+            else
+            { 
+                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/JavaScriptProgram/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
+            }
+
+            //SaveScript();
+
             return View();
+
         }
 
         public ActionResult MyBookkmarks()
