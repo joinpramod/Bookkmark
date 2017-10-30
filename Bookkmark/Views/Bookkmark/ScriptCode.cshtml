@@ -1,8 +1,73 @@
-﻿
+
 @{
     ViewBag.Title = "View Script";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ScriptCode</h2>
+　
+<script type="text/javascript">
 
+    window.onload = function () {
+        document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"]));
+        document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"]));
+    };
+</script>
+
+　
+<h2>Generate Script Code</h2><br /><br />
+
+@*<h3>Select</h3><br />*@
+
+Select the attributes of the Bookkmark image to be displayed on your web page 
+
+@using (Html.BeginForm("ScriptCode", "Bookkmark"))
+{
+
+<table style="width:100%">
+    <tr>
+        <td>
+            @Html.TextBox("txtHeight", "", new { style = "border:groove;width:5%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Height" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.TextBox("txtWidth", "", new { style = "border:groove;width:5%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Width" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.CheckBox("chkShowCount", bool.Parse(ViewData["chkShowCount"].ToString()), new { style = "border:groove;width:20px;border-width:1px;border-color:grey;border-radius:5px;height:20px" }) Show Count
+        </td>
+    </tr>
+    <tr>
+        <td><br />
+            <input type="submit" value="Preview" id="btnSubmit" class="mysubmit" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img id="imgBookkmark" src="../../JavaScriptProgram/Images/Bookmark.jpg" title="Bookkmark this page" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+            <br />
+            Copy and paste the Script Code generated below in your application where you want the Bookkmark icon to be displayed
+            <br />
+            <br />
+            <div style="height:80px;border-width:1px;border-color:grey;border-radius:5px;">
+                <span style="font-weight:bold;font-size:18px"> @ViewData["ScriptCode"]</span><br /><br />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br />
+            <input type="submit" value="Save Script" id="btnConfirm" class="mysubmit" />
+        </td>
+    </tr>
+</table>
+
+　
+}
