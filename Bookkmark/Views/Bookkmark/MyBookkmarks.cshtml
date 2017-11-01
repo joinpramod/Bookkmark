@@ -1,8 +1,137 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "My Bookkmarks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>MyBookkmarks</h2>
+@*<h2>My Bookkmarks</h2>*@
 
+
+
+@model List<Bookkmark.Models.Folder>
+
+
+@*<div class="container">
+    @NestedData.GetHtml(Model, 1)
+</div>
+
+
+<style>
+    .container {
+        min-width: 500px;
+        overflow: hidden;
+    }
+
+    .innerTable table {
+        margin: 0px auto;
+        border-left-width: 4px;
+    }
+
+    td.innerTable {
+        padding-left: 20px !important;
+    }
+
+    .icon {
+        background-image: url('/images/ui-icons_222222_256x240.png');
+        background-repeat:no-repeat;
+        width:16px;
+        height:16px;
+        display:inline-block;
+        float:left;
+    }
+
+    .icon-e {
+        background-position: -32px -16px;
+    }
+
+    .icon-s {
+        background-position: -64px -16px;
+    } 
+</style>
+
+
+@* Jquery for Collapse/Expend *@
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $('.icon').live('click', function () {
+            var $pRow = $(this).parents('tr');
+            var $nextRow = $pRow.next('tr');
+            $nextRow.toggle();
+            $(this).toggleClass('icon-s icon-e');
+        });
+    })
+</script>*@
+
+
+
+
+
+<style>
+    /*Here We will add some css for style our treeview*/
+    .collapse1 {
+        width: 3%;
+        background-image: url('../Images/Folder.png');
+        background-repeat: no-repeat;
+        /*background-position: -36px -17px;*/
+        display: inline-block;
+        /*cursor: pointer;*/
+    }
+
+    .expand1 {
+        width: 3%;
+        background-image: url('../Images/FolderOpen2.png');
+        background-repeat: no-repeat;
+        /*background-position: -50px -17px;*/
+        display: inline-block;
+        /*cursor: pointer;*/
+
+    }
+
+    .treeview ul {
+        font: 20px Arial, Sans-Serif;
+        margin: 0px;
+        padding-left: 2%;
+        list-style: none;
+    }
+
+    .treeview > li > a {
+        font-weight: bold;
+    }
+
+    .treeview li {
+    } 
+
+        .treeview li a {
+            padding: 4px;
+            font-size: 18px;
+            display: inline-block;
+            text-decoration: none;
+            width: auto;
+        }
+</style>
+
+
+<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA">
+    <div class="treeview">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <ul>
+                @Treeview.GetTreeView(Model, Model.FirstOrDefault().ParentID)
+            </ul>
+    }
+    </div>
+</div>
+
+@* Here We need some Jquery code for make this treeview collapsible *@
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+            $(".collapsible").click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass("collapse1 expand1");
+                $(this).closest('li').children('ul').slideToggle();
+            });
+        });
+    </script>
+}
