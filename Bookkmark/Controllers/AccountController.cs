@@ -1,10 +1,10 @@
 ﻿using System.Web.Mvc;
 using System.Data;
-using Bookkmark.AppCode;
 using System;
 using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
+using Bookkmark.AppCode;
 
 namespace Bookkmark.Controllers
 {
@@ -232,14 +232,28 @@ namespace Bookkmark.Controllers
 
         public ActionResult WebUserReg()
         {
-            ViewData["RegisType"] = "WebUser";
-            return Register();
+            if (Session["User"] != null)
+            {
+                return View("../Bookkmark/MyBookkmarks");
+            }
+            else
+            {
+                ViewData["RegisType"] = "WebUser";
+                return Register();
+            }
         }
 
         public ActionResult SiteOwnerReg()
         {
-            ViewData["RegisType"] = "SiteOwner";
-            return Register();
+            if (Session["User"] != null)
+            {
+                return View("../Bookkmark/Reports");
+            }
+            else
+            {
+                ViewData["RegisType"] = "SiteOwner";
+                return Register();
+            }
         }
 
         [ReCaptcha]

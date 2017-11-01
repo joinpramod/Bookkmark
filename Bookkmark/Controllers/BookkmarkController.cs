@@ -1,4 +1,6 @@
 using System.Web.Mvc;
+using Bookkmark.Models;
+using System.Collections.Generic;
 
 namespace Bookkmark.Controllers
 {
@@ -139,7 +141,72 @@ namespace Bookkmark.Controllers
 
         public ActionResult MyBookkmarks()
         {
-            return View();
+
+            List<Bookkmark.Models.Folder> lstFolders = new List<Bookkmark.Models.Folder>();
+            Bookkmark.Models.Folder _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1;
+            _FolderModel.Name = "Root1";
+            _FolderModel.ParentID = 0;
+            lstFolders.Add(_FolderModel);
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 102;
+            _FolderModel.Name = "Child102";
+            _FolderModel.ParentID = 1;
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 103;
+            _FolderModel.Name = "Child103";
+            _FolderModel.ParentID = 1;
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 104;
+            _FolderModel.Name = "Child104";
+            _FolderModel.ParentID = 1;
+            lstFolders.Add(_FolderModel);
+
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1001;
+            _FolderModel.Name = "Child1001";
+            _FolderModel.ParentID = 102;
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1002;
+            _FolderModel.Name = "Child1002";
+            _FolderModel.ParentID = 102;
+            lstFolders.Add(_FolderModel);
+
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 2;
+            _FolderModel.Name = "Root2";
+            _FolderModel.ParentID = 0;
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 105;
+            _FolderModel.Name = "Child105";
+            _FolderModel.ParentID = 2;
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 106;
+            _FolderModel.Name = "Child106";
+            _FolderModel.ParentID = 2;
+            lstFolders.Add(_FolderModel);
+
+            return View(lstFolders);
         }
 
         public ActionResult Reports()
