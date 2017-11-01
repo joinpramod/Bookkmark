@@ -54,13 +54,13 @@
                     <span class="icon-bar"></span>
                 </button>
                 <img src="~/Images/Bookmark.jpg" style="width:30px;height:30px" />
-                <span style="font-size:32px;font-weight:bold"> @Html.ActionLink("Bookkmark", "Index", "Home", new { @class = "navbar-brand" })</span>
+                <span style="font-size:32px;font-weight:bold"> @Html.ActionLink("Title", "Index", "Home", new { @class = "navbar-brand" })</span>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-                    <li>@Html.ActionLink("How it works", "HowItWorks", "Home")</li>
-                    <li>@Html.ActionLink("What to expect", "WhatToExpect", "Home")</li>
+                    <li>@Html.ActionLink("How it works", "Index", "Home")</li>
+                    <li>@Html.ActionLink("What to expect", "Index", "Home")</li>
                     <li>@Html.ActionLink("Get Started", "Choice", "Account")</li>
    
                 </ul>
@@ -83,7 +83,7 @@
     </div>
     @*<div style="height:0px"></div>*@
     <div class="container body-content">
-        <div style="height:600px;padding-top:4%">
+        <div style="height:750px;padding-top:10%">
             @RenderBody()
         </div>
         <hr />
