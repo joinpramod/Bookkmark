@@ -22,18 +22,15 @@ foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
                 }
                 else
                 {
-                    <a> @i.Name</a>
+                    <a>@i.Name</a>
                 }
-
-　
-            </span>
+        </span>
             @if (submenu > 0)
             {
                 <ul>
                     @Treeview.GetTreeView(siteMenu, i.FolderID)
-                    @* Recursive  Call for Populate Sub items here*@
                 </ul>
             }
         </li>
-                }
+     }
 }
