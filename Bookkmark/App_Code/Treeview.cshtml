@@ -1,4 +1,4 @@
-﻿@helper GetTreeView(List<Bookkmark.Models.Folder> siteMenu, long parentID)
+@helper GetTreeView(List<Bookkmark.Models.Folder> siteMenu, long parentID)
 {
 foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
 {
@@ -11,10 +11,21 @@ foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
             }
             else
             {
-                <span style="padding-left:28px"> &nbsp;</span>
+                <span style="padding-left:25px"> &nbsp;</span>
             }
             <span>
-                <a href="@i.URL"> @i.Name </a>
+
+                @if (! string.IsNullOrEmpty(i.URL))
+                {
+                    var strSrc = "https://s2.googleusercontent.com/s2/favicons?domain_url=" + @i.URL;
+                        <a href="@i.URL"><img src="@strSrc" style="height:15px;width:15px"/> @i.Name </a>
+                }
+                else
+                {
+                    <a> @i.Name</a>
+                }
+
+　
             </span>
             @if (submenu > 0)
             {
