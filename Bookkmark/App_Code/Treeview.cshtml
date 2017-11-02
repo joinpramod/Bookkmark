@@ -18,11 +18,17 @@ foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
                 @if (! string.IsNullOrEmpty(i.URL))
                 {
                     var strSrc = "https://s2.googleusercontent.com/s2/favicons?domain_url=" + @i.URL;
-                        <a href="@i.URL"><img src="@strSrc" style="height:15px;width:15px"/> @i.Name </a>
+                        <a href="#" onclick="window.open('@i.URL');" ><img src="@strSrc" style="height:15px;width:15px"/> @i.Name </a>
+                        @*<img src="~/Images/rename.jpg" title="Rename Bookkmark" style="height:20px;width:20px" />
+                        <img src="~/Images/delete.jpg" title="Delete Bookkmark" style="height:20px;width:20px"/>*@
+                    <a style="font-size:12px;text-decoration:underline" href="#">Edit</a><a  style="font-size:12px;text-decoration:underline" href="#">Del</a>
                 }
                 else
                 {
                     <a>@i.Name</a>
+                    @*<img src="~/Images/rename.jpg" title="Rename Folder" style="height:20px;width:20px" />
+                    <img src="~/Images/delete.jpg" title="Delete Folder" style="height:20px;width:20px" />*@
+                    <a style="font-size:12px;text-decoration:underline" href="#">Edit</a><a style="font-size:12px;text-decoration:underline" href="#">Del</a>           
                 }
         </span>
             @if (submenu > 0)
