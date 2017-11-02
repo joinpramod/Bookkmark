@@ -49,16 +49,34 @@
 </style>
 
 <div style="height:50px"></div>
-<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA">
+<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey">
     <div class="treeview">
         @if (Model != null && Model.Count() > 0)
         {
             <ul>
                 @Treeview.GetTreeView(Model, Model.FirstOrDefault().ParentID)
             </ul>
-    }
+        }
     </div>
 </div>
+<div style="height:40px"></div>
+<div class="row">
+@using (Html.BeginForm("CreateFolder", "Bookkmark"))
+{
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("txtFolderName", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Create New Folder - Name" })
+        </div>
+        <div class="col-md-3">
+            @Html.TextBox("selectFolder", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "--Select Folder--" })
+            <br /> Folder in which the new folder has to be created
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Create Folder" id="btnCreateFolder" onclick="return ValidateNewFolder()" style="width:70%;height:40px;border-radius:5px" class="mysubmit" />
+        </div>
+        }
+    </div>
 @section Scripts{
     <script>
         $(document).ready(function () {
