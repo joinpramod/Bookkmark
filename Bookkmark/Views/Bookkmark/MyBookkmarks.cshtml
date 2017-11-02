@@ -1,20 +1,20 @@
-﻿@{
+@{
     ViewBag.Title = "My Bookkmarks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div style="height:100px"></div>
+<h2>My Applications</h2>
 
-@*<h2>My Bookkmarks</h2>*@
-
-
-
+　
+　
 @model List<Bookkmark.Models.Folder>
 
-
+　
 @*<div class="container">
     @NestedData.GetHtml(Model, 1)
 </div>
 
-
+　
 <style>
     .container {
         min-width: 500px;
@@ -48,7 +48,7 @@
     } 
 </style>
 
-
+　
 @* Jquery for Collapse/Expend *@
 
 @*<script type="text/javascript">
@@ -62,15 +62,15 @@
     })
 </script>*@
 
-
-
-
-
+　
+　
+　
+　
 <style>
     /*Here We will add some css for style our treeview*/
     .collapse1 {
-        width: 3%;
-        background-image: url('../Images/Folder.png');
+        width: 28px;
+        background-image: url('~/../Images/Folder.png');
         background-repeat: no-repeat;
         /*background-position: -36px -17px;*/
         display: inline-block;
@@ -78,8 +78,8 @@
     }
 
     .expand1 {
-        width: 3%;
-        background-image: url('../Images/FolderOpen2.png');
+        width: 28px;
+        background-image: url('~/../Images/FolderOpen2.png');
         background-repeat: no-repeat;
         /*background-position: -50px -17px;*/
         display: inline-block;
@@ -108,9 +108,17 @@
             text-decoration: none;
             width: auto;
         }
+
+       /*.treeview li span {
+            padding: 4px;
+            font-size: 18px;
+            display: inline-block;
+            text-decoration: none;
+            width: auto;
+        }*/
 </style>
 
-
+<div style="height:50px"></div>
 <div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA">
     <div class="treeview">
         @if (Model != null && Model.Count() > 0)
@@ -122,6 +130,8 @@
     </div>
 </div>
 
+　
+　
 @* Here We need some Jquery code for make this treeview collapsible *@
 @section Scripts{
     <script>
