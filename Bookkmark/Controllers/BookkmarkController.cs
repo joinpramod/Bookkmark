@@ -145,65 +145,119 @@ namespace Bookkmark.Controllers
             List<Bookkmark.Models.Folder> lstFolders = new List<Bookkmark.Models.Folder>();
             Bookkmark.Models.Folder _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 1;
-            _FolderModel.Name = "Root1";
+            _FolderModel.Name = "Default";
             _FolderModel.ParentID = 0;
             lstFolders.Add(_FolderModel);
 
             _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 102;
-            _FolderModel.Name = "Child102";
+            _FolderModel.Name = "Forums";
             _FolderModel.ParentID = 1;
             lstFolders.Add(_FolderModel);
 
 
             _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 103;
-            _FolderModel.Name = "Child103";
+            _FolderModel.Name = "News";
             _FolderModel.ParentID = 1;
             lstFolders.Add(_FolderModel);
 
 
             _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 104;
-            _FolderModel.Name = "Child104";
+            _FolderModel.Name = "MyFolder";
             _FolderModel.ParentID = 1;
             lstFolders.Add(_FolderModel);
 
 
-
+            //Forums
             _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 1001;
-            _FolderModel.Name = "Child1001";
+            _FolderModel.Name = "ASP.NET Forums";
             _FolderModel.ParentID = 102;
+            _FolderModel.URL = "https://forums.asp.net/";
             lstFolders.Add(_FolderModel);
 
 
             _FolderModel = new Bookkmark.Models.Folder();
             _FolderModel.FolderID = 1002;
-            _FolderModel.Name = "Child1002";
+            _FolderModel.Name = "Msdn forums";
             _FolderModel.ParentID = 102;
+            _FolderModel.URL = "https://social.msdn.microsoft.com/Forums/en-US/home";
             lstFolders.Add(_FolderModel);
 
 
 
             _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 2;
-            _FolderModel.Name = "Root2";
-            _FolderModel.ParentID = 0;
+            _FolderModel.FolderID = 1003;
+            _FolderModel.Name = "Stats - Quora";
+            _FolderModel.ParentID = 102;
+            _FolderModel.URL = "https://www.quora.com/stats";
+            lstFolders.Add(_FolderModel);
+
+
+
+
+            //News
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1004;
+            _FolderModel.Name = "CNN";
+            _FolderModel.ParentID = 103;
+            _FolderModel.URL = "http://www.cnn.com/";
+            lstFolders.Add(_FolderModel);
+
+
+
+            
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1005;
+            _FolderModel.Name = "Times Of India";
+            _FolderModel.ParentID = 103;
+            _FolderModel.URL = "http://timesofindia.indiatimes.com/international-home";
             lstFolders.Add(_FolderModel);
 
 
             _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 105;
-            _FolderModel.Name = "Child105";
-            _FolderModel.ParentID = 2;
+            _FolderModel.FolderID = 1006;
+            _FolderModel.Name = "The KapilSharma Show (@TheKapilSShow) Twitter";
+            _FolderModel.ParentID = 103;
+            _FolderModel.URL = "http://twitter.com/thekapilsshow?lang=en";
+            lstFolders.Add(_FolderModel);
+
+
+
+
+
+            //My Folder
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1007;
+            _FolderModel.Name = "Yahoo";
+            _FolderModel.ParentID = 103;
+            _FolderModel.URL = "http://yahoomail.com";
             lstFolders.Add(_FolderModel);
 
 
             _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 106;
-            _FolderModel.Name = "Child106";
-            _FolderModel.ParentID = 2;
+            _FolderModel.FolderID = 1008;
+            _FolderModel.Name = "Gmail";
+            _FolderModel.ParentID = 103;
+            _FolderModel.URL = "http://gmail.com";
+            lstFolders.Add(_FolderModel);
+
+            //CDS
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1009;
+            _FolderModel.Name = "LabCorp Beacon ® Patient Overview ";
+            _FolderModel.ParentID = 104;
+            _FolderModel.URL = "http://patient.labcorp.com/patient/PatientWeb/default.aspx";
+            lstFolders.Add(_FolderModel);
+
+
+            _FolderModel = new Bookkmark.Models.Folder();
+            _FolderModel.FolderID = 1010;
+            _FolderModel.Name = "221(G) Tracker";
+            _FolderModel.ParentID = 104;
+            _FolderModel.URL = "http://www.immihelp.com/tracker/221g-tracker";
             lstFolders.Add(_FolderModel);
 
             return View(lstFolders);
