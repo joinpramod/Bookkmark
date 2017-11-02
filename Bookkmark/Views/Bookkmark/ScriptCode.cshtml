@@ -5,16 +5,12 @@
 }
 
 <div style="height:100px"></div>
-　
 <script type="text/javascript">
-
     window.onload = function () {
         document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"]));
         document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"]));
     };
-</script>
-
-　
+</script>　
 <h2>Generate Script Code</h2><br /><br />
 
 @*<h3>Select</h3><br />*@
@@ -69,6 +65,4 @@ Select the attributes of the Bookkmark image to be displayed on your web page
         </td>
     </tr>
 </table>
-
-　
 }
