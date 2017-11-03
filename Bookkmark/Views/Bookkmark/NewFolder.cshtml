@@ -5,8 +5,22 @@
 <div style="height:100px"></div>
 <h2>NewFolder</h2>
 
+<script type="text/javascript">
+    window.onload = function () {
+        
+        var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
+        if(RefreshValue != null)
+        {
+            window.opener.location.reload();
+            window.close();
+        }
+    };
+</script>
+
 @using (Html.BeginForm("Manage", "Bookkmark"))
 {
-    <div style="height:100px"></div>
-    <input type="submit" value="Submit" id="btnSubmit" style="height:40px;border-radius:10px" class="mysubmit" />
+           
+            <div style="height:100px"></div>
+
+            <input type="submit" value="Submit" name="btnNewFolder" id="btnNewFolder" style="height:40px;border-radius:10px" class="mysubmit" />
 }
