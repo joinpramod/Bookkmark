@@ -1,5 +1,5 @@
 @{
-        Layout = "~/Views/Shared/_Layout.cshtml";
+        Layout = null;
 }
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@
                 bookkmarkImgSrc : document.getElementById("imgBookkmark").src
             };
             $.ajax({
-                url: '/bookkmark/bookkmark/addbm',
+                url: '/bookkmark/addbm',
                 type: 'POST',
                 dataType: "text",
                 data: BookkmarkModel,
@@ -47,7 +47,7 @@
                         var top = (screen.height)-(0.60*screen.height);
                         var height = screen.height*0.40;
                         var width = screen.height*0.40;
-                        window.open("/bookkmark/home/index", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+""); 
+                        window.open("/home/index", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+""); 
                     }
                     else
                     {
@@ -69,75 +69,3 @@
     </div>
 </body>
 </html>
-
-　
-　
-　
-　
-　
-        @*//function getcookie(cookiename) {
-    //    var cookiestring = document.cookie;
-    //    var cookiearray = cookiestring.split(';');
-    //    for (var i = 0 ; i < cookiearray.length ; ++i) {
-    //        if (cookiearray[i].trim().match('^' + cookiename + '=')) {
-    //            return cookiearray[i].replace.trim();
-    //        }
-    //    } return null;
-    //}
-    //function getCookie(name) {
-    //    var re = new RegExp(name + "=([^;]+)");
-    //    var value = re.exec(document.cookie);
-    //    return (value != null) ? unescape(value[1]) : null;
-    //}
-      // return response.ip;
-        //$.ajax({
-        //    url: '//freegeoip.net/json/',
-        //    type: 'POST',
-        //    dataType: 'jsonp',
-        //    success: function (location) {
-        //        debugger;
-        //        clientIP = location.ip;
-        //    }
-        //});
-            //$.get("http://freegeoip.net/json/", function (response) {
-            //    // alert(response.ip.toString());
-            //    clientIP = response.ip.toString();
-            //   // alert(clientIP);
-            //    //return response.ip.toString();
-            //    //$('.ipAddr').text(response.ip.toString());
-            //    $("#ipAddr").text(response.ip.toString());
-            ////console.log(JSON.stringify(response, null, 2));
-            ////add some conditional here to handle edge cases hint " use an if() "
-            ////$("#address").html("City: " + response.city);
-            ////$("#details").html(JSON.stringify(response, null, 4));
-            ////"ip": "116.12.250.1",
-            ////"country_code": "SG",
-            ////"country_name": "Singapore",
-            ////"region_code": "01",
-            ////"region_name": "Central Singapore Community Development Council",
-            ////"city": "Singapore",
-            ////"zip_code": "",
-            ////"time_zone": "Asia/Singapore",
-            ////"latitude": 1.2931,
-            ////"longitude": 103.8558,
-            ////"metro_code": 0
-            ////freegeoip.net/json/158.57.150.68
-            //}, "jsonp");*@
-           // @*@ViewData["Bookkmark"] = window.location.href;
-            //@ViewData["ipAddr"] = document.getElementById("ipAddr").value;*@
-            @*//$.ajax({
-            //    url: '/JavaScriptProgram/Home/AddBkkm',
-            //    type: 'POST',
-            //    data: {
-            //        Bookkmark: document.referrer,
-            //        ipAddr: document.getElementById("ipAddr").value
-            //    },
-            //    contentType: 'application/json; charset=utf-8',
-            //    dataType: "json",
-            //    success: function (data) {
-            //        alert("Bookkmark added");
-            //    },
-            //    error: function () {
-            //        alert("error");
-            //    }
-            //});*@
