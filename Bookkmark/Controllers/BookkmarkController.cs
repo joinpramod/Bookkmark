@@ -25,7 +25,7 @@ namespace Bookkmark.Controllers
 　
             if (Session["User"] == null)
             {
-                ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
+                ViewData["bookkmarkImgSrc"] = "../../Images/Bookmark.jpg";
             }
             else
             {
@@ -33,11 +33,11 @@ namespace Bookkmark.Controllers
                 bookkmark.URL = lnk;
                 if (BookkmarkExist(bookkmark))
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Imagess/Bookmarked.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Imagess/Bookmarked.jpg";
                 }
                 else
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Images/Bookmark.jpg";
                 }
             }
             return View();
@@ -130,7 +130,7 @@ namespace Bookkmark.Controllers
             }
             else
             { 
-                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/JavaScriptProgram/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
+                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
             }
 
             //SaveScript();
