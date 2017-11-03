@@ -1,9 +1,9 @@
-@helper GetTreeView(List<Bookkmark.Models.Folder> siteMenu, long parentID)
+@helper GetTreeView(List<Bookkmark.Models.Bookkmark> siteMenu, long parentID)
 {
 foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
 {
-        <li>
-            @{ var submenu = siteMenu.Where(a => a.ParentID.Equals(i.FolderID)).Count();
+        <li class="task" data-id="@i.BookkmarkID">
+            @{ var submenu = siteMenu.Where(a => a.ParentID.Equals(i.BookkmarkID)).Count();
             }
             @if (submenu > 0)
             {
@@ -19,24 +19,20 @@ foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
                 {
                     var strSrc = "https://s2.googleusercontent.com/s2/favicons?domain_url=" + @i.URL;
                         <a href="#" onclick="window.open('@i.URL');" ><img src="@strSrc" style="height:15px;width:15px"/> @i.Name </a>
-                        @*<img src="~/Images/rename.jpg" title="Rename Bookkmark" style="height:20px;width:20px" />
-                        <img src="~/Images/delete.jpg" title="Delete Bookkmark" style="height:20px;width:20px"/>*@
-                    <a style="font-size:12px;text-decoration:underline" href="#">Edit</a><a  style="font-size:12px;text-decoration:underline" href="#">Del</a>
                 }
                 else
                 {
                     <a>@i.Name</a>
-                    @*<img src="~/Images/rename.jpg" title="Rename Folder" style="height:20px;width:20px" />
-                    <img src="~/Images/delete.jpg" title="Delete Folder" style="height:20px;width:20px" />*@
-                    <a style="font-size:12px;text-decoration:underline" href="#">Edit</a><a style="font-size:12px;text-decoration:underline" href="#">Del</a>           
                 }
         </span>
             @if (submenu > 0)
             {
                 <ul>
-                    @Treeview.GetTreeView(siteMenu, i.FolderID)
+                    @Treeview.GetTreeView(siteMenu, i.BookkmarkID)
                 </ul>
             }
         </li>
      }
 }
+
+

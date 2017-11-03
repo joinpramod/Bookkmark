@@ -1,12 +1,12 @@
-@helper GetHtml(List<Bookkmark.Models.Folder> folderList, long parentID)
+@helper GetHtml(List<Bookkmark.Models.Bookkmark> folderList, long parentID)
 {
     <table class="table table-bordered">
         @{
             long currentID = 0;
             int rowIndex = 0;
-            foreach (var i in folderList.Where(a => a.FolderID.Equals(parentID)))
+            foreach (var i in folderList.Where(a => a.BookkmarkID.Equals(parentID)))
             {
-                if (i.FolderID == currentID)
+                if (i.BookkmarkID == currentID)
                 {
                     continue;
                 }
@@ -24,9 +24,9 @@
                         </thead>
                     }
                     rowIndex++;
-                    currentID = i.FolderID;
-                    var Sub = folderList.Where(a => a.FolderID.Equals(i.FolderID)).ToList();
-                    var newBookkmarkList = folderList.Where(a => !a.FolderID.Equals(i.FolderID)).ToList();
+                    currentID = i.BookkmarkID;
+                    var Sub = folderList.Where(a => a.BookkmarkID.Equals(i.BookkmarkID)).ToList();
+                    var newBookkmarkList = folderList.Where(a => !a.BookkmarkID.Equals(i.BookkmarkID)).ToList();
                     <tbody>
                     <tr>
                     <td>
@@ -38,7 +38,7 @@
                         {
                             <span style="display:inline-block;width:14px"> &nbsp;</span>
                         }
-                        @i.FolderID
+                        @i.BookkmarkID
                     </td>
                     @*<td>@i.TitleOfCourtesy @i.FirstName @i.LastName</td>*@
                     <td>@i.Name</td>
@@ -48,7 +48,7 @@
                             @if (Sub.Count > 0)
                             {
                                 <td colspan = "4" class="innerTable">
-                                @GetHtml(newBookkmarkList, i.FolderID)
+                                @GetHtml(newBookkmarkList, i.BookkmarkID)
                                 </td>
                             }
                             else
