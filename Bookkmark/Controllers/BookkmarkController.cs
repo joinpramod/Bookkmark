@@ -25,7 +25,7 @@ namespace Bookkmark.Controllers
 　
             if (Session["User"] == null)
             {
-                ViewData["bookkmarkImgSrc"] = "../../JavaScriptProgram/Images/Bookmark.jpg";
+                ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
             }
             else
             {
@@ -33,11 +33,11 @@ namespace Bookkmark.Controllers
                 bookkmark.URL = lnk;
                 if (BookkmarkExist(bookkmark))
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../JavaScriptProgram/Imagess/Bookmarked.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Imagess/Bookmarked.jpg";
                 }
                 else
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../JavaScriptProgram/Images/Bookmark.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
                 }
             }
             return View();
@@ -68,12 +68,12 @@ namespace Bookkmark.Controllers
                 if (BookkmarkExist(bookkmark))
                 {
                     EditBookkmark(bookkmark);
-                    resp = "../../JavaScriptProgram/Images/Bookmarked.jpg";
+                    resp = "../../Bookkmark/Images/Bookmarked.jpg";
                 }
                 else
                 {
                     InsertBookkmark(bookkmark);
-                    resp = "../../JavaScriptProgram/Images/Bookmarked.jpg";
+                    resp = "../../Bookkmark/Images/Bookmarked.jpg";
                 }
             }
             return resp;
@@ -142,123 +142,137 @@ namespace Bookkmark.Controllers
         public ActionResult MyBookkmarks()
         {
 
-            List<Bookkmark.Models.Folder> lstFolders = new List<Bookkmark.Models.Folder>();
-            Bookkmark.Models.Folder _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1;
-            _FolderModel.Name = "Default";
-            _FolderModel.ParentID = 0;
-            lstFolders.Add(_FolderModel);
+            List<Bookkmark.Models.Bookkmark> lstFolders = new List<Bookkmark.Models.Bookkmark>();
+            Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1;
+            _BookkmarkModel.Name = "Default";
+            _BookkmarkModel.ParentID = 0;
+            _BookkmarkModel.IsFolder = true;
+            lstFolders.Add(_BookkmarkModel);
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 102;
-            _FolderModel.Name = "Forums";
-            _FolderModel.ParentID = 1;
-            lstFolders.Add(_FolderModel);
-
-
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 103;
-            _FolderModel.Name = "News";
-            _FolderModel.ParentID = 1;
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 102;
+            _BookkmarkModel.Name = "Forums";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            lstFolders.Add(_BookkmarkModel);
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 104;
-            _FolderModel.Name = "MyFolder";
-            _FolderModel.ParentID = 1;
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 103;
+            _BookkmarkModel.Name = "News";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            lstFolders.Add(_BookkmarkModel);
+
+
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 104;
+            _BookkmarkModel.Name = "MyFolder";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            lstFolders.Add(_BookkmarkModel);
 
 
             //Forums
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1001;
-            _FolderModel.Name = "ASP.NET Forums";
-            _FolderModel.ParentID = 102;
-            _FolderModel.URL = "https://forums.asp.net/";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1001;
+            _BookkmarkModel.Name = "ASP.NET Forums";
+            _BookkmarkModel.ParentID = 102;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "https://forums.asp.net/";
+            lstFolders.Add(_BookkmarkModel);
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1002;
-            _FolderModel.Name = "Msdn forums";
-            _FolderModel.ParentID = 102;
-            _FolderModel.URL = "https://social.msdn.microsoft.com/Forums/en-US/home";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1002;
+            _BookkmarkModel.Name = "Msdn forums";
+            _BookkmarkModel.ParentID = 102;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "https://social.msdn.microsoft.com/Forums/en-US/home";
+            lstFolders.Add(_BookkmarkModel);
 
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1003;
-            _FolderModel.Name = "Stats - Quora";
-            _FolderModel.ParentID = 102;
-            _FolderModel.URL = "https://www.quora.com/stats";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1003;
+            _BookkmarkModel.Name = "Stats - Quora";
+            _BookkmarkModel.ParentID = 102;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "https://www.quora.com/stats";
+            lstFolders.Add(_BookkmarkModel);
 
 
 
 
             //News
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1004;
-            _FolderModel.Name = "CNN";
-            _FolderModel.ParentID = 103;
-            _FolderModel.URL = "http://www.cnn.com/";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1004;
+            _BookkmarkModel.Name = "CNN";
+            _BookkmarkModel.ParentID = 103;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://www.cnn.com/";
+            lstFolders.Add(_BookkmarkModel);
 
 
 
             
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1005;
-            _FolderModel.Name = "Times Of India";
-            _FolderModel.ParentID = 103;
-            _FolderModel.URL = "http://timesofindia.indiatimes.com/international-home";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1005;
+            _BookkmarkModel.Name = "Times Of India";
+            _BookkmarkModel.ParentID = 103;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://timesofindia.indiatimes.com/international-home";
+            lstFolders.Add(_BookkmarkModel);
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1006;
-            _FolderModel.Name = "The KapilSharma Show (@TheKapilSShow) Twitter";
-            _FolderModel.ParentID = 103;
-            _FolderModel.URL = "http://twitter.com/thekapilsshow?lang=en";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1006;
+            _BookkmarkModel.Name = "The KapilSharma Show (@TheKapilSShow) Twitter";
+            _BookkmarkModel.ParentID = 103;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://twitter.com/thekapilsshow?lang=en";
+            lstFolders.Add(_BookkmarkModel);
 
 
 
 
 
             //My Folder
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1007;
-            _FolderModel.Name = "Yahoo";
-            _FolderModel.ParentID = 103;
-            _FolderModel.URL = "http://yahoomail.com";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1007;
+            _BookkmarkModel.Name = "Yahoo";
+            _BookkmarkModel.ParentID = 103;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://yahoomail.com";
+            lstFolders.Add(_BookkmarkModel);
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1008;
-            _FolderModel.Name = "Gmail";
-            _FolderModel.ParentID = 103;
-            _FolderModel.URL = "http://gmail.com";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1008;
+            _BookkmarkModel.Name = "Gmail";
+            _BookkmarkModel.ParentID = 103;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://gmail.com";
+            lstFolders.Add(_BookkmarkModel);
 
             //CDS
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1009;
-            _FolderModel.Name = "LabCorp Beacon ® Patient Overview ";
-            _FolderModel.ParentID = 104;
-            _FolderModel.URL = "http://patient.labcorp.com/patient/PatientWeb/default.aspx";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1009;
+            _BookkmarkModel.Name = "LabCorp Beacon ® Patient Overview ";
+            _BookkmarkModel.ParentID = 104;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://patient.labcorp.com/patient/PatientWeb/default.aspx";
+            lstFolders.Add(_BookkmarkModel);
 
 
-            _FolderModel = new Bookkmark.Models.Folder();
-            _FolderModel.FolderID = 1010;
-            _FolderModel.Name = "221(G) Tracker";
-            _FolderModel.ParentID = 104;
-            _FolderModel.URL = "http://www.immihelp.com/tracker/221g-tracker";
-            lstFolders.Add(_FolderModel);
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1010;
+            _BookkmarkModel.Name = "221(G) Tracker";
+            _BookkmarkModel.ParentID = 104;
+            _BookkmarkModel.IsFolder = false;
+            _BookkmarkModel.URL = "http://www.immihelp.com/tracker/221g-tracker";
+            lstFolders.Add(_BookkmarkModel);
 
             return View(lstFolders);
         }
@@ -269,6 +283,54 @@ namespace Bookkmark.Controllers
         }
 
         public ActionResult Domains()
+        {
+            return View();
+        }
+
+
+        public ActionResult Manage()
+        {
+            //Bookkmark bkmrk = GetBookkmark(Request.QueryString["id"])
+            if (Request.QueryString["action"] != null)
+            {
+                if (Request.QueryString["action"].ToString().Equals("Rename"))
+                {
+                    //Process(Request.QueryString["id"])
+                    return View("../Bookkmark/Rename");
+                }
+                else if (Request.QueryString["action"].ToString().Equals("NewFolder"))
+                {
+                    //Process(Request.QueryString["id"])
+
+
+                    return View("../Bookkmark/NewFolder");
+                }
+                else
+                {
+                    //Process(Request.QueryString["id"])
+                    return View("../Bookkmark/Delete");
+                }
+            }
+            else
+                return null;    // JavaScript("window.opener.location.reload(false);");
+        }
+
+        public ActionResult Rename()
+        {
+            return View();
+        }
+
+        public ActionResult NewFolder()
+        {
+            return View();
+        }
+
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        public ActionResult Test()
         {
             return View();
         }
