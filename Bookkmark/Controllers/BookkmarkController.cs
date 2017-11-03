@@ -127,6 +127,7 @@ namespace Bookkmark.Controllers
             {
                 //Get ScriptCode from DB and assign to ViewState
                 //ViewData["ScriptCode"] = 
+                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
             }
             else
             { 
@@ -300,9 +301,9 @@ namespace Bookkmark.Controllers
                 }
                 else if (Request.QueryString["action"].ToString().Equals("NewFolder"))
                 {
+
+                    ViewData["Refresh"] = null;
                     //Process(Request.QueryString["id"])
-
-
                     return View("../Bookkmark/NewFolder");
                 }
                 else
@@ -312,7 +313,22 @@ namespace Bookkmark.Controllers
                 }
             }
             else
-                return null;    // JavaScript("window.opener.location.reload(false);");
+            {
+                ViewData["Refresh"] = "true";
+                if (Request.Form["btnRename"] != null)
+                {
+                    return View("../Bookkmark/Rename");
+                }
+                else if (Request.Form["btnNewFolder"] != null)
+                {
+                    return View("../Bookkmark/NewFolder");
+                }
+                else
+                {
+                    return View("../Bookkmark/Delete");
+                }
+
+            }
         }
 
         public ActionResult Rename()
