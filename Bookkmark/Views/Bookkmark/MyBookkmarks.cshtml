@@ -4,11 +4,12 @@
 }
 <div style="height:100px"></div>
 <h2>My Applications</h2>
-@model List<Bookkmark.Models.Folder>
+@model List<Bookkmark.Models.Bookkmark>
+
 <style>
     .collapse1 {
         width: 28px;
-        background-image: url('../Images/Folder.png');
+        background-image: url('../../Images/Folder.png');
         background-repeat: no-repeat;
         /*background-position: -36px -17px;*/
         display: inline-block;
@@ -17,7 +18,7 @@
 
     .expand1 {
         width: 28px;
-        background-image: url('../Images/FolderOpen2.png');
+        background-image: url('../../Images/FolderOpen2.png');
         background-repeat: no-repeat;
         /*background-position: -50px -17px;*/
         display: inline-block;
@@ -49,7 +50,7 @@
 </style>
 
 <div style="height:50px"></div>
-<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey">
+<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
     <div class="treeview">
         @if (Model != null && Model.Count() > 0)
         {
@@ -58,25 +59,41 @@
             </ul>
         }
     </div>
+    <nav id="context-menu" class="context-menu">
+        <ul class="context-menu__items">
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Rename">Rename</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="NewFolder">New Folder</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Delete">Delete</a>
+            </li>
+        </ul>
+    </nav>
 </div>
+
 <div style="height:40px"></div>
-<div class="row">
-@using (Html.BeginForm("CreateFolder", "Bookkmark"))
-{
-        <div class="col-md-5">
-        </div>
-        <div class="col-md-2">
-            @Html.TextBox("txtFolderName", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Create New Folder - Name" })
-        </div>
-        <div class="col-md-3">
-            @Html.TextBox("selectFolder", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "--Select Folder--" })
-            <br /> Folder in which the new folder has to be created
-        </div>
-        <div class="col-md-2">
-            <input type="submit" value="Create Folder" id="btnCreateFolder" onclick="return ValidateNewFolder()" style="width:70%;height:40px;border-radius:5px" class="mysubmit" />
-        </div>
-        }
-    </div>
+
+@*@using (Html.BeginForm("Manage", "Bookkmark"))
+{*@
+            @*<div class="row">
+                <div class="col-md-7">
+                         </div>
+                 <div class="col-md-2">
+                     @Html.TextBox("txtFolderName", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:32px;", placeholder = "Create New Folder - Name" })
+                 </div>
+                 <div class="col-md-2">
+                     @Html.DropDownList("ddFolder", new SelectList((System.Collections.IEnumerable)Model, "FolderId", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:150px;" })
+                     <br /> Folder in which the new folder has to be created
+                 </div>
+                 <div class="col-md-1">
+                     <input type="submit" value="Submit" id="btnCreateFolder" onclick="return ValidateNewFolder()" style="height:40px;border-radius:5px" class="mysubmit" />
+                 </div>
+                
+             </div>*@
+
 @section Scripts{
     <script>
         $(document).ready(function () {
@@ -88,4 +105,55 @@
             });
         });
     </script>
+    <script src="~/js/main.js"></script>
 }
+
+@*}*@
+
+
+
+        <style>
+            /* context menu */
+
+            .context-menu {
+                display: none;
+                position:  absolute;
+                z-index: 10;
+                padding: 12px 0;
+                width: 100px;
+                background-color: #fff;
+                border: solid 1px #dfdfdf;
+                box-shadow: 1px 1px 2px #cfcfcf;
+            }
+
+            .context-menu--active {
+                display: inline-block;
+            }
+
+            .context-menu__items {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .context-menu__item {
+                display: block;
+                margin-bottom: 0px;
+            }
+
+                .context-menu__item:last-child {
+                    margin-bottom: 0;
+                }
+
+            .context-menu__link {
+                display: block;
+                padding: 4px 12px;
+                color: #333;
+                text-decoration: none;
+            }
+
+                .context-menu__link:hover {
+                    color: #333;
+                    background-color: #F3CD50;
+                }
+        </style>

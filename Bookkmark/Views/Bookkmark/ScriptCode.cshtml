@@ -10,13 +10,9 @@
         document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"]));
         document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"]));
     };
-</script>　
+</script>
 <h2>Generate Script Code</h2><br /><br />
-
-@*<h3>Select</h3><br />*@
-
 Select the attributes of the Bookkmark image to be displayed on your web page 
-
 @using (Html.BeginForm("ScriptCode", "Bookkmark"))
 {
 
@@ -43,7 +39,7 @@ Select the attributes of the Bookkmark image to be displayed on your web page
     </tr>
     <tr>
         <td>
-            <img id="imgBookkmark" src="../../JavaScriptProgram/Images/Bookmark.jpg" title="Bookkmark this page" />
+            <img id="imgBookkmark" src="../../Images/Bookmark.jpg" title="Bookkmark this page" />
         </td>
     </tr>
     <tr>

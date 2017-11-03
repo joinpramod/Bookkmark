@@ -36,7 +36,7 @@
                 bookkmarkImgSrc : document.getElementById("imgBookkmark").src
             };
             $.ajax({
-                url: '/javascriptprogram/bookkmark/addbm',
+                url: '/bookkmark/bookkmark/addbm',
                 type: 'POST',
                 dataType: "text",
                 data: BookkmarkModel,
@@ -45,9 +45,9 @@
                         //alert("Bookkmark not added");
                         var left = (screen.width)-(0.30*screen.width);
                         var top = (screen.height)-(0.60*screen.height);
-                        var height = screen.height*0.40
-                        var width = screen.height*0.40
-                        window.open("/javascriptprogram/home/index", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+""); 
+                        var height = screen.height*0.40;
+                        var width = screen.height*0.40;
+                        window.open("/bookkmark/home/index", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+""); 
                     }
                     else
                     {
