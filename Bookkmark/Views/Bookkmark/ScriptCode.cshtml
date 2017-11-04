@@ -4,14 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div style="height:100px"></div>
+<div style="height:90px"></div>
 <script type="text/javascript">
     window.onload = function () {
         document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"]));
         document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"]));
     };
 </script>
-<h2>Generate Script Code</h2><br /><br />
+<h2>Generate Script Code</h2><br />
 Select the attributes of the Bookkmark image to be displayed on your web page 
 @using (Html.BeginForm("ScriptCode", "Bookkmark"))
 {
@@ -45,7 +45,7 @@ Select the attributes of the Bookkmark image to be displayed on your web page
     <tr>
         <td>
             <br />
-            <br />
+
             Copy and paste the Script Code generated below in your application where you want the Bookkmark icon to be displayed
             <br />
             <div style="height:80px;font-weight:bold;border-radius:5px;border:solid 1px black;width:80%">

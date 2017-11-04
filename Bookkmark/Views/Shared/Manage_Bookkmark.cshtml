@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookkmark</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/favicon.ico?v=2">
+
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.1.2.css" />
+
+　
+    <script src="https://apis.google.com/js/platform.js" async defer type="text/javascript"></script>
+      <script type="text/javascript" src="~/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/custom.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="~/js/JavaScript.1.3.js"></script>
+    <script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+　
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Language" content="en-us" />
+    <meta name="Robots" content="All" />
+    <meta name="description" content="@ViewBag.keywords" />
+    <meta name="google-signin-client_id" content="882773719808-68o6a3dviihrqvnld51tne9978udc3ig.apps.googleusercontent.com">
+    <meta name="application-name" content="CodeAnalyze" />
+    <meta name="keywords" content="Code, Articles, XCode, Swift, Objective-C, Android, Questions, Answers, MVC, ASP.NET, C#, Java, SQL, Hadoop, Programming, Rewards, Microsoft, Technology" />
+
+　
+　
+　
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            
+            <div class="navbar-header">
+                
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>*@
+                <img src="~/Images/Bookmark.jpg" style="width:30px;height:30px" />
+                <span style="font-size:32px;font-weight:bold"> @Html.ActionLink("Title", "Index", "Home", new { @class = "navbar-brand" })</span>
+            </div>
+            @*<div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("How it works", "Index", "Home")</li>
+                    <li>@Html.ActionLink("What to expect", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Get Started", "Choice", "Account")</li>
+   
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>*@
+
+            @*@if (Session["User"] != null)
+            {
+            <div>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("My Bookkmarks", "MyBookkmarks", "Bookkmark")</li>
+                    <li>@Html.ActionLink("Reports", "Reports", "Bookkmark")</li>
+                    <li>@Html.ActionLink("View Script", "ScriptCode", "Bookkmark")</li>                    
+                    <li>@Html.ActionLink("My Domains", "Domains", "Bookkmark")</li>
+                </ul>             
+            </div>
+            }*@
+
+        </div>
+    </div>
+    @*<div style="height:0px"></div>*@
+    <div class="container body-content">
+        <div style="height:650px;padding-top:0%">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>          
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Policy", "Policy", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("API's", "API", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li>@Html.ActionLink("Feedback", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("FAQ's", "FAQ", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+            <p>&copy; @DateTime.Now.Year - Bookkmark</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

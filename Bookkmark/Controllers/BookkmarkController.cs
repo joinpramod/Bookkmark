@@ -294,10 +294,17 @@ namespace Bookkmark.Controllers
             //Bookkmark bkmrk = GetBookkmark(Request.QueryString["id"])
             if (Request.QueryString["action"] != null)
             {
-                if (Request.QueryString["action"].ToString().Equals("Rename"))
+                if (Request.QueryString["action"].ToString().Equals("Add"))
+                {
+                     //Process(Request.QueryString["id"])
+                     return View("../Bookkmark/AddEditBM");
+                }
+                else if (Request.QueryString["action"].ToString().Equals("Edit"))
                 {
                     //Process(Request.QueryString["id"])
                     return View("../Bookkmark/Rename");
+
+                   // return View("../Bookkmark/AddEditBM");
                 }
                 else if (Request.QueryString["action"].ToString().Equals("NewFolder"))
                 {
@@ -315,9 +322,14 @@ namespace Bookkmark.Controllers
             else
             {
                 ViewData["Refresh"] = "true";
-                if (Request.Form["btnRename"] != null)
+                if (Request.Form["btnAdd"] != null)
+                {
+                    return View("../Bookkmark/AddEditBM");
+                }
+                else if (Request.Form["btnEdit"] != null)
                 {
                     return View("../Bookkmark/Rename");
+                   // return View("../Bookkmark/AddEditBM");
                 }
                 else if (Request.Form["btnNewFolder"] != null)
                 {
@@ -346,9 +358,5 @@ namespace Bookkmark.Controllers
             return View();
         }
 
-        public ActionResult Test()
-        {
-            return View();
-        }
     }
 }

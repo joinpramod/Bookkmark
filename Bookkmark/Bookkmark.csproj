@@ -305,6 +305,7 @@
     <Content Include="js\JavaScript.1.2.js" />
     <Content Include="js\JavaScript.1.3.js" />
     <Content Include="js\jquery-1.9.1.min.js" />
+    <Content Include="js\main.js" />
     <Content Include="js\prettify.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -359,6 +360,12 @@
     <Content Include="Views\Bookkmark\Reports.cshtml" />
     <Content Include="Views\Bookkmark\ScriptCode.cshtml" />
     <Content Include="Views\Account\Choice.cshtml" />
+    <Content Include="Views\Bookkmark\Delete.cshtml" />
+    <Content Include="Views\Bookkmark\NewFolder.cshtml" />
+    <Content Include="Views\Bookkmark\Rename.cshtml" />
+    <Content Include="Views\Shared\Manage_Bookkmark.cshtml" />
+    <Content Include="Views\Bookkmark\Import.cshtml" />
+    <Content Include="Views\Bookkmark\AddEditBM.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,9 +1,23 @@
 ﻿
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/Manage_Bookkmark.cshtml";
+    
 }
 <div style="height:100px"></div>
 <h2>Delete</h2>
+
+<script type="text/javascript">
+    window.onload = function () {
+
+        var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
+        if(RefreshValue != null)
+        {
+            window.opener.location.reload();
+            window.close();
+        }
+    };
+</script>
 
 @using (Html.BeginForm("Manage", "Bookkmark"))
 {
