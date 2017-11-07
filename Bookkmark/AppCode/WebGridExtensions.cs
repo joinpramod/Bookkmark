@@ -119,7 +119,7 @@ public static class WebGridExtensions
 
                 if (i == currentPage)
                 {
-                    part.MergeAttribute("class", "active");
+                    part.MergeAttribute("class", "mysubmitsmall");
                 }
 
                 li.Add(part);
