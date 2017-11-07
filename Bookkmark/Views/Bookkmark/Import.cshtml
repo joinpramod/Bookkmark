@@ -3,6 +3,35 @@
     ViewBag.Title = "Import";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div style="height:100px"></div>
+<h2>Import bookmarks</h2>
+<div style="height:20px"></div>
+<p>
+    To import bookmarks from Chrome, Firefox, IE or any other browser, first export those bookmarks into html file. Then upload the html file here. This will import all your bookmarks into your Bookkmark account.
+</p>
+<br/>
+<p>
+@using (Html.BeginForm("import", "bookkmark", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-3" style="margin-right:0px">
+            <input id="File1" type="file" class="myText" />
+        </div>
+        <div class="col-md-1" style="margin-left:0px">
+            <input id="btnSubmit" type="submit" value="Import" class="mysubmitsmall" />
+        </div>
+        <div class="col-md-8" style="text-align:right">
+        </div>
+    </div>
+}
+</p>
+<div style="height:60px"></div>
 
-<h2>Import</h2>
-
+<p>
+    Following are the procedures to export bookmarks into html files from the various browsers
+</p>
+<p>
+    <b>Internet Explorer</b><br/>
+    1. Go to 
+</p>
+<div style="height:20px"></div>
