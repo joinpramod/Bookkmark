@@ -10,11 +10,66 @@ Currently we have 2 API's exposed to the users and website owners.
 1. Bookkmarks API 
 2. Reports API
 
+Please make a separate request from "Contact Us" section to gain access to API. 
+We will get back to you to setup clientid along with the key needed to access the API's.
+
+Below is the sample glimpse of request and response of API, we will provide you with detail documentation to access the API.
+
+
 <b>Bookkmarks API</b> - User can get all his/her bookkmarks in the form of JSON or XML
 
-<b>Reports API</b> - Site owners can get all the information about the user bookmarks like bookmarked date, user location, name, url and more<br /><br />
+                <b>URI</b>: https://bookkmark.com/api/1/GetBookkmarks?action=fetch
 
-Please make a separate request from Contact Us section to gain access to API. 
-We will get back to you and give the client id along with the key needed to access the API's
+                <b>Method</b>: Get
+
+                <b>Request</b>:
+                {
+                "spec":
+                {
+                "filter": "servicePoint.client.id=='xxxxxxxxxx'",
+                "include": "id"
+                }
+                }
+
+                <b>Response</b>:
+                {
+                "objs" : [ { "name" : "google",
+                             "url" : "http://google.com",
+                "version" : xxxx,
+                } ],
+                "count" : 1,
+                "hasMore" : false
+                }
+
+
+
+<b>Reports API</b> - Site owners can get all the information about the user bookmarks like bookmarked date, user location, name, url and more
+
+                <b>URI</b>: https://bookkmark.com/api/1/GetReports?action=fetch
+
+                <b>Method</b>: Get
+
+                <b>Request</b>:
+                {
+                    "spec":
+                    {
+                        "filter": "servicePoint.client.id=='xxxxxxxxxx'",
+                        "include": "id"
+                    }
+                }
+
+                <b>Response</b>:
+                {
+                "objs" : [ { "url" : "http://google.com",
+                             "location" : "San Francisco, CA",
+                             "created_date" : "xx/xx/xx",
+                "version" : xxxx,
+                } ],
+                "count" : 1,
+                "hasMore" : false
+                }
+
+
+
 
 </pre>
