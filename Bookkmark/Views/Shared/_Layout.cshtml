@@ -42,7 +42,7 @@
 　
 　
 </head>
-<body>
+<body style="font-size:18px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             
@@ -54,7 +54,7 @@
                     <span class="icon-bar"></span>
                 </button>
               
-                <span style="font-size:38px;font-weight:bold"> @Html.ActionLink("Bookkmark", "Index", "Home", new { @class = "navbar-brand" })</span>
+                <span style="font-size:38px;font-weight:bold"> @Html.ActionLink("Company", "Index", "Home", new { @class = "navbar-brand" })</span>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -74,7 +74,7 @@
                     <li>@Html.ActionLink("My Bookkmarks", "MyBookkmarks", "Bookkmark")</li>
                     <li>@Html.ActionLink("Reports", "Reports", "Bookkmark")</li>
                     <li>@Html.ActionLink("View Script", "ScriptCode", "Bookkmark")</li>                    
-                    <li>@Html.ActionLink("My Domains", "Domains", "Bookkmark")</li>
+                    @*<li>@Html.ActionLink("My Domains", "Domains", "Bookkmark")</li>*@
                     <li>@Html.ActionLink("Import", "Import", "Bookkmark")</li>
                 </ul>             
             </div>
@@ -84,14 +84,14 @@
     </div>
     @*<div style="height:0px"></div>*@
     <div class="container body-content">
-        <div style="height:75%;padding-top:0%">
+        <div style="height:650px;padding-top:0%">
             @RenderBody()
         </div>
         <footer>          
             <ul class="nav navbar-nav navbar-right">
                 <li>@Html.ActionLink("Policy", "Policy", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                <li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                <li>@Html.ActionLink("API's", "API", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                @*<li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                <li>@Html.ActionLink("API's", "API", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                 <li>@Html.ActionLink("Feedback", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                 <li>@Html.ActionLink("FAQ's", "FAQ", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
             </ul>
