@@ -109,6 +109,20 @@ namespace Bookkmark.Controllers
             return View();
         }
 
+        public ActionResult API()
+        {
+            //ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult FAQ()
+        {
+            //ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
         public ActionResult Error()
         {
             return View();

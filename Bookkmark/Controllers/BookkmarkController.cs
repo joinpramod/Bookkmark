@@ -1,6 +1,7 @@
 using System.Web.Mvc;
 using Bookkmark.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bookkmark.Controllers
 {
@@ -142,21 +143,26 @@ namespace Bookkmark.Controllers
 
         public ActionResult MyBookkmarks()
         {
+            List<Bookkmark.Models.Bookkmark> lstBookkmarks = GetBookkmarksFromDB(null, null, null);
+            return View(lstBookkmarks);
+        }
 
-            List<Bookkmark.Models.Bookkmark> lstFolders = new List<Bookkmark.Models.Bookkmark>();
+        private List<Bookkmark.Models.Bookkmark> GetBookkmarksFromDB(string search, string sort, string sortdir)
+        {
+            List<Bookkmark.Models.Bookkmark> lstBookkmarks = new List<Bookkmark.Models.Bookkmark>();
             Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 1;
             _BookkmarkModel.Name = "Default";
             _BookkmarkModel.ParentID = 0;
             _BookkmarkModel.IsFolder = true;
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 102;
             _BookkmarkModel.Name = "Forums";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -164,7 +170,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.Name = "News";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -172,7 +178,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.Name = "MyFolder";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             //Forums
@@ -182,7 +188,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://forums.asp.net/";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -191,7 +197,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://social.msdn.microsoft.com/Forums/en-US/home";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
 
@@ -201,7 +207,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://www.quora.com/stats";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
 
@@ -213,18 +219,18 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://www.cnn.com/";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
 
-            
+
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 1005;
             _BookkmarkModel.Name = "Times Of India";
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://timesofindia.indiatimes.com/international-home";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -233,7 +239,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://twitter.com/thekapilsshow?lang=en";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
 
@@ -246,7 +252,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://yahoomail.com";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -255,7 +261,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://gmail.com";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
             //CDS
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -264,7 +270,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 104;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://patient.labcorp.com/patient/PatientWeb/default.aspx";
-            lstFolders.Add(_BookkmarkModel);
+            lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
@@ -273,14 +279,20 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 104;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://www.immihelp.com/tracker/221g-tracker";
-            lstFolders.Add(_BookkmarkModel);
-
-            return View(lstFolders);
+            lstBookkmarks.Add(_BookkmarkModel);
+            return lstBookkmarks;
         }
 
-        public ActionResult Reports()
+        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "")
         {
-            return View();
+            int pageSize = 10;
+            int totalRecord = 0;
+            if (page < 1) page = 1;
+            int skip = (page * pageSize) - pageSize;
+            var data = GetBookkmarks(search, sort, sortdir, skip, pageSize, out totalRecord);
+            ViewBag.TotalRows = totalRecord;
+            ViewBag.search = search;
+            return View(data);
         }
 
         public ActionResult Domains()
@@ -358,5 +370,34 @@ namespace Bookkmark.Controllers
             return View();
         }
 
+
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+
+        public List<Bookkmark.Models.Bookkmark> GetBookkmarks(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        {
+            List<Bookkmark.Models.Bookkmark>  lstBookkmarks = GetBookkmarksFromDB(search, sort, sortdir);            
+
+            //var lstBookkmarks = lstFolders.AsEnumerable();
+            //var v = (from a in lstBookkmarks
+            //         where  a.Name.Contains(search) ||
+            //                a.URL.Contains(search)
+            //         //orderby a.Name ascending  
+            //         select a);
+            //v = v.OrderBy(sort + " " + sortdir);
+
+            totalRecord = lstBookkmarks.Count();
+            var varBookkmarks = lstBookkmarks.AsQueryable();
+
+            if (pageSize > 0)
+            {
+                varBookkmarks = varBookkmarks.Skip(skip).Take(pageSize);
+            }
+
+            return varBookkmarks.ToList();
+        }
     }
 }
