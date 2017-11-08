@@ -14,7 +14,11 @@ namespace Bookkmark.Models
         public bool IsFolder { get; set; } 
         public string CreatedUser { get; set; } 
         public string CreatedDateTime { get; set; }
-   
+        public string IpAddr { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string Count { get; set; }
+
     }
 
     //public class Folder
