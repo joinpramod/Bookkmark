@@ -11,6 +11,25 @@
 <div style="height:100px"></div>
 
 <h2>Data Analysis</h2>
+
+<script type="text/javascript">
+
+    $(function () {
+        $(".jqueryui-marker-datepicker").datepicker({
+            dateformat: "mm-dd-yyyy",
+            changeYear: true,
+            showOn: "button"
+        }).css("display", "inline-block")
+        .next("button").button({
+            icons: { primary: "ui-icon-calender" },
+            lebel: "Select date",
+            text: false
+        });
+    });
+</script>
+
+
+
 <div style="height:20px"></div>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -20,10 +39,20 @@
                 <div class="collapse navbar-collapse">
                     @using (Html.BeginForm("reports", "bookkmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                     {
-                        <div class="form-group">
-                            <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="search" />
-                        </div>
-                        <button type="submit" value="Search" class="mysubmitsmall" >Search</button>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" />
+                                </td>
+                                <td>
+                                   @*@Html.TextBox("txtCreatedDate", null, new { htmlAttributes = new { @class = "form-control", placeholder = "Created Date", @readonly = "true", type="date" } })*@  
+                                    @Html.TextBox("txtCreatedDate", "", new {  @class = "form-control jqueryui - marker - datepicker" })</td>
+                                <td>
+                                    <button type = "submit" value = "Search" class="mysubmitsmall">Search</button>
+                                </td>
+                            </tr>
+                        </table>
+
                     }
                 </div>
             </div>
@@ -47,7 +76,7 @@
             @Html.Hidden("col", grid.SortColumn)
 
         </div>
- 
+
     @*<script src="~/Scripts/jquery-3.1.1.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>*@
     <script>
@@ -68,3 +97,9 @@
             }
         })
     </script>
+
+
+
+
+
+ 
