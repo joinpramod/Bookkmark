@@ -2,77 +2,65 @@
     ViewBag.Title = "Edit User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @model Bookkmark.Users
 @using Bookkmark.AppCode
-
 <div style="height:100px"></div>
 <h2>Edit Profile</h2><br />
 
-
 @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <table style="font-size:16px" width="100%">
-        <tr>
-            <td style="font-weight: bold; color: red;padding-left:30px">
-                @ViewBag.Ack<br />
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-top: 5px;padding-left:20px">
-                @using (Html.BeginForm("CreateEditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <table style="height: 250px; width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
-                        <tr>
-                            <td style="padding-left:5%">
-                                <br />
-                                @Html.TextBoxFor(m => m.FirstName, new { style = "width:55%;", placeholder = "First Name", @class = "myText" })
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left:5%">
-                                @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;", placeholder = "Last Name", @class = "myText" })
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left:5%">
-                                @Html.TextBoxFor(m => m.Email, new { style = "width:75%;", placeholder = "EMail", @class = "myText" })
-                            </td>
-                        </tr>
-                        @*<tr>
-                            <td style="padding-left:5%">
-                                @Html.TextBoxFor(m => m.Address, new { style = "width:75%;", placeholder = "Address", @class = "myText" })
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left:5%">
-                                <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
-                            </td>
-                        </tr>*@
-                        @*<tr>
-                                    <td style="padding-left:5%">
-                                @Html.TextAreaFor(m => m.Details, new
-                                   {
-                                       style = "height:160px;width:90%",
-                                       @class = "myText",
-                                       placeholder = "Brief details on your experience, work and expertiece"
-                                   })
-                            </td>
-                        </tr>*@
-                        @*<tr><td>&nbsp;</td></tr>*@
-                        <tr>
-                            <td align="center">
-                                <input type="submit" id="btnRegister" value="Submit" onclick="return ValidateUserReg()" class="mysubmit" />
-                                <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
-                                <br />
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td></tr>
-                    </table>
-                }
-            </td>
-        </tr>
-    </table>
-
-    @*@Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)*@
+    <div style="padding-left:5%">
+        <table style="height: 250px; width: 90%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
+            <tr>
+                <td style="font-weight: bold; color: red;padding-left:30px">
+                    @ViewBag.Ack<br />
+                </td>
+            </tr>
+                            <tr>
+                                <td align="left" style="padding-left:20%">
+                                    @Html.TextBoxFor(m => m.FirstName, new { style = "width:55%;", placeholder = "First Name", @class = "myText" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="padding-left:20%">
+                                    @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;", placeholder = "Last Name", @class = "myText" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="padding-left:20%">
+                                    @Html.TextBoxFor(m => m.Email, new { style = "width:75%;", placeholder = "EMail", @class = "myText" })
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td style="padding-left:5%">
+                                    @Html.TextBoxFor(m => m.Address, new { style = "width:75%;", placeholder = "Address", @class = "myText" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5%">
+                                    <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
+                                </td>
+                            </tr>*@
+                            @*<tr>
+                                        <td style="padding-left:5%">
+                                    @Html.TextAreaFor(m => m.Details, new
+                                       {
+                                           style = "height:160px;width:90%",
+                                           @class = "myText",
+                                           placeholder = "Brief details on your experience, work and expertiece"
+                                       })
+                                </td>
+                            </tr>*@
+                            @*<tr><td>&nbsp;</td></tr>*@
+                            <tr>
+                                <td align="center">
+                                    <input type="submit" id="btnRegister" value="Submit" onclick="return ValidateUserReg()" class="mysubmit" />
+                                    <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+        </table>
+        @*@Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)*@
+    </div>
 }
