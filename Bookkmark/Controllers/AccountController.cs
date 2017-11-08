@@ -146,8 +146,10 @@ namespace Bookkmark.Controllers
             Session["User"] = user1;
             Session["user.Email"] = user1.Email;
             ViewBag.UserEmail = user1.Email;
-            return View("../Account/ViewUser", user1);
-
+            if(txtPassword!=null)
+                return RedirectToAction("MyBookkmarks", "Bookkmark");
+            else
+                return View("../Account/ViewUser", user);
             ConnManager connManager = new ConnManager();
             connManager.OpenConnection();
             DataTable DSUserList = new DataTable();

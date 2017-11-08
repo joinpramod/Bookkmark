@@ -153,31 +153,55 @@ namespace Bookkmark.Controllers
             Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 1;
             _BookkmarkModel.Name = "Default";
+            _BookkmarkModel.URL = "Forums";
             _BookkmarkModel.ParentID = 0;
             _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New York";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "11/8/2017 10:24 AM";
+            _BookkmarkModel.Count = "12";
             lstBookkmarks.Add(_BookkmarkModel);
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 102;
             _BookkmarkModel.Name = "Forums";
+            _BookkmarkModel.URL = "Forums";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "San Francisco";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "10/7/2017 12:24 PM";
+            _BookkmarkModel.Count = "9";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 103;
             _BookkmarkModel.Name = "News";
+            _BookkmarkModel.URL = "News";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Chicago";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "09/21/2017 10:24 AM";
+            _BookkmarkModel.Count = "20";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
             _BookkmarkModel = new Bookkmark.Models.Bookkmark();
             _BookkmarkModel.BookkmarkID = 104;
             _BookkmarkModel.Name = "MyFolder";
+            _BookkmarkModel.URL = "MyFolder";
             _BookkmarkModel.ParentID = 1;
             _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Texas";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "08/20/2017 10:24 AM";
+            _BookkmarkModel.Count = "4";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -188,6 +212,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://forums.asp.net/";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Bengaluru";
+            _BookkmarkModel.Country = "India";
+            _BookkmarkModel.CreatedDateTime = "07/25/2017 10:24 AM";
+            _BookkmarkModel.Count = "21";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -197,6 +226,12 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://social.msdn.microsoft.com/Forums/en-US/home";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New Jersey";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "06/11/2017 10:24 AM";
+            _BookkmarkModel.Count = "19";
+
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -207,6 +242,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 102;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "https://www.quora.com/stats";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Los Angeles";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "05/02/2017 10:24 AM";
+            _BookkmarkModel.Count = "15";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -219,6 +259,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://www.cnn.com/";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Florida";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "04/21/2017 10:24 AM";
+            _BookkmarkModel.Count = "18";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -230,6 +275,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://timesofindia.indiatimes.com/international-home";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "North Carolina";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "03/05/2017 10:24 AM";
+            _BookkmarkModel.Count = "24";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -239,6 +289,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://twitter.com/thekapilsshow?lang=en";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Vegas";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "02/10/2017 10:24 AM";
+            _BookkmarkModel.Count = "28";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -252,6 +307,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://yahoomail.com";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Boston";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "01/12/2017 10:24 AM";
+            _BookkmarkModel.Count = "31";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -261,6 +321,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 103;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://gmail.com";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New York";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "11/8/2017 10:24 AM";
+            _BookkmarkModel.Count = "17";
             lstBookkmarks.Add(_BookkmarkModel);
 
             //CDS
@@ -270,6 +335,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 104;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://patient.labcorp.com/patient/PatientWeb/default.aspx";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New York";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "11/8/2017 10:24 AM";
+            _BookkmarkModel.Count = "27";
             lstBookkmarks.Add(_BookkmarkModel);
 
 
@@ -279,6 +349,11 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.ParentID = 104;
             _BookkmarkModel.IsFolder = false;
             _BookkmarkModel.URL = "http://www.immihelp.com/tracker/221g-tracker";
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New York";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "11/8/2017 10:24 AM";
+            _BookkmarkModel.Count = "25";
             lstBookkmarks.Add(_BookkmarkModel);
             return lstBookkmarks;
         }
@@ -303,70 +378,46 @@ namespace Bookkmark.Controllers
 
         public ActionResult Manage()
         {
-            //Bookkmark bkmrk = GetBookkmark(Request.QueryString["id"])
-            if (Request.QueryString["action"] != null)
+            if (Request.QueryString["action"].ToString().Equals("Add"))
             {
-                if (Request.QueryString["action"].ToString().Equals("Add"))
-                {
-                     //Process(Request.QueryString["id"])
-                     return View("../Bookkmark/AddEditBM");
-                }
-                else if (Request.QueryString["action"].ToString().Equals("Edit"))
-                {
-                    //Process(Request.QueryString["id"])
-                    return View("../Bookkmark/Rename");
-
-                   // return View("../Bookkmark/AddEditBM");
-                }
-                else if (Request.QueryString["action"].ToString().Equals("NewFolder"))
-                {
-
-                    ViewData["Refresh"] = null;
-                    //Process(Request.QueryString["id"])
-                    return View("../Bookkmark/NewFolder");
-                }
-                else
-                {
-                    //Process(Request.QueryString["id"])
-                    return View("../Bookkmark/Delete");
-                }
+                List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+                ViewData["ddFolders"] = lstFolders;
+                //Process(Request.QueryString["id"])
+                return View("../Bookkmark/NewBMFolder");
             }
+            else if (Request.QueryString["action"].ToString().Equals("Edit"))
+            {
+                List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+                ViewData["ddFolders"] = lstFolders;
+                //Process(Request.QueryString["id"])
+                return View("../Bookkmark/EditBMFolder");
+            }         
             else
             {
-                ViewData["Refresh"] = "true";
-                if (Request.Form["btnAdd"] != null)
-                {
-                    return View("../Bookkmark/AddEditBM");
-                }
-                else if (Request.Form["btnEdit"] != null)
-                {
-                    return View("../Bookkmark/Rename");
-                   // return View("../Bookkmark/AddEditBM");
-                }
-                else if (Request.Form["btnNewFolder"] != null)
-                {
-                    return View("../Bookkmark/NewFolder");
-                }
-                else
-                {
-                    return View("../Bookkmark/Delete");
-                }
-
+                //Process(Request.QueryString["id"])
+                return View("../Bookkmark/Delete");
             }
         }
 
-        public ActionResult Rename()
+        public ActionResult EditBMFolder()
         {
+            List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+            ViewData["ddFolders"] = lstFolders;
+            ViewData["Refresh"] = "true";
             return View();
         }
 
-        public ActionResult NewFolder()
+        public ActionResult NewBMFolder()
         {
+            List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+            ViewData["ddFolders"] = lstFolders;
+            ViewData["Refresh"] = "true";
             return View();
         }
 
         public ActionResult Delete()
         {
+            ViewData["Refresh"] = "true";
             return View();
         }
 
@@ -399,5 +450,68 @@ namespace Bookkmark.Controllers
 
             return varBookkmarks.ToList();
         }
+
+
+        private List<Bookkmark.Models.Bookkmark> GetFoldersFromDB()
+        {
+            List<Bookkmark.Models.Bookkmark> lstBookkmarks = new List<Bookkmark.Models.Bookkmark>();
+            Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 1;
+            _BookkmarkModel.Name = "Default";
+            _BookkmarkModel.URL = "Forums";
+            _BookkmarkModel.ParentID = 0;
+            _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "New York";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "11/8/2017 10:24 AM";
+            _BookkmarkModel.Count = "12";
+            lstBookkmarks.Add(_BookkmarkModel);
+
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 102;
+            _BookkmarkModel.Name = "Forums";
+            _BookkmarkModel.URL = "Forums";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "San Francisco";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "10/7/2017 12:24 PM";
+            _BookkmarkModel.Count = "9";
+            lstBookkmarks.Add(_BookkmarkModel);
+
+
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 103;
+            _BookkmarkModel.Name = "News";
+            _BookkmarkModel.URL = "News";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Chicago";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "09/21/2017 10:24 AM";
+            _BookkmarkModel.Count = "20";
+            lstBookkmarks.Add(_BookkmarkModel);
+
+
+            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel.BookkmarkID = 104;
+            _BookkmarkModel.Name = "MyFolder";
+            _BookkmarkModel.URL = "MyFolder";
+            _BookkmarkModel.ParentID = 1;
+            _BookkmarkModel.IsFolder = true;
+            _BookkmarkModel.IpAddr = "121.0.0.1";
+            _BookkmarkModel.City = "Texas";
+            _BookkmarkModel.Country = "USA";
+            _BookkmarkModel.CreatedDateTime = "08/20/2017 10:24 AM";
+            _BookkmarkModel.Count = "4";
+            lstBookkmarks.Add(_BookkmarkModel);
+         
+            return lstBookkmarks;
+        }
+
+
     }
 }
