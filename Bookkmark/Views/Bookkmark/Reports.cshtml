@@ -12,42 +12,25 @@
 
 <h2>Data Analysis</h2>
 
-<script type="text/javascript">
-
-    $(function () {
-        $(".jqueryui-marker-datepicker").datepicker({
-            dateformat: "mm-dd-yyyy",
-            changeYear: true,
-            showOn: "button"
-        }).css("display", "inline-block")
-        .next("button").button({
-            icons: { primary: "ui-icon-calender" },
-            lebel: "Select date",
-            text: false
-        });
-    });
-</script>
-
-
 
 <div style="height:20px"></div>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="#" class="navbar-brand">Search</a>
-                </div>
                 <div class="collapse navbar-collapse">
                     @using (Html.BeginForm("reports", "bookkmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                     {
                         <table>
                             <tr>
                                 <td>
-                                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" />
+                                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
                                 </td>
-                                <td>
-                                   @*@Html.TextBox("txtCreatedDate", null, new { htmlAttributes = new { @class = "form-control", placeholder = "Created Date", @readonly = "true", type="date" } })*@  
-                                    @Html.TextBox("txtCreatedDate", "", new {  @class = "form-control jqueryui - marker - datepicker" })</td>
-                                <td>
+                                <td style="padding-left:10px">
+                                    @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style="width:120px" })
+                                </td>
+                                <td style="padding-left:10px">
+                                    @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
+                                </td>
+                                <td style="padding-left:10px">
                                     <button type = "submit" value = "Search" class="mysubmitsmall">Search</button>
                                 </td>
                             </tr>
@@ -61,8 +44,12 @@
             @grid.Table(
                 tableStyle: "table table-responsive table-bordered",
                 columns: grid.Columns(
-                    grid.Column(columnName: "Name", header: "Name"),
-                    grid.Column(columnName: "URL", header: "URL")
+                    //grid.Column(columnName: "Name", header: "Name"),
+                    grid.Column(columnName: "URL", header: "URL"),
+                    grid.Column(columnName: "Count", header: "Count"),
+                    grid.Column(columnName: "CreatedDateTime", header: "Created Date"),
+                    grid.Column(columnName: "City", header: "City"),
+                    grid.Column(columnName: "Country", header: "Country")
                 )
             )
 
@@ -77,28 +64,25 @@
 
         </div>
 
-    @*<script src="~/Scripts/jquery-3.1.1.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>*@
-    <script>
-        $(function () {
-            try {
-                var dir = $('#dir').val();
-                var col = $('#col').val();
-                var header = $("th a[href*=" + col + "]");
-                if (dir == "Ascending") {
-                    header.text(header.text())
-                }
-                if (dir == "Descending") {
-                    header.text(header.text());
-                }
 
-            } catch (e) {
 
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtCreatedFrom").datepicker({
+            maxDate: "+0M +0D", numberOfMonths: 1,
+            beforeShow: function () {
+                $(".ui-datepicker").css('font-size', 13)
             }
-        })
-    </script>
-
-
+        });
+        $("#txtCreatedTo").datepicker({
+            maxDate: "+0M +0D", numberOfMonths: 1,
+            beforeShow: function () {
+                $(".ui-datepicker").css('font-size', 13)
+            }
+        });
+    });
+</script>
 
 
 

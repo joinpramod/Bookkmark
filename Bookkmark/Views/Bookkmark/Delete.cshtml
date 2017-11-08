@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/Manage_Bookkmark.cshtml";
     
 }
-<div style="height:100px"></div>
+<div style="height:50px"></div>
 <h2>Delete</h2>
 
 <script type="text/javascript">
@@ -19,8 +19,31 @@
     };
 </script>
 
-@using (Html.BeginForm("Manage", "Bookkmark"))
+@using (Html.BeginForm("Delete", "Bookkmark"))
 {
-    <div style="height:100px"></div>
-    <input type="submit" value="Submit" id="btnDelete" name="btnDelete" style="height:40px;border-radius:10px" class="mysubmit" />
+
+    <table style="height:20%;width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding="5" cellspacing="5">
+        <tr>
+            <td style="font-weight: bold; color: red;padding-left:30%">
+                @ViewBag.Ack<br />
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="padding-left:10px">
+                @ViewData["BookkmarkFolder"]
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding-left:10px">
+                <span style="font-weight:bold"> Are you sure you want to delete? </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" value="Yes" id="btnYes" name="btnYes" style="height:40px;border-radius:5px" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" value="No" id="btnNo" name="btnNo" style="height:40px;border-radius:5px" class="mysubmit" />
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+    </table>
 }
