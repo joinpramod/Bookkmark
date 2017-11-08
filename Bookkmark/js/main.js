@@ -220,11 +220,11 @@
       //console.log("Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
       var taskId = taskItemInContext.getAttribute("data-id");
       var taskAction = link.getAttribute("data-action");
-      var left = (screen.width) - (0.30 * screen.width);
+      var left = (screen.width) - (0.40 * screen.width);
       var top = (screen.height) - (0.60 * screen.height);
-      var height = screen.height * 0.40;
-      var width = screen.height * 0.40;
-      window.open("/bookkmark/manage?id=" + taskId + "&action=" + taskAction, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+      var height = screen.height * 0.28;
+      var width = screen.width * 0.30;
+      window.open("/bookkmark/manage?id=" + taskId + "&action=" + taskAction, "_blank", "toolbar=yes,scrollbars=no,resizable=yes,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
 
     toggleMenuOff();
 
