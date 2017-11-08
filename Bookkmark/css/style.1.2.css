@@ -9,7 +9,7 @@
     font-size:20px;
     font-weight:bold;
     font-family:Calibri;
-    color:#333;
+    color:#5c5959;
     background-color:#f8f3b5;
     border: solid 1px lightgrey;
     width:auto;
@@ -19,13 +19,13 @@
 .mysubmit:hover, .mysubmit:focus {
     background-color:#F3CD50;  
     text-decoration:none; 
-	color:#333;
+	color:#5c5959;
 }
 
 
 .mysubmit:active, .mysubmit:visited{
     text-decoration:none; 
-	color:#333;
+	color:#5c5959;
 }
 
 
@@ -36,7 +36,7 @@
     font-size:20px;
     font-weight:bold;
     font-family:Calibri;
-    color:#333;
+    color:#5c5959;
     background-color:#f8f3b5;
     border:none;
     width:auto;
@@ -58,7 +58,7 @@
     font-size:15px;
     font-weight:bold;
     font-family:Calibri;
-    color:#333;
+    color:#5c5959;
     background-color:#f8f3b5;
     border:none;
     width:auto;
@@ -87,7 +87,7 @@
 
 .mylink:hover {    
     background-color:#F3CD50;   
-    color:black;
+    color:#5c5959;
 }
 
 
@@ -118,7 +118,7 @@
     font-size:20px;
     font-weight:bold;
     font-family:Calibri;
-    color:black;
+    color:#5c5959;
     background-color:#AAF7C7;
     border: solid 1px lightgrey;
     width:120px;
@@ -128,7 +128,7 @@
 
 .demo:hover {
       background-color:#6CEF9C;  
-    color:black;
+    color:#5c5959;
     text-decoration:none; 
 }
 
@@ -139,7 +139,7 @@
 
 
 .dropbtn {
-color: #333;
+color: #5c5959;
 font-weight: bold;
 font-size: 1.225em;
 background-color: #f8f3b5;
@@ -177,7 +177,7 @@ transition: all .15s ease-in;
 	padding: 0px 20px;
 	line-height: 38px;
 	height: 38px;
-    color: #333;
+    color: #5c5959;
 }
 
 /* Change color of dropdown links on hover */
@@ -195,7 +195,7 @@ transition: all .15s ease-in;
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .mydropdown:hover .dropbtn {
     background-color: #F3CD50;
-     color: #333;
+     color: #5c5959;
 }
 
 
