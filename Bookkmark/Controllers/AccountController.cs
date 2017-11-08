@@ -20,6 +20,11 @@ namespace Bookkmark.Controllers
             return View();
         }
 
+        public ActionResult QuickLogin()
+        {
+            return View();
+        }
+
         public ActionResult ForgotPassword(string txtEMailId)
         {
             if (!string.IsNullOrEmpty(txtEMailId))
@@ -146,10 +151,22 @@ namespace Bookkmark.Controllers
             Session["User"] = user1;
             Session["user.Email"] = user1.Email;
             ViewBag.UserEmail = user1.Email;
-            if(txtPassword!=null)
-                return RedirectToAction("MyBookkmarks", "Bookkmark");
+            if (Session["bookkmark"] != null)
+            {
+                //AddBookmark(Session["bookkmark"]);
+                //ViewData["Refresh"] = "true";
+                return View("../Bookkmark/BMAdded");
+            }
             else
-                return View("../Account/ViewUser", user);
+            {
+                if (txtPassword != null)
+                    return RedirectToAction("MyBookkmarks", "Bookkmark");
+                else
+                    return View("../Account/ViewUser", user);
+            }
+
+
+
             ConnManager connManager = new ConnManager();
             connManager.OpenConnection();
             DataTable DSUserList = new DataTable();
@@ -198,7 +215,20 @@ namespace Bookkmark.Controllers
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
                 connManager.DisposeConn();
-                return View("../Account/ViewUser", user);
+
+                if (Session["bookkmark"] != null)
+                {
+                    //AddBookmark(Session["bookkmark"]);
+                    //ViewData["Refresh"] = "true";
+                    return View("../Account/BMAdded");
+                }
+                else
+                {
+                    if (txtPassword != null)
+                        return RedirectToAction("MyBookkmarks", "Bookkmark");
+                    else
+                        return View("../Account/ViewUser", user);
+                }
             }
         }
 
