@@ -4,11 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookkmark</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/jqueryui")
 
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    @*<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>*@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewBag.Title</title>
@@ -17,16 +15,18 @@
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" type="text/css" href="~/css/style.1.2.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.min.css"  />
 
-　
-    <script src="https://apis.google.com/js/platform.js" async defer type="text/javascript"></script>
-      <script type="text/javascript" src="~/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="~/js/custom.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
-    <script type="text/javascript" src="~/js/JavaScript.1.3.js"></script>
-    <script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/js/platform.js" async defer type="text/javascript"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/js/JavaScript.1.3.js"></script>
+    @*<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*@
+    
+
 
 　
     <meta http-equiv="Pragma" content="no-cache" />
@@ -100,9 +100,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)
 </body>
 </html>

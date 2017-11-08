@@ -86,8 +86,7 @@
         <div style="height:650px;padding-top:0%">
             @RenderBody()
         </div>
-        <hr />
-        <footer>          
+        @*<footer>          
             <ul class="nav navbar-nav navbar-right">
                 <li>@Html.ActionLink("Policy", "Policy", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                 <li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
@@ -96,7 +95,7 @@
                 <li>@Html.ActionLink("FAQ's", "FAQ", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
             </ul>
             <p>&copy; @DateTime.Now.Year - Bookkmark</p>
-        </footer>
+        </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
