@@ -222,8 +222,8 @@
       var taskAction = link.getAttribute("data-action");
       var left = (screen.width) - (0.50 * screen.width);
       var top = (screen.height) - (0.60 * screen.height);
-      var height = screen.height * 0.45;
-      var width = screen.width * 0.30;
+      var height = 305;
+      var width = 500;
       window.open("/bookkmark/manage?id=" + taskId + "&action=" + taskAction, "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
 
     toggleMenuOff();
