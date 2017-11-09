@@ -1,0 +1,7 @@
+G:\CodeAnalyze\Bookkmark\Bookkmark\js\javacriptCompressor>java -jar yuicompressor-2.4.8.jar JavaScript1-max.js -o JavaScript.1.2.js
+
+G:\CodeAnalyze\Bookkmark\Bookkmark\js\javacriptCompressor>java -jar yuicompressor-2.4.8.jar TinyMCE-max.js -o TinyMCE.1.4.js
+
+G:\CodeAnalyze\Bookkmark\Bookkmark\js\javacriptCompressor>java -jar yuicompressor-2.4.8.jar Facebook-max.js -o Facebook.js
+
+G:\CodeAnalyze\Bookkmark\Bookkmark\js\javacriptCompressor>java -jar yuicompressor-2.4.8.jar Google-max.js -o Google.js
