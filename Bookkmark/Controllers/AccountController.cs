@@ -5,6 +5,11 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using Bookkmark.AppCode;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System.Threading.Tasks;
+using Bookkmark.Models;
 
 namespace Bookkmark.Controllers
 {
@@ -12,8 +17,11 @@ namespace Bookkmark.Controllers
 
     public class AccountController : BaseController
     {
-        private Users user = new Users();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
+
+        private Users user = new Users();
 
         public ActionResult Login()
         {
@@ -71,7 +79,6 @@ namespace Bookkmark.Controllers
             return View();
         }
 
-
         public ActionResult ProcessLogin(string txtEMailId, string txtPassword)
         {
             if (Request.Form["hfUserEMail"] != null)
@@ -92,7 +99,6 @@ namespace Bookkmark.Controllers
                 return CheckUserLogin(txtEMailId, txtPassword);
             }
         }
-
 
         public ActionResult Activate()
         {
@@ -125,7 +131,6 @@ namespace Bookkmark.Controllers
             return View("../Account/Login");
         }
 
-
         public ActionResult ProcessActivationCode(string txtEMailId)
         {
             txtEMailId = Request.Form["hfUserEMail"];
@@ -139,7 +144,6 @@ namespace Bookkmark.Controllers
             }
             return View("Users", user);
         }
-
 
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
@@ -387,7 +391,6 @@ namespace Bookkmark.Controllers
             }
         }
 
-
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult EditUser(Users user, HttpPostedFileBase fileUserPhoto)
         {
@@ -479,8 +482,6 @@ namespace Bookkmark.Controllers
 
             }
         }
-
-
 
         private void SendNewUserRegEMail(string email)
         {
@@ -584,16 +585,6 @@ namespace Bookkmark.Controllers
             return CheckUserLogin(email, null);
         }
 
-        //public ActionResult GoogleUser()
-        //{
-        //    // string txtEMailId = (string)this.RouteData.Values["id"].ToString();
-        //    // return CheckUserLogin(txtEMailId, null);
-        //    ViewBag.EMailId= Request.QueryString["id"].ToString();
-        //    Response.Redirect("../Account/ForgotPassword");
-        //    return null;
-        //}
-
-
         [AllowAnonymous]
         public ActionResult LogOut()
         {
@@ -670,196 +661,214 @@ namespace Bookkmark.Controllers
             }
         }
 
-        //public ActionResult MyQues()
-        //{
-        //    List<QuestionModel> questions = new List<QuestionModel>();
-        //    questions = GetMyQues(questions);
-        //    PagingInfo info = new PagingInfo();
-        //    info.SortField = " ";
-        //    info.SortDirection = " ";
-        //    info.PageSize = 20;
-        //    info.PageCount = Convert.ToInt32(Math.Ceiling((double)(questions.Count() / info.PageSize)));
-        //    info.CurrentPageIndex = 0;
-        //    var query = questions.OrderBy(c => c.QuestionID).Take(info.PageSize);
-        //    ViewBag.PagingInfo = info;
-        //    return View(query.ToList());
-        //}
-
-        //private List<QuestionModel> GetMyQues(List<QuestionModel> questions)
-        //{
-        //    user = (Users)Session["User"];
-        //    if (ModelState.IsValid)
-        //    {
-        //        string strSQL = string.Empty;
-        //        strSQL = "SELECT * FROM VwQuestions WHERE AskedUser = " + user.UserId;
-        //        ConnManager connManager = new ConnManager();
-        //        questions = connManager.GetQuestions(strSQL);
-        //    }
-        //    return questions;
-        //}
-
-        //[HttpPost]
-        //public ActionResult MyQues(PagingInfo info)
-        //{
-        //    if (Request.Form["Cancel"] == null)
-        //    {
-        //        List<QuestionModel> questions = new List<QuestionModel>();
-        //        questions = GetMyQues(questions);
-
-        //        IQueryable<QuestionModel> query = questions.AsQueryable();
-        //        query = query.Skip(info.CurrentPageIndex * info.PageSize).Take(info.PageSize);
-        //        ViewBag.PagingInfo = info;
-        //        List<QuestionModel> model = query.ToList();
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        if (Session["User"] != null)
-        //        {
-        //            user = (Users)Session["User"];
-        //        }
-        //        return View("../Account/ViewUser", user);
-
-        //    }
-        //}
 
 
-
-        //public ActionResult MyAns()
-        //{
-
-        //    List<VwSolutionsModel> solns = new List<VwSolutionsModel>();
-        //    solns = GetMyAns(solns);
-        //    PagingInfo info = new PagingInfo();
-        //    info.SortField = " ";
-        //    info.SortDirection = " ";
-        //    info.PageSize = 20;
-        //    info.PageCount = Convert.ToInt32(Math.Ceiling((double)(solns.Count() / info.PageSize)));
-        //    info.CurrentPageIndex = 0;
-        //    var query = solns.OrderBy(c => c.QuestionID).Take(info.PageSize);
-        //    ViewBag.PagingInfo = info;
-        //    return View(query.ToList());
-
-        //}
-
-        //private List<VwSolutionsModel> GetMyAns(List<VwSolutionsModel> solns)
-        //{
-        //    user = (Users)Session["User"];
-        //    if (ModelState.IsValid)
-        //    {
-        //        string strSQL = string.Empty;
-        //        strSQL = "SELECT * FROM VwSolutions WHERE RepliedUser = " + user.UserId;
-        //        ConnManager connManager = new ConnManager();
-        //        solns = connManager.GetSolns(strSQL);
-        //    }
-        //    return solns;
-        //}
-
-        //[HttpPost]
-        //public ActionResult MyAns(PagingInfo info)
-        //{
-        //    if (Request.Form["Cancel"] == null)
-        //    {
-        //        List<VwSolutionsModel> questions = new List<VwSolutionsModel>();
-        //        questions = GetMyAns(questions);
-
-        //        IQueryable<VwSolutionsModel> query = questions.AsQueryable();
-        //        query = query.Skip(info.CurrentPageIndex * info.PageSize).Take(info.PageSize);
-        //        ViewBag.PagingInfo = info;
-        //        List<VwSolutionsModel> model = query.ToList();
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        if (Session["User"] != null)
-        //        {
-        //            user = (Users)Session["User"];
-        //        }
-        //        return View("../Account/ViewUser", user);
-
-        //    }
-        //}
+        
 
 
+        public AccountController()
+        {
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
 
-        //public ActionResult MyArts()
-        //{
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
 
-        //    List<ArticleModel> solns = new List<ArticleModel>();
-        //    solns = GetMyArts(solns);
-        //    PagingInfo info = new PagingInfo();
-        //    info.SortField = " ";
-        //    info.SortDirection = " ";
-        //    info.PageSize = 20;
-        //    info.PageCount = Convert.ToInt32(Math.Ceiling((double)(solns.Count() / info.PageSize)));
-        //    info.CurrentPageIndex = 0;
-        //    var query = solns.OrderBy(c => c.ArticleID).Take(info.PageSize);
-        //    ViewBag.PagingInfo = info;
-        //    return View(query.ToList());
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
 
-        //}
+            // Sign in the user with this external login provider if the user already has a login
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                case SignInStatus.Failure:
+                default:
+                    // If the user does not have an account, then prompt the user to create an account
+                    ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+            }
+        }
 
-        //private List<ArticleModel> GetMyArts(List<ArticleModel> solns)
-        //{
-        //    user = (Users)Session["User"];
-        //    if (ModelState.IsValid)
-        //    {
-        //        string strSQL = string.Empty;
-        //        strSQL = "SELECT * FROM VwArticles WHERE UserId = " + user.UserId;
-        //        ConnManager connManager = new ConnManager();
-        //        solns = connManager.GetArticles(strSQL);
-        //    }
-        //    return solns;
-        //}
+  
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Manage");
+            }
 
-        //[HttpPost]
-        //public ActionResult MyArts(PagingInfo info)
-        //{
-        //    if (Request.Form["Cancel"] == null)
-        //    {
-        //        List<ArticleModel> arts = new List<ArticleModel>();
-        //        arts = GetMyArts(arts);
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
 
-        //        IQueryable<ArticleModel> query = arts.AsQueryable();
-        //        query = query.Skip(info.CurrentPageIndex * info.PageSize).Take(info.PageSize);
-        //        ViewBag.PagingInfo = info;
-        //        List<ArticleModel> model = query.ToList();
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        if (Session["User"] != null)
-        //        {
-        //            user = (Users)Session["User"];
-        //        }
-        //        return View("../Account/ViewUser", user);
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
 
-        //    }
-        //}
-
-
-        //public ActionResult ViewUserProfile(string UserId)
-        //{
-        //    Users userProfile = new Users();
-        //    string strSQL = string.Empty;
-        //    strSQL = "SELECT * FROM Users WHERE UserId = " + user.UserId;
-        //    ConnManager connManager = new ConnManager();
-        //    solns = connManager.GetArticles(strSQL);
-
-        //    userProfile.UserId = double.Parse(DSUserList.Rows[0]["UserId"].ToString());
-        //    userProfile.FirstName = DSUserList.Rows[0]["FirstName"].ToString();
-        //    userProfile.LastName = DSUserList.Rows[0]["LastName"].ToString();
-        //    //userProfile.Email = DSUserList.Rows[0]["EMail"].ToString();
-        //    userProfile.Address = DSUserList.Rows[0]["Address"].ToString();
-        //    userProfile.ImageURL = DSUserList.Rows[0]["ImageURL"].ToString();
-        //    user.ImageURL = user.ImageURL.Replace("~", "");
-        //    user.ImageURL = user.ImageURL.Replace("/Bookkmark", "");
-
-        //    return View(userProfile);
-        //}
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
 
 
+        [AllowAnonymous]
+        public ActionResult ExternalLoginFailure()
+        {
+            return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #region Helpers
+        // Used for XSRF protection when adding external logins
+        private const string XsrfKey = "XsrfId";
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        internal class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
+            {
+            }
+
+            public ChallengeResult(string provider, string redirectUri, string userId)
+            {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
+
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                if (UserId != null)
+                {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+        #endregion
     }
 
 

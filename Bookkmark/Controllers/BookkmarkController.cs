@@ -16,11 +16,11 @@ namespace Bookkmark.Controllers
 　
             if (sd == "true")
             {
-                @ViewData["BookkmarkCount"] = GetBookkmarkCount(lnk);
+                ViewData["BookkmarkCount"] = GetBookkmarkCount(lnk);
             }
             else
             {
-                @ViewData["BookkmarkCount"] = null;
+                ViewData["BookkmarkCount"] = null;
             }
 
 　
@@ -134,11 +134,11 @@ namespace Bookkmark.Controllers
             {
                 //Get ScriptCode from DB and assign to ViewState
                 //ViewData["ScriptCode"] = 
-                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
+                ViewData["ScriptCode"] = @"<div id=""divBookkmark""/><script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
             }
             else
             { 
-                ViewData["ScriptCode"] = @"<script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
+                ViewData["ScriptCode"] = @"<div id=""divBookkmark""/><script id=""bookkmark"" src=""http://bookkmark.com/Bookkmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "></script>";
             }
 
             //SaveScript();
