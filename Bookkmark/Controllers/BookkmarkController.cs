@@ -7,12 +7,12 @@ namespace Bookkmark.Controllers
 {
     public class BookkmarkController : BaseController
     {
-        public ActionResult Show(string lnk, string h, string w, string sd)
+        public ActionResult Show(string lnk, string h, string w, string sd, string t)
         {
             ViewData["Bookkmark"] = lnk;
             ViewData["ht"] = h;
             ViewData["wd"] = w;
-
+            ViewData["title"] = t;
 　
             if (sd == "true")
             {
