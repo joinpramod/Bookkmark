@@ -58,9 +58,9 @@ namespace Bookkmark.Controllers
             bookkmark.Name = title;
             bookkmark.IpAddr = ipAddr;
 
-            //Session["bookkmark"] = null;
-            //Session["bookkmark"] = bookkmark;
-            //return null;    // which will open Login Window
+            Session["bookkmark"] = null;
+            Session["bookkmark"] = bookkmark;
+            return null;    // which will open Login Window
 
 
             if (Session["User"] == null)
