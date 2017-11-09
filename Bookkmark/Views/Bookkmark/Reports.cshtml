@@ -42,16 +42,22 @@
         </nav>
         <div>
             @grid.Table(
-                tableStyle: "table table-responsive table-bordered",
+                tableStyle: "table table-responsive table-bordered table-striped",
                 columns: grid.Columns(
                     //grid.Column(columnName: "Name", header: "Name"),
-                    grid.Column(columnName: "URL", header: "URL"),
-                    grid.Column(columnName: "Count", header: "Count"),
+                    grid.Column(columnName: "URL", header: "URL"),                   
                     grid.Column(columnName: "CreatedDateTime", header: "Created Date"),
-                    grid.Column(columnName: "City", header: "City"),
-                    grid.Column(columnName: "Country", header: "Country")
+                    grid.Column(columnName: "City", header: "State"),
+                    grid.Column(columnName: "Country", header: "Country"),
+                    grid.Column(columnName: "Count", header: "Count")
                 )
             )
+
+            <div class="row">
+                <div class="col-md-offset-11">
+                    <span style="font-weight:bold; font-size:18px;">Total 56</span>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-sm-6">
