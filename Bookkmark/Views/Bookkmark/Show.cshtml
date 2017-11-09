@@ -1,12 +1,11 @@
 @{
         Layout = null;
 }
-<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   @*<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Bookmark</title>
+    <title>Bookmark</title>*@
 </head>
 <body>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -30,10 +29,10 @@
         function AddBookkmark()
         {
             var BookkmarkModel = {
-                Bookkmark: document.referrer,
-                title:window.parent.document.title,
-                ipAddr: document.getElementById("ipAddr").value,
-                bookkmarkImgSrc : document.getElementById("imgBookkmark").src
+                'Bookkmark': document.referrer,
+                'title':@Html.Raw(Json.Encode(ViewData["title"])),
+                'ipAddr': document.getElementById("ipAddr").value,
+                'bookkmarkImgSrc' : document.getElementById("imgBookkmark").src
             };
             $.ajax({
                 url: '/bookkmark/addbm',
