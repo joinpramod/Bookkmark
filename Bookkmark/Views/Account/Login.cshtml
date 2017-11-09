@@ -1,12 +1,12 @@
-﻿
+﻿@using Bookkmark.Models
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-<script src="~/js/Facebook.js"></script>
-<script src="~/js/Google.js"></script>
+<script src="~/Scripts/js/Facebook.js"></script>
+<script src="~/Scripts/js/Google.js"></script>
 <div style="height:50px"></div>
 <h2>Login</h2><br />
 
@@ -16,7 +16,7 @@
 
 
 
-    <table style="border-radius:6%;background-color:#EFF0ED;width:40%;height:380px">
+    <table style="border-radius:6%;background-color:#EFF0ED;width:40%;height:500px">
         <tr>
             <td align="center">
                 <table style="font-size:16px;width:90%" cellpadding="5">
@@ -79,9 +79,20 @@
                     <tr><td>&nbsp;</td></tr>
                     <tr>
                         <td align="center">
-                            <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
+                            <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
                             <div id="my-signin2"></div>
                         </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                                <section id="socialLoginForm">
+                                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                </section>
+</td>
                     </tr>
                 </table>
 
