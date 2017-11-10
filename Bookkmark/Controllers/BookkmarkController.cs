@@ -24,9 +24,9 @@ namespace Bookkmark.Controllers
             }
 
 　
-            if (Session["User"] == null)
+            if (Session["User"] == null && Request.Cookies["BookkmarkLogin"] == null)
             {
-                ViewData["bookkmarkImgSrc"] = "../../Images/Bookmark.jpg";
+                ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
             }
             else
             {
@@ -34,11 +34,12 @@ namespace Bookkmark.Controllers
                 bookkmark.URL = lnk;
                 if (BookkmarkExist(bookkmark))
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../Imagess/Bookmarked.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Imagess/Bookmarked.jpg";
                 }
                 else
                 {
-                    ViewData["bookkmarkImgSrc"] = "../../Images/Bookmark.jpg";
+                    ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmarked.jpg"; //temporary
+                    //ViewData["bookkmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
                 }
             }
             return View();
@@ -63,7 +64,7 @@ namespace Bookkmark.Controllers
             return null;    // which will open Login Window
 
 
-            if (Session["User"] == null)
+            if (Session["User"] == null && Request.Cookies["BookkmarkLogin"] == null)
             {
                 Session["bookkmark"] = null;
                 Session["bookkmark"] = bookkmark;
@@ -75,12 +76,12 @@ namespace Bookkmark.Controllers
                 if (BookkmarkExist(bookkmark))
                 {
                     EditBookkmark(bookkmark);
-                    resp = "../../Bookkmark/Images/Bookmarked.jpg";
+                    resp = "../../Bookkmark/Bookkmark/Images/Bookmarked.jpg";
                 }
                 else
                 {
                     InsertBookkmark(bookkmark);
-                    resp = "../../Bookkmark/Images/Bookmarked.jpg";
+                    resp = "../../Bookkmark/Bookkmark/Images/Bookmarked.jpg";
                 }
             }
             return resp;
@@ -97,6 +98,7 @@ namespace Bookkmark.Controllers
         private bool BookkmarkExist(BookkmarkCls bookkmark)
         {
             //Session["User"]
+            //Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys
             //ViewData["Bookkmark"] = bookkmark;
             return false;
         }
@@ -116,16 +118,20 @@ namespace Bookkmark.Controllers
         {
 
             if (!string.IsNullOrEmpty(txtHeight))
-                ViewData["txtHeight"] = txtHeight + "px";            
+                ViewData["txtHeight"] = txtHeight;            
             else
-                ViewData["txtHeight"] = "60px";
+                ViewData["txtHeight"] = "60";
 
             if (!string.IsNullOrEmpty(txtWidth))
-                ViewData["txtWidth"] = txtWidth + "px";
+                ViewData["txtWidth"] = txtWidth;
             else
-                ViewData["txtWidth"] = "50px";
+                ViewData["txtWidth"] = "50";
+
             if (!string.IsNullOrEmpty(chkShowCount))
+            {
                 ViewData["chkShowCount"] = chkShowCount;
+                ViewData["BookkmarkCount"] = "24";
+            }
             else
                 ViewData["chkShowCount"] = "false";
 

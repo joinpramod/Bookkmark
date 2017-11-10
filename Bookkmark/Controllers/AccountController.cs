@@ -30,7 +30,34 @@ namespace Bookkmark.Controllers
 
         public ActionResult QuickLogin()
         {
-            return View();
+            if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
+            {
+                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
+                Users user1 = new Users();
+                user1.UserId = 1;
+                user1.FirstName = "FirstName";
+                user1.LastName = "LastName";
+                user1.Email = uname;
+                Session["User"] = user1;
+                Session["user.Email"] = user1.Email;
+                ViewBag.UserEmail = user1.Email;
+
+                if (Session["bookkmark"] != null)
+                {
+                    //AddBookmark(Session["bookkmark"]);
+                    return View("../Bookkmark/BMAdded");
+                }
+                else
+                {
+                    return View("../Bookkmark/AddEditBM");
+                }
+            }
+            else
+            {
+                return View();
+            }
+
+         
         }
 
         public ActionResult ForgotPassword(string txtEMailId)
@@ -147,18 +174,41 @@ namespace Bookkmark.Controllers
 
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
-            Users user1 = new Users();
-            user1.UserId = 1;
-            user1.FirstName = "FirstName";
-            user1.LastName = "LastName";
-            user1.Email = "admin@bookkmark.com";
-            Session["User"] = user1;
-            Session["user.Email"] = user1.Email;
-            ViewBag.UserEmail = user1.Email;
-            if (Session["bookkmark"] != null)
+
+            if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
+            {
+                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
+                Users user1 = new Users();
+                user1.UserId = 1;
+                user1.FirstName = "FirstName";
+                user1.LastName = "LastName";
+                user1.Email = uname;
+                Session["User"] = user1;
+                Session["user.Email"] = user1.Email;
+                ViewBag.UserEmail = user1.Email;
+            }
+            else
+            {
+                Users user1 = new Users();
+                user1.UserId = 1;
+                user1.FirstName = "FirstName";
+                user1.LastName = "LastName";
+                user1.Email = txtEMailId;
+                Session["User"] = user1;
+                Session["user.Email"] = user1.Email;
+                ViewBag.UserEmail = user1.Email;
+                HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
+                mycookie.Values["UserId"] = txtEMailId;
+                mycookie.Values["FirstName"] = "FirstName";
+                mycookie.Values["LastName"] = "LastName";
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(mycookie);
+            }
+
+            if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
             {
                 //AddBookmark(Session["bookkmark"]);
-                //ViewData["Refresh"] = "true";
+                Session["bookkmark"] = null;
                 return View("../Bookkmark/BMAdded");
             }
             else
@@ -590,12 +640,21 @@ namespace Bookkmark.Controllers
         {
             Session["User"] = null;
             Session["Facebook"] = null;
+            Session["bookkmark"] = null;
             Session.RemoveAll();
             ViewBag.UserEmail = null;
 
-            Response.Redirect("../Home/Index");
+            if (Request.Cookies["BookkmarkLogin"] != null)
+            {
+                HttpCookie myCookie = Request.Cookies["BookkmarkLogin"];
+                myCookie.Expires = DateTime.Now.AddDays(-1d);
+                myCookie.Values["UserId"] = null;
+                myCookie.Values["FirstName"] = null;
+                myCookie.Values["LastName"] = null;
+                Response.Cookies.Set(myCookie);
+            }
 
-　
+            Response.Redirect("../Home/Index");　
             return View("../Home/Index");
         }
 
