@@ -7,8 +7,8 @@
 <div style="height:90px"></div>
 <script type="text/javascript">
     window.onload = function () {
-        document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"]));
-        document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"]));
+        document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"])) + "px";
+        document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"])) + "px";
     };
 </script>
 <h2>Generate Script</h2><br />
@@ -41,8 +41,12 @@ Select the attributes of the Bookkmark image to be displayed on your web page
     @*<tr><td>&nbsp;</td></tr>*@
     <tr>
         <td>
-            <img id="imgBookkmark" src="../../Images/Bookmark.jpg" title="Bookkmark this page" />
-        </td>
+            <img id="imgBookkmark" src="../../Images/Bookmark.jpg" title="Bookkmark this page" /><br/>
+                        @if (ViewData["chkShowCount"] != null)
+                        {
+                            <span style="font-size:16px">@ViewData["BookkmarkCount"]</span> 
+                        }
+</td>
     </tr>
     <tr>
         <td>

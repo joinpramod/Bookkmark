@@ -35,7 +35,7 @@
                 'bookkmarkImgSrc' : document.getElementById("imgBookkmark").src
             };
             $.ajax({
-                url: '/bookkmark/addbm',
+                url: '/bookkmark/bookkmark/addbm',
                 type: 'POST',
                 dataType: "text",
                 data: BookkmarkModel,
@@ -46,13 +46,13 @@
                         var top = (screen.height)-(0.80*screen.height);
                         var height = screen.height*0.50;
                         var width = screen.height*0.38;
-                        window.open("/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+""); 
+                        window.open("/bookkmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
                     }
                     else
                     {
                         alert(data);
-                        document.getElementById("imgBookkmark").src = data;     
-                    }                  
+                        document.getElementById("imgBookkmark").src = data;
+                    }
                 },
                 error: function(exception) {
                     alert(exception);
