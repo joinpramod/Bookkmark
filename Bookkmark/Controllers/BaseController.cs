@@ -12,8 +12,21 @@ namespace Bookkmark.Controllers
 
                 ViewBag.lblFirstName = user.FirstName;
                 ViewBag.UserEmail = user.Email;
-                ViewBag.IsUserLoggedIn = false;
+                ViewBag.IsUserLoggedIn = true;
             }
-        }
+            else if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
+            {
+                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
+                Users user1 = new Users();
+                //user1.UserId = 1;
+                user1.FirstName = "FirstName";
+                user1.LastName = "LastName";
+                user1.Email = uname;
+                Session["User"] = user1;
+                Session["user.Email"] = user1.Email;
+                ViewBag.UserEmail = user1.Email;
+                ViewBag.lblFirstName = user1.FirstName;
+
+            }
     }
 }

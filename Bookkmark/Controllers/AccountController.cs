@@ -25,39 +25,12 @@ namespace Bookkmark.Controllers
 
         public ActionResult Login()
         {
-            return View();
+                return View();
         }
 
         public ActionResult QuickLogin()
         {
-            if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
-            {
-                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
-                Users user1 = new Users();
-                user1.UserId = 1;
-                user1.FirstName = "FirstName";
-                user1.LastName = "LastName";
-                user1.Email = uname;
-                Session["User"] = user1;
-                Session["user.Email"] = user1.Email;
-                ViewBag.UserEmail = user1.Email;
-
-                if (Session["bookkmark"] != null)
-                {
-                    //AddBookmark(Session["bookkmark"]);
-                    return View("../Bookkmark/BMAdded");
-                }
-                else
-                {
-                    return View("../Bookkmark/AddEditBM");
-                }
-            }
-            else
-            {
                 return View();
-            }
-
-         
         }
 
         public ActionResult ForgotPassword(string txtEMailId)
@@ -172,38 +145,27 @@ namespace Bookkmark.Controllers
             return View("Users", user);
         }
 
+
+
+
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
 
-            if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
-            {
-                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
-                Users user1 = new Users();
-                user1.UserId = 1;
-                user1.FirstName = "FirstName";
-                user1.LastName = "LastName";
-                user1.Email = uname;
-                Session["User"] = user1;
-                Session["user.Email"] = user1.Email;
-                ViewBag.UserEmail = user1.Email;
-            }
-            else
-            {
-                Users user1 = new Users();
-                user1.UserId = 1;
-                user1.FirstName = "FirstName";
-                user1.LastName = "LastName";
-                user1.Email = txtEMailId;
-                Session["User"] = user1;
-                Session["user.Email"] = user1.Email;
-                ViewBag.UserEmail = user1.Email;
-                HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
-                mycookie.Values["UserId"] = txtEMailId;
-                mycookie.Values["FirstName"] = "FirstName";
-                mycookie.Values["LastName"] = "LastName";
-                mycookie.Expires = System.DateTime.Now.AddDays(180);
-                Response.Cookies.Add(mycookie);
-            }
+            ///////Temporary
+            Users user1 = new Users();
+            user1.UserId = 1;
+            user1.FirstName = "FirstName";
+            user1.LastName = "LastName";
+            user1.Email = txtEMailId;
+            Session["User"] = user1;
+            Session["user.Email"] = user1.Email;
+            ViewBag.UserEmail = user1.Email;
+            HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
+            mycookie.Values["UserId"] = txtEMailId;
+            mycookie.Values["FirstName"] = "FirstName";
+            mycookie.Values["LastName"] = "LastName";
+            mycookie.Expires = System.DateTime.Now.AddDays(180);
+            Response.Cookies.Add(mycookie);
 
             if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
             {
@@ -213,14 +175,17 @@ namespace Bookkmark.Controllers
             }
             else
             {
-                if (txtPassword != null)
-                    return RedirectToAction("MyBookkmarks", "Bookkmark");
-                else
-                    return View("../Account/ViewUser", user);
+                //if (txtPassword != null)
+                return RedirectToAction("MyBookkmarks", "Bookkmark");
+                //else
+                //return View("../Account/ViewUser", user);
             }
+            //////////
 
 
 
+
+            /////Actual
             ConnManager connManager = new ConnManager();
             connManager.OpenConnection();
             DataTable DSUserList = new DataTable();
@@ -278,10 +243,10 @@ namespace Bookkmark.Controllers
                 }
                 else
                 {
-                    if (txtPassword != null)
+                    //if (txtPassword != null)
                         return RedirectToAction("MyBookkmarks", "Bookkmark");
-                    else
-                        return View("../Account/ViewUser", user);
+                    //else
+                        //return View("../Account/ViewUser", user);
                 }
             }
         }
@@ -607,7 +572,7 @@ namespace Bookkmark.Controllers
                     user.ImageURL = user.ImageURL.Replace("~", "");
                     user.ImageURL = user.ImageURL.Replace("/Bookkmark", "");
                 }
-
+                return View("../Account/ViewUser", user);
             }
             else if (Request.Form.Keys.Count > 0)
             {
@@ -623,16 +588,20 @@ namespace Bookkmark.Controllers
                     SendNewUserRegEMail(email);
                     SendEMail(email, name, "");
                 }
-                // else
-                //{
-                //    user.Email = email;
-                //    user.UserId = _userId;
-                //}
-
-                // Session["User"] = user;
-
+                else
+                {
+                    user.Email = email;
+                    user.UserId = _userId;
+                }
+                Session["User"] = user;
+                return View("../Bookkmark/MyBookkmarks");
             }
-            return CheckUserLogin(email, null);
+
+            else
+            {
+                return View("../Account/Login");
+            }
+            //CheckUserLogin(email, null);
         }
 
         [AllowAnonymous]
