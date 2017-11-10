@@ -7,55 +7,44 @@
 <div style="height:100px"></div>
 <h2>My Profile</h2><br />
 
-<div>
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     <br />
     @*if (Model.UserId != null && Model.UserId == 1)
     {
        <a href="~/ManageWeb.aspx">Admin</a><br/>
-    }*@ 
-    <div style="padding-left:5%">
-        <table style="height: 100%; width: 90%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED"
-               cellpadding="4" cellspacing="4">
+    }*@
+
+
+    <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
+        <table style="width: 30%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
             <tr><td>&nbsp;</td></tr>
             <tr>
-                @*<td rowspan="8" valign="top" style="width: 35%;padding-left:5%">
-                    <img id="imgProfile" src="@Model.ImageURL" style="height:180px; width:180px" />
-                </td>*@
-                <td align="left" style="padding-left:20%">
-                    <b>First Name:</b>
+                <td>
+                    First Name:
                 </td>
-                <td align="left" valign="top">
-                    @Model.FirstName
+                <td align="left">
+                    <b> @Model.FirstName</b>
                 </td>
             </tr>
             <tr>
-                <td align="left" style="padding-left:20%">
-                    <b>Last Name:</b>
+                <td>
+                    Last Name:
                 </td>
-                <td align="left" valign="top">
-                    @Model.LastName
-                </td>
-            </tr>
-            <tr>
-                <td align="left" style="padding-left:20%">
-                    <b>EMail:</b>
-                </td>
-                <td align="left" valign="top">
-                    @Model.Email
-                </td>
-            </tr>           
-            <tr>
-                <td align="left" style="padding-left:20%">
-                    <b>Details:</b>
-                </td>
-                <td align="left" valign="top">
-                    @Model.Details
+                <td align="left">
+                    <b>@Model.LastName</b>
                 </td>
             </tr>
             <tr>
-                <td align="center" colspan="3">
+                <td>
+                    EMail:
+                </td>
+                <td align="left">
+                    <b>@Model.Email</b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <br />
                     <input type="submit" name="Edit" value="Edit Profile" class="mysubmitsmall" />&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" name="ChangePassword" value="Change Password" class="mysubmitsmall" />
@@ -65,6 +54,6 @@
             <tr><td>&nbsp;</td></tr>
         </table>
     </div>
+
 }
-</div>
 
