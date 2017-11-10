@@ -188,6 +188,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bookkmark.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -266,6 +267,7 @@
     <Content Include="Images\Sample.png" />
     <Content Include="Images\siteowner.png" />
     <Content Include="Images\SiteOwnerFC.png" />
+    <Content Include="Images\TwitterLogin.png" />
     <Content Include="Images\User.png" />
     <Content Include="Images\Webuser.jpg" />
     <Content Include="Scripts\bootstrap.js" />
@@ -410,6 +412,7 @@
     <Content Include="Views\Bookkmark\NewBMFolder.cshtml" />
     <Content Include="Scripts\js\javacriptCompressor\bin\client\classes.jsa" />
     <Content Include="Scripts\js\javacriptCompressor\bin\jpicpl32.cpl" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
