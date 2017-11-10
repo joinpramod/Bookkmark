@@ -1,12 +1,12 @@
-﻿
+﻿@using Bookkmark.Models
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/Manage_Bookkmark.cshtml";
 }
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-<script src="~/js/Facebook.js"></script>
-<script src="~/js/Google.js"></script>
+<script src="~/Scripts/js/Facebook.js"></script>
+<script src="~/Scripts/js/Google.js"></script>
 <div style="height:50px"></div>
 <h2>Login</h2><br />
 
@@ -82,7 +82,18 @@
                     <tr>
                         <td align="center">
                             <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
                             <div id="my-signin2"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <section id="socialLoginForm">
+                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                            </section>
                         </td>
                     </tr>
                 </table>
