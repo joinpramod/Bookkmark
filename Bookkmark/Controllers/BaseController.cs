@@ -28,5 +28,6 @@ namespace Bookkmark.Controllers
                 ViewBag.lblFirstName = user1.FirstName;
 
             }
+        }
     }
 }
