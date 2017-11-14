@@ -1,25 +1,20 @@
-<!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
+﻿<!DOCTYPE html>
 <html>
-  <head>
-    <title>Code Analyze</title>
+<body style="width: 300px;height:700px">
+ 
+    <script src="jquery-1.10.2.min.js"></script>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-    -->
-    <!--<script src="popup.js"></script>-->
-  </head>
 
-  <body>
-      <div>
-          <iframe style="width:350px;height:500px" src="http://localhost/bookkmark/bookkmark/mybookkmarks"></iframe>
-      </div>
-    </body>
+
+
+    <button id="clickme">Bookmark current page</button>
+
+   <div style="font-weight:bold" id="divTitle"></div><br/>
+
+    <div id="divURL"></div>
+
+    <script type="text/javascript" src="popup.js"></script>
+
+    <iframe src="http://localhost/Bookkmark/bookkmark/mybookkmarks" style="width: 300px;height:700px"/>
+</body>
 </html>
