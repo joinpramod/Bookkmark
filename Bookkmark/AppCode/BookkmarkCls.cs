@@ -23,7 +23,7 @@ namespace Bookkmark
         public int OptID { get; set; }
         public double Id { get; set; }
         public string URL { get; set; }
-        public Int64 CategoryId { get; set; }
+        public double FolderId { get; set; }
         public string Name { get; set; }
         public string IpAddr { get; set; }
         public string City { get; set; }
@@ -42,7 +42,7 @@ namespace Bookkmark
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamId = Cmd.Parameters.Add("@Id", SqlDbType.Float);
             SqlParameter ParamURL = Cmd.Parameters.Add("@URL", SqlDbType.VarChar);
-            SqlParameter ParamCategoryId = Cmd.Parameters.Add("@CategoryId", SqlDbType.Int);
+            SqlParameter ParamCategoryId = Cmd.Parameters.Add("@FolderId", SqlDbType.Int);
             SqlParameter ParamName = Cmd.Parameters.Add("@Name", SqlDbType.VarChar);
             SqlParameter ParamIpAddr = Cmd.Parameters.Add("@IpAddr", SqlDbType.VarChar);
             SqlParameter ParamCity = Cmd.Parameters.Add("@City", SqlDbType.VarChar);
@@ -58,7 +58,7 @@ namespace Bookkmark
             ParamId.Direction = ParameterDirection.Input;
             ParamURL.Value = URL;
             ParamURL.Direction = ParameterDirection.Input;
-            ParamCategoryId.Value = CategoryId;
+            ParamCategoryId.Value = FolderId;
             ParamCategoryId.Direction = ParameterDirection.Input;
             ParamName.Value = Name;
             ParamName.Direction = ParameterDirection.Input;

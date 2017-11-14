@@ -32,7 +32,6 @@ namespace Bookkmark
         public bool IsPublisher { get; set; }
         public Domain DomainName { get; set; }
         public string ScriptCode { get; set; }
-        public string CreatedUserId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public System.DateTime ModifiedDateTime { get; set; }
 
