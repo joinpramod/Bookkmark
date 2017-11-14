@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
                 var top = (screen.height) - (0.80 * screen.height);
                 var height = screen.height * 0.50;
                 var width = screen.height * 0.38;
-                window.open("/bookkmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+               // window.open("http://localhost/bookkmark/bookkmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
             }
             else {
                 alert(data);

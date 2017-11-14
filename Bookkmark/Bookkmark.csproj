@@ -195,9 +195,8 @@
   <ItemGroup>
     <Content Include="Bookkmark.1.249.js" />
     <Content Include="BrowserExt\background.js" />
+    <Content Include="BrowserExt\icon.png" />
     <Content Include="BrowserExt\jquery-1.10.2.min.js" />
-    <Content Include="BrowserExt\page-16.png" />
-    <Content Include="BrowserExt\page-32.png" />
     <Content Include="BrowserExt\popup.html" />
     <Content Include="BrowserExt\popup.js" />
     <Content Include="Content\bootstrap.css" />
@@ -282,6 +281,8 @@
     <Content Include="App_Code\Treeview.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="BrowserExt\manifest.json" />
+    <Content Include="BrowserExt\ChromeExtKeys\ChromeExt.crx" />
+    <Content Include="BrowserExt\ChromeExtKeys\ChromeExt.pem" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
