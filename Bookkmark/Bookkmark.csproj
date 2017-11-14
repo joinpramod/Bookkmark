@@ -165,14 +165,10 @@
     <Compile Include="AppCode\BookkmarkCls.cs" />
     <Compile Include="AppCode\ConnManager.cs" />
     <Compile Include="AppCode\Domian.cs" />
-    <Compile Include="AppCode\Encryption.cs" />
-    <Compile Include="AppCode\Folder.cs" />
     <Compile Include="AppCode\Mail.cs" />
-    <Compile Include="AppCode\Publisher.cs" />
     <Compile Include="AppCode\reCaptchaHelper.cs" />
     <Compile Include="AppCode\Suggestion.cs" />
     <Compile Include="AppCode\Users.cs" />
-    <Compile Include="AppCode\Utilities.cs" />
     <Compile Include="AppCode\WebGridExtensions.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -277,7 +273,6 @@
     <Content Include="Images\Webuser.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="App_Code\NestedData.cshtml" />
     <Content Include="App_Code\Treeview.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="BrowserExt\manifest.json" />
@@ -413,7 +408,6 @@
     <Content Include="Views\Bookkmark\Delete.cshtml" />
     <Content Include="Views\Shared\Manage_Bookkmark.cshtml" />
     <Content Include="Views\Bookkmark\Import.cshtml" />
-    <Content Include="Views\Bookkmark\AddEditBM.cshtml" />
     <Content Include="Views\Account\QuickLogin.cshtml" />
     <Content Include="Views\Bookkmark\EditBMFolder.cshtml" />
     <Content Include="Views\Bookkmark\BMAdded.cshtml" />
