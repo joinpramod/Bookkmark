@@ -120,6 +120,16 @@ namespace Bookkmark
             connManager.DisposeConn();
         }
 
+        public void UpdateUserAsWebUser(double userId)
+        {
+            ConnManager connManager = new ConnManager();
+            connManager.OpenConnection();
+            string strQuery = "Update Users set IsWebUser = 1 where Id = " + userId;
+            SqlCommand command = new SqlCommand(strQuery, connManager.DataCon);
+            command.ExecuteNonQuery();
+            connManager.DisposeConn();
+        }
+
         //public List<QuestionType> GetQuestionType()
         //{
         //    OpenConnection();

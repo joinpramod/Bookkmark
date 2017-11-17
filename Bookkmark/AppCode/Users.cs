@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System;
+using System.Collections.Generic;
 
 namespace Bookkmark
 {
@@ -30,16 +31,17 @@ namespace Bookkmark
         public string Password { get; set; }
         public string Email { get; set; }
         public bool IsPublisher { get; set; }
-        public Domain DomainName { get; set; }
+        public bool IsWebUser { get; set; }
         public string ScriptCode { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public System.DateTime ModifiedDateTime { get; set; }
-
         public string ImageURL { get; set; }
         public string Company { get; set; }
         public string Details { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
+
+        public List<Domain> Domains { get; set; }
 
         public bool SetCommandUser(ref SqlCommand CmdSent)
         {
@@ -54,14 +56,8 @@ namespace Bookkmark
             SqlParameter ParamPassword = Cmd.Parameters.Add("@Password", SqlDbType.VarChar);
             SqlParameter ParamEmail = Cmd.Parameters.Add("@Email", SqlDbType.VarChar);
             SqlParameter ParamIsPublisher = Cmd.Parameters.Add("@IsPublisher", SqlDbType.Bit);
-            SqlParameter ParamDomainName = Cmd.Parameters.Add("@DomainName", SqlDbType.VarChar);
+            SqlParameter ParamIsWebUser = Cmd.Parameters.Add("@IsWebUser", SqlDbType.VarChar);
             SqlParameter ParamScriptCode = Cmd.Parameters.Add("@ScriptCode", SqlDbType.VarChar);
-
-            //SqlParameter ParamImageURL = Cmd.Parameters.Add("@ImageURL", SqlDbType.VarChar);
-            //SqlParameter ParamCompany = Cmd.Parameters.Add("@Company", SqlDbType.VarChar);
-            //SqlParameter ParamDetails = Cmd.Parameters.Add("@Details", SqlDbType.VarChar);
-            //SqlParameter ParamAddress = Cmd.Parameters.Add("@Address", SqlDbType.VarChar);
-            //SqlParameter ParamStatus = Cmd.Parameters.Add("@Status", SqlDbType.VarChar);
             SqlParameter ParamCreatedDateTime = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
             SqlParameter ParamModifiedDateTime = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
 
@@ -80,8 +76,10 @@ namespace Bookkmark
 
             ParamIsPublisher.Value = IsPublisher;
             ParamIsPublisher.Direction = ParameterDirection.Input;
-            ParamDomainName.Value = DomainName;
-            ParamDomainName.Direction = ParameterDirection.Input;
+            ParamIsWebUser.Value = IsWebUser;
+            ParamIsWebUser.Direction = ParameterDirection.Input;
+            //ParamDomainName.Value = DomainName;
+            //ParamDomainName.Direction = ParameterDirection.Input;
             ParamScriptCode.Value = ScriptCode;
             ParamScriptCode.Direction = ParameterDirection.Input;
             //ParamImageURL.Value = StrImageURL;

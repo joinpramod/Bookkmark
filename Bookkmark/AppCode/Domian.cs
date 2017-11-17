@@ -23,8 +23,8 @@ namespace Bookkmark
         public int OptID { get; set; }
         public double Id { get; set; }
         public string Name { get; set; }
+        public string Script { get; set; }
         public System.DateTime CreatedDate { get; set; }
-       // public string CreatedUserId { get; set; }
         public System.DateTime ModifiedDate { get; set; }
 
 
@@ -35,6 +35,7 @@ namespace Bookkmark
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamId = Cmd.Parameters.Add("@Id", SqlDbType.Float);
             SqlParameter ParamURL = Cmd.Parameters.Add("@Name", SqlDbType.VarChar);
+            SqlParameter ParamScript = Cmd.Parameters.Add("@Script", SqlDbType.VarChar);
             SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime);
            // SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUserId", SqlDbType.Int);
             SqlParameter ParamModifiedDate = Cmd.Parameters.Add("@ModifiedDate", SqlDbType.DateTime);
@@ -46,7 +47,9 @@ namespace Bookkmark
             ParamId.Direction = ParameterDirection.Input;
             ParamURL.Value = Name;
             ParamURL.Direction = ParameterDirection.Input;
-           // ParamCreatedUserId.Value = CreatedUserId;
+            ParamScript.Value = Script;
+            ParamScript.Direction = ParameterDirection.Input;
+            // ParamCreatedUserId.Value = CreatedUserId;
             //ParamCreatedUserId.Direction = ParameterDirection.Input;
 
 
