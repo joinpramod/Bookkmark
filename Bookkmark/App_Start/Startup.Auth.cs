@@ -50,19 +50,23 @@ namespace Bookkmark
             //    clientId: "",
             //    clientSecret: "");
 
+            app.UseFacebookAuthentication(
+            appId: "523698201314994",
+            appSecret: "7bc5614dad20a3cea3da68ec02235069");
+
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "882773719808-l9q1st1slo1vgiof529o0g3d356sak78.apps.googleusercontent.com",
+                ClientSecret = "zntsaTUrTJ8yhb5HLY_foQ3_"
+            });
+
             app.UseTwitterAuthentication(
-               consumerKey: "848792638492356",
-               consumerSecret: "484eadd8dcc1881ad248a997e2267ca1");
+               consumerKey: "gGSbd91itjdoNmDogbcB0HczN",
+               consumerSecret: "pG4LhI3Dq3LOi0cZXLGIvzKUNQhLfdTkNNlwfiZUFW6sN9Y6V8");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "848792638492356",
-            //   appSecret: "484eadd8dcc1881ad248a997e2267ca1");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+
         }
     }
 }
