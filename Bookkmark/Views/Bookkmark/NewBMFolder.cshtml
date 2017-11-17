@@ -43,7 +43,7 @@
         <tr>
             <td align="left" style="padding-left:10px">
                 @*@Html.Password("txtFolder", "", new { style = "width:75%;", placeholder = "Folder", @class = "myText" })*@
-                @Html.DropDownList("ddFolder", new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "BookkmarkID", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })
+                @Html.DropDownList("ddFolder", new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })
             </td>
         </tr>
         <tr>
