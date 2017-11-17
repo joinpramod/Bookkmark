@@ -2,7 +2,24 @@ function ValidateUserReg() { var e = document.getElementById("FirstName").value;
 
 function ValidateSuggestion() { var b = document.getElementById("txtSuggestion").value; var a = document.getElementById("hfUserEMail").value; if (a != "") { if (b == "") { alert("Please enter all details"); return false } else { return true } } else { alert("To avoid spams and robots please login to contact us. We appreciate your patience."); return false } }
 
-function ValidateLogin() { var a = document.getElementById("txtEMailId").value; var b = document.getElementById("txtPassword").value; if (a != "" && b != "") { if (ValidateEMail(a)) { return true } else { alert("Please enter valid email"); return false } } else { alert("Please enter username and password"); return false } }
+function ValidateLogin()
+{
+    var a = document.getElementById("txtEMailId").value;
+    var b = document.getElementById("txtPassword").value;
+    if (a != "" && b != "") {
+        if (ValidateEMail(a)) {
+            return true;
+        }
+        else {
+            document.getElementById("lblAck").innerText = "Please enter valid email";
+            return false;
+        }
+    }
+    else {
+        document.getElementById("lblAck").innerText = "Please enter username and password";
+        return false;
+    }
+}
 
 function ValidateEMail(a) { var b = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i; return b.test(a) }
 
