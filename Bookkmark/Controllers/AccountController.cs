@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using Bookkmark.Models;
+using System.Security.Claims;
+using System.Linq;
 
 namespace Bookkmark.Controllers
 {
@@ -33,52 +35,6 @@ namespace Bookkmark.Controllers
                 return View();
         }
 
-        public ActionResult ForgotPassword(string txtEMailId)
-        {
-            if (!string.IsNullOrEmpty(txtEMailId))
-            {
-                ConnManager con = new ConnManager();
-
-                DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where EmailId = '" + txtEMailId + "'");
-                if (dtUserActivation.Rows.Count > 0)
-                {
-                    //ViewBag.Ack = "User activation pending";
-                    ViewBag.Activation = "User activation pending. Resend Activation Code?";
-                    return View("../Account/Login");
-                }
-
-                DataSet dsUser = con.GetData("Select * from Users where Email = '" + txtEMailId + "'");
-                con.DisposeConn();
-                if (dsUser.Tables[0].Rows.Count <= 0)
-                {
-                    ViewBag.Ack = "No such EMail Id exists";
-                }
-             
-                if (!string.IsNullOrEmpty(dsUser.Tables[0].Rows[0]["Password"].ToString()))
-                {
-                    Mail mail = new Mail();
-                    mail.IsBodyHtml = true;
-                    string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
-
-                    mail.Body = string.Format(EMailBody, "Your CodeAnalyze account password is " + dsUser.Tables[0].Rows[0]["Password"].ToString());
-
-
-                    mail.FromAdd = "admin@codeanalyze.com";
-                    mail.Subject = "Bookkmark account password";
-                    mail.ToAdd = dsUser.Tables[0].Rows[0]["EMail"].ToString();
-                    mail.SendMail();
-
-                    ViewBag.Ack = "Password has been emailed to you, please check your inbox.";
-                }
-                else
-                {
-
-                    ViewBag.Ack = "You have created your profile thorugh one of the social sites. Please use the same channel to login. Google Or Facebook";
-                }
-            }
-            return View();
-        }
-
         public ActionResult ProcessLogin(string txtEMailId, string txtPassword)
         {
             if (Request.Form["hfUserEMail"] != null)
@@ -99,54 +55,6 @@ namespace Bookkmark.Controllers
                 return CheckUserLogin(txtEMailId, txtPassword);
             }
         }
-
-        public ActionResult Activate()
-        {
-            string ActivationCode = Request.QueryString["ActivationCode"];
-            ConnManager con = new ConnManager();
-            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  ActivationCode = '" + ActivationCode + "'");
-
-            if (dtUserActivation != null && dtUserActivation.Rows.Count > 0)
-            {
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-                {
-                    using (SqlCommand cmd = new SqlCommand("delete from UserActivation where  EMailId = @EMailId"))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.AddWithValue("@EMailId", dtUserActivation.Rows[0]["EMailId"]);
-                        cmd.Connection = conn;
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                }
-                ViewBag.lblAck = "Account activated successfully. Please login with your emaild and password";
-            }
-            else
-            {
-                ViewBag.lblAck = "Account did not activated, please get the activation resent to your inbox and try again";
-            }
-
-           
-            return View("../Account/Login");
-        }
-
-        public ActionResult ProcessActivationCode(string txtEMailId)
-        {
-            txtEMailId = Request.Form["hfUserEMail"];
-            ConnManager con = new ConnManager();
-            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
-            if (dtUserActivation.Rows.Count > 0)
-            {
-                SendActivationEMail(txtEMailId, dtUserActivation.Rows[0]["ActivationCode"].ToString());
-                ViewBag.Activation = "Activation Code Sent. Please check your inbox and click on the activation link.";
-                ViewBag.UserActEMail = txtEMailId;
-            }
-            return View("Users", user);
-        }
-
-
-
 
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
@@ -200,15 +108,7 @@ namespace Bookkmark.Controllers
                 return View("../Account/Login");
             }
 
-            if (!string.IsNullOrEmpty(txtPassword))
-            {
-                DSUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
-            }
-            else
-            {
-                DSUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "'");
-            }
-
+           DSUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
 
             if (DSUserList.Rows.Count == 0)
             {
@@ -223,93 +123,54 @@ namespace Bookkmark.Controllers
                 user.LastName = DSUserList.Rows[0]["LastName"].ToString();
                 user.Email = DSUserList.Rows[0]["EMail"].ToString();
                 user.Address = DSUserList.Rows[0]["Address"].ToString();
-                //user.ImageURL = DSUserList.Rows[0]["ImageURL"].ToString();
                 user.Password = DSUserList.Rows[0]["Password"].ToString();
-
-                //user.ImageURL = user.ImageURL.Replace("~", "");
-                //user.ImageURL = user.ImageURL.Replace("/Bookkmark", "");
-
+                connManager.DisposeConn();
                 user.Details = DSUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
-                connManager.DisposeConn();
+                
+                HttpCookie userCookie = new HttpCookie("BookkmarkLogin");
+                mycookie.Values["UserId"] = user.Email;
+                mycookie.Values["FirstName"] = user.FirstName;
+                mycookie.Values["LastName"] = user.LastName;
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(userCookie);
 
-                if (Session["bookkmark"] != null)
+
+                if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
                     //AddBookmark(Session["bookkmark"]);
-                    //ViewData["Refresh"] = "true";
-                    return View("../Account/BMAdded");
+                    Session["bookkmark"] = null;
+                    return View("../Bookkmark/BMAdded");
                 }
                 else
                 {
-                    //if (txtPassword != null)
-                        return RedirectToAction("MyBookkmarks", "Bookkmark");
-                    //else
-                        //return View("../Account/ViewUser", user);
+                    return RedirectToAction("MyBookkmarks", "Bookkmark");
                 }
             }
         }
 
         public ActionResult Register()
         {
-            if (Session["User"] != null)
-            {
-                user = (Users)Session["User"];
-                if (Request.Form["Edit"] != null)
-                {
-                    return View("../Account/EditUser", user);
-                }
-                else if (Request.Form["ChangePassword"] != null)
-                {
-                    ViewBag.OldPassword = user.Password;
-                    return View("../Account/ChangePassword", user);
-                }
-                return null;
-            }
-            else
-            {
-                user = new Users();
-                if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "WebUser")
-                {
-                    return View("../Account/Register", user);
-                }
-                else
-                {
-                    return View("../Account/Register", user);
-                }
-            }
+            return View("../Account/Register", user);
         }
 
         public ActionResult WebUserReg()
         {
-            if (Session["User"] != null)
-            {
-                return View("../Bookkmark/MyBookkmarks");
-            }
-            else
-            {
-                ViewData["RegisType"] = "WebUser";
-                return Register();
-            }
+            ViewData["RegisType"] = "WebUser";
+            return Register();
         }
 
         public ActionResult SiteOwnerReg()
         {
-            if (Session["User"] != null)
-            {
-                return View("../Bookkmark/Reports");
-            }
-            else
-            {
-                ViewData["RegisType"] = "SiteOwner";
-                return Register();
-            }
+            ViewData["RegisType"] = "SiteOwner";
+            return Register();
         }
 
         [ReCaptcha]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult CreateEditUser(Users user, HttpPostedFileBase fileUserPhoto, string txtPassword)
+        public ActionResult CreateUser(Users user, string txtPassword)
         {
             string activationCode = Guid.NewGuid().ToString();
             //AddEdit user
@@ -407,10 +268,21 @@ namespace Bookkmark.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult EditUser(Users user, HttpPostedFileBase fileUserPhoto)
+        public ActionResult EditUser(Users user)
         {
-            //AddEdit user
-            if (Request.Form["Cancel"] == null)
+
+            user = (Users)Session["User"];
+            if (Request.Form["Edit"] != null)
+            {
+                return View("../Account/EditUser", user);
+            }
+            else if (Request.Form["ChangePassword"] != null)
+            {
+                ViewBag.OldPassword = user.Password;
+                return View("../Account/ChangePassword", user);
+            }
+
+            if (Request.Form["EditSubmit"] != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -461,13 +333,22 @@ namespace Bookkmark.Controllers
                     ViewBag.Ack = "User Updated Successfully.";
 
                     Session["User"] = user;
-                    return Redirect("../Account/ViewUser");
+                    return RedirectToAction("ViewUser", "Account");     //return Redirect("../Account/ViewUser");
                 }
                 else
                 {
                     user = (Users)Session["User"];
-                    return View("../Account/ViewUser", user);
+                    return RedirectToAction("ViewUser", "Account");     //return View("../Account/ViewUser", user);
                 }
+            }
+            else if (Request.Form["UpdateAsSiteOwner"] != null)
+            {
+                return RedirectToAction("ScriptCode", "Bookkmark");               
+            }
+            else if (Request.Form["UpdateAsWebUser"] != null)
+            {
+                UpdateUserAsWebUser();
+                return RedirectToAction("ViewUser", "Account");  //View("../Account/ViewUser", user);
             }
             else
             {
@@ -476,79 +357,11 @@ namespace Bookkmark.Controllers
             }
         }
 
-        private void SendActivationEMail(string email, string ActivationCode)
+        private void UpdateUserAsWebUser()
         {
-            try
-            {
-                Mail mail = new Mail();
-                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strActLink = "http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode;
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
-                mail.FromAdd = "admin@codeanalyze.com";
-                mail.Subject = "Welcome to CodeAnalyze - ";
-                mail.ToAdd = email;
-                mail.IsBodyHtml = true;
-                mail.SendMail();
-            }
-            catch
-            {
-
-
-            }
-        }
-
-        private void SendNewUserRegEMail(string email)
-        {
-            try
-            {
-                Mail mail = new Mail();
-                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
-                mail.FromAdd = "admin@codeanalyze.com";
-                mail.Subject = "Welcome to CodeAnalyze - ";
-                mail.ToAdd = email;
-                mail.IsBodyHtml = true;
-                mail.SendMail();
-            }
-            catch
-            {
-
-
-            }
-        }
-
-        private void SendEMail(string Email_address, string firstName, string LastName)
-        {
-            try
-            {
-                Mail mail = new Mail();
-                string strBody = string.Empty;
-                strBody = "new user email id " + Email_address + " name " + firstName;
-
-                try
-                {
-                    strBody += "<br /><br /> IP - " + Utilities.GetUserIP() + "<br /><br />";
-                }
-                catch
-                {
-
-                }
-
-                mail.Body = strBody;
-                mail.FromAdd = "admin@codeanalyze.com";
-                mail.Subject = "New User registered";
-
-                mail.ToAdd = "admin@codeanalyze.com";
-                mail.IsBodyHtml = true;
-                mail.SendMail();
-            }
-            catch
-            {
-
-
-            }
+            ConnManager con = new ConnManager();
+            user = (Users)Session["User"];
+            con.UpdateUserAsWebUser(user.UserId);
         }
 
         public ActionResult ViewUser(Users user)
@@ -604,6 +417,131 @@ namespace Bookkmark.Controllers
             //CheckUserLogin(email, null);
         }
 
+
+
+
+
+        public ActionResult ForgotPassword(string txtEMailId)
+        {
+            if (!string.IsNullOrEmpty(txtEMailId))
+            {
+                ConnManager con = new ConnManager();
+
+                DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where EmailId = '" + txtEMailId + "'");
+                if (dtUserActivation.Rows.Count > 0)
+                {
+                    //ViewBag.Ack = "User activation pending";
+                    ViewBag.Activation = "User activation pending. Resend Activation Code?";
+                    return View("../Account/Login");
+                }
+
+                DataSet dsUser = con.GetData("Select * from Users where Email = '" + txtEMailId + "'");
+                con.DisposeConn();
+                if (dsUser.Tables[0].Rows.Count <= 0)
+                {
+                    ViewBag.Ack = "No such EMail Id exists";
+                }
+
+                if (!string.IsNullOrEmpty(dsUser.Tables[0].Rows[0]["Password"].ToString()))
+                {
+                    Mail mail = new Mail();
+                    mail.IsBodyHtml = true;
+                    string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
+
+                    mail.Body = string.Format(EMailBody, "Your CodeAnalyze account password is " + dsUser.Tables[0].Rows[0]["Password"].ToString());
+
+
+                    mail.FromAdd = "admin@codeanalyze.com";
+                    mail.Subject = "Bookkmark account password";
+                    mail.ToAdd = dsUser.Tables[0].Rows[0]["EMail"].ToString();
+                    mail.SendMail();
+
+                    ViewBag.Ack = "Password has been emailed to you, please check your inbox.";
+                }
+                else
+                {
+
+                    ViewBag.Ack = "You have created your profile thorugh one of the social sites. Please use the same channel to login. Google Or Facebook";
+                }
+            }
+            return View();
+        }
+
+        private void SendEMail(string Email_address, string firstName, string LastName)
+        {
+            try
+            {
+                Mail mail = new Mail();
+                string strBody = string.Empty;
+                strBody = "new user email id " + Email_address + " name " + firstName;
+
+                try
+                {
+                    strBody += "<br /><br /> IP - " + Utilities.GetUserIP() + "<br /><br />";
+                }
+                catch
+                {
+
+                }
+
+                mail.Body = strBody;
+                mail.FromAdd = "admin@codeanalyze.com";
+                mail.Subject = "New User registered";
+
+                mail.ToAdd = "admin@codeanalyze.com";
+                mail.IsBodyHtml = true;
+                mail.SendMail();
+            }
+            catch
+            {
+
+
+            }
+        }
+
+        private void SendNewUserRegEMail(string email)
+        {
+            try
+            {
+                Mail mail = new Mail();
+                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
+                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
+                mail.FromAdd = "admin@codeanalyze.com";
+                mail.Subject = "Welcome to CodeAnalyze - ";
+                mail.ToAdd = email;
+                mail.IsBodyHtml = true;
+                mail.SendMail();
+            }
+            catch
+            {
+
+
+            }
+        }
+
+        private void SendActivationEMail(string email, string ActivationCode)
+        {
+            try
+            {
+                Mail mail = new Mail();
+                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
+                string strActLink = "http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode;
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
+                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
+                mail.FromAdd = "admin@codeanalyze.com";
+                mail.Subject = "Welcome to CodeAnalyze - ";
+                mail.ToAdd = email;
+                mail.IsBodyHtml = true;
+                mail.SendMail();
+            }
+            catch
+            {
+
+
+            }
+        }
+
         [AllowAnonymous]
         public ActionResult LogOut()
         {
@@ -612,6 +550,7 @@ namespace Bookkmark.Controllers
             Session["bookkmark"] = null;
             Session.RemoveAll();
             ViewBag.UserEmail = null;
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             if (Request.Cookies["BookkmarkLogin"] != null)
             {
@@ -632,6 +571,7 @@ namespace Bookkmark.Controllers
         {
             return View();
         }
+
         public ActionResult ChangePassword(string txtNewPassword)
         {
 
@@ -689,10 +629,57 @@ namespace Bookkmark.Controllers
             }
         }
 
+        public ActionResult Activate()
+        {
+            string ActivationCode = Request.QueryString["ActivationCode"];
+            ConnManager con = new ConnManager();
+            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  ActivationCode = '" + ActivationCode + "'");
+
+            if (dtUserActivation != null && dtUserActivation.Rows.Count > 0)
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (SqlCommand cmd = new SqlCommand("delete from UserActivation where  EMailId = @EMailId"))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@EMailId", dtUserActivation.Rows[0]["EMailId"]);
+                        cmd.Connection = conn;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                ViewBag.lblAck = "Account activated successfully. Please login with your emaild and password";
+            }
+            else
+            {
+                ViewBag.lblAck = "Account did not activated, please get the activation resent to your inbox and try again";
+            }
 
 
-        
+            return View("../Account/Login");
+        }
 
+        public ActionResult ProcessActivationCode(string txtEMailId)
+        {
+            txtEMailId = Request.Form["hfUserEMail"];
+            ConnManager con = new ConnManager();
+            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
+            if (dtUserActivation.Rows.Count > 0)
+            {
+                SendActivationEMail(txtEMailId, dtUserActivation.Rows[0]["ActivationCode"].ToString());
+                ViewBag.Activation = "Activation Code Sent. Please check your inbox and click on the activation link.";
+                ViewBag.UserActEMail = txtEMailId;
+            }
+            return View("Users", user);
+        }
+
+
+
+
+        /// <summary>
+        /// Social Login Section
+        /// </summary>
 
         public AccountController()
         {
@@ -733,7 +720,23 @@ namespace Bookkmark.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
+        {            
+            if(Request.Form.Keys.Count > 0)
+            {
+                if(Request.Form.Keys[1].Contains("Facebook"))
+                {
+                    provider = "Facebook";
+                }
+                else if (Request.Form.Keys[1].Contains("Google"))
+                {
+                    provider = "Google";
+
+                }
+                else if (Request.Form.Keys[1].Contains("Twitter"))
+                {
+                    provider = "Twitter";
+                }
+            }
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -746,27 +749,111 @@ namespace Bookkmark.Controllers
             {
                 return RedirectToAction("Login");
             }
-
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
+            else
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
+
+                Users user1 = new Users();
+                user1.UserId = 1;
+                user1.FirstName = (from c in claimsIdentities.Claims
+                                   where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
+                                   select c.Value).Single();
+                user1.LastName = (from c in claimsIdentities.Claims
+                                  where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
+                                  select c.Value).Single();
+                user1.Email = (from c in claimsIdentities.Claims
+                               where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                               select c.Value).Single();
+                Session["User"] = user1;
+                Session["user.Email"] = user1.Email;
+                ViewBag.UserEmail = user1.Email;
+                HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
+                mycookie.Values["UserId"] = user1.Email;
+                mycookie.Values["FirstName"] = user1.FirstName;
+                mycookie.Values["LastName"] = user1.LastName;
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(mycookie);
+
+                RegisterIfNewUser(user1);
+
+                if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
+                {
+                    //AddBookmark(Session["bookkmark"]);
+                    Session["bookkmark"] = null;
+                    return View("../Bookkmark/BMAdded");
+                }
+                else
+                {
+                    return RedirectToAction("MyBookkmarks", "Bookkmark");
+                }
             }
+
         }
 
-  
+        private void RegisterIfNewUser(Users user1)
+        {
+            ConnManager con = new ConnManager();
+
+            DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user1.Email + "'");
+            con.DisposeConn();
+            if (dtUser != null && dtUser.Rows.Count > 0)
+            {
+                double dblUserID = 0;
+                SqlConnection LclConn = new SqlConnection();
+                SqlTransaction SetTransaction = null;
+                bool IsinTransaction = false;
+                if (LclConn.State != ConnectionState.Open)
+                {
+                    user.SetConnection = user.OpenConnection(LclConn);
+                    SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    IsinTransaction = true;
+                }
+                else
+                {
+                    user.SetConnection = LclConn;
+                }
+
+                user.OptionID = 1;
+                user.CreatedDateTime = DateTime.Now;
+                bool result = user.CreateUsers(ref dblUserID, SetTransaction);
+                if (IsinTransaction && result)
+                {
+                    SetTransaction.Commit();
+                }
+                else
+                {
+                    SetTransaction.Rollback();
+                }
+
+                user.CloseConnection(LclConn);
+            }
+            SendEMail(user.Email, user.FirstName, user.LastName);
+        }
+
+
+
+        #region Helpers
+
+
+        // Sign in the user with this external login provider if the user already has a login
+        //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+        //switch (result)
+        //{
+        //    case SignInStatus.Success:
+        //        return RedirectToLocal(returnUrl);
+        //    //case SignInStatus.LockedOut:
+        //        //return View("Lockout");
+        //    //case SignInStatus.RequiresVerification:
+        //        //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+        //    case SignInStatus.Failure:
+        //    default:
+        //        // If the user does not have an account, then prompt the user to create an account
+        //        ViewBag.ReturnUrl = returnUrl;
+        //        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+        //        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+        //}
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -803,14 +890,14 @@ namespace Bookkmark.Controllers
             return View(model);
         }
 
-    
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
-        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LogOff()
+        //{
+        //    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+        //    return RedirectToAction("Index", "Home");
+        //}
 
 
         [AllowAnonymous]
@@ -839,7 +926,9 @@ namespace Bookkmark.Controllers
             base.Dispose(disposing);
         }
 
-        #region Helpers
+
+
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
