@@ -7,7 +7,7 @@
 <div style="height:100px"></div>
 <h2>My Profile</h2><br />
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+@using (Html.BeginForm("EditUser", "Account", FormMethod.Post))
 {
     <br />
     @*if (Model.UserId != null && Model.UserId == 1)
@@ -53,7 +53,40 @@
             </tr>
             <tr><td>&nbsp;</td></tr>
         </table>
-    </div>
+        @*</div>
+        <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">*@
+
+            <table style="width: 42%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td colspan="2">
+                        @if (!Model.IsPublisher)
+                        {
+                            <input type="submit" name="UpdateAsSiteOwner" value="Update me as Site Owner so that I can make my users bookmark my page" id="UpdateAsSiteOwner" class="mysubmitsmall" />
+                        }
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td colspan="2">
+                        @if (!Model.IsWebUser)
+                        {
+                            <input type="submit" name="UpdateAsWebUser" value="Update me as Web User so that I can save bookmarks online" id="UpdateAsWebUser" class="mysubmitsmall" />
+                        }
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                @*<tr>
+                    <td colspan="2">
+                        @if (!Model.IsPublisher)
+                        {
+                            <input id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="mysubmitsmall" />
+                        }
+                    </td>
+                </tr>*@
+
+            </table>
+        </div>
 
 }
 

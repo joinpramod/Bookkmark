@@ -68,7 +68,7 @@
                     }
                     <tr>
                         <td style="padding-top: 5px">
-                            @using (Html.BeginForm("CreateEditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             {
 
                             <table style="width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
@@ -89,14 +89,13 @@
                                     </td>
                                 </tr>
 
-                                @if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) { 
-                                @*DomainName*@
+                                @*@if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {                               
                                 <tr>
                                     <td>
-                                        @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookkmark.com", @class = "myText" })
+                                        @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookkmark.com", @class = "myText" })
                                     </td>
                                 </tr>
-                                }
+                                }*@
                                 
                                 @if (Model.Email == null || ViewBag.Ack != null)
                                 {

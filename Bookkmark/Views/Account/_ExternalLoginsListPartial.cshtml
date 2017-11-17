@@ -10,11 +10,24 @@
                 @Html.AntiForgeryToken()
                 <div id="socialLoginList">
                     <p>
-                        @foreach (AuthenticationDescription p in loginProviders) {
+                        @*@foreach (AuthenticationDescription p in loginProviders) {*@
                             @*<button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" 
                                     title="Log in using your @p.Caption account">@p.AuthenticationType</button>*@
-                            <input type="image" src="~/Images/TwitterLogin.png" alt="Submit" style="height:42px;width:205px">
-                        }
+                            <ul>
+                                <li>
+                                    <input type="image" id="Facebook" name="Facebook" value="Facebook"
+                                           src="~/Images/Facebook.png" alt="Submit" style="height:42px;width:205px">
+                                </li>
+                                <li>
+                                    <input type="image" id="Google" name="Google" value="Google"
+                                           src="~/Images/Google.png" alt="Submit" style="height:42px;width:205px">
+                                </li>
+                                <li>
+                                    <input type="image" id="Twitter" name="Twitter" value="Twitter"
+                                           src="~/Images/Twitter.png" alt="Submit" style="height:42px;width:205px">
+                                </li>
+                            </ul>
+                        @*}*@
                     </p>
                 </div>
             }
