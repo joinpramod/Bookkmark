@@ -169,6 +169,7 @@
     <Compile Include="AppCode\reCaptchaHelper.cs" />
     <Compile Include="AppCode\Suggestion.cs" />
     <Compile Include="AppCode\Users.cs" />
+    <Compile Include="AppCode\Utilities.cs" />
     <Compile Include="AppCode\WebGridExtensions.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -250,12 +251,14 @@
     <Content Include="Images\Bookmarked.jpg" />
     <Content Include="Images\CR3.png" />
     <Content Include="Images\CR4.png" />
+    <Content Include="Images\Facebook.png" />
     <Content Include="Images\FF1.png" />
     <Content Include="Images\FF2.png" />
     <Content Include="Images\Folder.png" />
     <Content Include="Images\FolderOpen.png" />
     <Content Include="Images\FolderOpen2.png" />
     <Content Include="Images\Folders.jpg" />
+    <Content Include="Images\Google.png" />
     <Content Include="Images\IE1.png" />
     <Content Include="Images\IE2.png" />
     <Content Include="Images\IE3.png" />
@@ -268,6 +271,7 @@
     <Content Include="Images\Sample.png" />
     <Content Include="Images\siteowner.png" />
     <Content Include="Images\SiteOwnerFC.png" />
+    <Content Include="Images\Twitter.png" />
     <Content Include="Images\TwitterLogin.png" />
     <Content Include="Images\User.png" />
     <Content Include="Images\Webuser.jpg" />

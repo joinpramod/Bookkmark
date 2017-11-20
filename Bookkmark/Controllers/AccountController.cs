@@ -4,7 +4,7 @@ using System;
 using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
-using Bookkmark.AppCode;
+//using Bookkmark.AppCode;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -81,12 +81,14 @@ namespace Bookkmark.Controllers
                 Session["bookkmark"] = null;
                 return View("../Bookkmark/BMAdded");
             }
+            else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+            {
+                ViewData["RegisType"] = null;
+                return RedirectToAction("ScriptCode", "Bookkmark");
+            }
             else
             {
-                //if (txtPassword != null)
                 return RedirectToAction("MyBookkmarks", "Bookkmark");
-                //else
-                //return View("../Account/ViewUser", user);
             }
             //////////
 
@@ -144,6 +146,11 @@ namespace Bookkmark.Controllers
                     Session["bookkmark"] = null;
                     return View("../Bookkmark/BMAdded");
                 }
+                else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+                {
+                    ViewData["RegisType"] = null;
+                    return RedirectToAction("ScriptCode", "Bookkmark");
+                }
                 else
                 {
                     return RedirectToAction("MyBookkmarks", "Bookkmark");
@@ -158,7 +165,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult WebUserReg()
         {
-            ViewData["RegisType"] = "WebUser";
+            //ViewData["RegisType"] = "WebUser";
             return Register();
         }
 
@@ -217,6 +224,8 @@ namespace Bookkmark.Controllers
                     user.OptionID = 1;
                     user.CreatedDateTime = DateTime.Now;
                     user.Password = txtPassword;
+                    user.Email = user.Email;
+                    user.IsWebUser = true;
 
                     bool result = user.CreateUsers(ref dblUserID, SetTransaction);
                     if (IsinTransaction && result)
@@ -782,6 +791,11 @@ namespace Bookkmark.Controllers
                     Session["bookkmark"] = null;
                     return View("../Bookkmark/BMAdded");
                 }
+                else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+                {
+                    ViewData["RegisType"] = null;
+                    return RedirectToAction("ScriptCode", "Bookkmark");
+                }
                 else
                 {
                     return RedirectToAction("MyBookkmarks", "Bookkmark");
@@ -815,6 +829,14 @@ namespace Bookkmark.Controllers
 
                 user.OptionID = 1;
                 user.CreatedDateTime = DateTime.Now;
+                user.Email = user.Email;
+                user.IsWebUser = true;
+                if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+                {
+                    user.IsPublisher = true;
+                    ViewData["RegisType"] = null;
+                }
+
                 bool result = user.CreateUsers(ref dblUserID, SetTransaction);
                 if (IsinTransaction && result)
                 {

@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Bookkmark.AppCode
+namespace Bookkmark
 {
     public enum Theme { Red, White, BlackGlass, Clean }
 

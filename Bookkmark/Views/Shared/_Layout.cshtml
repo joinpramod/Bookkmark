@@ -72,11 +72,11 @@
             @if (Session["User"] != null)
             {
             <div>
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Bookmarks", "MyBookkmarks", "Bookkmark")</li>
+                <ul class="nav navbar-nav">                    
                     <li>@Html.ActionLink("Reports", "Reports", "Bookkmark")</li>
                     <li>@Html.ActionLink("Generate Script", "ScriptCode", "Bookkmark")</li>                    
                     <li>@Html.ActionLink("My Domains", "Domains", "Bookkmark")</li>
+                    <li>@Html.ActionLink("My Bookmarks", "MyBookkmarks", "Bookkmark")</li>
                     <li>@Html.ActionLink("Import", "Import", "Bookkmark")</li>
                     <li>@Html.ActionLink("Extensions", "Extensions", "Bookkmark")</li>
                 </ul>             

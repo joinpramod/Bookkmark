@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model Bookkmark.Users
-@using Bookkmark.AppCode
+@model Users
+@using Bookkmark.Models
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <script src="~/js/Facebook.js"></script>
@@ -14,35 +14,17 @@
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 <div style="height:50px"></div>
 
- @if (Model.Email == null || ViewBag.Ack != null)
- {
 <h2>Register</h2><br />
- }
- else
- {
-    <h2>Edit Profile</h2><br />    <br />
- }
+
 
 <table style="font-size:16px;font-family:Calibri;width:100%">
-                    @if (Model.Email == null || ViewBag.Ack != null)
-                    {
-                                    <tr>
-                                        <td style="padding-top: 2%;">
-                                            <b>Use any of the following options</b><br /><br />
-                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-top: 5px">
-                                            <input type="image" onclick="FaceBookLogin()" value="FaceBook" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
-                                        </td>
-                                    </tr>
-                                    <tr><td>&nbsp</td></tr>
-                                    <tr>
-                                        <td style="padding-top: 5px">
-                                            <div id="my-signin2"></div>
-                                        </td>
-                                    </tr>
-                    }
+                    <tr>
+                        <td align="left">
+                            <section id="socialLoginForm">
+                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                            </section>
+                        </td>
+                    </tr>
                     <tr>
                         <td style="font-weight: bold; color: red">
                             @ViewBag.Ack<br />
