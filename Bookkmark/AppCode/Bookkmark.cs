@@ -108,6 +108,38 @@ namespace Bookkmark
             }
             return true;
         }
+
+
+        public string GetBookkmarkCount(string strlnk)
+        {
+            string bmrkCount = string.Empty;
+            DataTable dtUserExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtUserExists = connManager.GetDataTable("Select * from Bookmark where url  = '" + strlnk + "'");
+            if (dtUserExists.Rows.Count > 0)
+            {
+                bmrkCount = dtUserExists.Rows.Count.ToString();
+            }
+            dtUserExists.Dispose();
+            return bmrkCount;
+        }
+
+
+        public bool BookmarkExists(string strEmail, ref double _userId)
+        {
+            DataTable dtUserExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtUserExists = connManager.GetDataTable("Select * from Users where EMail = '" + strEmail + "'");
+            if (dtUserExists.Rows.Count > 0)
+            {
+                _userId = double.Parse(dtUserExists.Rows[0]["Userid"].ToString());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 
