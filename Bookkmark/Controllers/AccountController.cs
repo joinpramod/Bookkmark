@@ -104,7 +104,7 @@ namespace Bookkmark.Controllers
             dtUserActivation = connManager.GetDataTable("select * from UserActivation where Emailid = '" + txtEMailId + "'");
             if (dtUserActivation.Rows.Count > 0)
             {
-                //ViewBag.lblAck = "User activation pending";
+                //ViewBag.Ack = "User activation pending";
                 ViewBag.Activation = "User activation pending. Resend Activation Code?";
                 ViewBag.UserActEMail = txtEMailId;
                 return View("../Account/Login");
@@ -114,7 +114,7 @@ namespace Bookkmark.Controllers
 
             if (DSUserList.Rows.Count == 0)
             {
-                ViewBag.lblAck = "Invalid login credentials, please try again";
+                ViewBag.Ack = "Invalid login credentials, please try again";
                 return View("../Account/Login");
             }
             else
@@ -171,7 +171,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult SiteOwnerReg()
         {
-            ViewData["RegisType"] = "SiteOwner";
+            ViewData["Session"] = "SiteOwner";
             return Register();
         }
 
@@ -190,7 +190,7 @@ namespace Bookkmark.Controllers
                     DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + user.Email + "'");
                     if (dtUserActivation.Rows.Count > 0)
                     {
-                        //ViewBag.lblAck = "User activation pending";
+                        //ViewBag.Ack = "User activation pending";
                         ViewBag.Activation = "User activation pending. Resend Activation Code?";
                         ViewBag.UserActEMail = user.Email;
                         return View("Users", user);
@@ -658,11 +658,11 @@ namespace Bookkmark.Controllers
                         conn.Close();
                     }
                 }
-                ViewBag.lblAck = "Account activated successfully. Please login with your emaild and password";
+                ViewBag.Ack = "Account activated successfully. Please login with your emaild and password";
             }
             else
             {
-                ViewBag.lblAck = "Account did not activated, please get the activation resent to your inbox and try again";
+                ViewBag.Ack = "Account did not activated, please get the activation resent to your inbox and try again";
             }
 
 
@@ -791,9 +791,9 @@ namespace Bookkmark.Controllers
                     Session["bookkmark"] = null;
                     return View("../Bookkmark/BMAdded");
                 }
-                else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+                else if (Session["RegisType"] != null && Session["RegisType"].ToString() == "SiteOwner")
                 {
-                    ViewData["RegisType"] = null;
+                    Session["RegisType"] = null;
                     return RedirectToAction("ScriptCode", "Bookkmark");
                 }
                 else
@@ -810,7 +810,7 @@ namespace Bookkmark.Controllers
 
             DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user1.Email + "'");
             con.DisposeConn();
-            if (dtUser != null && dtUser.Rows.Count > 0)
+            if (dtUser == null || dtUser.Rows.Count <= 0)
             {
                 double dblUserID = 0;
                 SqlConnection LclConn = new SqlConnection();

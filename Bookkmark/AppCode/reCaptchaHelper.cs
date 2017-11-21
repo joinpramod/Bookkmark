@@ -55,7 +55,7 @@ namespace Bookkmark
                     var responseFromServer = reader.ReadToEnd();
 
                     if (!responseFromServer.StartsWith("true"))
-                        ((Controller)filterContext.Controller).ModelState.AddModelError("ReCaptcha", "Captcha words typed incorrectly");
+                        ((Controller)filterContext.Controller).ModelState.AddModelError("ReCaptcha", "Incorrect captcha, please reenter");
                 }
             }
         }

@@ -27,7 +27,8 @@
                     </tr>
                     <tr>
                         <td style="font-weight: bold; color: red">
-                            @ViewBag.Ack<br />
+                            <div id="divAck" style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Ack</div>
+                            <br />
                         </td>
                     </tr>
                     @using (Html.BeginForm("ProcessActivationCode", "Account"))

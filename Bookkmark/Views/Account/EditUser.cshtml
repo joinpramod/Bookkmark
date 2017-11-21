@@ -3,17 +3,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model Bookkmark.Users
-@using Bookkmark.AppCode
+
 <div style="height:100px"></div>
 <h2>Edit Profile</h2><br />
 
 @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
+    <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;
+          border-color:lightgrey;background-color:#EFF0ED">
         <table style="width: 30%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
             <tr>
-                <td style="font-weight: bold; color: red;">
-                    @ViewBag.Ack<br />
+                <td style="font-weight: bold; color: red;" colspan="2">
+                    <div id="divAck" style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Ack</div>
+                    <br />
                 </td>
             </tr>
             <tr>
@@ -37,13 +39,13 @@
                     EMail:
                 </td>
                 <td align="left">
-                    <b>@Html.TextBoxFor(m => m.Email, new { placeholder = "EMail", @class = "myText" })</b>
+                    <b>@Html.TextBoxFor(m => m.Email, new { placeholder = "EMail", @class = "myText", style="width:200px" })</b>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" style="padding-left:15%">
                     <br />
-                    <input type="submit" id="btnEditUser" name="EditSubmit" value="Submit" onclick="return ValidateUserReg()" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" id="btnEditUser" name="EditSubmit" value="Submit" onclick="return ValidateEditUser()" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
                     <br />
                 </td>
