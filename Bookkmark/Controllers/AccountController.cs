@@ -4,7 +4,6 @@ using System;
 using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
-//using Bookkmark.AppCode;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -65,10 +64,11 @@ namespace Bookkmark.Controllers
             user1.FirstName = "FirstName";
             user1.LastName = "LastName";
             user1.Email = txtEMailId;
+            user.IsPublisher = true;
             Session["User"] = user1;
             Session["user.Email"] = user1.Email;
             ViewBag.UserEmail = user1.Email;
-            HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
+            HttpCookie mycookie = new HttpCookie("BookmaqLogin");
             mycookie.Values["UserId"] = txtEMailId;
             mycookie.Values["FirstName"] = "FirstName";
             mycookie.Values["LastName"] = "LastName";
@@ -81,10 +81,10 @@ namespace Bookkmark.Controllers
                 Session["bookkmark"] = null;
                 return View("../Bookkmark/BMAdded");
             }
-            else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+            else if (user.IsPublisher)
             {
-                ViewData["RegisType"] = null;
-                return RedirectToAction("ScriptCode", "Bookkmark");
+                Session["RegisType"] = null;
+                return RedirectToAction("Reports", "Bookkmark");
             }
             else
             {
@@ -97,7 +97,6 @@ namespace Bookkmark.Controllers
 
             /////Actual
             ConnManager connManager = new ConnManager();
-            connManager.OpenConnection();
             DataTable DSUserList = new DataTable();
             DataTable dtUserActivation = new DataTable();
 
@@ -124,15 +123,15 @@ namespace Bookkmark.Controllers
                 user.FirstName = DSUserList.Rows[0]["FirstName"].ToString();
                 user.LastName = DSUserList.Rows[0]["LastName"].ToString();
                 user.Email = DSUserList.Rows[0]["EMail"].ToString();
-                user.Address = DSUserList.Rows[0]["Address"].ToString();
-                user.Password = DSUserList.Rows[0]["Password"].ToString();
-                connManager.DisposeConn();
+                user.IsPublisher = bool.Parse(DSUserList.Rows[0]["IsPublisher"].ToString());
+
+
                 user.Details = DSUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
                 
-                HttpCookie userCookie = new HttpCookie("BookkmarkLogin");
+                HttpCookie userCookie = new HttpCookie("BookmaqLogin");
                 mycookie.Values["UserId"] = user.Email;
                 mycookie.Values["FirstName"] = user.FirstName;
                 mycookie.Values["LastName"] = user.LastName;
@@ -146,10 +145,10 @@ namespace Bookkmark.Controllers
                     Session["bookkmark"] = null;
                     return View("../Bookkmark/BMAdded");
                 }
-                else if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
+                else if (user.IsPublisher)
                 {
-                    ViewData["RegisType"] = null;
-                    return RedirectToAction("ScriptCode", "Bookkmark");
+                    Session["RegisType"] = null;
+                    return RedirectToAction("Reports", "Bookkmark");
                 }
                 else
                 {
@@ -171,7 +170,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult SiteOwnerReg()
         {
-            ViewData["Session"] = "SiteOwner";
+            Session["Session"] = "SiteOwner";
             return Register();
         }
 
@@ -196,68 +195,21 @@ namespace Bookkmark.Controllers
                         return View("Users", user);
                     }
 
-
                     DataSet dsUser = con.GetData("Select * from Users where Email = '" + user.Email + "'");
-                    con.DisposeConn();
                     if (dsUser.Tables[0].Rows.Count > 0)
                     {
                         ViewBag.Ack = "EMail id already exists. If you have forgotten password, please click forgot password link on the Sign In page.";
                         return View("Users", user);
                     }
 
-
                     double dblUserID = 0;
-                    SqlConnection LclConn = new SqlConnection();
-                    SqlTransaction SetTransaction = null;
-                    bool IsinTransaction = false;
-                    if (LclConn.State != ConnectionState.Open)
-                    {
-                        user.SetConnection = user.OpenConnection(LclConn);
-                        SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
-                        IsinTransaction = true;
-                    }
-                    else
-                    {
-                        user.SetConnection = LclConn;
-                    }
-
                     user.OptionID = 1;
                     user.CreatedDateTime = DateTime.Now;
                     user.Password = txtPassword;
                     user.Email = user.Email;
                     user.IsWebUser = true;
-
-                    bool result = user.CreateUsers(ref dblUserID, SetTransaction);
-                    if (IsinTransaction && result)
-                    {
-                        SetTransaction.Commit();
-                    }
-                    else
-                    {
-                        SetTransaction.Rollback();
-                    }
-
-
-                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-                    {
-                        using (SqlCommand cmd = new SqlCommand("INSERT INTO UserActivation VALUES(@UserId, @EMailId, @ActivationCode)"))
-                        {
-                            using (SqlDataAdapter sda = new SqlDataAdapter())
-                            {
-                                cmd.CommandType = CommandType.Text;
-                                cmd.Parameters.AddWithValue("@UserId", dblUserID);
-                                cmd.Parameters.AddWithValue("@EMailId", user.Email);
-                                cmd.Parameters.AddWithValue("@ActivationCode", activationCode);
-                                cmd.Connection = conn;
-                                conn.Open();
-                                cmd.ExecuteNonQuery();
-                                conn.Close();
-                            }
-                        }
-                    }
-
-                    user.CloseConnection(LclConn);
-
+                    user.CreateUsers(ref dblUserID);
+                    user.CreateUserActivation(user, activationCode, dblUserID);
                     ViewBag.Ack = "User Info Saved Successfully. An activation link has been sent to your email address, please check your inbox and activate your account";
                     SendActivationEMail(user.Email, activationCode);
                     SendEMail(user.Email, user.FirstName, user.LastName);
@@ -276,9 +228,13 @@ namespace Bookkmark.Controllers
             }
         }
 
+
+
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult EditUser(Users user)
         {
+            double dblUserID = 0;
+            Users tempUser = new global::Bookkmark.Users();
 
             user = (Users)Session["User"];
             if (Request.Form["Edit"] != null)
@@ -297,51 +253,18 @@ namespace Bookkmark.Controllers
                 {
                     ConnManager con = new ConnManager();
                     DataSet dsUser = con.GetData("Select * from Users where Email = '" + user.Email + "'");
-                    con.DisposeConn();
                     if (dsUser.Tables[0].Rows.Count > 0)
                     {
                         user.UserId = double.Parse(dsUser.Tables[0].Rows[0]["UserId"].ToString());
+                        user.OptionID = 7;
+                        tempUser = (Users)Session["User"];
+                        user.ImageURL = tempUser.ImageURL;
+                        user.ModifiedDateTime = DateTime.Now;
+                        dblUserID = user.UserId;
+                        user.CreateUsers(ref dblUserID);
+                        ViewBag.Ack = "User Updated Successfully.";
+                        Session["User"] = user;
                     }
-
-
-                    double dblUserID = 0;
-                    SqlConnection LclConn = new SqlConnection();
-                    SqlTransaction SetTransaction = null;
-                    bool IsinTransaction = false;
-                    if (LclConn.State != ConnectionState.Open)
-                    {
-                        user.SetConnection = user.OpenConnection(LclConn);
-                        SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
-                        IsinTransaction = true;
-                    }
-                    else
-                    {
-                        user.SetConnection = LclConn;
-                    }
-
-                    user.OptionID = 7;
-                    Users tempUser = new Bookkmark.Users();
-                    tempUser = (Users)Session["User"];
-                    user.ImageURL = tempUser.ImageURL;
-
-
-                    user.ModifiedDateTime = DateTime.Now;
-                    dblUserID = user.UserId;
-
-
-                    bool result = user.CreateUsers(ref dblUserID, SetTransaction);
-                    if (IsinTransaction && result)
-                    {
-                        SetTransaction.Commit();
-                    }
-                    else
-                    {
-                        SetTransaction.Rollback();
-                    }
-                    user.CloseConnection(LclConn);
-                    ViewBag.Ack = "User Updated Successfully.";
-
-                    Session["User"] = user;
                     return RedirectToAction("ViewUser", "Account");     //return Redirect("../Account/ViewUser");
                 }
                 else
@@ -354,81 +277,27 @@ namespace Bookkmark.Controllers
             {
                 return RedirectToAction("ScriptCode", "Bookkmark");               
             }
-            else if (Request.Form["UpdateAsWebUser"] != null)
-            {
-                UpdateUserAsWebUser();
-                return RedirectToAction("ViewUser", "Account");  //View("../Account/ViewUser", user);
-            }
             else
             {
                 user = (Users)Session["User"];
                 return View("../Account/ViewUser", user);
             }
-        }
-
-        private void UpdateUserAsWebUser()
-        {
-            ConnManager con = new ConnManager();
-            user = (Users)Session["User"];
-            con.UpdateUserAsWebUser(user.UserId);
         }
 
         public ActionResult ViewUser(Users user)
         {
-
             string email = string.Empty;
-
             if (Session["User"] != null)
             {
                 user = (Users)Session["User"];
                 email = user.Email;
-                if (Request.Url.ToString().Contains("localhost"))
-                {
-                    if (user.ImageURL != null && !user.ImageURL.Contains("/Bookkmark/"))
-                    {
-                        user.ImageURL = "/Bookkmark/" + user.ImageURL.Replace("~/", "");
-                    }
-                }
-                else //if (user.ImageURL != null && !user.ImageURL.Contains("/codeanalyze.com/"))
-                {
-                    user.ImageURL = user.ImageURL.Replace("~", "");
-                    user.ImageURL = user.ImageURL.Replace("/Bookkmark", "");
-                }
                 return View("../Account/ViewUser", user);
             }
-            else if (Request.Form.Keys.Count > 0)
-            {
-                email = Request.Form.Keys[0].ToString();
-                string name = Request.Form.Keys[1].ToString();
-                string imageurl = Request.Form.Keys[2].ToString();
-                //string type = Request.Form.Keys[3].ToString();
-                double _userId = 0;
-
-                if (!user.UserExists(email, ref _userId))
-                {
-                    user = user.CreateUser(email, name, "", imageurl);
-                    SendNewUserRegEMail(email);
-                    SendEMail(email, name, "");
-                }
-                else
-                {
-                    user.Email = email;
-                    user.UserId = _userId;
-                }
-                Session["User"] = user;
-                return View("../Bookkmark/MyBookkmarks");
-            }
-
             else
             {
                 return View("../Account/Login");
             }
-            //CheckUserLogin(email, null);
         }
-
-
-
-
 
         public ActionResult ForgotPassword(string txtEMailId)
         {
@@ -445,7 +314,6 @@ namespace Bookkmark.Controllers
                 }
 
                 DataSet dsUser = con.GetData("Select * from Users where Email = '" + txtEMailId + "'");
-                con.DisposeConn();
                 if (dsUser.Tables[0].Rows.Count <= 0)
                 {
                     ViewBag.Ack = "No such EMail Id exists";
@@ -457,10 +325,8 @@ namespace Bookkmark.Controllers
                     mail.IsBodyHtml = true;
                     string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
 
-                    mail.Body = string.Format(EMailBody, "Your CodeAnalyze account password is " + dsUser.Tables[0].Rows[0]["Password"].ToString());
-
-
-                    mail.FromAdd = "admin@codeanalyze.com";
+                    mail.Body = string.Format(EMailBody, "Your Bookmaq account password is " + dsUser.Tables[0].Rows[0]["Password"].ToString());
+                    mail.FromAdd = "admin@bookmaq.com";
                     mail.Subject = "Bookkmark account password";
                     mail.ToAdd = dsUser.Tables[0].Rows[0]["EMail"].ToString();
                     mail.SendMail();
@@ -494,10 +360,10 @@ namespace Bookkmark.Controllers
                 }
 
                 mail.Body = strBody;
-                mail.FromAdd = "admin@codeanalyze.com";
+                mail.FromAdd = "admin@bookmaq.com";
                 mail.Subject = "New User registered";
 
-                mail.ToAdd = "admin@codeanalyze.com";
+                mail.ToAdd = "admin@bookmaq.com";
                 mail.IsBodyHtml = true;
                 mail.SendMail();
             }
@@ -514,10 +380,10 @@ namespace Bookkmark.Controllers
             {
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://bookmaq.com>Bookmaq</a>";
                 mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
-                mail.FromAdd = "admin@codeanalyze.com";
-                mail.Subject = "Welcome to CodeAnalyze - ";
+                mail.FromAdd = "admin@bookmaq.com";
+                mail.Subject = "Welcome to Bookmaq - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
@@ -535,11 +401,11 @@ namespace Bookkmark.Controllers
             {
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strActLink = "http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode;
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://codeanalyze.com>CodeAnalyze</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://codeanalyze.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
-                mail.FromAdd = "admin@codeanalyze.com";
-                mail.Subject = "Welcome to CodeAnalyze - ";
+                string strActLink = "http://bookmaq.com/Account/Activate/?ActivationCode=" + ActivationCode;
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://bookmaq.com>Bookmaq</a>";
+                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://bookmaq.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
+                mail.FromAdd = "admin@bookmaq.com";
+                mail.Subject = "Welcome to Bookmaq - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
@@ -561,9 +427,9 @@ namespace Bookkmark.Controllers
             ViewBag.UserEmail = null;
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-            if (Request.Cookies["BookkmarkLogin"] != null)
+            if (Request.Cookies["BookmaqLogin"] != null)
             {
-                HttpCookie myCookie = Request.Cookies["BookkmarkLogin"];
+                HttpCookie myCookie = Request.Cookies["BookmaqLogin"];
                 myCookie.Expires = DateTime.Now.AddDays(-1d);
                 myCookie.Values["UserId"] = null;
                 myCookie.Values["FirstName"] = null;
@@ -583,47 +449,18 @@ namespace Bookkmark.Controllers
 
         public ActionResult ChangePassword(string txtNewPassword)
         {
-
             if (Request.Form["Cancel"] == null)
             {
                 if (Session["User"] != null && !string.IsNullOrEmpty(txtNewPassword))
                 {
                     user = (Users)Session["User"];
                     double dblUserID = 0;
-                    SqlConnection LclConn = new SqlConnection();
-                    SqlTransaction SetTransaction = null;
-                    bool IsinTransaction = false;
-                    if (LclConn.State != ConnectionState.Open)
-                    {
-                        user.SetConnection = user.OpenConnection(LclConn);
-                        SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
-                        IsinTransaction = true;
-                    }
-                    else
-                    {
-                        user.SetConnection = LclConn;
-                    }
                     user.OptionID = 5;
                     user.Password = txtNewPassword;
                     user.ModifiedDateTime = DateTime.Now;
                     dblUserID = user.UserId;
-
-                    bool result = user.CreateUsers(ref dblUserID, SetTransaction);
-                    if (IsinTransaction && result)
-                    {
-                        SetTransaction.Commit();
-                    }
-                    else
-                    {
-                        SetTransaction.Rollback();
-                    }
-
-                    user.CloseConnection(LclConn);
-                    //lblUserRegMsg.Visible = true;
+                    user.CreateUsers(ref dblUserID);
                     ViewBag.Ack = "Password changed successfully";
-                    //txtPassword.Text = "";
-                    //txtConfirmPassword.Text = "";
-
                     ViewBag.OldPassword = txtNewPassword;
                 }
                 return View(user);
@@ -641,31 +478,8 @@ namespace Bookkmark.Controllers
         public ActionResult Activate()
         {
             string ActivationCode = Request.QueryString["ActivationCode"];
-            ConnManager con = new ConnManager();
-            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  ActivationCode = '" + ActivationCode + "'");
-
-            if (dtUserActivation != null && dtUserActivation.Rows.Count > 0)
-            {
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-                {
-                    using (SqlCommand cmd = new SqlCommand("delete from UserActivation where  EMailId = @EMailId"))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.AddWithValue("@EMailId", dtUserActivation.Rows[0]["EMailId"]);
-                        cmd.Connection = conn;
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                }
-                ViewBag.Ack = "Account activated successfully. Please login with your emaild and password";
-            }
-            else
-            {
-                ViewBag.Ack = "Account did not activated, please get the activation resent to your inbox and try again";
-            }
-
-
+            Users usr = new global::Bookkmark.Users();
+            ViewBag.Ack = usr.ActivateUser(ActivationCode);
             return View("../Account/Login");
         }
 
@@ -753,6 +567,7 @@ namespace Bookkmark.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
+            bool _isNewUser = false;
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
@@ -776,14 +591,19 @@ namespace Bookkmark.Controllers
                 Session["User"] = user1;
                 Session["user.Email"] = user1.Email;
                 ViewBag.UserEmail = user1.Email;
-                HttpCookie mycookie = new HttpCookie("BookkmarkLogin");
+                HttpCookie mycookie = new HttpCookie("BookmaqLogin");
                 mycookie.Values["UserId"] = user1.Email;
                 mycookie.Values["FirstName"] = user1.FirstName;
                 mycookie.Values["LastName"] = user1.LastName;
                 mycookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(mycookie);
 
-                RegisterIfNewUser(user1);
+                if (IsNewUser(ref user1))
+                {
+                    _isNewUser = true;
+                    RegisterUser(user1);
+                }
+
 
                 if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
@@ -791,64 +611,60 @@ namespace Bookkmark.Controllers
                     Session["bookkmark"] = null;
                     return View("../Bookkmark/BMAdded");
                 }
-                else if (Session["RegisType"] != null && Session["RegisType"].ToString() == "SiteOwner")
-                {
-                    Session["RegisType"] = null;
-                    return RedirectToAction("ScriptCode", "Bookkmark");
+                if (_isNewUser)
+                { 
+                    if(Session["RegisType"] != null && Session["RegisType"].ToString() == "SiteOwner")
+                    {
+                        Session["RegisType"] = null;
+                        return RedirectToAction("ScriptCode", "Bookkmark");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MyBookkmarks", "Bookkmark");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("MyBookkmarks", "Bookkmark");
+                    if(user1.IsPublisher)
+                    {
+                        return RedirectToAction("Reports", "Bookkmark");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MyBookkmarks", "Bookkmark");
+                    }
                 }
             }
-
         }
 
-        private void RegisterIfNewUser(Users user1)
+
+        private bool IsNewUser(ref Users user1)
         {
-            ConnManager con = new ConnManager();
+            bool userExists = false;
+            DataTable dtUser = new DataTable();
+            ConnManager con = new ConnManager();            
+            dtUser = con.GetDataTable("Select * from Users where Email = '" + user1.Email + "'");           
 
-            DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user1.Email + "'");
-            con.DisposeConn();
-            if (dtUser == null || dtUser.Rows.Count <= 0)
+            if (dtUser.Rows.Count > 0)
             {
-                double dblUserID = 0;
-                SqlConnection LclConn = new SqlConnection();
-                SqlTransaction SetTransaction = null;
-                bool IsinTransaction = false;
-                if (LclConn.State != ConnectionState.Open)
-                {
-                    user.SetConnection = user.OpenConnection(LclConn);
-                    SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
-                    IsinTransaction = true;
-                }
-                else
-                {
-                    user.SetConnection = LclConn;
-                }
-
-                user.OptionID = 1;
-                user.CreatedDateTime = DateTime.Now;
-                user.Email = user.Email;
-                user.IsWebUser = true;
-                if (ViewData["RegisType"] != null && ViewData["RegisType"].ToString() == "SiteOwner")
-                {
-                    user.IsPublisher = true;
-                    ViewData["RegisType"] = null;
-                }
-
-                bool result = user.CreateUsers(ref dblUserID, SetTransaction);
-                if (IsinTransaction && result)
-                {
-                    SetTransaction.Commit();
-                }
-                else
-                {
-                    SetTransaction.Rollback();
-                }
-
-                user.CloseConnection(LclConn);
+                userExists = true;
+                user.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
+                user.FirstName = dtUser.Rows[0]["FirstName"].ToString();
+                user.LastName = dtUser.Rows[0]["LastName"].ToString();
+                user.Email = dtUser.Rows[0]["EMail"].ToString();
+                user.IsPublisher = bool.Parse(dtUser.Rows[0]["IsPublisher"].ToString());
             }
+            else
+            {
+                userExists = true;
+            }
+            return userExists;
+        }
+
+
+        private void RegisterUser(Users user1)
+        {
+            user1.CreateUser(user1.Email, user1.FirstName, user1.LastName);
             SendEMail(user.Email, user.FirstName, user.LastName);
         }
 

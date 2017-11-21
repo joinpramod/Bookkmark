@@ -30,7 +30,7 @@ namespace Bookkmark.Controllers
             }
             else
             {
-                BookkmarkCls bookkmark = new BookkmarkCls();
+                Bookkmark bookkmark = new Bookkmark();
                 bookkmark.URL = lnk;
                 if (BookkmarkExist(bookkmark))
                 {
@@ -54,7 +54,7 @@ namespace Bookkmark.Controllers
         public string addbm(string Bookkmark, string title, string ipAddr, string bookkmarkImgSrc)
         {
             string resp = null;
-            BookkmarkCls bookkmark = new BookkmarkCls();
+            Bookkmark bookkmark = new Bookkmark();
             bookkmark.URL = Bookkmark;
             bookkmark.Name = title;
             bookkmark.IpAddr = ipAddr;
@@ -87,7 +87,7 @@ namespace Bookkmark.Controllers
             return resp;
         }
 
-        private void InsertBookkmark(BookkmarkCls bookkmark)
+        private void InsertBookkmark(Bookkmark bookkmark)
         {
             //get location details from IP
             //Session["user"]
@@ -95,7 +95,7 @@ namespace Bookkmark.Controllers
             //ViewData["ipAddr"] = bookkmark.IpAddr;            
         }
 
-        private bool BookkmarkExist(BookkmarkCls bookkmark)
+        private bool BookkmarkExist(Bookkmark bookkmark)
         {
             //Session["User"]
             //Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys
@@ -103,7 +103,7 @@ namespace Bookkmark.Controllers
             return false;
         }
 
-        private void EditBookkmark(BookkmarkCls bookkmark)
+        private void EditBookkmark(Bookkmark bookkmark)
         {
             //Session["User"] &&  Session["bookkmark"]
             //ViewData["Bookkmark"] = bookkmark;
@@ -116,7 +116,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult ScriptCode(string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
         {
-            List<Bookkmark.Models.Domain> lstDomains = GetDomainsFromDB(null, null, null);
+            List<Models.Domain> lstDomains = GetDomainsFromDB(null, null, null);
             ViewData["domains"] = lstDomains;
 
             if (!string.IsNullOrEmpty(txtHeight))
@@ -157,14 +157,14 @@ namespace Bookkmark.Controllers
 
         public ActionResult MyBookkmarks()
         {
-            List<Bookkmark.Models.Bookkmark> lstBookkmarks = GetBookkmarksFromDB(null, null, null);
+            List<BookkmarkModel> lstBookkmarks = GetBookkmarksFromDB(null, null, null);
             return View(lstBookkmarks);
         }
 
-        private List<Bookkmark.Models.Bookkmark> GetBookkmarksFromDB(string search, string sort, string sortdir)
+        private List<global::Bookkmark.Models.BookkmarkModel> GetBookkmarksFromDB(string search, string sort, string sortdir)
         {
-            List<Bookkmark.Models.Bookkmark> lstBookkmarks = new List<Bookkmark.Models.Bookkmark>();
-            Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            List<BookkmarkModel> lstBookkmarks = new List<BookkmarkModel>();
+            global::Bookkmark.Models.BookkmarkModel _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1;
             _BookkmarkModel.Name = "Default";
             _BookkmarkModel.URL = "";
@@ -177,7 +177,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.Count = "12";
             lstBookkmarks.Add(_BookkmarkModel);
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 102;
             _BookkmarkModel.Name = "Social";
             _BookkmarkModel.URL = "";
@@ -191,7 +191,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 103;
             _BookkmarkModel.Name = "General";
             _BookkmarkModel.URL = "";
@@ -205,7 +205,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 104;
             _BookkmarkModel.Name = "MyFolder";
             _BookkmarkModel.URL = "";
@@ -220,7 +220,7 @@ namespace Bookkmark.Controllers
 
 
             //Forums
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1001;
             _BookkmarkModel.Name = "Facebook";
             _BookkmarkModel.ParentID = 102;
@@ -235,7 +235,7 @@ namespace Bookkmark.Controllers
 
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1003;
             _BookkmarkModel.Name = "Stats - Quora";
             _BookkmarkModel.ParentID = 102;
@@ -249,7 +249,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1005;
             _BookkmarkModel.Name = "LinkedIn";
             _BookkmarkModel.ParentID = 102;
@@ -263,7 +263,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1006;
             _BookkmarkModel.Name = "Twitter";
             _BookkmarkModel.ParentID = 102;
@@ -277,7 +277,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
             //CDS
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1009;
             _BookkmarkModel.Name = "Google Plus";
             _BookkmarkModel.ParentID = 102;
@@ -292,7 +292,7 @@ namespace Bookkmark.Controllers
 
 
             //News
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1004;
             _BookkmarkModel.Name = "Wikipedia";
             _BookkmarkModel.ParentID = 103;
@@ -306,7 +306,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1008;
             _BookkmarkModel.Name = "Google";
             _BookkmarkModel.ParentID = 103;
@@ -320,7 +320,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
             //My Folder
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1007;
             _BookkmarkModel.Name = "Yahoo";
             _BookkmarkModel.ParentID = 103;
@@ -335,7 +335,7 @@ namespace Bookkmark.Controllers
 
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1008;
             _BookkmarkModel.Name = "Bing";
             _BookkmarkModel.ParentID = 103;
@@ -351,7 +351,7 @@ namespace Bookkmark.Controllers
 
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1002;
             _BookkmarkModel.Name = "Amazon";
             _BookkmarkModel.ParentID = 104;
@@ -366,7 +366,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1010;
             _BookkmarkModel.Name = "ESPN";
             _BookkmarkModel.ParentID = 104;
@@ -403,14 +403,21 @@ namespace Bookkmark.Controllers
         {
             if (Request.QueryString["action"].ToString().Equals("Add"))
             {
-                List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+                List<BookkmarkModel> lstFolders = GetFoldersFromDB();
                 ViewData["ddFolders"] = lstFolders;
                 //Process(Request.QueryString["id"])
                 return View("../Bookkmark/NewBMFolder");
             }
+            else if (Request.QueryString["action"].ToString().Equals("Move"))
+            {
+                List<BookkmarkModel> lstFolders = GetFoldersFromDB();
+                ViewData["ddFolders"] = lstFolders;
+                //Process(Request.QueryString["id"])
+                return View("../Bookkmark/EditBMFolder");
+            }
             else if (Request.QueryString["action"].ToString().Equals("Edit"))
             {
-                List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+                List<BookkmarkModel> lstFolders = GetFoldersFromDB();
                 ViewData["ddFolders"] = lstFolders;
                 //Process(Request.QueryString["id"])
                 return View("../Bookkmark/EditBMFolder");
@@ -424,7 +431,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult EditBMFolder()
         {
-            List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+            List<BookkmarkModel> lstFolders = GetFoldersFromDB();
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
@@ -432,7 +439,7 @@ namespace Bookkmark.Controllers
 
         public ActionResult NewBMFolder()
         {
-            List<Bookkmark.Models.Bookkmark> lstFolders = GetFoldersFromDB();
+            List<BookkmarkModel> lstFolders = GetFoldersFromDB();
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
@@ -469,9 +476,9 @@ namespace Bookkmark.Controllers
         }
 
 
-        public List<Bookkmark.Models.Bookkmark> GetBookkmarks(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        public List<global::Bookkmark.Models.BookkmarkModel> GetBookkmarks(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
         {
-            List<Bookkmark.Models.Bookkmark>  lstBookkmarks = GetBookkmarksFromDB(search, sort, sortdir);            
+            List<BookkmarkModel> lstBookkmarks = GetBookkmarksFromDB(search, sort, sortdir);            
             totalRecord = lstBookkmarks.Count();
             var varBookkmarks = lstBookkmarks.AsQueryable();
 
@@ -483,9 +490,9 @@ namespace Bookkmark.Controllers
             return varBookkmarks.ToList();
         }
 
-        public List<Bookkmark.Models.Domain> GetDomains(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        public List<global::Bookkmark.Models.Domain> GetDomains(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
         {
-            List<Bookkmark.Models.Domain> lstDomains = GetDomainsFromDB(search, sort, sortdir);
+            List<Models.Domain> lstDomains = GetDomainsFromDB(search, sort, sortdir);
             totalRecord = lstDomains.Count();
             var varBookkmarks = lstDomains.AsQueryable();
 
@@ -497,10 +504,10 @@ namespace Bookkmark.Controllers
             return varBookkmarks.ToList();
         }
 
-        private List<Bookkmark.Models.Bookkmark> GetFoldersFromDB()
+        private List<global::Bookkmark.Models.BookkmarkModel> GetFoldersFromDB()
         {
-            List<Bookkmark.Models.Bookkmark> lstBookkmarks = new List<Bookkmark.Models.Bookkmark>();
-            Bookkmark.Models.Bookkmark _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            List<BookkmarkModel> lstBookkmarks = new List<BookkmarkModel>();
+            global::Bookkmark.Models.BookkmarkModel _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 1;
             _BookkmarkModel.Name = "Default";
             _BookkmarkModel.URL = "Forums";
@@ -513,7 +520,7 @@ namespace Bookkmark.Controllers
             _BookkmarkModel.Count = "12";
             lstBookkmarks.Add(_BookkmarkModel);
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 102;
             _BookkmarkModel.Name = "Forums";
             _BookkmarkModel.URL = "Forums";
@@ -527,7 +534,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 103;
             _BookkmarkModel.Name = "News";
             _BookkmarkModel.URL = "News";
@@ -541,7 +548,7 @@ namespace Bookkmark.Controllers
             lstBookkmarks.Add(_BookkmarkModel);
 
 
-            _BookkmarkModel = new Bookkmark.Models.Bookkmark();
+            _BookkmarkModel = new global::Bookkmark.Models.BookkmarkModel();
             _BookkmarkModel.BookkmarkID = 104;
             _BookkmarkModel.Name = "MyFolder";
             _BookkmarkModel.URL = "MyFolder";
@@ -557,23 +564,23 @@ namespace Bookkmark.Controllers
             return lstBookkmarks;
         }
 
-        private List<Bookkmark.Models.Domain> GetDomainsFromDB(string search, string sort, string sortdir)
+        private List<global::Bookkmark.Models.Domain> GetDomainsFromDB(string search, string sort, string sortdir)
         {
-            List<Bookkmark.Models.Domain> lstDomains = new List<Bookkmark.Models.Domain>();
-            Bookkmark.Models.Domain _Domain = new Bookkmark.Models.Domain();
+            List<Models.Domain> lstDomains = new List<Models.Domain>();
+            global::Bookkmark.Models.Domain _Domain = new global::Bookkmark.Models.Domain();
             _Domain.Id = 1;
             _Domain.Name = "google.com";
             _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
             lstDomains.Add(_Domain);
 
-            _Domain = new Bookkmark.Models.Domain();
+            _Domain = new global::Bookkmark.Models.Domain();
             _Domain.Id = 2;
             _Domain.Name = "facebook.com";
             _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
             lstDomains.Add(_Domain);
 
 
-            _Domain = new Bookkmark.Models.Domain();
+            _Domain = new global::Bookkmark.Models.Domain();
             _Domain.Id = 3;
             _Domain.Name = "twitter.com";
             _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";

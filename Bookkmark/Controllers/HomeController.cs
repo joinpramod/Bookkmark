@@ -59,11 +59,11 @@ namespace Bookkmark.Controllers
                     mail.IsBodyHtml = true;
                     //mail.Body = txtSuggestion + " from " + txtEMail;
                     //if (Session["User"] != null)
-                    mail.FromAdd = "admin@codeanalyze.com";
+                    mail.FromAdd = "admin@bookmaq.com";
                     // else
                     // mail.FromAdd = txtEMail;
                     mail.Subject = "Suggestion";
-                    mail.ToAdd = "admin@codeanalyze.com";
+                    mail.ToAdd = "admin@bookmaq.com";
 
                     mail.SendMail();
                     ViewBag.Ack = "Thanks for your time in reaching out to us, we will get back to you soon if needed.";
@@ -156,9 +156,9 @@ namespace Bookkmark.Controllers
             //}
 
             //mail.Body = strBody;
-            //mail.FromAdd = "admin@codeanalyze.com";
+            //mail.FromAdd = "admin@bookmaq.com";
             //mail.Subject = "Not Found";
-            //mail.ToAdd = "admin@codeanalyze.com";
+            //mail.ToAdd = "admin@bookmaq.com";
             //mail.IsBodyHtml = true;
             //mail.SendMail();         
         
