@@ -11,95 +11,33 @@ namespace Bookkmark
 {
     public class ConnManager
     {
-        private string ConnString;
-        public SqlConnection DataCon = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString());
-
-        public void OpenConnection()
-        {
-            if (DataCon.State == ConnectionState.Open)
-            {
-                return;
-            }
-            DataCon.Open();
-        }
-
-        public void DisposeConn()
-        {
-            if (DataCon.State == ConnectionState.Open)
-            {
-                DataCon.Close();            
-            }
-            DataCon.Dispose();
-        }
-
-        public SqlConnection OpenConnection(SqlConnection DbConn)
-        {
-            if (DbConn.State == System.Data.ConnectionState.Open)
-            {
-                return DbConn;
-            }
-            DbConn.ConnectionString = ConfigurationManager.ConnectionStrings["SQLCON"].ToString();
-            DbConn.Open();
-            return DbConn;
-        }
-
-        public void CloseConnection(SqlConnection DbConn)
-        {
-            if (DbConn.State == ConnectionState.Open)
-            {
-                DbConn.Close();             
-            }
-            DbConn.Dispose();
-        }
 
         public DataSet GetData(string sqlQuery)
         {
             DataSet DS = new DataSet();
-            SqlDataAdapter DA = new SqlDataAdapter(sqlQuery, DataCon);
-            DA.Fill(DS);
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(sqlQuery, conn))
+                {
+                    sda.Fill(DS);
+                }
+            }        
             return DS;
         }
 
         public DataTable GetDataTable(string sqlQuery)
         {
-            DataSet DS = new DataSet();
-            SqlDataAdapter DA = new SqlDataAdapter(sqlQuery, DataCon);
-            DA.Fill(DS);
-            return DS.Tables[0];
-        }
-
-        public DataTable GetArticle(string sqlArticleId)
-        {
-            DataTable dtArticle = new DataTable();
-            using (SqlCommand _cmd = new SqlCommand("GetArticle_Sp", DataCon))
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
             {
-                _cmd.CommandType = CommandType.StoredProcedure;
-
-                _cmd.Parameters.Add(new SqlParameter("@ArticleId", SqlDbType.Int));
-                _cmd.Parameters["@ArticleId"].Value = sqlArticleId;
-
-                SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
-
-                _dap.Fill(dtArticle);
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(sqlQuery, conn))
+                {
+                    sda.Fill(dt);
+                }
             }
-            return dtArticle;
-        }
-
-        public DataTable GetQuestion(string sqlQuestionId)
-        {
-            DataTable dtQuestion = new DataTable();
-            using (SqlCommand _cmd = new SqlCommand("GetQuestion_Sp", DataCon))
-            {
-                _cmd.CommandType = CommandType.StoredProcedure;
-
-                _cmd.Parameters.Add(new SqlParameter("@QuestionId", SqlDbType.Int));
-                _cmd.Parameters["@QuestionId"].Value = sqlQuestionId;
-
-                SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
-
-                _dap.Fill(dtQuestion);
-            }
-            return dtQuestion;
+            return dt;
         }
 
 
@@ -110,25 +48,6 @@ namespace Bookkmark
             return rgx.Replace(v, "");
         }
 
-        public void DeleteReply(string replyId)
-        {
-            ConnManager connManager = new ConnManager();
-            connManager.OpenConnection();
-            string strQuery = "Delete from Replies where ReplyId = " + replyId;
-            SqlCommand command = new SqlCommand(strQuery, connManager.DataCon);
-            command.ExecuteNonQuery();
-            connManager.DisposeConn();
-        }
-
-        public void UpdateUserAsWebUser(double userId)
-        {
-            ConnManager connManager = new ConnManager();
-            connManager.OpenConnection();
-            string strQuery = "Update Users set IsWebUser = 1 where Id = " + userId;
-            SqlCommand command = new SqlCommand(strQuery, connManager.DataCon);
-            command.ExecuteNonQuery();
-            connManager.DisposeConn();
-        }
 
         //public List<QuestionType> GetQuestionType()
         //{
@@ -216,6 +135,71 @@ namespace Bookkmark
         //    }
         //    return solns;
         //}
+
+
+        //public void DeleteReply(string replyId)
+        //{
+        //    ConnManager connManager = new ConnManager();
+        //    connManager.OpenConnection();
+        //    string strQuery = "Delete from Replies where ReplyId = " + replyId;
+        //    SqlCommand command = new SqlCommand(strQuery, connManager.DataCon);
+        //    command.ExecuteNonQuery();
+        //}
+
+        //public void UpdateUserAsWebUser(double userId)
+        //{
+        //    ConnManager connManager = new ConnManager();
+        //    connManager.OpenConnection();
+        //    string strQuery = "Update Users set IsWebUser = 1 where Id = " + userId;
+        //    SqlCommand command = new SqlCommand(strQuery, connManager.DataCon);
+        //    command.ExecuteNonQuery();
+        //}
+
+        //public DataTable GetArticle(string sqlArticleId)
+        //{
+        //    DataTable dtArticle = new DataTable();
+        //    using (SqlCommand _cmd = new SqlCommand("GetArticle_Sp", DataCon))
+        //    {
+        //        _cmd.CommandType = CommandType.StoredProcedure;
+
+        //        _cmd.Parameters.Add(new SqlParameter("@ArticleId", SqlDbType.Int));
+        //        _cmd.Parameters["@ArticleId"].Value = sqlArticleId;
+
+        //        SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+        //        _dap.Fill(dtArticle);
+        //    }
+        //    return dtArticle;
+        //}
+
+        //public DataTable GetQuestion(string sqlQuestionId)
+        //{
+        //    DataTable dtQuestion = new DataTable();
+        //    using (SqlCommand _cmd = new SqlCommand("GetQuestion_Sp", DataCon))
+        //    {
+        //        _cmd.CommandType = CommandType.StoredProcedure;
+
+        //        _cmd.Parameters.Add(new SqlParameter("@QuestionId", SqlDbType.Int));
+        //        _cmd.Parameters["@QuestionId"].Value = sqlQuestionId;
+
+        //        SqlDataAdapter _dap = new SqlDataAdapter(_cmd);
+
+        //        _dap.Fill(dtQuestion);
+        //    }
+        //    return dtQuestion;
+        //}
+
+        //public void DisposeConn()
+        //{
+        //    if (DataCon.State == ConnectionState.Open)
+        //    {
+        //        DataCon.Close();            
+        //    }
+        //    DataCon.Dispose();
+        //}
+
+
+
 
     }
 }

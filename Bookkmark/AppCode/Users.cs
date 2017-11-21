@@ -2,28 +2,16 @@
 using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace Bookkmark
 {
 
     public enum RegisType { WebUser, SiteOwner }
 
-    public class Users : ConnManager
+    public class Users
     {
-        private SqlConnection CmdLCLDBConn;
         private SqlCommand CmdExecute;
-
-        public SqlConnection SetConnection
-        {
-            get
-            {
-                return CmdLCLDBConn;
-            }
-            set
-            {
-                CmdLCLDBConn = value;
-            }
-        }
         public int OptionID { get; set; }
         public double UserId { get; set; }
         public string FirstName { get; set; }
@@ -45,7 +33,7 @@ namespace Bookkmark
 
         public bool SetCommandUser(ref SqlCommand CmdSent)
         {
-            SqlCommand Cmd = new SqlCommand("User_Sp", CmdLCLDBConn);
+            SqlCommand Cmd = new SqlCommand("User_Sp");
             Cmd.CommandType = CommandType.StoredProcedure;
 
 
@@ -118,82 +106,117 @@ namespace Bookkmark
             return true;
         }
 
-        public bool CreateUsers(ref double NewMasterID, SqlTransaction TrTransaction)
+        public bool CreateUsers(ref double NewMasterID)
         {
             if (SetCommandUser(ref CmdExecute))
             {
-                    if (TrTransaction != null)
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (CmdExecute)
                     {
-                        CmdExecute.Transaction = TrTransaction;
+                        conn.Open();
+                        CmdExecute.Connection = conn;
+                        using (SqlDataReader DATReader = CmdExecute.ExecuteReader())
+                        {
+                            while (DATReader.Read())
+                            {
+                                NewMasterID = double.Parse(DATReader[0].ToString());
+                            }
+                        }
                     }
-                    SqlDataReader DATReader = CmdExecute.ExecuteReader();
-                    while (DATReader.Read())
-                    {
-                        NewMasterID = double.Parse(DATReader[0].ToString());
-                    }
-                    DATReader.Close();
+                }
             }
             return true;
         }
 
-        public Users CreateUsers(string strEmail, string strFirstName, string strLastName)
-        {
-            return CreateUser(strEmail, strFirstName, strLastName, null);
-        }
+        //public Users CreateUsers(string strEmail, string strFirstName, string strLastName)
+        //{
+        //    return CreateUser(strEmail, strFirstName, strLastName, null);
+        //}
 
-        public Users CreateUser(string strEmail, string strFirstName, string strLastName, string strImageURL)
+        public Users CreateUser(string strEmail, string strFirstName, string strLastName)
         {
             Users user = new Users();
-                double dblUserID = 0;
-
-                SqlConnection LclConn = new SqlConnection();
-                SqlTransaction SetTransaction = null;
-                bool IsinTransaction = false;
-                if (LclConn.State != ConnectionState.Open)
-                {
-                    user.SetConnection = user.OpenConnection(LclConn);
-                    SetTransaction = LclConn.BeginTransaction(IsolationLevel.ReadCommitted);
-                    IsinTransaction = true;
-                }
-                else
-                {
-                    user.SetConnection = LclConn;
-                }
-                user.Email = strEmail.Trim();
-                user.FirstName = strFirstName.Trim();
-                user.LastName = strLastName.Trim();
-                //user.ImageURL = strImageURL.Trim();
-                user.OptionID = 1;
-                user.CreatedDateTime = DateTime.Now;
-                bool result = user.CreateUsers(ref dblUserID, SetTransaction);
-                if (IsinTransaction && result)
-                {
-                    SetTransaction.Commit();
-                    user.UserId = dblUserID;
-                }
-                else
-                {
-                    SetTransaction.Rollback();
-                }
-                user.CloseConnection(LclConn);
+            double dblUserID = 0;
+            user.Email = strEmail.Trim();
+            user.FirstName = strFirstName.Trim();
+            user.LastName = strLastName.Trim();
+            //user.ImageURL = strImageURL.Trim();
+            user.OptionID = 1;
+            user.CreatedDateTime = DateTime.Now;
+            user.CreateUsers(ref dblUserID);
+            user.UserId = dblUserID;
             return user;
         }
 
         public bool UserExists(string strEmail, ref double _userId)
         {
+            DataTable dtUserExists = new DataTable();
             ConnManager connManager = new ConnManager();
-            connManager.OpenConnection();
-            DataSet dsUserExists = connManager.GetData("Select * from Users where EMail = '" + strEmail + "'");
-            connManager.DisposeConn();
-            if (dsUserExists.Tables[0].Rows.Count > 0)
+            dtUserExists = connManager.GetDataTable("Select * from Users where EMail = '" + strEmail + "'");
+            if (dtUserExists.Rows.Count > 0)
             {
-                _userId = double.Parse(dsUserExists.Tables[0].Rows[0]["Userid"].ToString());
+                _userId = double.Parse(dtUserExists.Rows[0]["Userid"].ToString());
                 return true;
             }
             else
+            {
                 return false;
-
+            }
         }
+
+
+        public void CreateUserActivation(Users user, string activationCode, double dblUserID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO UserActivation VALUES(@UserId, @EMailId, @ActivationCode)"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@UserId", dblUserID);
+                        cmd.Parameters.AddWithValue("@EMailId", user.Email);
+                        cmd.Parameters.AddWithValue("@ActivationCode", activationCode);
+                        cmd.Connection = conn;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+
+
+        public string ActivateUser(string ActivationCode)
+        {
+            string res = string.Empty;
+            ConnManager con = new ConnManager();
+            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  ActivationCode = '" + ActivationCode + "'");
+
+            if (dtUserActivation != null && dtUserActivation.Rows.Count > 0)
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (SqlCommand cmd = new SqlCommand("delete from UserActivation where  EMailId = @EMailId"))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@EMailId", dtUserActivation.Rows[0]["EMailId"]);
+                        cmd.Connection = conn;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                res = "Account activated successfully. Please login with your emaild and password";
+            }
+            else
+            {
+                res = "Account could not be activated, please try again";
+            }
+            return res;
+        }
+
 
     }
 }
