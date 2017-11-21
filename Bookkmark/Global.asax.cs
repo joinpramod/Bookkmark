@@ -34,15 +34,15 @@ namespace Bookkmark
                 else
                     HttpContext.Current.Response.Redirect("/Home/NotFound");
             }
-            else if ((Request.Url.ToString().ToLower().Equals("http://codeanalyze.com/que/ans/48408/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://codeanalyze.com/que/ans/home/rewards")) ||
-               (Request.Url.ToString().ToLower().Equals("http://codeanalyze.com/que/ans/48360/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://codeanalyze.com/articles/details/20073/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://codeanalyze.com/que/ans/38198/")) ||
-               (Request.Url.ToString().ToLower().Contains("codeanalyze.com/soln.aspx")) ||
-               (Request.Url.ToString().ToLower().Contains("codeanalyze.com/questions/soln")) ||
-               (Request.Url.ToString().ToLower().Contains("codeanalyze.com/articles/details/home/rewards")) ||
-               (Request.Url.ToString().ToLower().Contains("codeanalyze.com/que/ans/home/rewards")))
+            else if ((Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/48408/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/home/rewards")) ||
+               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/48360/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/articles/details/20073/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/38198/")) ||
+               (Request.Url.ToString().ToLower().Contains("bookmaq.com/soln.aspx")) ||
+               (Request.Url.ToString().ToLower().Contains("bookmaq.com/questions/soln")) ||
+               (Request.Url.ToString().ToLower().Contains("bookmaq.com/articles/details/home/rewards")) ||
+               (Request.Url.ToString().ToLower().Contains("bookmaq.com/que/ans/home/rewards")))
             {
                 if (Request.Url.ToString().Contains("localhost"))
                     HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
@@ -81,21 +81,6 @@ namespace Bookkmark
                 }
                 else if (ex.Message.ToLower().Contains("this is an invalid webresource request")
                     || ex.Message.ToLower().Contains("this is an invalid script resource request"))
-                {
-                    if (Request.Url.ToString().Contains("localhost"))
-                        HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
-                    else
-                        HttpContext.Current.Response.Redirect("/Home/NotFound");
-                }
-                else if (ex.Message.ToLower().Contains("the file '/va.aspx' does not exist"))
-                {
-                    if (Request.Url.ToString().Contains("localhost"))
-                        HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
-                    else
-                        HttpContext.Current.Response.Redirect("/Home/NotFound");
-                }
-                else if ((Request.Url.ToString().ToLower().Contains("codeanalyze.com/soln.aspx")) ||
-                     (Request.Url.ToString().ToLower().Contains("codeanalyze.com/questions/soln")))
                 {
                     if (Request.Url.ToString().Contains("localhost"))
                         HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
@@ -164,9 +149,9 @@ namespace Bookkmark
                         strBody += " Stack Trace -- " + ex.StackTrace + " <br /><br />";
 
                     mail.Body = strBody;
-                    mail.FromAdd = "admin@codeanalyze.com";
+                    mail.FromAdd = "admin@bookmaq.com";
                     mail.Subject = "Error";
-                    mail.ToAdd = "admin@codeanalyze.com";
+                    mail.ToAdd = "admin@bookmaq.com";
                     mail.IsBodyHtml = true;
                   //  mail.SendMail();
 
