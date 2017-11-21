@@ -14,9 +14,9 @@ namespace Bookkmark.Controllers
                 ViewBag.UserEmail = user.Email;
                 ViewBag.IsUserLoggedIn = true;
             }
-            else if (Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys)
+            else if (Request.Cookies["BookmaqLogin"] != null && Request.Cookies["BookmaqLogin"].HasKeys)
             {
-                string uname = Request.Cookies["BookkmarkLogin"].Values["UserId"].ToString();
+                string uname = Request.Cookies["BookmaqLogin"].Values["UserId"].ToString();
                 Users user1 = new Users();
                 //user1.UserId = 1;
                 user1.FirstName = "FirstName";

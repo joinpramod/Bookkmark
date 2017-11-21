@@ -16,7 +16,7 @@ namespace Bookkmark.Controllers
 　
             if (sd == "true")
             {
-                ViewData["BookkmarkCount"] = GetBookkmarkCount(lnk);
+                ViewData["BookkmarkCount"] = GetBookmarkCount(lnk);
             }
             else
             {
@@ -24,7 +24,7 @@ namespace Bookkmark.Controllers
             }
 
 　
-            if (Session["User"] == null && Request.Cookies["BookkmarkLogin"] == null)
+            if (Session["User"] == null && Request.Cookies["BookmaqLogin"] == null)
             {
                 ViewData["bookkmarkImgSrc"] = "../../Bookkmark/Images/Bookmark.jpg";
             }
@@ -45,10 +45,12 @@ namespace Bookkmark.Controllers
             return View();
         }
 
-        private object GetBookkmarkCount(string lnk)
+        private object GetBookmarkCount(string lnk)
         {
-            //GetCount
-            return "24";
+            Bookkmark bookmark = new Bookkmark();
+            string bmrkCount = bookmark.GetBookkmarkCount(lnk);
+            return bmrkCount;
+            //return "24";
         }
 
         public string addbm(string Bookkmark, string title, string ipAddr, string bookkmarkImgSrc)
@@ -61,10 +63,10 @@ namespace Bookkmark.Controllers
 
             Session["bookkmark"] = null;
             Session["bookkmark"] = bookkmark;
-            return null;    // which will open Login Window
+            //return null;    // which will open Login Window
 
 
-            if (Session["User"] == null && Request.Cookies["BookkmarkLogin"] == null)
+            if (Session["User"] == null && Request.Cookies["BookmaqLogin"] == null)
             {
                 Session["bookkmark"] = null;
                 Session["bookkmark"] = bookkmark;
@@ -73,21 +75,22 @@ namespace Bookkmark.Controllers
             }
             else
             {
-                if (BookkmarkExist(bookkmark))
+                Users user = (Users)Session["User"];
+                if (BookkmarkExist(bookkmark, user))
                 {
-                    EditBookkmark(bookkmark);
+                    EditBookkmark(bookkmark, user);
                     resp = "../../Bookkmark/Bookkmark/Images/Bookmarked.jpg";
                 }
                 else
                 {
-                    InsertBookkmark(bookkmark);
+                    InsertBookkmark(bookkmark, user);
                     resp = "../../Bookkmark/Bookkmark/Images/Bookmarked.jpg";
                 }
             }
             return resp;
         }
 
-        private void InsertBookkmark(Bookkmark bookkmark)
+        private void InsertBookkmark(Bookkmark bookmark, Users user)
         {
             //get location details from IP
             //Session["user"]
@@ -95,15 +98,16 @@ namespace Bookkmark.Controllers
             //ViewData["ipAddr"] = bookkmark.IpAddr;            
         }
 
-        private bool BookkmarkExist(Bookkmark bookkmark)
+        private bool BookkmarkExist(Bookkmark bookmark, Users user)
         {
-            //Session["User"]
-            //Request.Cookies["BookkmarkLogin"] != null && Request.Cookies["BookkmarkLogin"].HasKeys
-            //ViewData["Bookkmark"] = bookkmark;
+
+           // bookkmark.Crea
+
+                //ViewData["Bookkmark"] = bookkmark;
             return false;
         }
 
-        private void EditBookkmark(Bookkmark bookkmark)
+        private void EditBookkmark(Bookkmark bookkmark, Users user)
         {
             //Session["User"] &&  Session["bookkmark"]
             //ViewData["Bookkmark"] = bookkmark;
