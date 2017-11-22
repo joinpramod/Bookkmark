@@ -9,25 +9,25 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
     console.log(message.title);
     document.getElementById("divTitle").innerText = message.title;
     document.getElementById("divURL").innerText = message.url;
-    var BookkmarkModel = {
-        'Bookkmark':message.url,
+    var BookmarkModel = {
+        'Bookmark':message.url,
         'title': message.title,
         'ipAddr': '10',
-       'bookkmarkImgSrc':'extension'
+       'bookmarkImgSrc':'extension'
     };
     $.ajax({
-        url: 'http://localhost/bookkmark/bookkmark/addbm',
+        url: 'http://localhost/bookmark/bookmark/addbm',
         type: 'POST',
         dataType: "text",
-        data: BookkmarkModel,
+        data: BookmarkModel,
         success: function (data) {
             if (data == null || data == "") {
-                //alert("Bookkmark not added");
+                //alert("Bookmark not added");
                 var left = (screen.width) - (0.30 * screen.width);
                 var top = (screen.height) - (0.80 * screen.height);
                 var height = screen.height * 0.50;
                 var width = screen.height * 0.38;
-               // window.open("http://localhost/bookkmark/bookkmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+               // window.open("http://localhost/bookmark/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
             }
             else {
                 alert(data);
