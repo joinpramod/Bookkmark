@@ -162,7 +162,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\BookkmarkCls.cs" />
+    <Compile Include="AppCode\Bookkmark.cs" />
     <Compile Include="AppCode\ConnManager.cs" />
     <Compile Include="AppCode\Domian.cs" />
     <Compile Include="AppCode\Mail.cs" />
@@ -184,7 +184,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Bookkmark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -419,6 +418,7 @@
     <Content Include="Scripts\js\javacriptCompressor\bin\client\classes.jsa" />
     <Content Include="Scripts\js\javacriptCompressor\bin\jpicpl32.cpl" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Bookkmark\Domains.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
