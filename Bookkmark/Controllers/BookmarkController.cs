@@ -16,7 +16,12 @@ namespace Bookmark.Controllers
             ViewData["ht"] = h;
             ViewData["wd"] = w;
             ViewData["title"] = t;
-　
+
+            //temp
+            ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
+            ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmark.jpg";
+            return View();
+
             if (sd == "true")
             {
                 ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
@@ -208,31 +213,30 @@ namespace Bookmark.Controllers
         public ActionResult Manage()
         {
             Users user = (Users)Session["User"];
+            ViewBag.BookmarkId = Request.QueryString["id"];
 
-            if (Request.QueryString["action"].ToString().Equals("Add"))
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            ViewData["ddFolders"] = lstFolders;
+
+            if (Request.QueryString["action"].ToString().Equals("AddB") )
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-                ViewData["ddFolders"] = lstFolders;
-                //Process(Request.QueryString["id"])
+                ViewBag.AddType = "Bookmark";
+                return View("../Bookmark/NewBMFolder");
+            }
+            else if (Request.QueryString["action"].ToString().Equals("AddF"))
+            {
                 return View("../Bookmark/NewBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("Move"))
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-                ViewData["ddFolders"] = lstFolders;
-                //Process(Request.QueryString["id"])
                 return View("../Bookmark/EditBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("Edit"))
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-                ViewData["ddFolders"] = lstFolders;
-                //Process(Request.QueryString["id"])
                 return View("../Bookmark/EditBMFolder");
             }         
             else
             {
-                //Process(Request.QueryString["id"])
                 return View("../Bookmark/Delete");
             }
         }
@@ -240,24 +244,53 @@ namespace Bookmark.Controllers
         public ActionResult EditBMFolder()
         {
             Users user = (Users)Session["User"];
+
+
+
+
+
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
         }
 
-        public ActionResult NewBMFolder()
+        public ActionResult NewBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
         {
             Users user = (Users)Session["User"];
+
+            if(!string.IsNullOrEmpty(txtLink))
+            {
+
+
+
+            }
+            else
+            {
+
+
+            }
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
         }
 
-        public ActionResult Delete()
+        public ActionResult Delete(string HFBookmarkId)
         {
-            ViewData["Refresh"] = "true";
+            if (Request.Form["btnYes"] != null)
+            {
+                Users user = (Users)Session["User"];
+                BookmarkCls bmrk = new BookmarkCls();
+                bmrk.Id = double.Parse(HFBookmarkId);
+                bmrk.DeleteBookmark(user.UserId.ToString());
+                ViewData["Refresh"] = "true";
+            }
+            else
+            {
+
+
+            }            
             return View();
         }
 
