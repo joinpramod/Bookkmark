@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
+    
+}
+<div style="height:50px"></div>
+<h2>Delete</h2>
+
+<script type="text/javascript">
+    window.onload = function () {
+
+        var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
+        if(RefreshValue != null)
+        {
+            window.opener.location.reload();
+            window.close();
+        }
+    };
+</script>
+
+@using (Html.BeginForm("Delete", "Bookmark"))
+{
+
+    <table style="height:20%;width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding="5" cellspacing="5">
+        <tr>
+            <td style="font-weight: bold; color: red;padding-left:30%">
+                @ViewBag.Ack<br />
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="padding-left:10px">
+                @ViewData["BookmarkFolder"]
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding-left:10px">
+                <span style="font-weight:bold"> Are you sure you want to delete? </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" value="Yes" id="btnYes" name="btnYes" style="height:40px;border-radius:5px" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" value="No" id="btnNo" name="btnNo" style="height:40px;border-radius:5px" class="mysubmit" />
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+    </table>
+}

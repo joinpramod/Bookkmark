@@ -1,0 +1,95 @@
+﻿@model List<Bookmark.BookmarkCls>
+
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(canPage: true, rowsPerPage: 10);
+    grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
+
+}
+
+<div style="height:100px"></div>
+
+<h2>Data Analysis</h2>
+
+
+<div style="height:20px"></div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse">
+                    @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+                    {
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
+                                </td>
+                                <td style="padding-left:10px">
+                                    @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style="width:120px" })
+                                </td>
+                                <td style="padding-left:10px">
+                                    @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
+                                </td>
+                                <td style="padding-left:10px">
+                                    <button type = "submit" value = "Search" class="mysubmitsmall">Search</button>
+                                </td>
+                            </tr>
+                        </table>
+
+                    }
+                </div>
+            </div>
+        </nav>
+        <div>
+            @grid.Table(
+                tableStyle: "table table-responsive table-bordered table-striped",
+                columns: grid.Columns(
+                    //grid.Column(columnName: "Name", header: "Name"),
+                    grid.Column(columnName: "URL", header: "URL"),                   
+                    grid.Column(columnName: "CreatedDate", header: "Created Date"),
+                    grid.Column(columnName: "City", header: "State"),
+                    grid.Column(columnName: "Country", header: "Country"),
+                    grid.Column(columnName: "Count", header: "Count")
+                )
+            )
+
+            <div class="row">
+                <div class="col-md-offset-11">
+                    <span style="font-weight:bold; font-size:18px;">Total 56</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                </div>
+            </div>
+
+            @Html.Hidden("dir", grid.SortDirection)
+            @Html.Hidden("col", grid.SortColumn)
+
+        </div>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtCreatedFrom").datepicker({
+            maxDate: "+0M +0D", numberOfMonths: 1,
+            beforeShow: function () {
+                $(".ui-datepicker").css('font-size', 13)
+            }
+        });
+        $("#txtCreatedTo").datepicker({
+            maxDate: "+0M +0D", numberOfMonths: 1,
+            beforeShow: function () {
+                $(".ui-datepicker").css('font-size', 13)
+            }
+        });
+    });
+</script>
+
+
+
+ 
