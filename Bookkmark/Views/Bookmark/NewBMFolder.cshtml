@@ -24,16 +24,19 @@
 
     <table style="height:40%;width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding="5" cellspacing="5">
         <tr>
-            <td style="font-weight: bold; color: red;padding-left:30%">
+            <td style="font-weight: bold; color: red;">
                 @ViewBag.Ack<br />
             </td>
         </tr>
+        @if (ViewBag.AddType == "Bookmark")
+        {
         <tr>
             <td align="left" style="padding-left:10px">
                 @Html.TextBox("txtLink", "", new { style = "width:95%;", placeholder = "Link", @class = "myText" })
 
             </td>
         </tr>
+        }
         <tr>
             <td align="left" style="padding-left:10px">
                 @Html.TextBox("txtName", "", new { style = "width:95%;", placeholder = "Name", @class = "myText" })
@@ -53,4 +56,5 @@
             </td>
         </tr>
     </table>
+    @Html.Hidden("HFBookmarkId", (Object)ViewBag.BookmarkId)
 }
