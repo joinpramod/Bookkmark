@@ -5,7 +5,7 @@
 }
 
 @model Users
-@using Bookkmark.Models
+@using Bookmark.Models
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <script src="~/js/Facebook.js"></script>
@@ -75,7 +75,7 @@
                                 @*@if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {                               
                                 <tr>
                                     <td>
-                                        @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookkmark.com", @class = "myText" })
+                                        @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookmark.com", @class = "myText" })
                                     </td>
                                 </tr>
                                 }*@
