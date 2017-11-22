@@ -4,7 +4,7 @@
 }
 <div style="height:100px"></div>
 <h2>My Bookmarks</h2>
-@model List<Bookkmark.Models.Bookkmark>
+@model List<Bookkmark>
 
 <style>
     .collapse1 {
@@ -55,7 +55,7 @@
         @if (Model != null && Model.Count() > 0)
         {
             <ul>
-                @Treeview.GetTreeView(Model, Model.FirstOrDefault().ParentID)
+                @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
             </ul>
         }
     </div>
@@ -81,25 +81,6 @@
 </div>
 
 <div style="height:10px"></div>
-
-@*@using (Html.BeginForm("Manage", "Bookkmark"))
-{*@
-            @*<div class="row">
-                <div class="col-md-7">
-                         </div>
-                 <div class="col-md-2">
-                     @Html.TextBox("txtFolderName", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:32px;", placeholder = "Create New Folder - Name" })
-                 </div>
-                 <div class="col-md-2">
-                     @Html.DropDownList("ddFolder", new SelectList((System.Collections.IEnumerable)Model, "FolderId", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:150px;" })
-                     <br /> Folder in which the new folder has to be created
-                 </div>
-                 <div class="col-md-1">
-                     <input type="submit" value="Submit" id="btnCreateFolder" onclick="return ValidateNewFolder()" style="height:40px;border-radius:5px" class="mysubmit" />
-                 </div>
-                
-             </div>*@
-
 @section Scripts{
     <script>
         $(document).ready(function () {
@@ -113,9 +94,6 @@
     </script>
     <script src="~/Scripts/js/main.js"></script>
 }
-
-@*}*@
-
 
 
         <style>
