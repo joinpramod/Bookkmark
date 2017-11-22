@@ -19,46 +19,46 @@
             var hidden = document.createElement("hidden");
             hidden.id = "ipAddr";
             document.body.appendChild(hidden);
-            document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
-            document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
-            document.getElementById("imgBookkmark").src = @Html.Raw(Json.Encode(ViewData["bookkmarkImgSrc"]));
+            document.getElementById("imgBookmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
+            document.getElementById("imgBookmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
+            document.getElementById("imgBookmark").src = @Html.Raw(Json.Encode(ViewData["bookmarkImgSrc"]));
         };
         function DisplayIP(response) {
             document.getElementById("ipAddr").value = response.ip.toString();
         }
-        function AddBookkmark()
+        function AddBookmark()
         {
-            var BookkmarkModel = {
-                'Bookkmark': document.referrer,
+            var BookmarkModel = {
+                'Bookmark': document.referrer,
                 'title':@Html.Raw(Json.Encode(ViewData["title"])),
                 'ipAddr': document.getElementById("ipAddr").value,
-                'bookkmarkImgSrc' : document.getElementById("imgBookkmark").src
+                'bookmarkImgSrc' : document.getElementById("imgBookmark").src
             };
             $.ajax({
-                url: '/bookkmark/bookkmark/addbm',
+                url: '/bookmark/bookmark/addbm',
                 type: 'POST',
                 dataType: "text",
-                data: BookkmarkModel,
+                data: BookmarkModel,
                 success: function (data) {
                     if(data == null || data == ""){
-                        //alert("Bookkmark not added");
+                        //alert("Bookmark not added");
                         var left = (screen.width)-(0.30*screen.width);
                         var top = (screen.height)-(0.80*screen.height);
                         var height = screen.height*0.50;
                         var width = screen.height*0.38;
-                        window.open("/bookkmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
+                        window.open("/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
                     }
                     else
                     {
                         var res = data.split(",");  
-                        document.getElementById("imgBookkmark").src = res[0];
+                        document.getElementById("imgBookmark").src = res[0];
                         if(res[1]=="Edit")
                         {
                             var left = (screen.width) - (0.50 * screen.width);
                             var top = (screen.height) - (0.60 * screen.height);
                             var height = 305;
                             var width = 500;
-                            window.open("/bookkmark/bookkmark/manage?id=" + res[2] + "&action=" + res[1], "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+                            window.open("/bookmark/bookmark/manage?id=" + res[2] + "&action=" + res[1], "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
                         }
                     }
                 },
@@ -69,10 +69,10 @@
         }
     </script>
     <div>
-        <a onclick="AddBookkmark()" href="javascript:void(0);">
-            <img id="imgBookkmark" tooltip="Bookkmark this page" />
+        <a onclick="AddBookmark()" href="javascript:void(0);">
+            <img id="imgBookmark" tooltip="Bookmark this page" />
         </a><br />        
-        <span style="font-size:12px;">@ViewData["BookkmarkCount"]</span>
+        <span style="font-size:12px;">@ViewData["BookmarkCount"]</span>
     </div>
 </body>
 </html>

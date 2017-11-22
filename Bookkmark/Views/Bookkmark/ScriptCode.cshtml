@@ -8,15 +8,15 @@
 <div style="height:90px"></div>
 <script type="text/javascript">
     window.onload = function () {
-        document.getElementById("imgBookkmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"])) + "px";
-        document.getElementById("imgBookkmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"])) + "px";
+        document.getElementById("imgBookmark").style.height = @Html.Raw(Json.Encode(ViewData["txtHeight"])) + "px";
+        document.getElementById("imgBookmark").style.width = @Html.Raw(Json.Encode(ViewData["txtWidth"])) + "px";
     };
 </script>
 <h2>Generate Script</h2><br />
-Select the attributes of the Bookkmark image to be displayed on your web page 
+Select the attributes of the Bookmark image to be displayed on your web page 
 
 
-@using (Html.BeginForm("ScriptCode", "Bookkmark"))
+@using (Html.BeginForm("ScriptCode", "Bookmark"))
 {
 
     <table style="width:100%">
@@ -80,10 +80,10 @@ Select the attributes of the Bookkmark image to be displayed on your web page
         @*<tr><td>&nbsp;</td></tr>*@
         <tr>
             <td>
-                <img id="imgBookkmark" src="../../Bookkmark/Images/Bookmark.jpg" title="Bookkmark this page" /><br/>
+                <img id="imgBookmark" src="../../Bookmark/Images/Bookmark.jpg" title="Bookmark this page" /><br/>
                             @if (ViewData["chkShowCount"] != null)
                             {
-                                <span style="font-size:16px">@ViewData["BookkmarkCount"]</span> 
+                                <span style="font-size:16px">@ViewData["BookmarkCount"]</span> 
                             }
     </td>
         </tr>
@@ -91,7 +91,7 @@ Select the attributes of the Bookkmark image to be displayed on your web page
             <td>
                 <br />
 
-                Copy and paste the Script Code generated below in your application where you want the Bookkmark icon to be displayed
+                Copy and paste the Script Code generated below in your application where you want the Bookmark icon to be displayed
                 <br />
                 <div style="height:80px;border-radius:5px;font-weight:bold;border:solid 1px grey;width:80%;text-align:center;padding-top:1%">
                     <span style="font-size:16px;"> @ViewData["ScriptCode"]</span><br /><br />
