@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Bookkmark.Models;
+using Bookmark.Models;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public partial class Startup
     {

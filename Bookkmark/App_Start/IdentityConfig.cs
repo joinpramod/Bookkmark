@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Bookkmark.Models;
+using Bookmark.Models;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class EmailService : IIdentityMessageService
     {
