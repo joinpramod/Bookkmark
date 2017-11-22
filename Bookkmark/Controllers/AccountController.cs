@@ -97,7 +97,7 @@ namespace Bookkmark.Controllers
 
             /////Actual
             ConnManager connManager = new ConnManager();
-            DataTable DSUserList = new DataTable();
+            DataTable DtUserList = new DataTable();
             DataTable dtUserActivation = new DataTable();
 
             dtUserActivation = connManager.GetDataTable("select * from UserActivation where Emailid = '" + txtEMailId + "'");
@@ -109,9 +109,9 @@ namespace Bookkmark.Controllers
                 return View("../Account/Login");
             }
 
-           DSUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
+           DtUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
 
-            if (DSUserList.Rows.Count == 0)
+            if (DtUserList.Rows.Count == 0)
             {
                 ViewBag.Ack = "Invalid login credentials, please try again";
                 return View("../Account/Login");
@@ -119,14 +119,14 @@ namespace Bookkmark.Controllers
             else
             {
                 Users user = new Users();
-                user.UserId = double.Parse(DSUserList.Rows[0]["UserId"].ToString());
-                user.FirstName = DSUserList.Rows[0]["FirstName"].ToString();
-                user.LastName = DSUserList.Rows[0]["LastName"].ToString();
-                user.Email = DSUserList.Rows[0]["EMail"].ToString();
-                user.IsPublisher = bool.Parse(DSUserList.Rows[0]["IsPublisher"].ToString());
+                user.UserId = double.Parse(DtUserList.Rows[0]["UserId"].ToString());
+                user.FirstName = DtUserList.Rows[0]["FirstName"].ToString();
+                user.LastName = DtUserList.Rows[0]["LastName"].ToString();
+                user.Email = DtUserList.Rows[0]["EMail"].ToString();
+                user.IsPublisher = bool.Parse(DtUserList.Rows[0]["IsPublisher"].ToString());
 
 
-                user.Details = DSUserList.Rows[0]["Details"].ToString();
+                user.Details = DtUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
@@ -195,8 +195,8 @@ namespace Bookkmark.Controllers
                         return View("Users", user);
                     }
 
-                    DataSet dsUser = con.GetData("Select * from Users where Email = '" + user.Email + "'");
-                    if (dsUser.Tables[0].Rows.Count > 0)
+                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user.Email + "'");
+                    if (dtUser.Rows.Count > 0)
                     {
                         ViewBag.Ack = "EMail id already exists. If you have forgotten password, please click forgot password link on the Sign In page.";
                         return View("Users", user);
@@ -252,10 +252,10 @@ namespace Bookkmark.Controllers
                 if (ModelState.IsValid)
                 {
                     ConnManager con = new ConnManager();
-                    DataSet dsUser = con.GetData("Select * from Users where Email = '" + user.Email + "'");
-                    if (dsUser.Tables[0].Rows.Count > 0)
+                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user.Email + "'");
+                    if (dtUser.Rows.Count > 0)
                     {
-                        user.UserId = double.Parse(dsUser.Tables[0].Rows[0]["UserId"].ToString());
+                        user.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
                         user.OptionID = 7;
                         tempUser = (Users)Session["User"];
                         user.ImageURL = tempUser.ImageURL;
@@ -313,22 +313,22 @@ namespace Bookkmark.Controllers
                     return View("../Account/Login");
                 }
 
-                DataSet dsUser = con.GetData("Select * from Users where Email = '" + txtEMailId + "'");
-                if (dsUser.Tables[0].Rows.Count <= 0)
+                DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + txtEMailId + "'");
+                if (dtUser.Rows.Count <= 0)
                 {
                     ViewBag.Ack = "No such EMail Id exists";
                 }
 
-                if (!string.IsNullOrEmpty(dsUser.Tables[0].Rows[0]["Password"].ToString()))
+                if (!string.IsNullOrEmpty(dtUser.Rows[0]["Password"].ToString()))
                 {
                     Mail mail = new Mail();
                     mail.IsBodyHtml = true;
                     string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
 
-                    mail.Body = string.Format(EMailBody, "Your Bookmaq account password is " + dsUser.Tables[0].Rows[0]["Password"].ToString());
+                    mail.Body = string.Format(EMailBody, "Your Bookmaq account password is " + dtUser.Rows[0]["Password"].ToString());
                     mail.FromAdd = "admin@bookmaq.com";
                     mail.Subject = "Bookkmark account password";
-                    mail.ToAdd = dsUser.Tables[0].Rows[0]["EMail"].ToString();
+                    mail.ToAdd = dtUser.Rows[0]["EMail"].ToString();
                     mail.SendMail();
 
                     ViewBag.Ack = "Password has been emailed to you, please check your inbox.";
