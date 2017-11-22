@@ -1,9 +1,9 @@
-@helper GetTreeView(List<Bookkmark.Models.Bookkmark> siteMenu, long parentID)
+@helper GetTreeView(List<Bookkmark.Bookkmark> siteMenu, double parentID)
 {
-foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
+foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
 {
-        <li class="task" data-id="@i.BookkmarkID">
-            @{ var submenu = siteMenu.Where(a => a.ParentID.Equals(i.BookkmarkID)).Count();
+        <li class="task" data-id="@i.Id">
+            @{ var submenu = siteMenu.Where(a => a.FolderId.Equals(i.Id)).Count();
             }
             @if (submenu > 0)
             {
@@ -28,7 +28,7 @@ foreach (var i in siteMenu.Where(a => a.ParentID.Equals(parentID)))
             @if (submenu > 0)
             {
                 <ul>
-                    @Treeview.GetTreeView(siteMenu, i.BookkmarkID)
+                    @Treeview.GetTreeView(siteMenu, i.Id)
                 </ul>
             }
         </li>
