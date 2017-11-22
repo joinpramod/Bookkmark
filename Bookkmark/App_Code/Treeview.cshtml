@@ -1,4 +1,4 @@
-@helper GetTreeView(List<Bookkmark.Bookkmark> siteMenu, double parentID)
+@helper GetTreeView(List<Bookmark.BookmarkCls> siteMenu, double parentID)
 {
 foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
 {
