@@ -160,30 +160,30 @@ namespace Bookmark
             List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
            BookmarkCls _Bookmark = new BookmarkCls();
 
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-            {
-                conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwBookmarks where IsFolder = 1 and CreatedUserId = " + userId + "", conn))
-                {
-                    sda.Fill(dt);
-                }
-            }
+            //DataTable dt = new DataTable();
+            //using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            //{
+            //    conn.Open();
+            //    using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwBookmarks where IsFolder = 1 and CreatedUserId = " + userId + "", conn))
+            //    {
+            //        sda.Fill(dt);
+            //    }
+            //}
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                _Bookmark.Id = double.Parse(dt.Rows[i]["Id"].ToString());
-                _Bookmark.Name = dt.Rows[i]["Name"].ToString();
-                _Bookmark.URL = dt.Rows[i]["URL"].ToString();
-                _Bookmark.FolderId = double.Parse(dt.Rows[i]["FolderId"].ToString());
-                _Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
-                _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
-                _Bookmark.City = dt.Rows[i]["City"].ToString();
-                _Bookmark.Country = dt.Rows[i]["Country"].ToString();
-                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
-                lstBookmarks.Add(_Bookmark);
-                _Bookmark = new BookmarkCls();
-            }
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    _Bookmark.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+            //    _Bookmark.Name = dt.Rows[i]["Name"].ToString();
+            //    _Bookmark.URL = dt.Rows[i]["URL"].ToString();
+            //    _Bookmark.FolderId = double.Parse(dt.Rows[i]["FolderId"].ToString());
+            //    _Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
+            //    _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
+            //    _Bookmark.City = dt.Rows[i]["City"].ToString();
+            //    _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+            //    _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+            //    lstBookmarks.Add(_Bookmark);
+            //    _Bookmark = new BookmarkCls();
+            //}
 
 
             _Bookmark.Id = 1;
