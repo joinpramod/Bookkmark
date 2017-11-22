@@ -8,11 +8,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
-using Bookkmark.Models;
+using Bookmark.Models;
 using System.Security.Claims;
 using System.Linq;
 
-namespace Bookkmark.Controllers
+namespace Bookmark.Controllers
 {
 
 
@@ -75,20 +75,20 @@ namespace Bookkmark.Controllers
             mycookie.Expires = System.DateTime.Now.AddDays(180);
             Response.Cookies.Add(mycookie);
 
-            if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
+            if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
             {
-                //AddBookmark(Session["bookkmark"]);
-                Session["bookkmark"] = null;
-                return View("../Bookkmark/BMAdded");
+                //AddBookmark(Session["bookmark"]);
+                Session["bookmark"] = null;
+                return View("../Bookmark/BMAdded");
             }
             else if (user.IsPublisher)
             {
                 Session["RegisType"] = null;
-                return RedirectToAction("Reports", "Bookkmark");
+                return RedirectToAction("Reports", "Bookmark");
             }
             else
             {
-                return RedirectToAction("MyBookkmarks", "Bookkmark");
+                return RedirectToAction("MyBookmarks", "Bookmark");
             }
             //////////
 
@@ -139,20 +139,20 @@ namespace Bookkmark.Controllers
                 Response.Cookies.Add(userCookie);
 
 
-                if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
+                if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
-                    //AddBookmark(Session["bookkmark"]);
-                    Session["bookkmark"] = null;
-                    return View("../Bookkmark/BMAdded");
+                    //AddBookmark(Session["bookmark"]);
+                    Session["bookmark"] = null;
+                    return View("../Bookmark/BMAdded");
                 }
                 else if (user.IsPublisher)
                 {
                     Session["RegisType"] = null;
-                    return RedirectToAction("Reports", "Bookkmark");
+                    return RedirectToAction("Reports", "Bookmark");
                 }
                 else
                 {
-                    return RedirectToAction("MyBookkmarks", "Bookkmark");
+                    return RedirectToAction("MyBookmarks", "Bookmark");
                 }
             }
         }
@@ -234,7 +234,7 @@ namespace Bookkmark.Controllers
         public ActionResult EditUser(Users user)
         {
             double dblUserID = 0;
-            Users tempUser = new global::Bookkmark.Users();
+            Users tempUser = new global::Bookmark.Users();
 
             user = (Users)Session["User"];
             if (Request.Form["Edit"] != null)
@@ -275,7 +275,7 @@ namespace Bookkmark.Controllers
             }
             else if (Request.Form["UpdateAsSiteOwner"] != null)
             {
-                return RedirectToAction("ScriptCode", "Bookkmark");               
+                return RedirectToAction("ScriptCode", "Bookmark");               
             }
             else
             {
@@ -327,7 +327,7 @@ namespace Bookkmark.Controllers
 
                     mail.Body = string.Format(EMailBody, "Your Bookmaq account password is " + dtUser.Rows[0]["Password"].ToString());
                     mail.FromAdd = "admin@bookmaq.com";
-                    mail.Subject = "Bookkmark account password";
+                    mail.Subject = "Bookmark account password";
                     mail.ToAdd = dtUser.Rows[0]["EMail"].ToString();
                     mail.SendMail();
 
@@ -422,7 +422,7 @@ namespace Bookkmark.Controllers
         {
             Session["User"] = null;
             Session["Facebook"] = null;
-            Session["bookkmark"] = null;
+            Session["bookmark"] = null;
             Session.RemoveAll();
             ViewBag.UserEmail = null;
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -478,7 +478,7 @@ namespace Bookkmark.Controllers
         public ActionResult Activate()
         {
             string ActivationCode = Request.QueryString["ActivationCode"];
-            Users usr = new global::Bookkmark.Users();
+            Users usr = new global::Bookmark.Users();
             ViewBag.Ack = usr.ActivateUser(ActivationCode);
             return View("../Account/Login");
         }
@@ -605,33 +605,33 @@ namespace Bookkmark.Controllers
                 }
 
 
-                if (Session["bookkmark"] != null && Request.Form["btnQuickLogin"] != null)
+                if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
-                    //AddBookmark(Session["bookkmark"]);
-                    Session["bookkmark"] = null;
-                    return View("../Bookkmark/BMAdded");
+                    //AddBookmark(Session["bookmark"]);
+                    Session["bookmark"] = null;
+                    return View("../Bookmark/BMAdded");
                 }
                 if (_isNewUser)
                 { 
                     if(Session["RegisType"] != null && Session["RegisType"].ToString() == "SiteOwner")
                     {
                         Session["RegisType"] = null;
-                        return RedirectToAction("ScriptCode", "Bookkmark");
+                        return RedirectToAction("ScriptCode", "Bookmark");
                     }
                     else
                     {
-                        return RedirectToAction("MyBookkmarks", "Bookkmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
                     }
                 }
                 else
                 {
                     if(user1.IsPublisher)
                     {
-                        return RedirectToAction("Reports", "Bookkmark");
+                        return RedirectToAction("Reports", "Bookmark");
                     }
                     else
                     {
-                        return RedirectToAction("MyBookkmarks", "Bookkmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
                     }
                 }
             }

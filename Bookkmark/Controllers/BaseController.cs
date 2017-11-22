@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Bookkmark.Controllers
+namespace Bookmark.Controllers
 {
     public class BaseController : Controller
     {

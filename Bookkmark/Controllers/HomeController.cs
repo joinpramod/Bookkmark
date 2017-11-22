@@ -1,7 +1,7 @@
-﻿//using Bookkmark.AppCode;
+﻿//using Bookmark.AppCode;
 using System.Web.Mvc;
 
-namespace Bookkmark.Controllers
+namespace Bookmark.Controllers
 {
     public class HomeController : BaseController
     {
