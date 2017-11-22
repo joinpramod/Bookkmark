@@ -207,24 +207,25 @@ namespace Bookmark.Controllers
 
         public ActionResult Manage()
         {
-           
+            Users user = (Users)Session["User"];
+
             if (Request.QueryString["action"].ToString().Equals("Add"))
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null);
+                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
                 ViewData["ddFolders"] = lstFolders;
                 //Process(Request.QueryString["id"])
                 return View("../Bookmark/NewBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("Move"))
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null);
+                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
                 ViewData["ddFolders"] = lstFolders;
                 //Process(Request.QueryString["id"])
                 return View("../Bookmark/EditBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("Edit"))
             {
-                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null);
+                List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
                 ViewData["ddFolders"] = lstFolders;
                 //Process(Request.QueryString["id"])
                 return View("../Bookmark/EditBMFolder");
@@ -238,7 +239,8 @@ namespace Bookmark.Controllers
 
         public ActionResult EditBMFolder()
         {
-            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null);
+            Users user = (Users)Session["User"];
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
@@ -246,7 +248,8 @@ namespace Bookmark.Controllers
 
         public ActionResult NewBMFolder()
         {
-            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null);
+            Users user = (Users)Session["User"];
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View();
