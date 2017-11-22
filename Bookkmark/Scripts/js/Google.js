@@ -4,7 +4,7 @@ function onSuccess(googleUser) {
     var profile = googleUser.getBasicProfile();
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    //form.setAttribute("action", "/Bookkmark/Account/ViewUser");
+    //form.setAttribute("action", "/Bookmark/Account/ViewUser");
     form.setAttribute("action", "/Account/ViewUser");
 
     var hfEMail = document.createElement("input");
