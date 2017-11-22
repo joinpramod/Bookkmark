@@ -1,5 +1,5 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="../bookkmark.1.249.js" />
+/// <reference path="../bookmark.1.249.js" />
 /// <reference path="../browserext/background.js" />
 /// <reference path="../browserext/jquery-1.10.2.min.js" />
 /// <reference path="../browserext/popup.js" />
