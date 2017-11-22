@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bookkmark.Models
+namespace Bookmark.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
