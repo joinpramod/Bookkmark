@@ -7,7 +7,7 @@ using System.Text;
 /// <summary>
 /// Summary description for Utilities
 /// </summary>
-namespace Bookkmark
+namespace Bookmark
 {
 public static class Utilities
 {

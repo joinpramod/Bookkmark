@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class Domain
     {
@@ -92,24 +92,24 @@ namespace Bookkmark
         {
             List<Domain> lstDomains = new List<Domain>();
             Domain _Domain = new Domain();
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-            {
-                conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId, conn))
-                {
-                    sda.Fill(dt);
-                }
-            }
+            //DataTable dt = new DataTable();
+            //using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            //{
+            //    conn.Open();
+            //    using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId, conn))
+            //    {
+            //        sda.Fill(dt);
+            //    }
+            //}
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
-                _Domain.Name = dt.Rows[i]["Name"].ToString();
-                _Domain.Script = dt.Rows[i]["Script"].ToString(); 
-                lstDomains.Add(_Domain);
-                _Domain = new Domain();
-            }
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+            //    _Domain.Name = dt.Rows[i]["Name"].ToString();
+            //    _Domain.Script = dt.Rows[i]["Script"].ToString(); 
+            //    lstDomains.Add(_Domain);
+            //    _Domain = new Domain();
+            //}
 
             _Domain = new Domain();
             _Domain.Id = 1;
@@ -137,24 +137,24 @@ namespace Bookkmark
         {
             List<Domain> lstDomains = new List<Domain>();
             Domain _Domain = new Domain();
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-            {
-                conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId + " and domainid = "+ ddDomains + "", conn))
-                {
-                    sda.Fill(dt);
-                }
-            }
+            //DataTable dt = new DataTable();
+            //using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            //{
+            //    conn.Open();
+            //    using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId + " and domainid = "+ ddDomains + "", conn))
+            //    {
+            //        sda.Fill(dt);
+            //    }
+            //}
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
-                _Domain.Name = dt.Rows[i]["Name"].ToString();
-                _Domain.Script = dt.Rows[i]["Script"].ToString();
-                lstDomains.Add(_Domain);
-                _Domain = new Domain();
-            }
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+            //    _Domain.Name = dt.Rows[i]["Name"].ToString();
+            //    _Domain.Script = dt.Rows[i]["Script"].ToString();
+            //    lstDomains.Add(_Domain);
+            //    _Domain = new Domain();
+            //}
 
             _Domain = new Domain();
             _Domain.Id = 1;

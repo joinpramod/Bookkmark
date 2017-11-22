@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class ClsSuggestion : ConnManager
     {

@@ -4,10 +4,10 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using System.Collections.Generic;
-using Bookkmark.Models;
+using Bookmark.Models;
 using System.Text.RegularExpressions;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class ConnManager
     {

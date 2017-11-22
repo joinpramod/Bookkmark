@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 
-namespace Bookkmark
+namespace Bookmark
 {
 
     public enum RegisType { WebUser, SiteOwner }

@@ -2,7 +2,7 @@ using System.Net.Mail;
 using System.IO;
 using System.Configuration;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class Mail
     {

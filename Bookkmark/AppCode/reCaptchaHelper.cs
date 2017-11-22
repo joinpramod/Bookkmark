@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public enum Theme { Red, White, BlackGlass, Clean }
 
