@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Bookkmark
+namespace Bookmark
 {
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -30,7 +30,7 @@ namespace Bookkmark
             if (Request.Url.ToString().ToLower().Contains("/que/ans?id"))
             {
                 if (Request.Url.ToString().Contains("localhost"))
-                    HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
+                    HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
                 else
                     HttpContext.Current.Response.Redirect("/Home/NotFound");
             }
@@ -45,7 +45,7 @@ namespace Bookkmark
                (Request.Url.ToString().ToLower().Contains("bookmaq.com/que/ans/home/rewards")))
             {
                 if (Request.Url.ToString().Contains("localhost"))
-                    HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
+                    HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
                 else
                     HttpContext.Current.Response.Redirect("/Home/NotFound");
             }
@@ -67,7 +67,7 @@ namespace Bookkmark
                     && ex.Message.ToLower().Contains("was not found or does not implement icontroller"))
                 {
                     if (Request.Url.ToString().Contains("localhost"))
-                        HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
+                        HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
                     else
                         HttpContext.Current.Response.Redirect("/Home/NotFound");
                 }
@@ -75,7 +75,7 @@ namespace Bookkmark
                     && ex.Message.ToLower().Contains("was not found on controller"))
                 {
                     if (Request.Url.ToString().Contains("localhost"))
-                        HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
+                        HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
                     else
                         HttpContext.Current.Response.Redirect("/Home/NotFound");
                 }
@@ -83,7 +83,7 @@ namespace Bookkmark
                     || ex.Message.ToLower().Contains("this is an invalid script resource request"))
                 {
                     if (Request.Url.ToString().Contains("localhost"))
-                        HttpContext.Current.Response.Redirect("/Bookkmark/Home/NotFound");
+                        HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
                     else
                         HttpContext.Current.Response.Redirect("/Home/NotFound");
                 }
@@ -156,7 +156,7 @@ namespace Bookkmark
                   //  mail.SendMail();
 
                     //if (Request.Url.ToString().Contains("localhost"))
-                    //    HttpContext.Current.Response.Redirect("/Bookkmark/Home/Error");
+                    //    HttpContext.Current.Response.Redirect("/Bookmark/Home/Error");
                     //else
                     //    HttpContext.Current.Response.Redirect("/Home/Error");
                 }
