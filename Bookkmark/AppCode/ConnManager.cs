@@ -11,21 +11,6 @@ namespace Bookkmark
 {
     public class ConnManager
     {
-
-        public DataSet GetData(string sqlQuery)
-        {
-            DataSet DS = new DataSet();
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-            {
-                conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(sqlQuery, conn))
-                {
-                    sda.Fill(DS);
-                }
-            }        
-            return DS;
-        }
-
         public DataTable GetDataTable(string sqlQuery)
         {
             DataTable dt = new DataTable();
@@ -41,13 +26,27 @@ namespace Bookkmark
         }
 
 
-
         private string CleanTitle(string v)
         {
             Regex rgx = new Regex("[^a-zA-Z0-9 -]");
             return rgx.Replace(v, "");
         }
 
+
+
+        //public DataSet GetData(string sqlQuery)
+        //{
+        //    DataSet DS = new DataSet();
+        //    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+        //    {
+        //        conn.Open();
+        //        using (SqlDataAdapter sda = new SqlDataAdapter(sqlQuery, conn))
+        //        {
+        //            sda.Fill(DS);
+        //        }
+        //    }        
+        //    return DS;
+        //}
 
         //public List<QuestionType> GetQuestionType()
         //{

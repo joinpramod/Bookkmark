@@ -1,25 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
 
 namespace Bookkmark
 {
-    public class Domain : ConnManager
+    public class Domain
     {
-        private SqlConnection CmdLCLDBConn;
-        private SqlCommand CmdExecute;
-        public SqlConnection SetConnection
-        {
-            get
-            {
-                return CmdLCLDBConn;
-            }
-            set
-            {
-                CmdLCLDBConn = value;
-            }
-        }
+
         public int OptID { get; set; }
         public double Id { get; set; }
         public string Name { get; set; }
@@ -30,7 +20,7 @@ namespace Bookkmark
 
         public bool SetCommandDomain(ref SqlCommand CmdSent)
         {
-            SqlCommand Cmd = new SqlCommand("Domain_Sp", CmdLCLDBConn);
+            SqlCommand Cmd = new SqlCommand("Domain_Sp");
             Cmd.CommandType = CommandType.StoredProcedure;
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamId = Cmd.Parameters.Add("@Id", SqlDbType.Float);
@@ -81,27 +71,111 @@ namespace Bookkmark
 
         public bool CreateDomain(ref double NewMasterID, SqlTransaction TrTransaction)
         {
+            SqlCommand CmdExecute = new SqlCommand();
             if (SetCommandDomain(ref CmdExecute))
             {
-                try
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
                 {
-                    if (TrTransaction != null)
+                    using (CmdExecute)
                     {
-                        CmdExecute.Transaction = TrTransaction;
+                        conn.Open();
+                        CmdExecute.Connection = conn;
+                        CmdExecute.ExecuteReader();
                     }
-                    SqlDataReader DATReader = CmdExecute.ExecuteReader();
-                    while (DATReader.Read())
-                    {
-                        NewMasterID = double.Parse(DATReader[0].ToString());
-                    }
-                    DATReader.Close();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
                 }
             }
             return true;
+        }
+
+
+        public List<Domain> GetDomains(string search, string sort, string sortdir, string userId)
+        {
+            List<Domain> lstDomains = new List<Domain>();
+            Domain _Domain = new Domain();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId, conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+                _Domain.Name = dt.Rows[i]["Name"].ToString();
+                _Domain.Script = dt.Rows[i]["Script"].ToString(); 
+                lstDomains.Add(_Domain);
+                _Domain = new Domain();
+            }
+
+            _Domain = new Domain();
+            _Domain.Id = 1;
+            _Domain.Name = "google.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+            _Domain = new Domain();
+            _Domain.Id = 2;
+            _Domain.Name = "facebook.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+
+            _Domain = new Domain();
+            _Domain.Id = 3;
+            _Domain.Name = "twitter.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+            return lstDomains;
+       }
+
+        public List<Domain> GetDomainScript(string userId, string ddDomains)
+        {
+            List<Domain> lstDomains = new List<Domain>();
+            Domain _Domain = new Domain();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId + " and domainid = "+ ddDomains + "", conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+                _Domain.Name = dt.Rows[i]["Name"].ToString();
+                _Domain.Script = dt.Rows[i]["Script"].ToString();
+                lstDomains.Add(_Domain);
+                _Domain = new Domain();
+            }
+
+            _Domain = new Domain();
+            _Domain.Id = 1;
+            _Domain.Name = "google.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+            _Domain = new Domain();
+            _Domain.Id = 2;
+            _Domain.Name = "facebook.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+
+            _Domain = new Domain();
+            _Domain.Id = 3;
+            _Domain.Name = "twitter.com";
+            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            lstDomains.Add(_Domain);
+
+            return lstDomains;
         }
 
     }

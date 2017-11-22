@@ -11,7 +11,6 @@ namespace Bookkmark
 
     public class Users
     {
-        private SqlCommand CmdExecute;
         public int OptionID { get; set; }
         public double UserId { get; set; }
         public string FirstName { get; set; }
@@ -28,8 +27,31 @@ namespace Bookkmark
         public string Details { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
-
         public List<Domain> Domains { get; set; }
+
+        public bool CreateUsers(ref double NewMasterID)
+        {
+            SqlCommand CmdExecute = new SqlCommand();
+            if (SetCommandUser(ref CmdExecute))
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (CmdExecute)
+                    {
+                        conn.Open();
+                        CmdExecute.Connection = conn;
+                        using (SqlDataReader DATReader = CmdExecute.ExecuteReader())
+                        {
+                            while (DATReader.Read())
+                            {
+                                NewMasterID = double.Parse(DATReader[0].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
 
         public bool SetCommandUser(ref SqlCommand CmdSent)
         {
@@ -106,33 +128,6 @@ namespace Bookkmark
             return true;
         }
 
-        public bool CreateUsers(ref double NewMasterID)
-        {
-            if (SetCommandUser(ref CmdExecute))
-            {
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-                {
-                    using (CmdExecute)
-                    {
-                        conn.Open();
-                        CmdExecute.Connection = conn;
-                        using (SqlDataReader DATReader = CmdExecute.ExecuteReader())
-                        {
-                            while (DATReader.Read())
-                            {
-                                NewMasterID = double.Parse(DATReader[0].ToString());
-                            }
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
-        //public Users CreateUsers(string strEmail, string strFirstName, string strLastName)
-        //{
-        //    return CreateUser(strEmail, strFirstName, strLastName, null);
-        //}
 
         public Users CreateUser(string strEmail, string strFirstName, string strLastName)
         {
@@ -221,3 +216,12 @@ namespace Bookkmark
     }
 }
 
+
+
+
+
+
+//public Users CreateUsers(string strEmail, string strFirstName, string strLastName)
+//{
+//    return CreateUser(strEmail, strFirstName, strLastName, null);
+//}
