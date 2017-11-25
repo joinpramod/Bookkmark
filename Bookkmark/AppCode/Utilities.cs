@@ -3,13 +3,16 @@ using System.Web;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Text;
+using System.Data;
+using System.Net;
+using System.Xml;
 
 /// <summary>
 /// Summary description for Utilities
 /// </summary>
 namespace Bookmark
 {
-public static class Utilities
+    public static class Utilities
 {
     static string Target = "";
 
@@ -101,6 +104,55 @@ public static class Utilities
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+
+        public static string GetIPAddress()
+        {
+            string varIPAddress = string.Empty;
+            string varVisitorCountry = string.Empty;
+            string varIpAddress = string.Empty;
+            varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(varIpAddress))
+            {
+                if (System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+                {
+                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                }
+            }
+
+            //varIPAddress = (System.Web.UI.Page)Request.ServerVariables["HTTP_X_FORWARDED_FOR"];    
+            if (varIPAddress == "" || varIPAddress == null)
+            {
+                if (System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] != null)
+                {
+                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
+            }
+            //varIPAddress = Request.ServerVariables["REMOTE_ADDR"];    
+            return varIpAddress;
+        }
+
+        public static void GetLocation(string varIPAddress, ref string strCity, ref string strState, ref string strCountry)
+        {
+            WebRequest varWebRequest = WebRequest.Create("http://freegeoip.net/xml/" + varIPAddress);
+            WebProxy px = new WebProxy("http://freegeoip.net/xml/" + varIPAddress, true);
+            varWebRequest.Proxy = px;
+            varWebRequest.Timeout = 2000;
+            try
+            {
+                WebResponse rep = varWebRequest.GetResponse();
+                XmlTextReader xtr = new XmlTextReader(rep.GetResponseStream());
+                DataSet ds = new DataSet();
+                ds.ReadXml(xtr);
+                strCity = ds.Tables[0].Rows[0]["City"].ToString();
+                strState = ds.Tables[0].Rows[0]["RegionName"].ToString();
+                strCountry = ds.Tables[0].Rows[0]["CountryName"].ToString();
+            }
+            catch
+            {
+                //return null;
             }
         }
 

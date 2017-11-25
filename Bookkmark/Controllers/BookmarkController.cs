@@ -1,12 +1,7 @@
 using System.Web.Mvc;
-using Bookmark.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Web;
-using System.Data;
-using System.Net;
-using System.Xml;
 
 namespace Bookmark.Controllers
 {
@@ -92,7 +87,7 @@ namespace Bookmark.Controllers
                     bmrk.URL = Bookmark;
                     bmrk.Name = title;
                     bmrk.IpAddr = ipAddr;
-                    GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+                    Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
                     bmrk.OptID = 1;  //Insert, Create
                     bmrk.FolderId = 0;  //Default Folder
                     bmrk.CreatedUserId = user.UserId.ToString();
@@ -271,8 +266,8 @@ namespace Bookmark.Controllers
             string strCity = string.Empty;
             string strState = string.Empty;
             string strCountry = string.Empty;
-            string ipAddr = GetIPAddress();
-            GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
+            string ipAddr = Utilities.GetIPAddress();
+            Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
 
             if (!string.IsNullOrEmpty(txtLink))
             {
@@ -304,8 +299,8 @@ namespace Bookmark.Controllers
             //string strCity = string.Empty;
             //string strState = string.Empty;
             //string strCountry = string.Empty;
-            //string ipAddr = GetIPAddress();
-            //GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
+            //string ipAddr = Utilities.GetIPAddress();
+            //Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
 
             if (!string.IsNullOrEmpty(txtLink))
             {
@@ -358,8 +353,8 @@ namespace Bookmark.Controllers
             //string strCity = string.Empty;
             //string strState = string.Empty;
             //string strCountry = string.Empty;
-            //string ipAddr = GetIPAddress();
-            //GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
+            //string ipAddr = Utilities.GetIPAddress();
+            //Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
 
             //if (!string.IsNullOrEmpty(txtLink))
             //{
@@ -384,56 +379,6 @@ namespace Bookmark.Controllers
             ViewData["Refresh"] = "true";
             return View();
         }
-
-        private string GetIPAddress()
-        {
-            string varIPAddress = string.Empty;
-            string varVisitorCountry = string.Empty;
-            string varIpAddress = string.Empty;
-            varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(varIpAddress))
-            {
-                if (System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
-                {
-                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-                }
-            }
-
-            //varIPAddress = (System.Web.UI.Page)Request.ServerVariables["HTTP_X_FORWARDED_FOR"];    
-            if (varIPAddress == "" || varIPAddress == null)
-            {
-                if (System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] != null)
-                {
-                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-                }
-            }
-            //varIPAddress = Request.ServerVariables["REMOTE_ADDR"];    
-            return varIpAddress;
-        }
-
-        private void GetLocation(string varIPAddress, ref string strCity, ref string strState, ref string strCountry)
-        {
-            WebRequest varWebRequest = WebRequest.Create("http://freegeoip.net/xml/" + varIPAddress);
-            WebProxy px = new WebProxy("http://freegeoip.net/xml/" + varIPAddress, true);
-            varWebRequest.Proxy = px;
-            varWebRequest.Timeout = 2000;
-            try
-            {
-                WebResponse rep = varWebRequest.GetResponse();
-                XmlTextReader xtr = new XmlTextReader(rep.GetResponseStream());
-                DataSet ds = new DataSet();
-                ds.ReadXml(xtr);
-                strCity = ds.Tables[0].Rows[0]["City"].ToString();
-                strState = ds.Tables[0].Rows[0]["RegionName"].ToString();
-                strCountry = ds.Tables[0].Rows[0]["CountryName"].ToString();
-            }
-            catch
-            {
-                //return null;
-            }
-        }
-
-
 
     }
 }
