@@ -37,25 +37,7 @@ else
                 @ViewBag.Ack<br />
             </td>
         </tr>
-@if (ViewBag.MoveType == "Bookmark")
-{
-
-        <tr>
-            <td align="left" style="padding-left:10px">
-                @*@Html.TextBox("txtLink", "", new { style = "width:95%;", placeholder = "Link", @class = "myText" })*@
-                @Html.TextBoxFor(m => m.URL, new { style = "width:95%;", placeholder = "Link", @class = "myText" })
-
-            </td>
-        </tr>
-}
-        <tr>
-            <td align="left" style="padding-left:10px">
-                @*@Html.TextBox("txtName", "", new { style = "width:95%;", placeholder = "Name", @class = "myText" })*@
-                @Html.TextBoxFor(m => m.Name, new { style = "width:95%;", placeholder = "Name", @class = "myText" })
-
-            </td>
-        </tr>
-        <tr>
+       <tr>
             <td align="left" style="padding-left:10px">
                 @*@Html.Password("txtFolder", "", new { style = "width:75%;", placeholder = "Folder", @class = "myText" })*@
                 @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })

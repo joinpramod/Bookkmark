@@ -220,11 +220,6 @@ namespace Bookmark.Controllers
             return View(data);
         }
 
-
-
-
-
-
         public ActionResult Manage()
         {
             Users user = (Users)Session["User"];
@@ -264,6 +259,7 @@ namespace Bookmark.Controllers
                 bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
                 if (!bmrk.IsFolder)
                     ViewBag.DeleteType = "Bookmark";
+                ViewBag.Name = bmrk.Name;
                 return View("../Bookmark/Delete", bmrk);
             }
         }
@@ -301,16 +297,15 @@ namespace Bookmark.Controllers
             return View();
         }
 
-
         public ActionResult EditBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
         {
             Users user = (Users)Session["User"];
             BookmarkCls bmrk = new BookmarkCls();
-            string strCity = string.Empty;
-            string strState = string.Empty;
-            string strCountry = string.Empty;
-            string ipAddr = GetIPAddress();
-            GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
+            //string strCity = string.Empty;
+            //string strState = string.Empty;
+            //string strCountry = string.Empty;
+            //string ipAddr = GetIPAddress();
+            //GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
 
             if (!string.IsNullOrEmpty(txtLink))
             {
@@ -321,12 +316,13 @@ namespace Bookmark.Controllers
             {
                 bmrk.IsFolder = true;
             }
+            bmrk.OptID = 3;  //Update
             bmrk.Name = txtName;
             bmrk.FolderId = double.Parse(ddFolder);
-            bmrk.CreatedDate = DateTime.Now.ToString();
+            bmrk.ModifiedDate = DateTime.Now.ToString();
             bmrk.CreatedUserId = user.UserId.ToString();
-            bmrk.City = strCity;
-            bmrk.Country = strState;
+            //bmrk.City = strCity;
+            //bmrk.Country = strState;
             bmrk.ManageBookmark();
 
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
@@ -342,14 +338,11 @@ namespace Bookmark.Controllers
                 Users user = (Users)Session["User"];
                 BookmarkCls bmrk = new BookmarkCls();
                 bmrk.Id = double.Parse(HFBookmarkId);
-               // bmrk.DeleteBookmark(user.UserId.ToString());
-                ViewData["Refresh"] = "true";
+                bmrk.OptID = 4; //Delete
+                bmrk.CreatedUserId = user.UserId.ToString();
+                bmrk.ManageBookmark();               
             }
-            else
-            {
-
-
-            }            
+            ViewData["Refresh"] = "true";
             return View();
         }
 
@@ -358,8 +351,41 @@ namespace Bookmark.Controllers
             return View();
         }
 
+        public ActionResult MoveBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
+        {
+            Users user = (Users)Session["User"];
+            BookmarkCls bmrk = new BookmarkCls();
+            //string strCity = string.Empty;
+            //string strState = string.Empty;
+            //string strCountry = string.Empty;
+            //string ipAddr = GetIPAddress();
+            //GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
 
-        internal string GetIPAddress()
+            //if (!string.IsNullOrEmpty(txtLink))
+            //{
+            //    bmrk.URL = txtLink;
+            //    bmrk.IsFolder = false;
+            //}
+            //else
+            //{
+            //    bmrk.IsFolder = true;
+            //}
+            bmrk.OptID = 5; //Update folder
+            //bmrk.Name = txtName;
+            bmrk.FolderId = double.Parse(ddFolder);
+            //bmrk.CreatedDate = DateTime.Now.ToString();
+            bmrk.CreatedUserId = user.UserId.ToString();
+            //bmrk.City = strCity;
+            //bmrk.Country = strState;
+            bmrk.ManageBookmark();
+
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            ViewData["ddFolders"] = lstFolders;
+            ViewData["Refresh"] = "true";
+            return View();
+        }
+
+        private string GetIPAddress()
         {
             string varIPAddress = string.Empty;
             string varVisitorCountry = string.Empty;
