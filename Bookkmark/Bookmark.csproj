@@ -333,6 +333,7 @@
     <Content Include="Views\Bookmark\NewBMFolder.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Bookmark\Domains.cshtml" />
+    <Content Include="Views\Bookmark\MoveBMFolder.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

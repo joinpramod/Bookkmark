@@ -5,7 +5,16 @@
     
 }
 <div style="height:50px"></div>
-<h2>Delete</h2>
+
+@if (ViewBag.DeleteType == "Bookmark")
+{
+    <h2>Delete Bookmark</h2>
+}
+else
+{
+    <h2>Delete Folder</h2>
+}
+
 
 <script type="text/javascript">
     window.onload = function () {
@@ -19,6 +28,8 @@
     };
 </script>
 
+@model Bookmark.BookmarkCls
+
 @using (Html.BeginForm("Delete", "Bookmark"))
 {
 
@@ -30,7 +41,7 @@
         </tr>
         <tr>
             <td align="left" style="padding-left:10px">
-                @ViewData["BookmarkFolder"]
+                model.Name 
             </td>
         </tr>
         <tr>
@@ -46,4 +57,6 @@
         </tr>
         <tr><td>&nbsp;</td></tr>
     </table>
+    @Html.Hidden("HFBookmarkId", (Object)ViewBag.BookmarkId)
+
 }

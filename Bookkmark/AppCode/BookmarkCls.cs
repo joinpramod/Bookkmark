@@ -346,7 +346,7 @@ namespace Bookmark
 
             _Bookmark = new BookmarkCls();
             _Bookmark.Id = 1003;
-            _Bookmark.Name = "Stats - Quora";
+            _Bookmark.Name = "Quora";
             _Bookmark.FolderId = 102;
             _Bookmark.IsFolder = false;
             _Bookmark.URL = "https://www.quora.com/stats";
@@ -490,6 +490,55 @@ namespace Bookmark
             return lstBookmarks;
         }
 
+
+        public BookmarkCls GetBookmarkFromId(string bmrkId, double userId)
+        {
+
+            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+            BookmarkCls _Bookmark = new BookmarkCls();
+            //DataTable dt = new DataTable();
+            //using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            //{
+            //    conn.Open();
+            //    using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwBookmarks where Id = " + bmrkId + " and CreatedUserId = " + userId.ToString() + "", conn))
+            //    {
+            //        sda.Fill(dt);
+            //    }
+            //}
+
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    _Bookmark.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+            //    _Bookmark.Name = dt.Rows[i]["Name"].ToString();
+            //    _Bookmark.URL = dt.Rows[i]["URL"].ToString();
+            //    _Bookmark.FolderId = double.Parse(dt.Rows[i]["FolderId"].ToString());
+            //    _Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
+            //    _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
+            //    _Bookmark.City = dt.Rows[i]["City"].ToString();
+            //    _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+            //    _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+            //    lstBookmarks.Add(_Bookmark);
+            //    _Bookmark = new Bookmark();
+            //}
+
+
+            _Bookmark = new BookmarkCls();
+            _Bookmark.Id = 1003;
+            _Bookmark.Name = "Quora";
+            _Bookmark.FolderId = 102;
+            _Bookmark.IsFolder = false;
+            _Bookmark.URL = "https://www.quora.com/stats";
+            _Bookmark.IpAddr = "121.0.0.1";
+            _Bookmark.City = "Los Angeles";
+            _Bookmark.Country = "USA";
+            _Bookmark.CreatedDate = "05/02/2017 10:24 AM";
+            _Bookmark.Count = "15";
+            lstBookmarks.Add(_Bookmark);
+
+
+            
+            return _Bookmark;
+        }
 
 
     }

@@ -4,7 +4,14 @@
     Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 <div style="height:40px"></div>
-<h2>Edit</h2>
+@if (ViewBag.EditType == "Bookmark")
+{
+    <h2>Edit Bookmark</h2>
+}
+else
+{
+    <h2>Edit Folder</h2>
+}
 
 <script type="text/javascript">
     window.onload = function () {
@@ -19,7 +26,7 @@
 </script>
 <div style="height:10px"></div>
 
-@model List<Bookmark.BookmarkCls>
+@model Bookmark.BookmarkCls
 
 @using (Html.BeginForm("EditBMFolder", "Bookmark"))
 {
@@ -30,22 +37,28 @@
                 @ViewBag.Ack<br />
             </td>
         </tr>
+@if (ViewBag.EditType == "Bookmark")
+{
+
         <tr>
             <td align="left" style="padding-left:10px">
-                @Html.TextBox("txtLink", "", new { style = "width:95%;", placeholder = "Link", @class = "myText" })
+                @*@Html.TextBox("txtLink", "", new { style = "width:95%;", placeholder = "Link", @class = "myText" })*@
+                @Html.TextBoxFor(m => m.URL, new { style = "width:95%;", placeholder = "Link", @class = "myText" })
 
             </td>
         </tr>
+}
         <tr>
             <td align="left" style="padding-left:10px">
-                @Html.TextBox("txtName", "", new { style = "width:95%;", placeholder = "Name", @class = "myText" })
+                @*@Html.TextBox("txtName", "", new { style = "width:95%;", placeholder = "Name", @class = "myText" })*@
+                @Html.TextBoxFor(m => m.Name, new { style = "width:95%;", placeholder = "Name", @class = "myText" })
 
             </td>
         </tr>
         <tr>
             <td align="left" style="padding-left:10px">
                 @*@Html.Password("txtFolder", "", new { style = "width:75%;", placeholder = "Folder", @class = "myText" })*@
-                @Html.DropDownList("ddFolder", new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "BookmarkID", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })
+                @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })
             </td>
         </tr>
         <tr>
@@ -55,4 +68,6 @@
             </td>
         </tr>
     </table>
+    @Html.Hidden("HFBookmarkId", (Object)ViewBag.BookmarkId)
+
 }

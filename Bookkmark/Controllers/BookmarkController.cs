@@ -2,6 +2,11 @@ using System.Web.Mvc;
 using Bookmark.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Web;
+using System.Data;
+using System.Net;
+using System.Xml;
 
 namespace Bookmark.Controllers
 {
@@ -63,19 +68,16 @@ namespace Bookmark.Controllers
 
         public string addbm(string Bookmark, string title, string ipAddr, string bookmarkImgSrc)
         {
+            string strCity = string.Empty;
+            string strState = string.Empty;
+            string strCountry = string.Empty;
             string resp = null;
-            bmrk.URL = Bookmark;
-            bmrk.Name = title;
-            bmrk.IpAddr = ipAddr;
-
             Session["bookmark"] = null;
             Session["bookmark"] = bmrk;
 
 
-            if (Session["User"] == null && Request.Cookies["BookmaqLogin"] == null)
+            if (Session["User"] == null)
             {
-                Session["bookmark"] = null;
-                Session["bookmark"] = bmrk;                
                 resp = null;    // which will open Login Window
             }
             else
@@ -87,9 +89,18 @@ namespace Bookmark.Controllers
                 }
                 else
                 {
+                    bmrk.URL = Bookmark;
+                    bmrk.Name = title;
+                    bmrk.IpAddr = ipAddr;
+                    GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
                     bmrk.OptID = 1;  //Insert, Create
                     bmrk.FolderId = 0;  //Default Folder
                     bmrk.CreatedUserId = user.UserId.ToString();
+                    bmrk.IsFolder = false;
+                    bmrk.CreatedDate = DateTime.Now.ToString();
+                    bmrk.CreatedUserId = user.UserId.ToString();
+                    bmrk.City = strCity;
+                    bmrk.Country = strState;
                     bmrk.ManageBookmark();
                     resp = "../../Bookmark/Bookmark/Images/Bookmarked.jpg";
                 }
@@ -139,6 +150,10 @@ namespace Bookmark.Controllers
 
         public ActionResult MyBookmarks()
         {
+            //string strCity = string.Empty;
+            //string strState = string.Empty;
+            //string strCountry = string.Empty;
+            //GetLocation("69.248.7.33", ref strCity, ref strState, ref strCountry);
             Users user = (Users)Session["User"];
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString());
             return View(lstBookmarks);
@@ -229,25 +244,56 @@ namespace Bookmark.Controllers
             }
             else if (Request.QueryString["action"].ToString().Equals("Move"))
             {
-                return View("../Bookmark/EditBMFolder");
+                BookmarkCls bmrk = new BookmarkCls();
+                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                if (!bmrk.IsFolder)
+                    ViewBag.MoveType = "Bookmark";
+                return View("../Bookmark/MoveBMFolder", bmrk);
             }
             else if (Request.QueryString["action"].ToString().Equals("Edit"))
             {
-                return View("../Bookmark/EditBMFolder");
+                BookmarkCls bmrk = new BookmarkCls();
+                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                if(!bmrk.IsFolder)
+                    ViewBag.EditType = "Bookmark";
+                return View("../Bookmark/EditBMFolder", bmrk);
             }         
             else
             {
-                return View("../Bookmark/Delete");
+                BookmarkCls bmrk = new BookmarkCls();
+                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                if (!bmrk.IsFolder)
+                    ViewBag.DeleteType = "Bookmark";
+                return View("../Bookmark/Delete", bmrk);
             }
         }
 
-        public ActionResult EditBMFolder()
+        public ActionResult NewBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
         {
             Users user = (Users)Session["User"];
+            BookmarkCls bmrk = new BookmarkCls();
+            string strCity = string.Empty;
+            string strState = string.Empty;
+            string strCountry = string.Empty;
+            string ipAddr = GetIPAddress();
+            GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
 
-
-
-
+            if (!string.IsNullOrEmpty(txtLink))
+            {
+                bmrk.URL = txtLink;
+                bmrk.IsFolder = false;
+            }
+            else
+            {
+                bmrk.IsFolder = true;
+            }
+            bmrk.Name = txtName;
+            bmrk.FolderId = double.Parse(ddFolder);
+            bmrk.CreatedDate = DateTime.Now.ToString();
+            bmrk.CreatedUserId = user.UserId.ToString();
+            bmrk.City = strCity;
+            bmrk.Country = strState;
+            bmrk.ManageBookmark();
 
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
@@ -255,21 +301,34 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult NewBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
+
+        public ActionResult EditBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
         {
             Users user = (Users)Session["User"];
+            BookmarkCls bmrk = new BookmarkCls();
+            string strCity = string.Empty;
+            string strState = string.Empty;
+            string strCountry = string.Empty;
+            string ipAddr = GetIPAddress();
+            GetLocation(GetIPAddress(), ref strCity, ref strState, ref strCountry);
 
-            if(!string.IsNullOrEmpty(txtLink))
+            if (!string.IsNullOrEmpty(txtLink))
             {
-
-
-
+                bmrk.URL = txtLink;
+                bmrk.IsFolder = false;
             }
             else
             {
-
-
+                bmrk.IsFolder = true;
             }
+            bmrk.Name = txtName;
+            bmrk.FolderId = double.Parse(ddFolder);
+            bmrk.CreatedDate = DateTime.Now.ToString();
+            bmrk.CreatedUserId = user.UserId.ToString();
+            bmrk.City = strCity;
+            bmrk.Country = strState;
+            bmrk.ManageBookmark();
+
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
@@ -283,7 +342,7 @@ namespace Bookmark.Controllers
                 Users user = (Users)Session["User"];
                 BookmarkCls bmrk = new BookmarkCls();
                 bmrk.Id = double.Parse(HFBookmarkId);
-                bmrk.DeleteBookmark(user.UserId.ToString());
+               // bmrk.DeleteBookmark(user.UserId.ToString());
                 ViewData["Refresh"] = "true";
             }
             else
@@ -294,13 +353,59 @@ namespace Bookmark.Controllers
             return View();
         }
 
-
         public ActionResult Import()
         {
             return View();
         }
 
 
+        internal string GetIPAddress()
+        {
+            string varIPAddress = string.Empty;
+            string varVisitorCountry = string.Empty;
+            string varIpAddress = string.Empty;
+            varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(varIpAddress))
+            {
+                if (System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+                {
+                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                }
+            }
+
+            //varIPAddress = (System.Web.UI.Page)Request.ServerVariables["HTTP_X_FORWARDED_FOR"];    
+            if (varIPAddress == "" || varIPAddress == null)
+            {
+                if (System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] != null)
+                {
+                    varIpAddress = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
+            }
+            //varIPAddress = Request.ServerVariables["REMOTE_ADDR"];    
+            return varIpAddress;
+        }
+
+        private void GetLocation(string varIPAddress, ref string strCity, ref string strState, ref string strCountry)
+        {
+            WebRequest varWebRequest = WebRequest.Create("http://freegeoip.net/xml/" + varIPAddress);
+            WebProxy px = new WebProxy("http://freegeoip.net/xml/" + varIPAddress, true);
+            varWebRequest.Proxy = px;
+            varWebRequest.Timeout = 2000;
+            try
+            {
+                WebResponse rep = varWebRequest.GetResponse();
+                XmlTextReader xtr = new XmlTextReader(rep.GetResponseStream());
+                DataSet ds = new DataSet();
+                ds.ReadXml(xtr);
+                strCity = ds.Tables[0].Rows[0]["City"].ToString();
+                strState = ds.Tables[0].Rows[0]["RegionName"].ToString();
+                strCountry = ds.Tables[0].Rows[0]["CountryName"].ToString();
+            }
+            catch
+            {
+                //return null;
+            }
+        }
 
 
 

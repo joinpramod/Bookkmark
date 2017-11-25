@@ -4,18 +4,26 @@
     Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 <div style="height:40px"></div>
-<h2>Add New</h2>
+
+@if (ViewBag.AddType == "Bookmark")
+{
+    <h2>Add New Bookmark</h2>
+}
+else
+{
+    <h2>Add New Folder</h2>
+}
 
 <script type="text/javascript">
     window.onload = function () {
 
-        var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
-        if(RefreshValue != null)
-        {
-            window.opener.location.reload();
-            window.close();
-        }
-    };
+    var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
+    if(RefreshValue != null)
+    {
+        window.opener.location.reload();
+        window.close();
+    }
+};
 </script>
 <div style="height:10px"></div>
 
