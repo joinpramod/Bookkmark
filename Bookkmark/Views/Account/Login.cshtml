@@ -27,6 +27,7 @@
                         </td>
                     </tr>                  
                    
+
                     @using (Html.BeginForm("ProcessLogin", "Account"))
                     {
                       if(ViewBag.Activation != null)
@@ -76,7 +77,15 @@
 
                         </td>
                     </tr>
-                    <tr><td>&nbsp;</td></tr>
+                    <tr><td>
+                        <a href="@Url.Action("ExternalLogin", "Account")" class="btn btn-block btn-facebook btn-lg btn-left-icon">
+    <span class="fa fa-facebook" aria-hidden="true"></span> Login with Facebook
+</a>
+
+                            <a href="@Url.Action("ExternalLogin", "Account")" class="btn btn-block btn-twitter btn-lg btn-left-icon">
+                                <span class="fa fa-twitter" aria-hidden="true"></span> Login with Twitter
+                            </a>
+                        </td></tr>
                     @*<tr>
                         <td align="center">
                             <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />                           
