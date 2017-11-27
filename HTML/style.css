@@ -414,7 +414,7 @@
         display: block;
         font-size: 15px;
         padding: 20px 10px;
-        text-transform: uppercase;
+        /*text-transform: uppercase;*/
     }
 
     .default-page .mainmenu ul#nav li a,
