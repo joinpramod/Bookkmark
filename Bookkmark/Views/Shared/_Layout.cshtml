@@ -1,110 +1,416 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmark</title>
     @*@Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")*@
-
     @*<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>*@
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" href="~/favicon.ico?v=2">
 
-    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/css/style.1.2.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.min.css"  />
+    @*<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap-theme.min.css" />*@
+    @*<link rel="stylesheet" type="text/css" href="~/Content/style.1.2.css" />*@
+    @*<link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.min.css"  />*@
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/plugins.min.css">
+    <link rel="stylesheet" href="~/Content/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="~/Content/responsive.css">
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="~/Scripts/js/platform.js" async defer type="text/javascript"></script>
-    <script src="~/Scripts/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/js/custom.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/js/JavaScript.1.3.js"></script>
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+    @*<script src="~/Scripts/jquery-ui.js"></script>*@
+    @*<script src="~/Scripts/platform.js" async defer type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/custom.js"></script>*@
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/JavaScript.1.3.js"></script>*@
     @*<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*@
     
 
-
-　
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Language" content="en-us" />
     <meta name="Robots" content="All" />
     <meta name="description" content="@ViewBag.keywords" />
-    <meta name="google-signin-client_id" content="882773719808-68o6a3dviihrqvnld51tne9978udc3ig.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="">
     <meta name="application-name" content="Bookmaq" />
     <meta name="keywords" content="Code, Articles, XCode, Swift, Objective-C, Android, Questions, Answers, MVC, ASP.NET, C#, Java, SQL, Hadoop, Programming, Rewards, Microsoft, Technology" />
-
-　
-　
 　
 </head>
-<body style="font-size:16px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            
-            <div class="navbar-header">
-                <img src="~/Images/Bookmark.jpg" style="width:30px;height:30px" />
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-              
-                <span style="font-size:38px;font-weight:bold"> @Html.ActionLink("Company", "Index", "Home", new { @class = "navbar-brand" })</span>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-                    <li>@Html.ActionLink("How it works", "Index", "Home")</li>
-                    <li>@Html.ActionLink("What to expect", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Get Started", "Choice", "Account")</li>
-   
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
 
-            @if (Session["User"] != null)
-            {
-            <div>
-                <ul class="nav navbar-nav">                    
-                    <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                    <li>@Html.ActionLink("Generate Script", "ScriptCode", "Bookmark")</li>                    
-                    <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
-                    <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
-                    <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
-                    <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
-                </ul>             
-            </div>
-            }
-
-        </div>
+<body class="home-page">
+    <!-- Preloader Start -->
+    <div id="preloader">
+        <div class="apland-load"></div>
     </div>
-    @*<div style="height:0px"></div>*@
-    <div class="container body-content">
-        <div style="height:80%;padding-top:0%">
+    <header class="header_area">
+        <div class="main_header_area animated">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-4 col-sm-3">
+                        <div class="logo_area">
+                            <a href="index.html"><img src="~/Images/logo.png" alt="BOOKMAQ"> <span>Bookmaq</span></a>
+                        </div>
+                    </div>
+
+                    <div class="col-8 col-sm-9 text-right">
+                        <div class="main_menu_area d-inline-block">
+                            <div class="mainmenu">
+                                <nav>
+                                    <ul id="nav">
+                                        <li class="current_page_item"><a href="#home">Home</a></li>
+                                        <li><a href="#howitworks">How It Works</a></li>
+                                        <li><a href="#whattoexpect">What To Expect</a></li>
+                                        <li><a href="register.html">Register</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="header_signup_in_btn d-inline-block">
+                            <a href="get-started.html">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Header Area End -->
+    </header>
+
+    <section class="welcome_slider" id="home">
+        <div class="welcome_slides">
+
+            <!-- Single Slide Area Start -->
+            <div class="single_slide text-center" style="background-image: url(../Images/banner1.png);">
+                <div class="table">
+                    <div class="table_cell">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="welcome_text_area">
+                                        <h2>Online Bookmarks. Easy to use.</h2>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Slide Area Start -->
+            <div class="single_slide text-center" style="background-image: url(../Images/banner2.png);">
+                <div class="table">
+                    <div class="table_cell">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="welcome_text_area">
+                                        <h2>Build user base, <br />trust and increase traffic for publishers</h2>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section_padding_50 pb20">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-6 col-lg-8">
+                    <div>
+                        <h3>Web User</h3>
+                        <p class="mt20">Bookmaq is a way of saving all your bookmarks online without being dependent on browser or machine.</p>
+
+                        <ul class="fa-ul list-colored mt20">
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Just one click on Bookmaq icon displayed on any webpage and on any website,
+                                to save bookmark in your Bookmaq account. <!--With this, access all you bookmarks on any browser and on any machine.-->
+                            <li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Also with Chrome and Firefox extensions you will have a browser bookmark toolbar kind of
+                                experience with hierarchical tree view, so you will never miss the toolbar.
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-md-6 col-lg-4 text-center">
+
+                    <img src="~/Images/WebUser.png" alt="">
+
+                </div>
+
+
+            </div>
+            <div class="row section_padding_50">
+
+                <div class="col-12 col-md-6 col-lg-3 text-center">
+
+                    <img src="~/Images/SiteOwner.png" alt="Web Publisher">
+
+                </div>
+                <div class="col-12 col-md-6 col-lg-9">
+                    <div>
+                        <h3>Web Publisher</h3>
+                        <ul class="fa-ul list-colored mt20">
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Bookmaq is one of the ways of increasing your web traffic and to build a good user base for your
+                                website.
+                            <li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>It also helps in building the trust which in turn will increase your site value
+                                gradually.
+                            </li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Just 2 easy steps to get started.</li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Full detailed reports about your website bookmarks including the details like URL, user location,
+                                created date and more.
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section>
+        <div>
             @RenderBody()
         </div>
-        <footer>          
-            <ul class="nav navbar-nav navbar-right">
-                <li>@Html.ActionLink("Policy", "Policy", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                @*<li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-                <li>@Html.ActionLink("API's", "API", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                <li>@Html.ActionLink("Feedback", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                <li>@Html.ActionLink("FAQ's", "FAQ", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-            </ul>
-            <p>&copy; @DateTime.Now.Year - Bookmark</p>
-        </footer>
-    </div>
+    </section>
+    <section id="howitworks">
+        <div class="container ">
+            <h2 class="text-center text-yelow mb15">How It Works</h2>
+            <div class="row section_padding_40">
+                <div class="col-12 col-md-6 col-lg-6 border-right padding-right-20">
+                    <div>
+                        <h3>Web User</h3>
+                        <ul class="fa-ul list-colored mt20">
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Register to create your Bookmaq account.
+                            <li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i> Click on Bookmaq icon on any webpage and on any website if you find it and if you want to
+                                bookmark the current webpage.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i> This will be saved in your Bookmaq account.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>After being saved a green tick mark will be shown on the icon to indicate that it is saved.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>If this is clicked again then a small window will be presented to edit the bookmark.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>By default all bookmarks are saved in Default folder.
+                            <li>
+                                <!--<li>
+                                    <i class="fa-li fa fa-arrow-circle-o-right"></i>If you have not logged in to Bookmaq then you will be presented with a login screen in a popup
+                                    small window.
+                                <li>-->
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Access all bookmarks on bookmaq.com or you can also install our
+                                chrome and firefox extensions which are made similar to browser bookmark toolbar.
+                            <li>
+                        </ul>
 
 
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
-    @RenderSection("scripts", required: false)
+                    </div>
+                    <div class=" text-center">
+                        <img src="~/Images/Web-User-htw.png" alt="Web User">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 padding-left-30">
+                    <div>
+                        <h3>Web Publisher</h3>
+                        <ul class="fa-ul list-colored mt20">
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Register to create your Bookmaq account.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Register your website with the URL and then generate the script by selecting the desired size you need for your website to match.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Select if bookmarks count needs to be displayed. This will create good impression on users if you have more count.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Copy and place the script in your web application code where you want the icon to be displayed. As obvious it is recommended that you place it in such a way that it is visible and highlighted to the user.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>It is also recommended that this icon is displayed on every unique URL of your site.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>After this just keep checking the reports and analyze the data of your website bookmarks.
+                            <li>
+                        </ul>
+
+
+                    </div>
+                    <div class=" text-center">
+                        <img src="~/Images/SiteOwner-htw.png" alt="Web Publisher">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="section_padding_40" id="whattoexpect">
+        <div class="container">
+            <h2 class="text-center text-yelow mb15">What To Expect</h2>
+            <div class="row section_padding_40">
+                <div class="col-12 col-md-6 col-lg-8">
+                    <div>
+
+                        <h3>Web User</h3>
+                        <ul class="fa-ul list-colored mt20">
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Tree view kind of hierarchical folder structure with right click menus to manage all bookmarks.
+                            <li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i> Very easy to use, manage and access.
+                            <li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i> Import your bookmarks from any browser to Bookmaq.com just one last time and get rid of all
+                                your bookmarks stored on specific browser and machine.
+                            <li>
+                            <li>
+                                <i class="fa-li fa fa-arrow-circle-o-right"></i>Chrome and Firefox extensions to make almost similar to browser bookmark toolbar but this one to
+                                be online.
+                            <li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 text-center">
+
+                    <img src="~/Images/WhatToExpect.png" alt="What To Expect">
+                </div>
+
+
+
+            </div>
+            <div class="row justify-content-center align-items-center">
+
+                <div class="col-12 col-md-6 col-lg-4">
+
+                    <img src="~/Images/WhatToExpectSite-Owner.png" alt="">
+
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-8">
+                    <div class="">
+
+                        <h3>Web Publisher</h3>
+                        <p class="mt20">
+                            Access information about your site bookmarks in the form of reports.
+                            Information included is like:
+                        </p>
+
+                        <ul class="fa-ul list-colored mt20">
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>Total numbers of Bookmarks based on the date</li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>User geographical location based reports </li>
+                            <li><i class="fa-li fa fa-arrow-circle-o-right"></i>URL based filtering to know which link was bookmarked highest and more this service is absolutely free of cost</li>
+
+                        </ul>
+                        <p class="mt20">Also there are API’s which can be accessed to get your desired data. Please submit a request for API access from Contact Us section.</p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 class="text-center text-yelow mb15">Extensions</h2>
+
+            <div class="col-12 col-md-6 col-lg-12">
+                <div class=" text-center">
+                    <h4 class="mt20">Download our Chrome and Firefox extensions</h4>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-12 text-center ">
+                <a href="#"> <img src="~/Images/chromebtn.png" alt=""></a>
+                <a href="#"> <img src="~/Images/firefoxbtn.png" alt=""></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="get_started_area section_padding_40">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-5 text-right"><img src="~/Images/Get-Started.png" alt=""></div>
+                <div class="col-5 text-left">
+                    <!-- Total User Text Start -->
+                    <div class="get_started_text">
+
+                        <a href="#download" class="btn btn-lg">Get Started Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer_area">
+        <div class="footer_bottom_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-7">
+
+                        <div class="footer_menu text-left">
+                            <ul>
+                                <li><a href="#">API</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Term &amp; Conditions</a></li>
+                                <li><a href="contact-us.html">Help or Feedback</a></li>
+                                <li><a href="contact-us.html">Contact Us</a></li>
+                            </ul>
+                            <div class="footer_social_area">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+
+                        <div class="footer_menu">
+                            <div class="footer_bottom text-right copywrite-area">
+                                Copyright © 2017 Bookmaq. All rights reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+
+    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Owl Carousel js -->
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Scripts/plugins.min.js"></script>
+    <!-- Active js -->
+    <script src="~/Scripts/custom.js"></script>
+
 </body>
+
 </html>
