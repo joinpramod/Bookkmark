@@ -67,22 +67,7 @@
         </div>
         <!-- Main Header Area End -->
     </header>
-    @if (Session["User"] != null)
-    {
-        <div class="main_menu_area d-inline-block">
-            <div class="mainmenu">
-                <nav>
-                    <ul id="nav">
-                        <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
-                        <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                        <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
-                        <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    }
-
+ 
 
     @RenderBody()
 
