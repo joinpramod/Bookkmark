@@ -1,30 +1,33 @@
 ﻿
 @{
     ViewBag.Title = "Choice";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
 }
 
-<div style="height:100px"></div>
-<h2>Get Started - Select</h2>
-<div style="height:50px"></div>
+<section class=" pt150">
+    <div class="container ">
+        <h2 class="text-center text-yelow mb15">Get Started</h2>
+        <div class="row section_padding_40">
+            <div class="col-12 col-md-6 col-lg-6 border-right padding-right-20">
+                <div class="text-center">
+                    <h3>Web User</h3>
+                    <p>I want to have my bookmarks online</p>
+                </div>
+                <div class="text-center">
+                    <a href="#"><img src="~/images/getstartedweb.png" alt="Web User"></a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 padding-left-30">
+                <div class="text-center">
+                    <h3>Site Owner</h3>
+                    <p>I want to add Bookmaq to my website</p>
+                </div>
 
-<div class="row">
-    
+                <div class="text-center">
+                    <a href="#">  <img src="~/images/getstartedSiteOwner.png" alt="Site Owner"></a>
+                </div>
+            </div>
 
-    <div class="col-md-6">
-        <h3>Web User</h3>
-        I want to have all my bookmarks saved online.<br/>
-        <a href="/Bookmark/Account/WebUserReg" id="webUserReg"> 
-            <img src="~/Images/Webuser.jpg" style="width:200px;height:200px" />
-        </a>
+        </div>
     </div>
-
-
-    <div class="col-md-6">
-        <h3>Site Owner</h3>
-        I want to install Bookmark on my website.
-        <a  href="/Bookmark/Account/SiteOwnerReg" id="siteOwnerReg">
-            <img src="~/Images/siteowner.png" style="width:400px;height:200px" />
-        </a>
-    </div>
-</div>
+</section>

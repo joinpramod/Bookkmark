@@ -13,7 +13,7 @@
     <meta name="google-signin-client_id" content="">
     <meta name="application-name" content="Bookmaq" />
     <meta name="keywords" content="Bookmark" />
-    <title>Bookmark</title>
+    <title>Bookmaq</title>
     <link rel="shortcut icon" href="images/favicon.png">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/plugins.min.css">
@@ -38,7 +38,7 @@
 
                     <div class="col-4 col-sm-3">
                         <div class="logo_area">
-                            <a href="index.html"><img src="~/Images/logo.png" alt="BOOKMAQ"> <span>Bookmaq</span></a>
+                            <a href="index.html"><img src="~/Images/logo.png" alt="Bookmaq"> <span>Bookmaq</span></a>
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@
                                         <li class="current_page_item"><a href="#home">Home</a></li>
                                         <li><a href="#howitworks">How It Works</a></li>
                                         <li><a href="#whattoexpect">What To Expect</a></li>
-                                        <li><a href="register.html">Get Started</a></li>
+                                        <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
                                         <li><a href="login.html">Login</a></li>
                                     </ul>
                                 </nav>
@@ -121,6 +121,11 @@
     <script src="~/Scripts/plugins.min.js"></script>
     <!-- Active js -->
     <script src="~/Scripts/custom.js"></script>
+   
+     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
 
 </body>
 
