@@ -22,7 +22,7 @@
     }
 
     body {
-        font-size: 1.6em;
+        font-size: 1em;
         line-height: 1.5;
         font-weight: 400;
         font-family: 'Roboto', sans-serif;
@@ -30,12 +30,19 @@
 
     h1,
     h2,
-    h3,
     h4,
     h5,
     h6 {
         font-weight: 400;
         margin-top: 0;
+        font-size:1.8em;
+    }
+
+
+    h3 {
+        font-weight: 400;
+        margin-top: 0;
+        font-size:1.4em;
     }
 
     p {
@@ -191,7 +198,7 @@
         text-transform: capitalize;
         position: relative;
         z-index: 1;
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
     .section_heading > h3 > span {
@@ -199,7 +206,7 @@
     }
 
     .section_heading > p {
-        font-size: 18px;
+        font-size: 16px;
         line-height: 1.5;
         margin: 0 auto;
         max-width: 600px;
@@ -355,7 +362,8 @@
 	.logo_area span{
        margin-left: 12px;
     font-size: 24px;
-    color: #fff;
+    color: #444;
+    font-weight:400;
     }
 
     .main_header_area {
@@ -370,8 +378,8 @@
     .default-page .main_header_area,
     .rtl_version .main_header_area {
       
-		background-color:#111;
-		box-shadow: 0px 0px 8px #000;
+		background-color:#81CFBF;
+		box-shadow: 0px 0px 4px #000;
     }
 	.transparent-bg{
 		background:transparent!important;
@@ -381,7 +389,7 @@
     .main_header_area.sticky {
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.9);
         z-index: 999 !important;
-        background-color: #111;
+        background-color: #81CFBF;
         width: 100%;
         position: fixed;
         -webkit-transition-duration: 500ms;
@@ -421,7 +429,8 @@
 	.home-page .mainmenu ul#nav li a,
 	.boxed_version .mainmenu ul#nav li a,
     .rtl_version .mainmenu ul#nav li a {
-        color: #fff;
+        color: #444;
+        font-weight:500;
     }
 
     .default-page .mainmenu ul#nav li:hover a,
@@ -432,7 +441,7 @@
     }
 
     .sticky .mainmenu ul#nav li a {
-        color: #fff;
+        color: #444;
     }
 
     .mainmenu ul#nav li ul {
