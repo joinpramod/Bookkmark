@@ -2,27 +2,34 @@
     ViewBag.Title = "Bookmark - ";
     Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
-<div style="height:100px"></div>
-<h2>APIs</h2><br />
 
-<pre style="font-size:15px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color:white;word-break:inherit">
+<section class="pt150 pb100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-12">
+                <div class="page_title_area">
+                    <div class="section_heading">
+                        <h3><span>API</span> </h3>
+
+                    </div>
+                </div>
+                <div>
+                    <pre style="font-size:15px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color:white;word-break:inherit">
 Currently we have 2 API's exposed to the users and website owners.
-1. Bookmarks API 
-2. Reports API
+
+    1. Bookmarks API 
+
+    2. Reports API
 
 Please make a separate request from "Contact Us" section to gain access to API. 
 We will get back to you to setup clientid along with the key needed to access the API's.
 
-Below is the sample glimpse of request and response of API, we will provide you with detail documentation to access the API.
-
+Below is the sample request and response of API, we will provide you with detail documentation to access the API.
 
 <b>Bookmarks API</b> - User can get all his/her bookmarks in the form of JSON or XML
-
-                <b>URI</b>: <a style="text-decoration:underline;color:blue" href="https://bookmark.com/api/1/GetBookmarks?action=fetch">https://bookmark.com/api/1/GetBookmarks?action=fetch</a>
-
-                <b>Method</b>: Get
-
-                <b>Request</b>:
+<b>URI</b>: <a style="text-decoration:underline;color:blue" href="https://bookmark.com/api/1/GetBookmarks?action=fetch">https://bookmark.com/api/1/GetBookmarks?action=fetch</a>
+<b>Method</b>: Get
+<b>Request</b>:
                 {
                 "spec":
                 {
@@ -30,11 +37,10 @@ Below is the sample glimpse of request and response of API, we will provide you 
                 "include": "id"
                 }
                 }
-
-                <b>Response</b>:
+<b>Response</b>:
                 {
                 "objs" : [ { "name" : "google",
-                             "url" : "http://google.com",
+                                "url" : "http://google.com",
                 "version" : xxxx,
                 } ],
                 "count" : 1,
@@ -44,12 +50,9 @@ Below is the sample glimpse of request and response of API, we will provide you 
 
 
 <b>Reports API</b> - Site owners can get all the information about the user bookmarks like bookmarked date, user location, name, url and more
-
-                <b>URI</b>: <a style="text-decoration:underline;color:blue" href="https://bookmark.com/api/1/GetReports?action=fetch">https://bookmark.com/api/1/GetReports?action=fetch</a>
-
-                <b>Method</b>: Get
-
-                <b>Request</b>:
+<b>URI</b>: <a style="text-decoration:underline;color:blue" href="https://bookmark.com/api/1/GetReports?action=fetch">https://bookmark.com/api/1/GetReports?action=fetch</a>
+<b>Method</b>: Get
+<b>Request</b>:
                 {
                     "spec":
                     {
@@ -57,19 +60,19 @@ Below is the sample glimpse of request and response of API, we will provide you 
                         "include": "id"
                     }
                 }
-
-                <b>Response</b>:
+<b>Response</b>:
                 {
                 "objs" : [ { "url" : "http://google.com",
-                             "location" : "San Francisco, CA",
-                             "created_date" : "xx/xx/xx",
+                                "location" : "San Francisco, CA",
+                                "created_date" : "xx/xx/xx",
                 "version" : xxxx,
                 } ],
                 "count" : 1,
                 "hasMore" : false
                 }
-
-
-
-
 </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
