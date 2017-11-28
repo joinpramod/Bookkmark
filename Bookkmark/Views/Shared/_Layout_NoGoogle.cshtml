@@ -38,7 +38,7 @@
 
                     <div class="col-4 col-sm-3">
                         <div class="logo_area">
-                            <a href="index.html"><img src="~/images/logo.png" alt="Bookmaq"> <span>Bookmaq</span></a>
+                            <a href="index.html"><img src="~/images/logo.png" alt="BOOKMAQ"> <span>Bookmaq</span></a>
                         </div>
                     </div>
 
@@ -47,25 +47,24 @@
                             <div class="mainmenu">
                                 <nav>
                                     <ul id="nav">
-                                        <li class="current_page_item"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                        <li><a href="@Url.Action("Index", "Home")">How It Works</a></li>
-                                        <li><a href="@Url.Action("Index", "Home")">What To Expect</a></li>
-                                        <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
+                                        <li class="current_page_item"><a href="/Bookmark/Home/Index#home">Home</a></li>
+                                        <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
+                                        <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
+                                        <li><a href="@Url.Action("Login", "Account")">Demo</a></li>
                                         <li><a href="@Url.Action("Login", "Account")">Login</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        @*<div class="header_signup_in_btn d-inline-block">
-                            <a href="get-started.html">Get Started</a>
-                        </div>*@
+                        <div class="header_signup_in_btn d-inline-block">
+                            <a href="@Url.Action("Choice", "Account")">Get Started</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Main Header Area End -->
-    </header>
-
+    </header> 
 
 
     @RenderBody()
