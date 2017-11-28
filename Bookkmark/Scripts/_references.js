@@ -9,5 +9,5 @@
 /// <reference path="main.js" />
 /// <reference path="map-active.js" />
 /// <reference path="owl.carousel.min.js" />
-/// <reference path="platform.js" />
 /// <reference path="plugins.min.js" />
+/// <reference path="popper.min.js" />
