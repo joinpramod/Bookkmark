@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Users";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 
 @model Users
@@ -12,7 +12,79 @@
 <script src="~/js/Google.js"></script>
 
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-<div style="height:50px"></div>
+
+
+
+<section class=" pt150 pb100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="page_title_area">
+                    <div class="section_heading">
+                        <h3><span>Register</span> </h3>
+
+                    </div>
+                </div>
+
+                <div class="contact_from">
+                    <form method="post">
+                        <div class="form_area">
+
+                            <div class="row">
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="First Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="Last Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="name" id="name" placeholder="Email ID" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="email" id="email" placeholder="Password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="email" id="email" placeholder="Confirm Password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-block">LOGIN</button>
+
+
+                                </div>
+                                <div class="col-lg-6 col-12">
+
+
+                                    <a href="#" class="btn btn-block btn-facebook btn-lg btn-left-icon">
+                                        <span class="fa fa-facebook" aria-hidden="true"></span> Register with Facebook
+                                    </a>
+
+                                    <a href="#" class="btn btn-block btn-twitter btn-lg btn-left-icon">
+                                        <span class="fa fa-twitter" aria-hidden="true"></span> Register with Twitter
+                                    </a>
+
+                                    <a href="#" class="btn btn-block btn-google btn-lg btn-left-icon">
+                                        <span class="fa fa-google-plus" aria-hidden="true"></span> Register with Google Plus
+                                    </a>
+
+                                    <p class="mt20">Already have an account? <a href="@Url.Action("Login", "Account")">Login</a></p>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+@*<div style="height:50px"></div>
 
 <h2>Register</h2><br />
 
@@ -72,13 +144,13 @@
                                     </td>
                                 </tr>
 
-                                @*@if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {                               
+                                @if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {                               
                                 <tr>
                                     <td>
                                         @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookmark.com", @class = "myText" })
                                     </td>
                                 </tr>
-                                }*@
+                                }
                                 
                                 @if (Model.Email == null || ViewBag.Ack != null)
                                 {
@@ -96,16 +168,16 @@
 
 
 
-                                @*<tr>
+                                <tr>
                                     <td>
                                         <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
                                     </td>
-                                </tr>*@
-                                @*<tr>
+                                </tr>
+                                <tr>
                                     <td align="center">
                                         <img id="imgcaptcha" alternatetext="Captcha" />
                                     </td>
-                                </tr>*@
+                                </tr>
                                 <tr>
                                     <td align="center">
                                         @if (Model.Email == null || ViewBag.Ack != null)
@@ -126,4 +198,4 @@
                             }
                         </td>
                     </tr>
-                </table>
+                </table>*@

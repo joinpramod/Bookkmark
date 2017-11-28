@@ -1,104 +1,142 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookmark</title>
-
-
-    @*<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>*@
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewBag.Title</title>
-    <link rel="shortcut icon" href="~/favicon.ico?v=2">
-
-    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/css/style.1.2.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/jquery-ui.min.css" />
-
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="~/Scripts/js/platform.js" async defer type="text/javascript"></script>
-    <script src="~/Scripts/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/js/custom.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/js/JavaScript.1.3.js"></script>
-    @*<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*@
-
-　
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Language" content="en-us" />
     <meta name="Robots" content="All" />
-    <meta name="description" content="@ViewBag.keywords" />
-    <meta name="google-signin-client_id" content="882773719808-68o6a3dviihrqvnld51tne9978udc3ig.apps.googleusercontent.com">
-    <meta name="application-name" content="CodeAnalyze" />
-    <meta name="keywords" content="Code, Articles, XCode, Swift, Objective-C, Android, Questions, Answers, MVC, ASP.NET, C#, Java, SQL, Hadoop, Programming, Rewards, Microsoft, Technology" />
+    <meta name="google-signin-client_id" content="">
+    <meta name="application-name" content="Bookmaq" />
+    <meta name="keywords" content="Bookmark" />
+    <title>Bookmaq</title>
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/plugins.min.css">
+    <link rel="stylesheet" href="~/Content/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="~/Content/responsive.css">
 
-　
-　
-　
+
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            
-            <div class="navbar-header">
-                
-                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
-                <img src="~/Images/Bookmark.jpg" style="width:30px;height:30px" />
-                <span style="font-size:32px;font-weight:bold"> @Html.ActionLink("Title", "Index", "Home", new { @class = "navbar-brand" })</span>
-            </div>
-            @*<div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("How it works", "Index", "Home")</li>
-                    <li>@Html.ActionLink("What to expect", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Get Started", "Choice", "Account")</li>
-   
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>*@
 
-            @*@if (Session["User"] != null)
-            {
-            <div>
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
-                    <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                    <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>                    
-                    <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
-                </ul>             
-            </div>
-            }*@
-
-        </div>
+<body class="default-page">
+    <!-- Preloader Start -->
+    <div id="preloader">
+        <div class="apland-load"></div>
     </div>
-    @*<div style="height:0px"></div>*@
-    <div class="container body-content">
-        <div style="height:650px;padding-top:0%">
-            @RenderBody()
+    <header class="header_area">
+        <div class="main_header_area animated">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-4 col-sm-3">
+                        <div class="logo_area">
+                            <a href="index.html"><img src="~/Images/logo.png" alt="Bookmaq"> <span>Bookmaq</span></a>
+                        </div>
+                    </div>
+
+                    <div class="col-8 col-sm-9 text-right">
+                        <div class="main_menu_area d-inline-block">
+                            <div class="mainmenu">
+                                <nav>
+                                    <ul id="nav">
+                                        <li class="current_page_item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">How It Works</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">What To Expect</a></li>
+                                        <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
+                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        @*<div class="header_signup_in_btn d-inline-block">
+                                <a href="get-started.html">Get Started</a>
+                            </div>*@
+                    </div>
+                    @*<div class="col-1 col-sm-1">
+                        </div>*@
+                </div>
+            </div>
         </div>
-        @*<footer>          
-            <ul class="nav navbar-nav navbar-right">
-                <li>@Html.ActionLink("Policy", "Policy", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                <li>@Html.ActionLink("Disclaimer", "Disclaimer", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                <li>@Html.ActionLink("API's", "API", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                <li>@Html.ActionLink("Feedback", "Contact", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                <li>@Html.ActionLink("FAQ's", "FAQ", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <!-- Main Header Area End -->
+    </header>
+    @*@if (Session["User"] != null)
+        {
+        <div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
+                <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
+                <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
             </ul>
-            <p>&copy; @DateTime.Now.Year - Bookmark</p>
-        </footer>*@
-    </div>
+        </div>
+        }*@
+
+
+    @RenderBody()
+
+
+    <footer class="footer_area">
+        <div class="footer_bottom_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-7">
+
+                        <div class="footer_menu text-left">
+                            <ul>
+                                <li><a href="@Url.Action("API", "Home")">API</a></li>
+                                <li><a href="@Url.Action("Policy", "Home")">Privacy Policy</a></li>
+                                <li><a href="@Url.Action("Disclaimer", "Home")">Term &amp; Conditions</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Help or Feedback</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
+                            </ul>
+                            <div class="footer_social_area">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+
+                        <div class="footer_menu text-right">
+                            <div class="footer_bottom text-right copywrite-area">
+                                Copyright © 2017 Bookmaq. All rights reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+
+    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Owl Carousel js -->
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Scripts/plugins.min.js"></script>
+    <!-- Active js -->
+    <script src="~/Scripts/custom.js"></script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+
 </body>
+
 </html>

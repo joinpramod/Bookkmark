@@ -47,11 +47,11 @@
                             <div class="mainmenu">
                                 <nav>
                                     <ul id="nav">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="index.html#howitworks">How It Works</a></li>
-                                        <li><a href="index.html#whattoexpect">What To Expect</a></li>
+                                        <li class="current_page_item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">How It Works</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">What To Expect</a></li>
                                         <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
-                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -79,11 +79,11 @@
 
                         <div class="footer_menu text-left">
                             <ul>
-                                <li><a href="#">API</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Term &amp; Conditions</a></li>
-                                <li><a href="contact-us.html">Help or Feedback</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="@Url.Action("API", "Home")">API</a></li>
+                                <li><a href="@Url.Action("Policy", "Home")">Privacy Policy</a></li>
+                                <li><a href="@Url.Action("Disclaimer", "Home")">Term &amp; Conditions</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Help or Feedback</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
                             </ul>
                             <div class="footer_social_area">
                                 <a href="#"><i class="fa fa-facebook"></i></a>

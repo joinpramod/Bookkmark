@@ -47,30 +47,44 @@
                             <div class="mainmenu">
                                 <nav>
                                     <ul id="nav">
-                                        <li class="current_page_item"><a href="#home">Home</a></li>
-                                        <li><a href="#howitworks">How It Works</a></li>
-                                        <li><a href="#whattoexpect">What To Expect</a></li>
+                                        <li class="current_page_item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">How It Works</a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">What To Expect</a></li>
                                         <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
-                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
                         @*<div class="header_signup_in_btn d-inline-block">
-                            <a href="get-started.html">Get Started</a>
-                        </div>*@
+                                <a href="get-started.html">Get Started</a>
+                            </div>*@
                     </div>
                     @*<div class="col-1 col-sm-1">
-                    </div>*@
+                        </div>*@
                 </div>
             </div>
         </div>
         <!-- Main Header Area End -->
     </header>
+    @if (Session["User"] != null)
+    {
+        <div class="main_menu_area d-inline-block">
+            <div class="mainmenu">
+                <nav>
+                    <ul id="nav">
+                        <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
+                        <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                        <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
+                        <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
 
 
-
-            @RenderBody()
+    @RenderBody()
 
 
     <footer class="footer_area">
@@ -81,11 +95,11 @@
 
                         <div class="footer_menu text-left">
                             <ul>
-                                <li><a href="#">API</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Term &amp; Conditions</a></li>
-                                <li><a href="contact-us.html">Help or Feedback</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="@Url.Action("API", "Home")">API</a></li>
+                                <li><a href="@Url.Action("Policy", "Home")">Privacy Policy</a></li>
+                                <li><a href="@Url.Action("Disclaimer", "Home")">Term &amp; Conditions</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Help or Feedback</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
                             </ul>
                             <div class="footer_social_area">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
@@ -121,12 +135,14 @@
     <script src="~/Scripts/plugins.min.js"></script>
     <!-- Active js -->
     <script src="~/Scripts/custom.js"></script>
-   
-     @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
 
 </body>
+
+
 
 </html>

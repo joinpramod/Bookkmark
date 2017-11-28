@@ -1,10 +1,72 @@
 ﻿@using Bookmark.Models
 @{
     ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<section class="pt150 pb100">
+    <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="page_title_area">
+                        <div class="section_heading">
+                            <h3><span>Login</span> </h3>
+
+                        </div>
+                    </div>
+
+                    <div class="contact_from">
+                        <form method="post">
+                            <div class="form_area">
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" name="name" id="name" placeholder="Email ID" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="email" id="email" placeholder="Password" required>
+                                        </div>
+                                        <p class="mt20"> <a href="forgot-your-password.html">Forgotten your password?</a></p>
+                                        <button type="submit" class="btn btn-block">LOGIN</button>
+
+
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+
+
+
+
+
+                                        <a href="@Url.Action("Home","Home")" class="btn btn-block btn-facebook btn-lg btn-left-icon">
+                                            <span class="fa fa-facebook" aria-hidden="true"></span> Login with Facebook
+                                        </a>
+
+                                        <a href="#" class="btn btn-block btn-twitter btn-lg btn-left-icon">
+                                            <span class="fa fa-twitter" aria-hidden="true"></span> Login with Twitter
+                                        </a>
+
+                                        <a href="#" class="btn btn-block btn-google btn-lg btn-left-icon">
+                                            <span class="fa fa-google-plus" aria-hidden="true"></span> Login with Google Plus
+                                        </a>
+
+                                        <p class="mt20">Don't have an account? <a href="@Url.Action("Register", "Account")">Register</a></p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+
+
+@*<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <script src="~/Scripts/js/Facebook.js"></script>
 <script src="~/Scripts/js/Google.js"></script>
 <div style="height:50px"></div>
@@ -96,7 +158,7 @@
                             <div id="my-signin2"></div>
                         </td>
                     </tr>*@
-                    <tr>
+                    @*<tr>
                         <td align="center">
                                 <section id="socialLoginForm">
                                     @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
@@ -115,7 +177,7 @@
 
 
 
-</div>
+</div>*@
 
 
 

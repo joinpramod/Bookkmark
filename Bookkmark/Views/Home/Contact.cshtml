@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Bookmark - ";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 
 
@@ -26,7 +26,71 @@
     }
 </script>
 
-<div style="height:100px"></div>
+
+
+<section class=" pt150 pb100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="page_title_area">
+                    <div class="section_heading">
+                        <h3><span>Contact Us</span> </h3>
+                        <p>For any Queries Get in touch with us</p>
+                    </div>
+                </div>
+
+                <div class="contact_from">
+                    <form method="post">
+                        <div class="form_area">
+                            <div class="success_info">Thank you! your message sent successful</div>
+                            <div class="error_info">Opps somthing went worng please check form and try again!</div>
+                            <div class="row">
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Your Subject" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="number" id="number" placeholder="Your Number *" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group textarea">
+                                        <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Your Message *" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn">SEND MESSAGE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+@*<div style="height:100px"></div>
 <h2>Contact Us</h2><br />
 <div id="Content">
 
@@ -49,7 +113,7 @@
                         </td>
                     </tr>
                    
-                    @*@if(string.IsNullOrEmpty(ViewBag.UserEMail))
+                    @if(string.IsNullOrEmpty(ViewBag.UserEMail))
                     {
                         <tr>
                             <td align="left" style="font-family: Calibri;width:200px">
@@ -57,7 +121,7 @@
                                 <br/>
                             </td>
                         </tr>
-                    }*@
+                    }
                    
                     <tr><td>&nbsp;</td></tr>
                     <tr>
@@ -76,7 +140,7 @@
                             <input type="submit" value="Submit" id="btnSubmit" onclick="return ValidateSuggestion()" class="mysubmit" />
                         </td>
                     </tr>
-                    @*<tr>
+                    <tr>
                         <td align="right" style="font-family: Calibri; font-size: medium">
                             <table style="width:100%;">
                                 <tr>
@@ -96,16 +160,16 @@
                                 </tr>
                             </table>
                         </td>
-                    </tr>*@
+                    </tr>
                 </table>
 
-            @*</td>
+            </td>
         </tr>
-    </table>*@
+    </table>
      @Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)
 }
 
-</div>
+</div>*@
 
 
 
