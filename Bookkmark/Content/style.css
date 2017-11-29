@@ -380,7 +380,7 @@
 	.logo_area span{
        margin-left: 12px;
     font-size: 24px;
-    color: #444;
+    color: #333;
     font-weight:400;
     }
 
@@ -449,6 +449,7 @@
         text-align: center;
         width:100%;
         padding-top:65px;
+        background-color: #81CFBF;
     }
 
     .submenu ul#navSubmenu {
@@ -456,7 +457,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background-color: #81CFBF;
+        
     }
 
     .submenu ul#navSubmenu li {
@@ -479,7 +480,7 @@
 	.home-page .mainmenu ul#nav li a,
 	.boxed_version .mainmenu ul#nav li a,
     .rtl_version .mainmenu ul#nav li a {
-        color: #555;
+        color: #333;
         font-weight:500;
     }
 
@@ -491,7 +492,7 @@
     }
 
     .sticky .mainmenu ul#nav li a {
-        color: #555;
+        color: #333;
     }
 
     .mainmenu ul#nav li ul {
