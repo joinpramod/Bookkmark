@@ -8,42 +8,40 @@
 
 }
 
-<section class="pt150 pb100">
-    <div class="container">
-        <div class="row text-left">
-            <div class="col-12 col-lg-12">
-                <div class="page_title_area">
-                    <div class="section_heading">
-                        <h3><span>Reports</span> </h3>
+<div class="container">
+    <div class="span12">
+        <div class="page_title_area">
+            <div class="section_heading">
+                <h3><span>Reports</span> </h3>
 
-                    </div>
-                </div>
-                            <nav class="navbar navbar-default">
-                                <div class="container-fluid">
-                                        @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+            </div>
+        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                                         {
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
-                                                    </td>
-                                                    <td style="padding-left:10px">
-                                                        @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })
-                                                    </td>
-                                                    <td style="padding-left:10px">
-                                                        @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
-                                                    </td>
-                                                    <td style="padding-left:10px">
-                                                        <button type="submit" value="Search" >Search</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
+                            </td>
+                            <td style="padding-left:10px">
+                                @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })
+                            </td>
+                            <td style="padding-left:10px">
+                                @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
+                            </td>
+                            <td style="padding-left:10px">
+                                <button type="submit" value="Search" class="btn btn-block">Search</button>
+                            </td>
+                        </tr>
+                    </table>
 
                                         }
-                                </div>
-                            </nav>
-                            <div>
-                                @grid.Table(
+            </div>
+        </nav>
+        <div>
+            @grid.Table(
                                     tableStyle: "table table-responsive table-bordered table-striped",
                                     columns: grid.Columns(
                                         //grid.Column(columnName: "Name", header: "Name"),
@@ -55,31 +53,25 @@
                                     )
                                 )
 
-                                <div class="row">
-                                    <div class="col-md-offset-11">
-                                        <span style="font-weight:bold; font-size:18px;">Total 56</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
-                                    </div>
-                                </div>
-
-                                @Html.Hidden("dir", grid.SortDirection)
-                                @Html.Hidden("col", grid.SortColumn)
-
-                            </div>         
-      
-
+            <div class="container">
+                <div class="text-right">
+                    <span style="font-weight:bold; font-size:18px;">Total 56</span>
+                </div>
             </div>
+
+            <div class="container">
+                <div class="text-right">
+                    @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                </div>
+            </div>
+            <div style="height:20px">&nbsp;</div>
+            @Html.Hidden("dir", grid.SortDirection)
+            @Html.Hidden("col", grid.SortColumn)
+
         </div>
     </div>
-</section>
-
-
-<script type="text/javascript">
+</div>
+    <script type="text/javascript">
     $(function () {
         $("#txtCreatedFrom").datepicker({
             maxDate: "+0M +0D", numberOfMonths: 1,
@@ -94,7 +86,7 @@
             }
         });
     });
-</script>
+    </script>
 
 
 
