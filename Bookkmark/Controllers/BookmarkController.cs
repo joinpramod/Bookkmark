@@ -380,5 +380,10 @@ namespace Bookmark.Controllers
             return View();
         }
 
+        public ActionResult Extensions()
+        {
+            return View();
+        }
+
     }
 }

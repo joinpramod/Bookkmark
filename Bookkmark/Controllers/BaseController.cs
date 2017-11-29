@@ -28,6 +28,16 @@ namespace Bookmark.Controllers
                 ViewBag.lblFirstName = user1.FirstName;
 
             }
+            else
+            {
+                Users user1 = new Users();
+                user1.UserId = 1;
+                user1.FirstName = "FirstName";
+                user1.LastName = "LastName";
+                user1.Email = "test@booqmarqs.com";
+                Session["User"] = user1;
+
+            }
         }
     }
 }
