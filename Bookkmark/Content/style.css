@@ -21,11 +21,29 @@
         padding: 0;
     }
 
+
+    html, body {
+      height: 100%;
+    }
+
     body {
         font-size: 1em;
         line-height: 1.5;
         font-weight: 400;
         font-family: 'Roboto', sans-serif;
+    }
+
+    .wrapper {
+        min-height: 100%;
+
+        /* Equal to height of footer */
+        /* But also accounting for potential margin-bottom of last child */
+        margin-bottom: -120px;
+    }
+
+    .footer,
+    .push {
+      height: 120px;
     }
 
     h1,
@@ -423,6 +441,38 @@
         font-size: 16px;
         padding: 20px 10px;
         /*text-transform: uppercase;*/
+    }
+
+
+    .submenu {
+        display: inline-block;
+        text-align: center;
+        width:100%;
+        padding-top:65px;
+    }
+
+    .submenu ul#navSubmenu {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #81CFBF;
+    }
+
+    .submenu ul#navSubmenu li {
+            float: left;
+    }
+
+    .submenu ul#navSubmenu li :hover {
+        background-color: #ffc926;
+    }
+
+   .submenu ul#navSubmenu li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
     }
 
     .default-page .mainmenu ul#nav li a,
