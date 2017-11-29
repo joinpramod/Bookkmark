@@ -227,9 +227,9 @@
         margin-bottom: 15px;
     }
 	.pt60{padding-top:20px;}
-	.pt150{padding-top:150px;}
+	.pt150{padding-top:110px;}
 	.pb20{padding-bottom:20px!important;}
-	.pb100{padding-bottom:100px!important;}
+	.pb100{padding-bottom:80px!important;}
     .shortcode_area:nth-child(2n + 1) {
         background-color: #f7f7f7;
     }
@@ -420,7 +420,7 @@
     .mainmenu ul#nav li a {
         color: #fff;
         display: block;
-        font-size: 15px;
+        font-size: 16px;
         padding: 20px 10px;
         /*text-transform: uppercase;*/
     }
@@ -429,7 +429,7 @@
 	.home-page .mainmenu ul#nav li a,
 	.boxed_version .mainmenu ul#nav li a,
     .rtl_version .mainmenu ul#nav li a {
-        color: #444;
+        color: #555;
         font-weight:500;
     }
 
@@ -441,7 +441,7 @@
     }
 
     .sticky .mainmenu ul#nav li a {
-        color: #444;
+        color: #555;
     }
 
     .mainmenu ul#nav li ul {
@@ -2236,8 +2236,11 @@
         padding: 0;
         -webkit-transition-duration: 500ms;
         transition-duration: 500ms;
-        width: 200px;
+        width: 120px;
         cursor: pointer;
+        font-weight:500;
+        color:#777;
+        font-size:18px;
     }
 
     .form_area button:hover {
