@@ -81,17 +81,24 @@
             <!-- Main Header Area End -->
         </header>
 
-        @*@if (Session["User"] != null)
-            {*@
+        @if (Session["User"] != null)
+       {        
         <div class="submenu">
-            <ul id="navSubmenu">
-                <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
-                <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
-                <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
-            </ul>
+            <div class="container">
+                <div class="span12">
+                    <ul id="navSubmenu">
+                        
+                        <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                        <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
+                        <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
+                        <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
+                        <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+                        <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-                @*}*@
+       }
 
                 @RenderBody()
                 <div class="push"></div>
