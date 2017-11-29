@@ -1,41 +1,51 @@
 ﻿
 @{
     ViewBag.Title = "Domains";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
     var grid = new WebGrid(canPage: true, rowsPerPage: 10);
     grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
-<div style="height:100px"></div>
-<h2>Domains</h2>
-<div style="height:20px"></div>
-@using (Html.BeginForm("AddDomain", "Bookmark"))
-{
-    <div>
-        <table style="height: 100px; width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
-            <tr>
-                <td align="center" colspan="2">
-                    <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Ack</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding-left:40px">
-                    @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name" })
-                </td>
-                <td style="text-align:left;padding-right:700px">
-                    <input id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="mysubmitsmall" />
-                </td>
-            </tr>
-        </table>
-    </div>
-}
+<section class="pt150 pb100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="page_title_area">
+                    <div class="section_heading">
+                        <h3><span>Domians</span> </h3>
+                    </div>
+                </div>
 
 
 
-<div style="height:80px"></div>
+
+                @using (Html.BeginForm("AddDomain", "Bookmark"))
+                {
+                    <div>
+                        <table style="height: 100px; width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
+                            <tr>
+                                <td align="center" colspan="2">
+                                    <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Ack</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:40px">
+                                    @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name" })
+                                </td>
+                                <td style="text-align:left;padding-right:700px">
+                                    <input id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="mysubmitsmall" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
 
 
-<div>
-    @grid.Table(
+
+                <div style="height:80px"></div>
+
+
+                <div>
+                    @grid.Table(
                 tableStyle: "table table-responsive table-bordered table-striped",
                 columns: grid.Columns(
                     grid.Column(columnName: "Name", header: "Domain"),
@@ -43,13 +53,18 @@
                 )
             )
 
-    <div class="row">
-        <div class="col-sm-6">
-            @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                        </div>
+                    </div>
+
+                    @Html.Hidden("dir", grid.SortDirection)
+                    @Html.Hidden("col", grid.SortColumn)
+
+                </div>
+            </div>
         </div>
     </div>
-
-    @Html.Hidden("dir", grid.SortDirection)
-    @Html.Hidden("col", grid.SortColumn)
-
-</div>
+    @*<div style="height:170px">&nbsp;</div>*@
+</section>

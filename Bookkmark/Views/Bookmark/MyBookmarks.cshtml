@@ -91,95 +91,77 @@
 </style>
 
 
-<section class=" pt150 pb100">
-    <div class="container">
-        <div class="row text-left">
-            <div class="col-12 col-lg-12">
-                <div class="page_title_area">
-                    <div class="section_heading">
-                        <h3><span>My Bookmarks</span> </h3>
+<div style="text-align:left">
+    <div class="page_title_area">
+        <div class="section_heading">
+            <h3><span>My Bookmarks</span> </h3>
 
-                    </div>
-                </div>
-
-                <div class="contact_from">
-                    <form method="post">
-                        <div class="form_area">
-
-                            <div class="row text-left">
-                                <div class="col-lg-6 col-12">
-                                    <div class="treeview">
-                                        @if (Model != null && Model.Count() > 0)
-                                        {
-                                            <ul>
-                                                @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
-                                            </ul>
-                                        }
-                                    </div>
-                                    <nav id="context-menu" class="context-menu">
-                                        <ul class="context-menu__items">
-                                            <li class="context-menu__item">
-                                                <a href="#" class="context-menu__link" data-action="Edit">Edit</a>
-                                            </li>
-                                            <li class="context-menu__item">
-                                                <a href="#" class="context-menu__link" data-action="Move">Move</a>
-                                            </li>
-                                            <li class="context-menu__item">
-                                                <a href="#" class="context-menu__link" data-action="Delete">Delete</a>
-                                            </li>
-                                            <li class="context-menu__item">
-                                                <a href="#" class="context-menu__link" data-action="AddB">Add New Bookmark</a>
-                                            </li>
-                                            <li class="context-menu__item">
-                                                <a href="#" class="context-menu__link" data-action="AddF">Add New Folder</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
-</section>
-
-
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $(".treeview li>ul").css('display', 'show'); // Hide all 2-level ul
-            $(".collapsible").click(function (e) {
-                e.preventDefault();
-                $(this).toggleClass("collapse1 expand1");
-                $(this).closest('li').children('ul').slideToggle();
-            });
-        });
-    </script>
-    <script src="~/Scripts/main.js"></script>
-}
-
-
-
-
-
-
-
-
-
-@*<div style="height:100px"></div>
-<h2>My Bookmarks</h2>*@
-
-
-
-@*<div style="height:10px"></div>
-<div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
+    <div class="treeview">
+        @if (Model != null && Model.Count() > 0)
+                    {
+            <ul>
+                @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
+            </ul>
+                    }
+    </div>
+    <nav id="context-menu" class="context-menu">
+        <ul class="context-menu__items">
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Edit">Edit</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Move">Move</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Delete">Delete</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="AddB">Add New Bookmark</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="AddF">Add New Folder</a>
+            </li>
+        </ul>
+    </nav>
 
 </div>
+            
 
-<div style="height:10px"></div>*@
+
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $(".treeview li>ul").css('display', 'show'); // Hide all 2-level ul
+                        $(".collapsible").click(function (e) {
+                            e.preventDefault();
+                            $(this).toggleClass("collapse1 expand1");
+                            $(this).closest('li').children('ul').slideToggle();
+                        });
+                    });
+                </script>
+                <script src="~/Scripts/main.js"></script>
+            }
+
+
+
+
+
+
+
+
+
+            @*<div style="height:100px"></div>
+                <h2>My Bookmarks</h2>*@
+
+
+
+            @*<div style="height:10px"></div>
+                <div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
+
+                </div>
+
+                <div style="height:10px"></div>*@
 
 
