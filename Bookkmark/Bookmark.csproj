@@ -243,7 +243,6 @@
     <Content Include="fonts\fontawesome-webfont3e6e.svg" />
     <Content Include="fonts\Pe-icon-7-strokebb1d.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Images\banner1.png" />
     <Content Include="Images\banner2.png" />
     <Content Include="Images\chromebtn.png" />

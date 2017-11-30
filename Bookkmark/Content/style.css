@@ -466,21 +466,23 @@
 
     .submenu ul#navSubmenu li :hover {
         background-color: #ffc926;
+        border-radius:10px;
     }
 
    .submenu ul#navSubmenu li a {
         display: block;
-        color: white;
+        color: #444;
         text-align: center;
         padding: 16px;
         text-decoration: none;
+        font-weight:500;
     }
 
     .default-page .mainmenu ul#nav li a,
 	.home-page .mainmenu ul#nav li a,
 	.boxed_version .mainmenu ul#nav li a,
     .rtl_version .mainmenu ul#nav li a {
-        color: #333;
+        color: #444;
         font-weight:500;
     }
 
@@ -488,11 +490,12 @@
 	.home-page .mainmenu ul#nav li:hover a,
 	.boxed_version .mainmenu ul#nav li:hover a,
     .rtl_version .mainmenu ul#nav li:hover a {
-        color: #ffc926;
+        color: #444;
+        border-radius:10px;
     }
 
     .sticky .mainmenu ul#nav li a {
-        color: #333;
+        color: #444;
     }
 
     .mainmenu ul#nav li ul {
@@ -501,12 +504,15 @@
 
     .sticky .mainmenu ul#nav li.active a,
     .sticky .mainmenu ul#nav li:hover a {
-        color: #2196F3;
+        color: #444;
+        background-color:#f3ba14;
+        border-radius:10px;
     }
 
     .mainmenu ul#nav li.active a,
     .mainmenu ul#nav li:hover a {
-        color: rgba(255, 255, 255, 0.95);
+        color: #444;
+        background-color:#f3ba14;
     }
 
     .sticky .mainmenu ul#nav li a:hover,
@@ -517,7 +523,7 @@
 	.home-page .mainmenu ul#nav li.current_page_item a,
     .boxed_version .mainmenu ul#nav li a:hover,
     .boxed_version .mainmenu ul#nav li.current_page_item a {
-        color: #ffc926;
+        color: #333;
     }
     .blog_page .main_header_area {
         background-color: #fff;
