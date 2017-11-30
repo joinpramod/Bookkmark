@@ -15,11 +15,9 @@
 
 <div class="container">
     <div class="span12">
-        <div class="page_title_area">
-            <div class="section_heading">
+            <div class="section_heading" style="padding-top:20px">
                 <h3><span>Generate Script</span> </h3>
             </div>
-        </div>
 
         Select the attributes of the Bookmark image to be displayed on your web page
 
@@ -31,7 +29,7 @@
                 <tr>
                     <td>
                         <div>
-                            <table style="height: 100px; width:80%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED;"
+                            <table style="height: 100px; width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED;"
                                    cellpadding="5" cellspacing="5">
                                 <tr>
                                     <td align="center" colspan="2">
@@ -89,7 +87,7 @@
                 @*<tr><td>&nbsp;</td></tr>*@
                 <tr>
                     <td>
-                        <img id="imgBookmark" src="../../Bookmark/Images/Bookmark.jpg" title="Bookmark this page" /><br />
+                        <img id="imgBookmark" src="../../Bookmark/Images/logo.png" title="Bookmark this page" /><br />
                         @if (ViewData["chkShowCount"] != null)
                             {
                                 <span style="font-size:16px">@ViewData["BookmarkCount"]</span>
@@ -102,7 +100,7 @@
 
                         Copy and paste the Script Code generated below in your application where you want the Bookmark icon to be displayed
                         <br />
-                        <div style="height:80px;border-radius:5px;font-weight:bold;border:solid 1px grey;width:80%;text-align:center;padding-top:1%">
+                        <div style="height:80px;border-radius:5px;font-weight:bold;border:solid 1px grey;width:100%;text-align:center;padding-top:1%">
                             <span style="font-size:16px;"> @ViewData["ScriptCode"]</span><br /><br />
                         </div>
                     </td>
@@ -117,5 +115,6 @@
 
         }
     </div>
+    <div style="height:40px">&nbsp;</div>
 </div>
 

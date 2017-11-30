@@ -93,11 +93,8 @@
 
 <div class="container">
     <div class="span12">
-        <div class="page_title_area">
-            <div class="section_heading">
+            <div class="section_heading" style="padding-top:20px">
                 <h3><span>My Bookmarks</span> </h3>
-
-            </div>
         </div>
         <div class="treeview">
             @if (Model != null && Model.Count() > 0)
@@ -107,6 +104,7 @@
                 </ul>
             }
         </div>
+        <div style="height:40px">&nbsp;</div>
         <nav id="context-menu" class="context-menu">
             <ul class="context-menu__items">
                 <li class="context-menu__item">

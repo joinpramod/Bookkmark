@@ -138,7 +138,7 @@ namespace Bookmark.Controllers
 
 
             //SaveScript();
-            ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://bookmark.com/Bookmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
+            ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://booqmarqs.com/Bookmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
 
             return View(lstDomains);
         }

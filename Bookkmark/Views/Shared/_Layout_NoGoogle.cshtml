@@ -14,7 +14,7 @@
     <meta name="application-name" content="Bookmaq" />
     <meta name="keywords" content="Bookmark" />
     <title>Booqmarqs</title>
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="shortcut icon" href="~/images/favicon.png">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/plugins.min.css">
     <link rel="stylesheet" href="~/Content/pe-icon-7-stroke.css">
@@ -27,10 +27,6 @@
 </head>
 
 <body class="default-page">
-    <!-- Preloader Start -->
-    <div id="preloader">
-        <div class="apland-load"></div>
-    </div>
     <header class="header_area">
         <div class="main_header_area animated">
             <div class="container">
@@ -39,25 +35,6 @@
                     <div class="col-4 col-sm-3">
                         <div class="logo_area">
                             <a href="index.html"><img src="~/images/logo.png" alt="Booqmarqs"> <span>Booqmarqs</span></a>
-                        </div>
-                    </div>
-
-                    <div class="col-8 col-sm-9 text-right">
-                        <div class="main_menu_area d-inline-block">
-                            <div class="mainmenu">
-                                <nav>
-                                    <ul id="nav">
-                                        <li class="current_page_item"><a href="/Bookmark/Home/Index#home">Home</a></li>
-                                        <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
-                                        <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
-                                        <li><a href="@Url.Action("Login", "Account")">Demo</a></li>
-                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="header_signup_in_btn d-inline-block">
-                            <a href="@Url.Action("Choice", "Account")">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -74,26 +51,7 @@
         <div class="footer_bottom_area">
             <div class="container">
                 <div class="row">
-                    <div class="col-7">
-
-                        <div class="footer_menu text-left">
-                            <ul>
-                                <li><a href="@Url.Action("API", "Home")">API</a></li>
-                                <li><a href="@Url.Action("Policy", "Home")">Privacy Policy</a></li>
-                                <li><a href="@Url.Action("Disclaimer", "Home")">Term &amp; Conditions</a></li>
-                                <li><a href="@Url.Action("Contact", "Home")">Help or Feedback</a></li>
-                                <li><a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
-                            </ul>
-                            <div class="footer_social_area">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-google-plus"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-5">
-
+                    <div class="col-12">
                         <div class="footer_menu text-right">
                             <div class="footer_bottom text-right copywrite-area">
                                 Copyright © 2017 Booqmarqs. All rights reserved.
