@@ -437,8 +437,8 @@ namespace Bookmark.Controllers
                 Response.Cookies.Set(myCookie);
             }
 
-            Response.Redirect("../Home/Index");　
-            return View("../Home/Index");
+            //Response.Redirect("../Home/Index");　
+           return View("../Home/Index");
         }
 
         [AllowAnonymous]
