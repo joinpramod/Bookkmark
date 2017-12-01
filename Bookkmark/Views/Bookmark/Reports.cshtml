@@ -14,9 +14,10 @@
                 <h3><span>Reports</span> </h3>
             </div>
         <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
-                                        {
+            <div class="form_search">
+                
+             @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+                {
                     <table>
                         <tr>
                             <td>
@@ -33,11 +34,10 @@
                             </td>
                         </tr>
                     </table>
-
-                                        }
+               }
             </div>
         </nav>
-        <div>
+        <div style="font-size:14px">
             @grid.Table(
                                     tableStyle: "table table-responsive table-bordered table-striped",
                                     columns: grid.Columns(
@@ -52,12 +52,12 @@
 
             <div class="container">
                 <div class="text-right">
-                    <span style="font-weight:bold; font-size:18px;">Total 56</span>
+                    <span style="font-weight:bold; font-size:15px;color:#333">Total 56</span>
                 </div>
             </div>
 
             <div class="container">
-                <div class="text-right">
+                <div>
                     @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
                 </div>
             </div>

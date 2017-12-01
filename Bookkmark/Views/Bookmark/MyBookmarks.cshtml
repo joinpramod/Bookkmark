@@ -23,8 +23,16 @@
         /*cursor: pointer;*/
     }
 
+    .treeview {
+        background-color:#f6f5f5;
+        border-radius:10px;
+        /*border-width:1px;
+        border-color:#eae8e8;
+        border:groove;*/
+    }
+
     .treeview ul {
-        font: 20px Arial, Sans-Serif;
+        font: 20px;
         margin: 0px;
         padding-left: 2%;
         list-style: none;
@@ -43,6 +51,8 @@
             display: inline-block;
             text-decoration: none;
             width: auto;
+             color:#333;
+             font-weight:400;
         }
 
     /* context menu */
@@ -82,18 +92,20 @@
         padding: 4px 12px;
         color: #333;
         text-decoration: none;
+          font-weight:400;
     }
 
         .context-menu__link:hover {
             color: #333;
             background-color: #F3CD50;
+              font-weight:400;
         }
 </style>
 
 
 <div class="container">
     <div class="span12">
-            <div class="section_heading" style="padding-top:20px">
+            <div class="section_heading" style="padding-top:20px;">
                 <h3><span>My Bookmarks</span> </h3>
         </div>
         <div class="treeview">

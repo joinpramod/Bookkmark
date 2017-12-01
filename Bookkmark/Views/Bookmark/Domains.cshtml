@@ -7,35 +7,37 @@
 }
 <div class="container">
     <div class="span12">
-            <div class="section_heading" style="padding-top:20px">
-                <h3><span>Domians</span> </h3>
-            </div>
+        <div class="section_heading" style="padding-top:20px">
+            <h3><span>Domians</span> </h3>
+        </div>
 
-        @using (Html.BeginForm("AddDomain", "Bookmark"))
-        {
-            <div>
-                <table style="height: 100px; width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
-                    <tr>
-                        <td align="center" colspan="2">
-                            <span style="width: 100%; font-weight: bold; font-family: Calibri; color: Red">@ViewBag.Ack</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left:40px">
-                            @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name" })
-                        </td>
-                        <td style="text-align:left;padding-right:700px">
-                            <input id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="mysubmitsmall" />
-                        </td>
-                    </tr>
-                </table>
+        <nav class="navbar navbar-default">
+            <div class="form_search">
+                @using (Html.BeginForm("AddDomain", "Bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+                {
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name" })
+                            </td>
+                            <td  style="padding-left:10px">
+                                @*<button id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="btn btn-block" />*@
+                                <button type="submit" value="Add another domain" class="btn btn-block" style="width:210px">Add another domain</button>
+                            </td>
+                        </tr>
+                    </table>
+                }
             </div>
-        }
-        
+        </nav>
         <div style="height:20px"></div>
 
 
-        <div>
+        <div style="font-size:14px">
             @grid.Table(
                 tableStyle: "table table-responsive table-bordered table-striped",
                 columns: grid.Columns(
@@ -54,5 +56,6 @@
             @Html.Hidden("col", grid.SortColumn)
 
         </div>
+        <div style="height:40px"></div>
     </div>
-</div>
+    </div>
