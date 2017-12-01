@@ -51,8 +51,17 @@
                                         <li><a href="/Bookmark/Home/Index#home">Home</a></li>
                                         <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
                                         <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
-                                        <li><a href="@Url.Action("Login", "Account")">Demo</a></li>
-                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                        <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
+                                        @if (Session["User"] == null)
+                                        {
+                                            <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li>@Html.ActionLink("My Profile", "ViewUser", "Account")</li>
+                                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+
+                                        }
                                     </ul>
                                 </nav>
                             </div>

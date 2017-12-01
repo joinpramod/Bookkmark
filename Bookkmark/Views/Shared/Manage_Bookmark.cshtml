@@ -65,8 +65,12 @@
                                             <li><a href="/Bookmark/Home/Index#home">Home</a></li>
                                             <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
                                             <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
-                                            <li><a href="@Url.Action("Login", "Account")">Demo</a></li>
-                                            <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                            <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
+                                            @if (Session["User"] == null)
+                                            {
+                                                <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                            }
+
                                         </ul>
                                     </nav>
                                 </div>
@@ -81,7 +85,7 @@
             <!-- Main Header Area End -->
         </header>
 
-        @if (Session["User"] != null)
+       @if (Session["User"] != null)
        {        
         <div class="submenu">
             <div class="container">
@@ -89,11 +93,14 @@
                     <ul id="navSubmenu">
                         
                         <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                        <li>@Html.ActionLink("View Script", "ScriptCode", "Bookmark")</li>
-                        <li>@Html.ActionLink("My Domains", "Domains", "Bookmark")</li>
-                        <li>@Html.ActionLink("My Bookmarks", "MyBookmarks", "Bookmark")</li>
+                        <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+                        <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+                        <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
                         <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
                         <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                        <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+
                     </ul>
                 </div>
             </div>
