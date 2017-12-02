@@ -19,20 +19,26 @@
         </p>
         <br />
         <p>
-            @using (Html.BeginForm("import", "bookmark", FormMethod.Post))
-{
-    <table>
-        <tr>
-            <td>
-                <input id="File1" type="file" class="myText" />
-            </td>
-            <td>
-                <input id="btnSubmit" type="submit" value="Import" class="mysubmitsmall" />
-            </td>
-        </tr>
-    </table>
-}
-        </p>
+
+            <div class="form_search">
+                @using (Html.BeginForm("import", "bookmark", FormMethod.Post))
+                {
+                    <table>
+                        <tr>
+                            <td>
+                                <input id="File1" type="file" class="form-control" />
+                            </td>
+                            <td>
+                                @*<input id="btnSubmit" type="submit" value="Import" class="mysubmitsmall" />*@
+                                <button type="submit" class="btn btn-block">Import</button>
+
+                            </td>
+                        </tr>
+                    </table>
+                }
+
+                </div>
+</p>
         <div style="height:60px"></div>
 
 <pre style="font-size:14px;font-family:'Roboto', sans-serif;background-color:white;word-break:inherit">
@@ -43,7 +49,11 @@ Steps to export your bookmarks from various browsers like Chrome, Firefox, IE to
                 Next, select Bookmarks manager, or press [CTRL] + [Shift] + [O] on your keyboard. 
 
                 Now, click the Organize menu > Export bookmarks to HTML file:
-        <img src="~/Images/CR3.png" style="height:35%;width:35%" />   <img src="~/Images/CR4.png" style="height:35%;width:35%" />
+                    <img src="~/Images/CR3.png" style="height:50%;width:50%" />   
+
+
+
+                    <img src="~/Images/CR4.png" style="height:40%;width:40%" />
 
 
         <h2>Internet Explorer</h2>
@@ -52,7 +62,7 @@ Steps to export your bookmarks from various browsers like Chrome, Firefox, IE to
     	        Then click on more options on “Add to favorites”
 
     	        Select “Import and export…”
-        <img src="~/Images/IE1.png" style="height:25%;width:25%" />
+                    <img src="~/Images/IE1.png" style="height:25%;width:25%" />
 
 
                 Select “Export to a file” and hit Next and then select “Favorites” and hit Next and the hit Next again until you are prompted for         
@@ -61,11 +71,11 @@ Steps to export your bookmarks from various browsers like Chrome, Firefox, IE to
                                         @*<img src="~/Images/IE5.png" style="height:40%;width:40%" />*@
         <h2>Mozilla Firefox</h2>
                 Go to “Show your bookmarks” and then select “Show All Bookmarks”, this will open a window
-        <img src="~/Images/FF1.png" style="height:30%;width:30%" />
+                    <img src="~/Images/FF1.png" style="height:30%;width:30%" />
 
                 Select “Import and Backup” and then select “Export Bookmarks to HTML”. Then enter the required name for your file and save it in your device.
  Upload this same file here to import your bookmarks.
-        <img src="~/Images/FF2.png" style="height:40%;width:40%" />
+                    <img src="~/Images/FF2.png" style="height:40%;width:40%" />
 
 
 

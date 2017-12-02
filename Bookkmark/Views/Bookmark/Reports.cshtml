@@ -56,11 +56,13 @@
                 </div>
             </div>
 
-            <div class="container">
-                <div>
+
+            <div class="row">
+                <div class="col-sm-6">
                     @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
                 </div>
             </div>
+
             <div style="height:20px">&nbsp;</div>
             @Html.Hidden("dir", grid.SortDirection)
             @Html.Hidden("col", grid.SortColumn)
