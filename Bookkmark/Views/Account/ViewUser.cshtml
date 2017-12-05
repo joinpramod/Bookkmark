@@ -7,46 +7,54 @@
 
 
 
-<section class=" pt150 pb100">
+<section class="pt150 pb100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <div class="page_title_area">
                     <div class="section_heading">
-                        <h3><span>My Profile</span> </h3>
+                        <h3><span>View User</span> </h3>
 
                     </div>
                 </div>
 
                 <div class="contact_from">
-                    <form method="post">
-                        <div class="form_area">
-
-                            <div class="row  justify-content-center">
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First Name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="Email ID" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-block">Submit</button>
-
-
-                                </div>
-
-
+                    <div class="form_area">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">First Name</label>
+                            <div class="col-10">
+                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", required = "true", disabled=true })
                             </div>
                         </div>
-                    </form>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Last Name</label>
+                            <div class="col-10">
+                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", required = "true", disabled = true })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Email Id</label>
+                            <div class="col-10">
+                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", required = "true", disabled = true })
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col-xs-6">
+                                <button class="btn btn-block">Edit</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button class="btn btn-block">Cancel</button>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 
 
