@@ -518,7 +518,7 @@
     }
 
     .submenu ul#navSubmenu li :hover {
-        background-color: #fae931;
+        background-color: #fcd767;
         /*border-radius:10px;*/
         color:#444;
     }
@@ -561,14 +561,14 @@
     .sticky .mainmenu ul#nav li.active a,
     .sticky .mainmenu ul#nav li:hover a {
         color: #444;
-        background-color:#fae931;
+        background-color:#fcd767;
         /*border-radius:10px;*/
     }
 
     .mainmenu ul#nav li.active a,
     .mainmenu ul#nav li:hover a {
         color: #444;
-        background-color:#fae931;
+        background-color:#fcd767;
     }
 
     .sticky .mainmenu ul#nav li a:hover,
@@ -634,7 +634,7 @@
     }
 
     .header_signup_in_btn a {
-        background-color: #fae931;
+        background-color: #fcd767;
         color: #111;
         padding: 0.5em 1.5em;
         border-radius: 6px;
@@ -1266,7 +1266,7 @@
 
     .single_price_plan .button > a:hover,
     .single_price_plan .button > a:focus {
-        background-color: #fae931;
+        background-color: #fcd767;
         color: #fff;
     }
 
@@ -2339,7 +2339,7 @@
 	.success_info{color:#22bd3e;    margin: 15px 0;}
 	.error_info{color:#e20f0f; margin: 15px 0;}
     .form_area button {
-        background-color: #fae931;
+        background-color: #fcd767;
         border: 2px solid #ddd;
         border-radius: 6px;
         display: block;
@@ -2363,7 +2363,7 @@
     }
 
         .form_search button {
-        background-color: #fae931;
+        background-color: #fcd767;
         border: 2px solid #ddd;
         border-radius: 6px;
         /*display: block;*/
