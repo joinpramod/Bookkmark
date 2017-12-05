@@ -18,7 +18,7 @@ foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
                 @if (! string.IsNullOrEmpty(i.URL))
                 {
                     var strSrc = "http://www.google.com/s2/favicons?domain_url=" + @i.URL;
-                        <a href="#" onclick="window.open('@i.URL');" ><img src="@strSrc" style="height:15px;width:15px"/> @i.Name </a>
+                        <a href="#" onclick="window.open('@i.URL');" ><img src="@strSrc" style="height:17px;width:17px"/> @i.Name </a>
                 }
                 else
                 {
