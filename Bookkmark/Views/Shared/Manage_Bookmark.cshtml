@@ -27,12 +27,12 @@
     <link rel="stylesheet" href="~/Content/responsive.css">
 
 
-    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    @*<script src="~/Scripts/jquery-2.2.4.min.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/platform.js" async defer type="text/javascript"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>*@
     @*<script src="~/Scripts/plugins.min.js"></script>*@
     @*<script src="~/Scripts/custom.js"></script>*@
  
@@ -53,7 +53,7 @@
 
                         <div class="col-4 col-sm-3">
                             <div class="logo_area">
-                                <a href="index.html"><img src="~/images/logo.png" alt="Booqmarqs"> <span>Booqmarqs</span></a>
+                                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"> <span>Booqmarqs</span></a>
                             </div>
                         </div>
 
@@ -62,50 +62,63 @@
                                 <div class="mainmenu">
                                     <nav>
                                         <ul id="nav">
+                                        @if (Session["User"] == null)
+                                        {
                                             <li><a href="/Bookmark/Home/Index#home">Home</a></li>
                                             <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
                                             <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
                                             <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
-                                            @if (Session["User"] == null)
-                                            {
-                                                <li><a href="@Url.Action("Login", "Account")">Login</a></li>
-                                            }
-
+                                            <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                                            <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
+                                            <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+                                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                                        }
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
+                            @if (Session["User"] == null)
+                            {
                             <div class="header_signup_in_btn d-inline-block">
                                 <a href="@Url.Action("Choice", "Account")">Get Started</a>
                             </div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Main Header Area End -->
         </header>
-
-       @if (Session["User"] != null)
-       {        
-        <div class="submenu">
-            <div class="container">
-                <div class="span12">
-                    <ul id="navSubmenu">
-                        
-                        <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                        <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
-                        <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
-                        <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
-                        <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
-                        <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
-                        <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-       }
+        
+        <div style="height:80px"></div>
+       @*@if (Session["User"] != null)
+    {
+     <div class="submenu">
+         <div class="container">
+             <div class="span12">
+                     <ul id="navSubmenu">
+                         <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                         <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+                         <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+                         <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+                         <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+                         <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                         <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+                         <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                     </ul>
+             </div>
+         </div>
+     </div>
+       }*@
 
                 @RenderBody()
                 <div class="push"></div>
@@ -143,6 +156,19 @@
                 </div>
 
             </footer>
+
+
+    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/Scripts/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Owl Carousel js -->
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Scripts/plugins.min.js"></script>
+    <!-- Active js -->
+    <script src="~/Scripts/custom.js"></script>
 
             @Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")
