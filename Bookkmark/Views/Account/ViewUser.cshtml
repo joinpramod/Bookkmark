@@ -17,25 +17,26 @@
 
                     </div>
                 </div>
-
+                @using (Html.BeginForm("EditUser", "Account", FormMethod.Post))
+                {
                 <div class="contact_from">
                     <div class="form_area">
                         <div class="form-group row">
                             <label class="col-2 col-form-label">First Name:</label>
                             <div class="col-10">
-                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", required = "true", disabled=true })
+                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", required = "required", disabled = true })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Last Name:</label>
                             <div class="col-10">
-                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", required = "true", disabled = true })
+                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", required = "required", disabled = true })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Email Id:</label>
                             <div class="col-10">
-                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", required = "true", disabled = true })
+                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", required = "required", disabled = true })
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -50,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+            }
             </div>
         </div>
     </div>

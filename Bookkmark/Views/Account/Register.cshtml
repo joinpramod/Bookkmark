@@ -27,30 +27,47 @@
                 </div>
 
                 <div class="contact_from">
-                    <form method="post">
-                        <div class="form_area">
 
                             <div class="row">
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="name" id="name" placeholder="First Name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="name" id="name" placeholder="Last Name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="name" id="name" placeholder="Email ID" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="email" id="email" placeholder="Password" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="email" id="email" placeholder="Confirm Password" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-block">LOGIN</button>
+                                @using (Html.BeginForm("ProcessActivationCode", "Account"))
+                                {
+                                    if (ViewBag.Activation != null)
+                                    {
+                                        <div class="form-group">
+                                            <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
+                                         </div>
+
+                                        <div class="form-group">
+                                            <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
+                                            @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                                        </div>
+                                    }
+                                }
 
 
-                                </div>
+                                @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBox("txtFirstName", new { placeholder = "First Name", @class = "form-control", required = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBox("txtLstName", new { placeholder = "Last Name", @class = "form-control", required = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", name = "txtEMailId", type = "email", required = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Password("txtNewPassword", "", new { placeholder = "New Password", @class = "form-control", required = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Password("txtConfirmPassword", "", new { placeholder = "Confirm Password", @class = "form-control" })
+                                        </div>
+                                        <button type="submit" class="btn btn-block">LOGIN</button>
+
+
+                                    </div>
+                                }
                                 <div class="col-lg-6 col-12">
 
 
@@ -71,8 +88,6 @@
 
 
                             </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
