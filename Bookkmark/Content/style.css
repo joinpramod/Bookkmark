@@ -245,7 +245,17 @@
         text-align: center;
         color: #15151e;
     }
-	
+
+	    .section_heading_bookmark {
+             margin-top: 5px;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        color: #15151e;
+    }
+
+
     .section_heading_home {
         margin-bottom: 30px;
         position: relative;
@@ -1917,7 +1927,7 @@
     }
 
     .footer_social_area {
-        margin-top: 17px;
+        margin-top: 5px;
     }
 	.copywrite-area{
 	    font-size: 14px;
@@ -2316,7 +2326,7 @@
         transition-duration: 500ms;
         width: 100%;
         box-shadow: none;
-        font-weight: 300;
+        font-weight: 400;
     }
 
     .form_area .form-group input:focus,
