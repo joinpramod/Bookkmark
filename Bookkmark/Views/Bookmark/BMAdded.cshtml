@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
     
 }
-<div style="height:50px"></div>
-<h2>Delete</h2>
+
 
 <script type="text/javascript">
     function CloseWindow() {
@@ -16,7 +15,38 @@
 
 
 
-    <table style="height:80%;width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding="5" cellspacing="5">
+<div class="container">
+    <div class="span12">
+        <div class="section_heading_bookmark">
+            @if (ViewBag.AddType == "Bookmark")
+            {
+                <h3><span>Delete Bookmark</span> </h3>
+            }
+            else
+            {
+                <h3><span>Delete Folder</span> </h3>
+            }
+        </div>
+
+        <div class="form_area">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-12">
+                    <div class="form-group">
+                        <div class="error_info">@ViewBag.Ack</div>
+                    </div>
+                    <div class="form-group">
+                        <span style="font-weight:bold"> Bookmark saved successfully </span>
+                    </div>
+                    <button type="submit"  id="btnYes" name="btnYes" class="btn btn-block" onclick="CloseWindow()" >Close</button> 
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    @*<table style="height:80%;width:100%;border:solid;border-radius:10px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding="5" cellspacing="5">
         <tr>
             <td style="font-weight: bold; color: red;padding-left:30%">
                 @ViewBag.Ack<br />
@@ -33,4 +63,4 @@
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
-    </table>
+    </table>*@

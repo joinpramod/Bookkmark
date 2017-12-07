@@ -1,17 +1,9 @@
 ﻿
 @{
     ViewBag.Title = "AddEditBM";
-    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
+    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
-<div style="height:40px"></div>
-@if (ViewBag.MoveType == "Bookmark")
-{
-    <h2>Move Bookmark</h2>
-}
-else
-{
-    <h2>Move Folder</h2>
-}
+
 
 <script type="text/javascript">
     window.onload = function () {
@@ -24,7 +16,76 @@ else
         }
     };
 </script>
-<div style="height:10px"></div>
+
+
+<div style="height:40px"></div>
+
+
+@model Bookmark.BookmarkCls
+
+@using (Html.BeginForm("EditBMFolder", "Bookmark"))
+{
+
+    <div class="container">
+        <div class="span12">
+            <div class="section_heading_bookmark">
+                @if (ViewBag.EditType == "Bookmark")
+                {
+                    <h3><span>Move Bookmark</span> </h3>
+                }
+                else
+                {
+                    <h3><span>Move Folder</span> </h3>
+                }
+            </div>
+
+            <div class="form_area">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-12">
+                        <div class="form-group">
+                            <div class="error_info">@ViewBag.Ack</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="success_info" style="font-weight:bold">@ViewBag.Name</div>
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { @class = "form-control", style = "height:50px" })
+                        </div>
+                        <button type="submit" class="btn btn-block">Submit</button>
+                    </div>
+                </div>@Html.Hidden("HFBookmarkId", (Object)ViewBag.BookmarkId)
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div style="height:10px"></div>
 
 @model Bookmark.BookmarkCls
 
@@ -39,17 +100,15 @@ else
         </tr>
        <tr>
             <td align="left" style="padding-left:10px">
-                @*@Html.Password("txtFolder", "", new { style = "width:75%;", placeholder = "Folder", @class = "myText" })*@
                 @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { style = "height:30px;border:1px solid lightgrey;border-radius:5px;font-size:16px;width:50%;" })
             </td>
         </tr>
         <tr>
             <td align="center" colspan="2">
                 <input type="submit" value="Submit" id="btnAdd" name="btnAdd" style="height:40px;border-radius:5px" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
-                @*<input type="submit" value="Cancel" name="Cancel" class="mysubmitsmall" />*@
             </td>
         </tr>
     </table>
     @Html.Hidden("HFBookmarkId", (Object)ViewBag.BookmarkId)
 
-}
+}*@
