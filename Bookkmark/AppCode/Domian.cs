@@ -14,6 +14,7 @@ namespace Bookmark
         public double Id { get; set; }
         public string Name { get; set; }
         public string Script { get; set; }
+        public string CreatedUserId { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
 
@@ -27,7 +28,7 @@ namespace Bookmark
             SqlParameter ParamURL = Cmd.Parameters.Add("@Name", SqlDbType.VarChar);
             SqlParameter ParamScript = Cmd.Parameters.Add("@Script", SqlDbType.VarChar);
             SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime);
-           // SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUserId", SqlDbType.Int);
+            SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUserId", SqlDbType.VarChar);
             SqlParameter ParamModifiedDate = Cmd.Parameters.Add("@ModifiedDate", SqlDbType.DateTime);
 
 
@@ -39,8 +40,8 @@ namespace Bookmark
             ParamURL.Direction = ParameterDirection.Input;
             ParamScript.Value = Script;
             ParamScript.Direction = ParameterDirection.Input;
-            // ParamCreatedUserId.Value = CreatedUserId;
-            //ParamCreatedUserId.Direction = ParameterDirection.Input;
+            ParamCreatedUserId.Value = CreatedUserId;
+            ParamCreatedUserId.Direction = ParameterDirection.Input;
 
 
             if (CreatedDate < DateTime.Parse("1-1-2000"))
@@ -69,7 +70,7 @@ namespace Bookmark
         }
 
 
-        public bool CreateDomain(ref double NewMasterID, SqlTransaction TrTransaction)
+        public bool CreateDomain()
         {
             SqlCommand CmdExecute = new SqlCommand();
             if (SetCommandDomain(ref CmdExecute))

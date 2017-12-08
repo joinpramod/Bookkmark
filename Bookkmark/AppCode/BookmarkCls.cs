@@ -20,7 +20,7 @@ namespace Bookmark
         public string IpAddr { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        //public string Count { get; set; }
+        public string Count { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public string ModifiedDate { get; set; }
@@ -243,7 +243,7 @@ namespace Bookmark
         }
 
 
-        public List<BookmarkCls> GetBookmarks(string search, string sort, string sortdir, string userId)
+        public List<BookmarkCls> GetBookmarks(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo)
         {
 
             List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
@@ -274,58 +274,58 @@ namespace Bookmark
             //}
 
 
-            _Bookmark.Id = 1;
-            _Bookmark.Name = "Default";
-            _Bookmark.URL = "";
-            _Bookmark.FolderId = 0;
-            _Bookmark.IsFolder = true;
-            _Bookmark.IpAddr = "121.0.0.1";
-            _Bookmark.City = "New York";
-            _Bookmark.Country = "USA";
-            _Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            _Bookmark.Count = "12";
-            lstBookmarks.Add(_Bookmark);
+            //_Bookmark.Id = 1;
+            //_Bookmark.Name = "Default";
+            //_Bookmark.URL = "";
+            //_Bookmark.FolderId = 0;
+            //_Bookmark.IsFolder = true;
+            //_Bookmark.IpAddr = "121.0.0.1";
+            //_Bookmark.City = "New York";
+            //_Bookmark.Country = "USA";
+            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
+            //_Bookmark.Count = "12";
+            //lstBookmarks.Add(_Bookmark);
 
-            _Bookmark = new BookmarkCls();
-            _Bookmark.Id = 102;
-            _Bookmark.Name = "Social";
-            _Bookmark.URL = "";
-            _Bookmark.FolderId = 1;
-            _Bookmark.IsFolder = true;
-            _Bookmark.IpAddr = "121.0.0.1";
-            _Bookmark.City = "San Francisco";
-            _Bookmark.Country = "USA";
-            _Bookmark.CreatedDate = "10/7/2017 12:24 PM";
-            _Bookmark.Count = "9";
-            lstBookmarks.Add(_Bookmark);
-
-
-            _Bookmark = new BookmarkCls();
-            _Bookmark.Id = 103;
-            _Bookmark.Name = "General";
-            _Bookmark.URL = "";
-            _Bookmark.FolderId = 1;
-            _Bookmark.IsFolder = true;
-            _Bookmark.IpAddr = "121.0.0.1";
-            _Bookmark.City = "Chicago";
-            _Bookmark.Country = "USA";
-            _Bookmark.CreatedDate = "09/21/2017 10:24 AM";
-            _Bookmark.Count = "20";
-            lstBookmarks.Add(_Bookmark);
+            //_Bookmark = new BookmarkCls();
+            //_Bookmark.Id = 102;
+            //_Bookmark.Name = "Social";
+            //_Bookmark.URL = "";
+            //_Bookmark.FolderId = 1;
+            //_Bookmark.IsFolder = true;
+            //_Bookmark.IpAddr = "121.0.0.1";
+            //_Bookmark.City = "San Francisco";
+            //_Bookmark.Country = "USA";
+            //_Bookmark.CreatedDate = "10/7/2017 12:24 PM";
+            //_Bookmark.Count = "9";
+            //lstBookmarks.Add(_Bookmark);
 
 
-            _Bookmark = new BookmarkCls();
-            _Bookmark.Id = 104;
-            _Bookmark.Name = "MyFolder";
-            _Bookmark.URL = "";
-            _Bookmark.FolderId = 1;
-            _Bookmark.IsFolder = true;
-            _Bookmark.IpAddr = "121.0.0.1";
-            _Bookmark.City = "Texas";
-            _Bookmark.Country = "USA";
-            _Bookmark.CreatedDate = "08/20/2017 10:24 AM";
-            _Bookmark.Count = "4";
-            lstBookmarks.Add(_Bookmark);
+            //_Bookmark = new BookmarkCls();
+            //_Bookmark.Id = 103;
+            //_Bookmark.Name = "General";
+            //_Bookmark.URL = "";
+            //_Bookmark.FolderId = 1;
+            //_Bookmark.IsFolder = true;
+            //_Bookmark.IpAddr = "121.0.0.1";
+            //_Bookmark.City = "Chicago";
+            //_Bookmark.Country = "USA";
+            //_Bookmark.CreatedDate = "09/21/2017 10:24 AM";
+            //_Bookmark.Count = "20";
+            //lstBookmarks.Add(_Bookmark);
+
+
+            //_Bookmark = new BookmarkCls();
+            //_Bookmark.Id = 104;
+            //_Bookmark.Name = "MyFolder";
+            //_Bookmark.URL = "";
+            //_Bookmark.FolderId = 1;
+            //_Bookmark.IsFolder = true;
+            //_Bookmark.IpAddr = "121.0.0.1";
+            //_Bookmark.City = "Texas";
+            //_Bookmark.Country = "USA";
+            //_Bookmark.CreatedDate = "08/20/2017 10:24 AM";
+            //_Bookmark.Count = "4";
+            //lstBookmarks.Add(_Bookmark);
 
 
             //Forums
