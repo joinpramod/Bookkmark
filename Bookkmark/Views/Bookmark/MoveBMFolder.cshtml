@@ -49,7 +49,7 @@
                             <div class="success_info" style="font-weight:bold">@ViewBag.Name</div>
                         </div>
                         <div class="form-group">
-                            @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { @class = "form-control", style = "height:50px" })
+                            @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { @class = "form-control", style = "height:50px", required="required" })
                         </div>
                         <button type="submit" class="btn btn-block">Submit</button>
                     </div>

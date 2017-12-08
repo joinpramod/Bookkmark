@@ -4,7 +4,26 @@
     Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 
+<script>
+    function ValidateImport() {
+        var varArticleWordFile = document.getElementById('fileImport').value;
+            if (varArticleWordFile == "") {
+                alert("Please select your XML file to post");
+                return false;
+            }
+            else {
+                if (varArticleWordFile.indexOf("xml") < 0 && varArticleWordFile.indexOf("XML") < 0) {
+                    alert('Invalid Format, please select only XML format.');
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
 
+
+</script>
 <div class="container">
     <div class="span12">
             <div class="section_heading" style="padding-top:20px">
@@ -27,14 +46,17 @@
                 </div>*@
                 @using (Html.BeginForm("import", "bookmark", FormMethod.Post))
                 {
+                    <div class="form-group">
+                        <div class="error_info">@ViewBag.Ack</div>
+                    </div>
                     <table>
                         <tr>
                             <td>
-                                <input id="File1" type="file" class="form-control" />
+                                <input id="fileImport" type="file" class="form-control", required="required" />
                             </td>
                             <td>
                                 @*<input id="btnSubmit" type="submit" value="Import" class="mysubmitsmall" />*@
-                                <button type="submit" class="btn btn-block">Import</button>
+                                <button type="submit" class="btn btn-block" onclick="return ValidateImport();">Import</button>
 
                             </td>
                         </tr>

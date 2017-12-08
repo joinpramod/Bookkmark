@@ -15,19 +15,17 @@
             <div class="form_search">
                 @using (Html.BeginForm("AddDomain", "Bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                 {
+                    <div class="form-group">
+                        <div class="error_info">@ViewBag.Ack</div>
+                    </div>
                     <table>
                         <tr>
-                            <td colspan="2">
-                                <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</span>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>
-                                @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name" })
+                                @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name", required="required" })
                             </td>
                             <td  style="padding-left:10px">
                                 @*<button id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="btn btn-block" />*@
-                                <button type="submit" value="Add another domain" class="btn btn-block" style="width:120px">Add domain</button>
+                                <button type="submit" name="AddDomain" value="Add another domain" class="btn btn-block" style="width:120px">Add domain</button>
                             </td>
                         </tr>
                     </table>
