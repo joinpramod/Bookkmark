@@ -40,34 +40,41 @@
                 </div>
 
                 <div class="contact_from">
-                    <form method="post">
-                        <div class="form_area">
-                            <div class="success_info">Thank you! your message sent successful</div>
-                            <div class="error_info">Opps somthing went worng please check form and try again!</div>
+@using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { onsubmit = "return IsRecapchaValid();" }))
+{
+                            <div class="form_area">
+                            <div class="success_info">You can also email us directly at contactus@bookmaq.com</div>
+                                <div class="success_info">@ViewBag.Ack</div>
+                            <div class="error_info">@*Opps somthing went worng please check form and try again!*@</div>
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                        @*<input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>*@
+                                        @Html.TextBox("txtName", "", new { placeholder = "Name", @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>
+                                        @*<input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>*@
+                                        @Html.TextBox("txtEMail", "", new { placeholder = "EMail Id", @class = "form-control", required="required" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Your Subject" required>
+                                        @*<input type="text" class="form-control" name="subject" id="subject" placeholder="Your Subject" required>*@
+                                        @Html.TextBox("txtSubject", "", new { placeholder = "Subject", @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <input type="number" class="form-control" name="number" id="number" placeholder="Your Number *" required>
+                                        @*<input type="number" class="form-control" name="number" id="number" placeholder="Your Number *" required>*@
+                                        @Html.TextBox("txtNumber", "", new { placeholder = "Your Number", @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group textarea">
-                                        <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Your Message *" required></textarea>
+                                        @*<textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Your Message *" required></textarea>*@
+                                        @Html.TextArea("txtMessage", "", new { placeholder = "Your Message", @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -75,7 +82,8 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        @Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)
+} 
                 </div>
             </div>
         </div>
