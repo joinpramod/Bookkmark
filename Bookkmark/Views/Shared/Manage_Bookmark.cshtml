@@ -35,8 +35,10 @@
     <script src="~/Scripts/owl.carousel.min.js"></script>*@
     @*<script src="~/Scripts/plugins.min.js"></script>*@
     @*<script src="~/Scripts/custom.js"></script>*@
- 
 
+    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/platform.js" async defer type="text/javascript"></script>
 
 </head>
 
@@ -51,13 +53,13 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-4 col-sm-3">
-                            <div class="logo_area">
-                                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"> <span>Booqmarqs</span></a>
-                            </div>
+                        <div class="col-sm-3">
+                            <div class="my_logo_area">
+                                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"><span>Booqmarqs</span> </a>  
+                            </div>                          
                         </div>
 
-                        <div class="col-8 col-sm-9 text-right">
+                        <div class="col-sm-9 text-right">
                             <div class="main_menu_area d-inline-block">
                                 <div class="mainmenu">
                                     <nav>
@@ -158,17 +160,14 @@
             </footer>
 
 
-    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
+  
     <script src="~/Scripts/popper.min.js"></script>
-    <!-- Bootstrap js -->
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <!-- Owl Carousel js -->
     <script src="~/Scripts/owl.carousel.min.js"></script>
-    <!-- Plugins js -->
     <script src="~/Scripts/plugins.min.js"></script>
-    <!-- Active js -->
     <script src="~/Scripts/custom.js"></script>
+
+
 
             @Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")
