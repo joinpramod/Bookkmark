@@ -66,9 +66,12 @@
                                 </nav>
                             </div>
                         </div>
+@if (Session["User"] == null)
+{
                         <div class="header_signup_in_btn d-inline-block">
                             <a href="@Url.Action("Choice", "Account")">Get Started</a>
                         </div>
+}
                     </div>
                 </div>
             </div>
