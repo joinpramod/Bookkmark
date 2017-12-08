@@ -24,28 +24,28 @@
                         <div class="form-group row">
                             <label class="col-2 col-form-label">First Name:</label>
                             <div class="col-10">
-                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", required = "required", disabled = true })
+                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", disabled = true })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Last Name:</label>
                             <div class="col-10">
-                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", required = "required", disabled = true })
+                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", disabled = true })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Email Id:</label>
                             <div class="col-10">
-                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", required = "required", disabled = true })
+                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", disabled = true })
                             </div>
                         </div>
                         <div class="row justify-content-center">
 
                             <div class="col-xs-6">
-                                <button class="btn btn-block">Edit</button>
+                                <button class="btn btn-block" id="Edit" name="Edit">Edit</button>
                             </div>
                             <div class="col-xs-6">
-                                <button class="btn btn-block" style="width:200px">Change Password</button>
+                                <button class="btn btn-block" id="ChangePassword" name="ChangePassword" style="width:200px">Change Password</button>
                             </div>
 
                         </div>
