@@ -20,7 +20,7 @@ namespace Bookmark
         public string IpAddr { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public string Count { get; set; }
+        //public string Count { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public string ModifiedDate { get; set; }

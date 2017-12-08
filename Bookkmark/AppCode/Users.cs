@@ -19,13 +19,13 @@ namespace Bookmark
         public string Email { get; set; }
         public bool IsPublisher { get; set; }
         public bool IsWebUser { get; set; }
-        public string ScriptCode { get; set; }
+        //public string ScriptId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public System.DateTime ModifiedDateTime { get; set; }
         public string ImageURL { get; set; }
-        public string Company { get; set; }
-        public string Details { get; set; }
-        public string Address { get; set; }
+        //public string Company { get; set; }
+        //public string Details { get; set; }
+        //public string Address { get; set; }
         public string Status { get; set; }
         public List<Domain> Domains { get; set; }
 
@@ -67,7 +67,7 @@ namespace Bookmark
             SqlParameter ParamEmail = Cmd.Parameters.Add("@Email", SqlDbType.VarChar);
             SqlParameter ParamIsPublisher = Cmd.Parameters.Add("@IsPublisher", SqlDbType.Bit);
             SqlParameter ParamIsWebUser = Cmd.Parameters.Add("@IsWebUser", SqlDbType.VarChar);
-            SqlParameter ParamScriptCode = Cmd.Parameters.Add("@ScriptCode", SqlDbType.VarChar);
+            SqlParameter ParamStatus = Cmd.Parameters.Add("@Status", SqlDbType.VarChar);
             SqlParameter ParamCreatedDateTime = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
             SqlParameter ParamModifiedDateTime = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
 
@@ -90,8 +90,8 @@ namespace Bookmark
             ParamIsWebUser.Direction = ParameterDirection.Input;
             //ParamDomainName.Value = DomainName;
             //ParamDomainName.Direction = ParameterDirection.Input;
-            ParamScriptCode.Value = ScriptCode;
-            ParamScriptCode.Direction = ParameterDirection.Input;
+            ParamStatus.Value = Status;
+            ParamStatus.Direction = ParameterDirection.Input;
             //ParamImageURL.Value = StrImageURL;
             //ParamImageURL.Direction = ParameterDirection.Input;
             //ParamCompany.Value = StrCompany;
