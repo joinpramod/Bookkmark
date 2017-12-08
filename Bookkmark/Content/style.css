@@ -439,13 +439,34 @@
     .logo_area {
         padding: 10px 0;
     }
-	
-	.logo_area span{
-       margin-left: 12px;
+
+    .logo_area span{
+    margin-left: 10px;
     font-size: 24px;
     color: #333;
     font-weight:400;
     }
+
+
+    .my_logo_area {
+        padding: 10px 0;
+    }
+	
+    .my_logo_area span{
+        padding-left:10px;
+        font-size: 26px;
+        font-weight:400;
+        color:#333;
+    }
+
+    .my_logo_area span:hover{
+
+       color:#ffc926;
+       font-weight:500;
+
+    }
+
+
 
     .main_header_area {
         height: 65px;
@@ -501,9 +522,8 @@
     .mainmenu ul#nav li a {
         color: #fff;
         display: block;
-        font-size: 16px;
-        padding: 20px 10px;
-        /*text-transform: uppercase;*/
+        font-size: 17px;
+        padding: 20px 8px;
     }
 
 
@@ -548,7 +568,7 @@
 	.boxed_version .mainmenu ul#nav li a,
     .rtl_version .mainmenu ul#nav li a {
         color: #444;
-        font-weight:500;
+        font-weight:400;
     }
 
     .default-page .mainmenu ul#nav li:hover a,
