@@ -126,7 +126,7 @@ namespace Bookmark.Controllers
                 user.IsPublisher = bool.Parse(DtUserList.Rows[0]["IsPublisher"].ToString());
 
 
-                user.Details = DtUserList.Rows[0]["Details"].ToString();
+                //user.Details = DtUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
@@ -257,8 +257,8 @@ namespace Bookmark.Controllers
                     {
                         user.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
                         user.OptionID = 7;
-                        tempUser = (Users)Session["User"];
-                        user.ImageURL = tempUser.ImageURL;
+                        tempUser = (Users)Session["User"];                        
+                        //user.ImageURL = tempUser.ImageURL;
                         user.ModifiedDateTime = DateTime.Now;
                         dblUserID = user.UserId;
                         user.CreateUsers(ref dblUserID);

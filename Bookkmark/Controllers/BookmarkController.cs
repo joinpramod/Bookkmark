@@ -108,7 +108,7 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult ScriptCode(string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
+        public ActionResult ScriptCode(string txtDomain, string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
         {
             Users user = (Users)Session["User"];
             List<Domain> lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
@@ -140,7 +140,28 @@ namespace Bookmark.Controllers
             //SaveScript();
             ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://booqmarqs.com/Bookmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
 
-            return View(lstDomains);
+
+            if (Request.Form["btnSave"] != null)
+            {
+                Domain _domain = new Bookmark.Domain();
+                if(string.IsNullOrEmpty(txtDomain))
+                {
+                    _domain.Id = double.Parse(ddDomains);
+                    _domain.OptID = 3;
+                    _domain.Script = ViewData["ScriptCode"].ToString();
+                    _domain.ModifiedDate = DateTime.Now;
+                }
+                else
+                {
+                    _domain.Name = txtDomain;
+                    _domain.OptID = 1;
+                    _domain.Script = ViewData["ScriptCode"].ToString();
+                    _domain.ModifiedDate = DateTime.Now;
+                }
+                _domain.CreateDomain();
+                ViewBag.Ack = "Script saved successfully";
+            }
+                return View(lstDomains);
         }
 
         public ActionResult MyBookmarks()
@@ -150,7 +171,7 @@ namespace Bookmark.Controllers
             //string strCountry = string.Empty;
             //GetLocation("69.248.7.33", ref strCity, ref strState, ref strCountry);
             Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString());
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
 
@@ -166,11 +187,11 @@ namespace Bookmark.Controllers
             return View(data);
         }
 
-        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord, string txtCreatedFrom, string txtCreatedTo)
         {
             BookmarkCls bmrk = new BookmarkCls();
             Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(search, sort, sortdir, user.UserId.ToString());
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo);
             totalRecord = lstBookmarks.Count();
             var varBookmarks = lstBookmarks.AsQueryable();
 
@@ -203,13 +224,13 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "")
+        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "")
         {
             int pageSize = 10;
             int totalRecord = 0;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
-            var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord);
+            var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo);
             ViewBag.TotalRows = totalRecord;
             ViewBag.search = search;
             return View(data);
@@ -238,6 +259,7 @@ namespace Bookmark.Controllers
                 bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
                 if (!bmrk.IsFolder)
                     ViewBag.MoveType = "Bookmark";
+                ViewBag.Name = bmrk.Name;
                 return View("../Bookmark/MoveBMFolder", bmrk);
             }
             else if (Request.QueryString["action"].ToString().Equals("Edit"))
@@ -292,28 +314,28 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult EditBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
+        public ActionResult EditBMFolder(BookmarkCls bmrk)
         {
             Users user = (Users)Session["User"];
-            BookmarkCls bmrk = new BookmarkCls();
+            //BookmarkCls bmrk = new BookmarkCls();
             //string strCity = string.Empty;
             //string strState = string.Empty;
             //string strCountry = string.Empty;
             //string ipAddr = Utilities.GetIPAddress();
             //Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
 
-            if (!string.IsNullOrEmpty(txtLink))
-            {
-                bmrk.URL = txtLink;
-                bmrk.IsFolder = false;
-            }
-            else
-            {
-                bmrk.IsFolder = true;
-            }
+            //if (!string.IsNullOrEmpty(bmrk.URL))
+            //{
+            //    //bmrk.URL = txtLink;
+            //    bmrk.IsFolder = false;
+            //}
+            //else
+            //{
+            //    bmrk.IsFolder = true;
+            //}
             bmrk.OptID = 3;  //Update
-            bmrk.Name = txtName;
-            bmrk.FolderId = double.Parse(ddFolder);
+            //bmrk.Name = txtName;
+            //bmrk.FolderId = double.Parse(ddFolder);
             bmrk.ModifiedDate = DateTime.Now.ToString();
             bmrk.CreatedUserId = user.UserId.ToString();
             //bmrk.City = strCity;
@@ -340,6 +362,20 @@ namespace Bookmark.Controllers
             ViewData["Refresh"] = "true";
             return View();
         }
+
+        public ActionResult AddDomain(string txtDomain)
+        {
+
+            Users user = (Users)Session["User"];
+            Domain _domain = new Domain();
+            _domain.OptID = 1; //Delete
+            _domain.Name = txtDomain;
+            _domain.CreatedUserId = user.UserId.ToString();
+            _domain.CreateDomain();
+            ViewBag.Ack = "Domain Added Successfully";
+            return View();
+        }
+
 
         public ActionResult Import()
         {

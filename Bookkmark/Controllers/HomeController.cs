@@ -23,11 +23,11 @@ namespace Bookmark.Controllers
 
         [ReCaptcha]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult Contact(string txtEMail, string txtSuggestion)
+        public ActionResult Contact(string txtEMail, string txtMessage, string txtSubject, string txtNumber, string txtName)
         {
             //if (ModelState.IsValid)
             //{
-                if (!string.IsNullOrEmpty(txtSuggestion))
+                if (!string.IsNullOrEmpty(txtMessage))
                 {
                     if (string.IsNullOrEmpty(txtEMail))
                     {
@@ -43,7 +43,7 @@ namespace Bookmark.Controllers
                     //}
                     Mail mail = new Mail();
 
-                    string strBody = txtSuggestion + " from " + txtEMail;
+                    string strBody = txtMessage + " from " + txtEMail;
 
                     try
                     {
