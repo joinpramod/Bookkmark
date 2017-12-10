@@ -26,72 +26,77 @@
                     </div>
                 </div>
 
-                <div class="contact_from">
+                @*<div class="contact_from">*@
 
-                            <div class="row">
-                                @using (Html.BeginForm("ProcessActivationCode", "Account"))
-                                {
-                                    if (ViewBag.Activation != null)
-                                    {
-                                        <div class="form-group">
-                                            <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
-                                         </div>
+                    @using (Html.BeginForm("ProcessActivationCode", "Account"))
+                    {
+                        if (ViewBag.Activation != null)
+                        {
+                            <div class="col-lg-12 col-12">
 
-                                        <div class="form-group">
-                                            <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
-                                            @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
-                                        </div>
-                                    }
-                                }
-
-
-                                @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBox("txtFirstName", new { placeholder = "First Name", @class = "form-control", required = "required" })
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.TextBox("txtLstName", new { placeholder = "Last Name", @class = "form-control", required = "required" })
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", name = "txtEMailId", type = "email", required = "required" })
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.Password("txtNewPassword", "", new { placeholder = "New Password", @class = "form-control", required = "required" })
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.Password("txtConfirmPassword", "", new { placeholder = "Confirm Password", @class = "form-control" })
-                                        </div>
-                                        <button type="submit" class="btn btn-block">LOGIN</button>
-
-
-                                    </div>
-                                }
-                                <div class="col-lg-6 col-12">
-
-
-                                    <a href="#" class="btn btn-block btn-facebook btn-lg btn-left-icon">
-                                        <span class="fa fa-facebook" aria-hidden="true"></span> Register with Facebook
-                                    </a>
-
-                                    <a href="#" class="btn btn-block btn-twitter btn-lg btn-left-icon">
-                                        <span class="fa fa-twitter" aria-hidden="true"></span> Register with Twitter
-                                    </a>
-
-                                    <a href="#" class="btn btn-block btn-google btn-lg btn-left-icon">
-                                        <span class="fa fa-google-plus" aria-hidden="true"></span> Register with Google Plus
-                                    </a>
-
-                                    <p class="mt20">Already have an account? <a href="@Url.Action("Login", "Account")">Login</a></p>
+                                <div class="form-group">
+                                    <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
                                 </div>
 
-
+                                <div class="form-group">
+                                    <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
+                                    @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                                </div>
                             </div>
+                        }
+                    }
+
+
+
+                    @*<div class="form_area">*@
+
+                        <div class="row">                     
+                                <div class="col-lg-6 col-12">
+@using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+                                    <div class="form-group">
+                                        @Html.TextBox("txtFirstName", "", new { placeholder = "First Name", @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBox("txtLstName", "", new { placeholder = "Last Name", @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", type = "email", required = "required" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Password("txtNewPassword", "", new { placeholder = "New Password", @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Password("txtConfirmPassword", "", new { placeholder = "Confirm Password", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        @if (Model.Email == null || ViewBag.Ack != null)
+                                        {
+                                            @Html.GenerateCaptcha(Theme.White)
+                                        }
+                                    </div>
+                                    <div class="form_area">
+                                        <button type="submit" class="btn btn-block">Register</button>
+                                    </div>
+}
+                                    </div>
+
+                            <div class="col-lg-6 col-12">
+
+                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+
+                                <p class="mt20">Already have an account? <a href="@Url.Action("Login", "Account")">Login</a></p>
+                            </div>
+
+
+                        </div>
+                    @*</div>*@
+
                 </div>
             </div>
         </div>
-    </div>
+    @*</div>*@
 </section>
 
 
@@ -101,116 +106,116 @@
 
 @*<div style="height:50px"></div>
 
-<h2>Register</h2><br />
+    <h2>Register</h2><br />
 
 
-<table style="font-size:16px;font-family:Calibri;width:100%">
-                    <tr>
-                        <td align="left">
-                            <section id="socialLoginForm">
-                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                            </section>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold; color: red">
-                            <div id="divAck" style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</div>
-                            <br />
-                        </td>
-                    </tr>
-                    @using (Html.BeginForm("ProcessActivationCode", "Account"))
-                    {
-                       if (ViewBag.Activation != null)
+    <table style="font-size:16px;font-family:Calibri;width:100%">
+                        <tr>
+                            <td align="left">
+                                <section id="socialLoginForm">
+                                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                </section>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; color: red">
+                                <div id="divAck" style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</div>
+                                <br />
+                            </td>
+                        </tr>
+                        @using (Html.BeginForm("ProcessActivationCode", "Account"))
                         {
-                            <tr>
-                                <td>
-                                    <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
-                                    @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
-                                </td>
-                            </tr>
-                        }    
-                    }
-                    <tr>
-                        <td style="padding-top: 5px">
-                            @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                           if (ViewBag.Activation != null)
                             {
-
-                            <table style="width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
                                 <tr>
                                     <td>
-                                        <br/>
-                                        @Html.TextBoxFor(m => m.FirstName, new { style = "width:55%;border:1px solid grey;", placeholder="First Name", @class="myText"})
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;border:1px solid grey;", placeholder = "Last Name", @class = "myText" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Email, new { style = "width:75%;border:1px solid grey;", placeholder = "EMail", @class = "myText" })
+                                        <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
                                     </td>
                                 </tr>
 
-                                @if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {                               
                                 <tr>
                                     <td>
-                                        @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookmark.com", @class = "myText" })
+                                        <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
+                                        @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
                                     </td>
                                 </tr>
-                                }
-                                
-                                @if (Model.Email == null || ViewBag.Ack != null)
-                                {
-                                <tr>
-                                    <td>
-                                        @Html.Password("txtPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Password", @class = "myText" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        @Html.Password("txtConfirmPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Confirm Password", @class = "myText" })
-                                    </td>
-                                </tr>
-                                }
-
-
-
-                                <tr>
-                                    <td>
-                                        <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center">
-                                        <img id="imgcaptcha" alternatetext="Captcha" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center">
-                                        @if (Model.Email == null || ViewBag.Ack != null)
-                                        {
-                                            @Html.GenerateCaptcha(Theme.White)
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center">
-                                        <input type="submit" id="btnRegister" value="Submit"  onclick="return ValidateUserReg()" class="mysubmit" />
-                                        <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
-                                        <br />
-                                    </td>
-                                </tr>
-                                <tr><td>&nbsp;</td></tr>
-                            </table>
                             }
-                        </td>
-                    </tr>
-                </table>*@
+                        }
+                        <tr>
+                            <td style="padding-top: 5px">
+                                @using (Html.BeginForm("CreateUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+
+                                <table style="width: 80%;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED" cellpadding=5; cellspacing=5>
+                                    <tr>
+                                        <td>
+                                            <br/>
+                                            @Html.TextBoxFor(m => m.FirstName, new { style = "width:55%;border:1px solid grey;", placeholder="First Name", @class="myText"})
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.LastName, new { style = "width:55%;border:1px solid grey;", placeholder = "Last Name", @class = "myText" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.Email, new { style = "width:75%;border:1px solid grey;", placeholder = "EMail", @class = "myText" })
+                                        </td>
+                                    </tr>
+
+                                    @if(ViewData["RegisType"]!= null && ViewData["RegisType"].ToString().Equals("SiteOwner")) {
+                                    <tr>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.DomainName, new { style = "width:55%;border:1px solid grey;", placeholder = "Domain. Ex bookmark.com", @class = "myText" })
+                                        </td>
+                                    </tr>
+                                    }
+
+                                    @if (Model.Email == null || ViewBag.Ack != null)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.Password("txtPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Password", @class = "myText" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.Password("txtConfirmPassword", "", new { style = "width:55%;border:1px solid grey;", placeholder = "Confirm Password", @class = "myText" })
+                                        </td>
+                                    </tr>
+                                    }
+
+
+
+                                    <tr>
+                                        <td>
+                                            <input type="file" style="width: 50%" class="myText" id="fileUserPhoto" name="fileUserPhoto" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <img id="imgcaptcha" alternatetext="Captcha" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            @if (Model.Email == null || ViewBag.Ack != null)
+                                            {
+                                                @Html.GenerateCaptcha(Theme.White)
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" id="btnRegister" value="Submit"  onclick="return ValidateUserReg()" class="mysubmit" />
+                                            <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    <tr><td>&nbsp;</td></tr>
+                                </table>
+                                }
+                            </td>
+                        </tr>
+                    </table>*@
