@@ -175,6 +175,17 @@ namespace Bookmark.Controllers
             return View(lstBookmarks);
         }
 
+        public ActionResult ExtBookmarks()
+        {
+            //string strCity = string.Empty;
+            //string strState = string.Empty;
+            //string strCountry = string.Empty;
+            //GetLocation("69.248.7.33", ref strCity, ref strState, ref strCountry);
+            Users user = (Users)Session["User"];
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString(), null, null);
+            return View(lstBookmarks);
+        }
+
         public ActionResult Domains(int page = 1, string sort = "Name", string sortdir = "asc", string search = "")
         {
             int pageSize = 10;
