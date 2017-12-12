@@ -11,7 +11,7 @@
     <meta name="Language" content="en-us" />
     <meta name="Robots" content="All" />
     <meta name="google-signin-client_id" content="">
-    <meta name="application-name" content="Bookmaq" />
+    <meta name="application-name" content="Booqmarqs" />
     <meta name="keywords" content="Bookmark" />
     <title>Booqmarqs</title>
     <link rel="shortcut icon" href="~/images/favicon.png">
@@ -53,13 +53,13 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-5">
                             <div class="my_logo_area">
                                 <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"><span>Booqmarqs</span> </a>  
                             </div>                          
                         </div>
 
-                        <div class="col-sm-9 text-right">
+                        <div class="col-sm-7 text-right">
                             <div class="main_menu_area d-inline-block">
                                 <div class="mainmenu">
                                     <nav>
@@ -69,7 +69,7 @@
                                             <li><a href="/Bookmark/Home/Index#home">Home</a></li>
                                             <li><a href="/Bookmark/Home/Index#howitworks">How It Works</a></li>
                                             <li><a href="/Bookmark/Home/Index#whattoexpect">What To Expect</a></li>
-                                            <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
+                                            @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                             <li><a href="@Url.Action("Login", "Account")">Login</a></li>
                                         }
                                         else
@@ -80,9 +80,9 @@
                                             <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
                                             <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
                                             <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
-                                            <li><a href="@Url.Action("Demo", "Home")">Demo</a></li>
+                                            @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                             <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
-                                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                                            @*<li>@Html.ActionLink("Logout", "Logout", "Account")</li>*@
                                         }
                                         </ul>
                                     </nav>
