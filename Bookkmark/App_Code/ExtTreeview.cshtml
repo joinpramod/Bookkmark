@@ -1,0 +1,34 @@
+@helper GetTreeViewExt(List<Bookmark.BookmarkCls> siteMenu, double parentID)
+{
+    foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
+    {
+            <li class="task" data-id="@i.Id">
+                @{ var submenu = siteMenu.Where(a => a.FolderId.Equals(i.Id)).Count();
+                }
+                @if (submenu > 0)
+                {
+                    <span class="expand1 collapsible">&nbsp;</span>
+                }
+
+                @if (!string.IsNullOrEmpty(i.URL))
+                {
+                    var strSrc = "http://www.google.com/s2/favicons?domain_url=" + @i.URL;
+                    <div style="width:300px;text-align:left;padding-left:15px">
+                        <a href="#" onclick="window.open('@i.URL');"><img src="@strSrc" style="height:18px;width:18px" /> @i.Name </a>
+                    </div>
+                }
+                else
+                {
+                    <a>@i.Name</a>
+                }
+                @if (submenu > 0)
+                {
+                    <ul>
+                        @ExtTreeview.GetTreeViewExt(siteMenu, i.Id)
+                    </ul>
+                }
+            </li>
+    }
+}
+
+
