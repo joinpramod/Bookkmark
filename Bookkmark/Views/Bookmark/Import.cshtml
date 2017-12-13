@@ -12,7 +12,7 @@
                 return false;
             }
             else {
-                if (varArticleWordFile.indexOf("xml") < 0 && varArticleWordFile.indexOf("XML") < 0) {
+                if (varArticleWordFile.indexOf("html") < 0 && varArticleWordFile.indexOf("HTML") < 0 && varArticleWordFile.indexOf("htm") < 0 && varArticleWordFile.indexOf("HTM") < 0) {
                     alert('Invalid Format, please select only XML format.');
                     return false;
                 }
@@ -29,10 +29,6 @@
             <div class="section_heading" style="padding-top:20px">
                 <h3><span>Import Bookmarks</span> </h3>
             </div>
-
-
-
-
         <p>
             To import bookmarks from Chrome, Firefox, IE or any other browser, first export those bookmarks into html file. Then upload the html file here. This will import all your bookmarks into your Bookmark account which you can use anywhere.
         </p>
@@ -44,7 +40,7 @@
                     <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                     <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
                 </div>*@
-                @using (Html.BeginForm("import", "bookmark", FormMethod.Post))
+                @using (Html.BeginForm("import", "bookmark", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <div class="form-group">
                         <div class="error_info">@ViewBag.Ack</div>
@@ -52,7 +48,7 @@
                     <table>
                         <tr>
                             <td>
-                                <input id="fileImport" type="file" class="form-control", required="required" />
+                                <input id="fileImport" type="file" class="form-control" required="required" name="fileImport" />
                             </td>
                             <td>
                                 @*<input id="btnSubmit" type="submit" value="Import" class="mysubmitsmall" />*@

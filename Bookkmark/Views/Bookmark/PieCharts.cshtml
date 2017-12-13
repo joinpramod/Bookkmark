@@ -1,0 +1,12 @@
+﻿@{
+
+    var myChartPie = new Chart(width: 600, height: 400)
+    .AddTitle("Pie")
+    .AddSeries(
+    name: "Employee",
+    chartType: "Pie",
+    xValue: ViewBag.MyXAxisValues,
+    yValues: ViewBag.MyYAxisValues).Write();
+}
+
+

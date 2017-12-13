@@ -1,0 +1,31 @@
+﻿@{
+
+    string myThemeGreen = @"<Chart Palette=""None"" PaletteCustomColors=""#6bcfe4"">
+                          <ChartAreas>    
+                                <ChartArea Name=""Default"" _Template_=""All"" BackColor=""Transparent"" BackSecondaryColor=""White"" BorderDashStyle=""Solid"" ShadowColor=""Transparent"">
+                                    <AxisY>        
+                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                    </AxisY>      
+                                    <AxisX>        
+                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                    </AxisX>    
+                                </ChartArea>  
+                            </ChartAreas>  
+                            <Legends>    
+                                <Legend _Template_=""All"" BackColor=""Transparent"" Docking=""Bottom"" Font=""Calibri, 10pt, style=Bold"" LegendStyle=""Row"">    
+                                </Legend>  
+                            </Legends>  
+                            <BorderSkin  />
+                        </Chart>";
+
+    var myChartLine = new Chart(width: 600, height: 400, theme: myThemeGreen)
+        .AddTitle("Line")
+        .AddSeries(
+        name: "Employee",
+        chartType: "Line",
+        xValue: ViewBag.MyXAxisValues,
+        yValues: ViewBag.MyYAxisValues) 
+        .Write();
+}
+
+
