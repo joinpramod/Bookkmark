@@ -45,6 +45,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdParty\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -286,6 +290,7 @@
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="ThirdParty\HtmlAgilityPack.dll" />
     <Content Include="Views\Home\API.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Web.config" />
@@ -356,6 +361,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Ext_Manage_Bookmark.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Bookmark\BarCharts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Bookmark\PieCharts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Bookmark\LineCharts.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
