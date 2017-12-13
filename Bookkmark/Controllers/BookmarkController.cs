@@ -2,6 +2,11 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using HtmlAgilityPack;
+using System.Web;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Web.Helpers;
 
 namespace Bookmark.Controllers
 {
@@ -388,8 +393,81 @@ namespace Bookmark.Controllers
         }
 
 
-        public ActionResult Import()
+        public ActionResult Import(HttpPostedFileBase fileImport)
         {
+            if (fileImport != null)
+            {
+                StreamReader reader = new StreamReader(fileImport.InputStream);
+                string fileText = reader.ReadToEnd();
+
+                //var regexImage = new Regex(@"data:(?<mime>[\w/\-\.]+);(?<encoding>\w+),(?<data>.>)", RegexOptions.Compiled);
+
+                //var regexComment = new Regex(@"(?=<!--)([\s\S]*?)-->", RegexOptions.Compiled);      //<!--(.*?)-->
+                //var match = regexImage.Match(fileText);
+
+
+                //fileText = regexImage.Replace(fileText, "");
+                //fileText = regexComment.Replace(fileText, "");
+
+
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(fileText);
+
+                List<HtmlNode> htmlNodes = new List<HtmlNode>();
+                htmlNodes = doc.DocumentNode.Descendants().ToList();
+                Users user = (Users)Session["User"];
+
+                foreach (HtmlNode node in htmlNodes)
+                {
+                    if (node.Attributes.Count > 0)
+                    {
+                        if (node.Name.Trim().ToUpper().Equals("H3"))
+                        {
+                            //Create Folder
+                            bmrk.IsFolder = true;
+                            bmrk.Name = node.InnerText;
+                        }
+                        else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
+                        {
+                            //Create Bookmark
+                            bmrk.IsFolder = false;
+                            bmrk.Name = node.InnerText;
+                            bmrk.URL = node.Attributes[0].Value;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        bmrk.Name = node.InnerText;
+                        bmrk.OptID = 1;
+                        bmrk.CreatedUserId = user.UserId.ToString();
+                        bmrk.CreatedDate = DateTime.Now.ToString();
+                       // bmrk.ManageBookmark();
+                    }
+                }
+
+
+                //List<string> hrefTags = new List<string>();
+
+                //foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
+                //{
+                //    HtmlAttribute att = link.Attributes["href"];
+                //    hrefTags.Add(att.Value);
+                //}
+
+
+                //var linkedPages = doc.DocumentNode.Descendants("a").Select(a=> a.Attributes);
+
+                //foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
+                //{
+                //    //HtmlAttribute att = link["href"];
+                //    //att.Value = FixLink(att);
+                //}
+
+             
+
+            }
             return View();
         }
 
@@ -432,5 +510,131 @@ namespace Bookmark.Controllers
             return View();
         }
 
+        public ActionResult BarCharts()
+        {
+            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
+            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            return View();
+        }
+
+        public ActionResult PieCharts()
+        {
+
+            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
+            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            return View();
+        }
+
+        public ActionResult LineCharts()
+        {
+            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
+            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            return View();
+        }
     }
+
+
+
+//    public static class ChartTheme
+//    {
+//        // Review: Need better names.
+
+//        public const string Blue = @"<Chart BackColor="" #D3DFF0"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 26, 59, 105"" BorderlineDashStyle="" Solid"" BorderWidth="" 2"" Palette="" BrightPastel"">
+//    	                            <ChartAreas>
+//        	                            <ChartArea Name="" Default"" _Template_="" All"" BackColor="" 64, 165, 191, 228"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"" />
+//                                        </ChartAreas>
+//    	                                <Legends>
+//        	                            <Legend _Template_="" All"" BackColor="" Transparent"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" />
+//                                        </Legends>
+//    	                                <BorderSkin SkinStyle="" Emboss"" />    
+//                                    </Chart>";
+
+//        public const string Green =
+//@"<Chart BackColor="" #C9DC87"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" BrightPastel"">
+//    	  <ChartAreas>
+//        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+//           	      <AxisY LineColor="" 64, 64, 64, 64"">
+//                	        <MajorGrid Interval="" Auto"" LineColor="" 64, 64, 64, 64"" />
+//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+                
+//            </AxisY>
+//            	      <AxisX LineColor="" 64, 64, 64, 64"">
+//                	        <MajorGrid LineColor="" 64, 64, 64, 64"" />
+//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+                
+//            </AxisX>
+//            	      <Area3DStyle Inclination="" 15"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" 10"" WallWidth="" 0"" />
+            
+//        </ChartArea>
+       
+//    </ChartAreas>
+//      <Legends>
+//        	    <Legend _Template_="" All"" Alignment="" Center"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" LegendStyle="" Row"">
+            
+//        </Legend>
+        
+//    </Legends>
+//    	  <BorderSkin SkinStyle="" Emboss"" />
+    
+//</Chart>";
+
+//        public const string Vanilla =
+//@"<Chart Palette="" SemiTransparent"" BorderColor="" #000"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"">
+//    	<ChartAreas>
+//        	    <ChartArea _Template_="" All"" Name="" Default"">
+//            	            <AxisX>
+//                	                <MinorGrid Enabled="" False"" />
+//                	                <MajorGrid Enabled="" False"" />
+                
+//            </AxisX>
+//            	            <AxisY>
+//                	                <MajorGrid Enabled="" False"" />
+//                	                <MinorGrid Enabled="" False"" />
+                
+//            </AxisY>
+            
+//        </ChartArea>
+        
+//    </ChartAreas>
+    
+//</Chart>";
+
+//        public const string Vanilla3D =
+//@"<Chart BackColor="" #555"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" SemiTransparent"" AntiAliasing="" All"">
+//    	    <ChartAreas>
+//        	        <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+//            	            <Area3DStyle LightStyle="" Simplistic"" Enable3D="" True"" Inclination="" 30"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" -30"" WallWidth="" 0"" />
+            
+//        </ChartArea>
+        
+//    </ChartAreas>
+    
+//</Chart>";
+
+//        public const string Yellow =
+//@"<Chart BackColor="" #FADA5E"" BackGradientStyle="" TopBottom"" BorderColor="" #B8860B"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" EarthTones"">
+//    	  <ChartAreas>
+//        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+//            	      <AxisY>
+//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+                
+//            </AxisY>
+//            	      <AxisX LineColor="" 64, 64, 64, 64"">
+//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+                
+//            </AxisX>
+            
+//        </ChartArea>
+        
+//    </ChartAreas>
+//    	  <Legends>
+//        	    <Legend _Template_="" All"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" LegendStyle="" Row"">
+            
+//        </Legend>
+        
+//    </Legends>
+//    	  <BorderSkin SkinStyle="" Emboss"" />
+    
+//</Chart>";
+//    }
 }
