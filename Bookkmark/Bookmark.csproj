@@ -293,7 +293,9 @@
     <Content Include="ThirdParty\HtmlAgilityPack.dll" />
     <Content Include="Views\Home\API.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -370,6 +372,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Bookmark\LineCharts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Bookmark\BarChartsHorizon.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
