@@ -1,12 +1,35 @@
 ﻿@{
 
-    var myChartPie = new Chart(width: 600, height: 400)
-    .AddTitle("Pie")
-    .AddSeries(
-    name: "Employee",
-    chartType: "Pie",
-    xValue: ViewBag.MyXAxisValues,
-    yValues: ViewBag.MyYAxisValues).Write();
+    //string myThemePie = @"<Chart Palette=""None"" PaletteCustomColors=""#DF874D, #51CDA0, #8E7AA3, #DF7970, #C9D45C"">
+    //                    </Chart>";
+
+
+    string myThemeBlue = @"<Chart Palette=""None"" PaletteCustomColors=""174,125,153;201,212,92;223,121,112;109,120,173;76,156,160;85,146,173"">
+                          <ChartAreas>    
+                                <ChartArea Name=""Default"" _Template_=""All"" BackColor=""Transparent"" BorderColor=""Transparent"" BackSecondaryColor=""White"" BorderDashStyle=""NotSet"" ShadowColor=""Transparent"">
+                                    <AxisY>        
+                                        <LabelStyle Font=""Calibri, 14pt"" />  
+                                    </AxisY>      
+                                    <AxisX>        
+                                        <LabelStyle Font=""Calibri, 14pt"" />      
+                                    </AxisX>    
+                                </ChartArea>  
+                            </ChartAreas>  
+                            <Legends>    
+                                <Legend _Template_=""All"" BackColor=""Transparent"" Docking=""Bottom"" Font=""Calibri, 10pt, style=Bold"" LegendStyle=""Row"">    
+                                </Legend>  
+                            </Legends>  
+                            <BorderSkin  />
+                        </Chart>";
+
+
+    var myChartPie = new Chart(width: 600, height: 400, theme: myThemeBlue)
+.AddTitle("Pie")
+.AddSeries(
+name: "Employee",
+chartType: "Pie",
+xValue: ViewBag.MyXAxisValues,
+yValues: ViewBag.MyYAxisValues).Write();
 }
 
 

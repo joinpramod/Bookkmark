@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Bookmark</title>*@
 </head>
-<body>
+<body id="bodyBqmrq">
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
         window.onload = function () {
@@ -22,6 +22,10 @@
             document.getElementById("imgBookmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
             document.getElementById("imgBookmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
             document.getElementById("imgBookmark").src = @Html.Raw(Json.Encode(ViewData["bookmarkImgSrc"]));
+            document.getElementById("divBqmrq").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
+            document.getElementById("divBqmrq").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
+            document.getElementById("bodyBqmrq").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
+            document.getElementById("bodyBqmrq").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
         };
         function DisplayIP(response) {
             document.getElementById("ipAddr").value = response.ip.toString();
@@ -50,7 +54,7 @@
                     }
                     else
                     {
-                        var res = data.split(",");  
+                        var res = data.split(",");
                         document.getElementById("imgBookmark").src = res[0];
                         if(res[1]=="Edit")
                         {
@@ -68,11 +72,11 @@
             });
         }
     </script>
-    <div>
-        <a onclick="AddBookmark()" href="javascript:void(0);">
-            <img id="imgBookmark" tooltip="Bookmark this page" />
-        </a><br />        
-        <span style="font-size:12px;">@ViewData["BookmarkCount"]</span>
-    </div>
+        <div id="divBqmrq" style="text-align:center">
+            <a onclick="AddBookmark()" href="javascript:void(0);">
+                <img id="imgBookmark" tooltip="Bookmark this page" />
+            </a>
+            <span style="font-size:10px;">@ViewData["BookmarkCount"]</span>
+        </div>
 </body>
 </html>

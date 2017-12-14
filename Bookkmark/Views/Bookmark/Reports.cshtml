@@ -72,6 +72,13 @@
                 @Html.Hidden("col", grid.SortColumn)
 
             </div>
+            <div style="height:20px"></div>
+            <div class="row justify-content-center">
+                <div class="form_area">
+                    @Html.DropDownList("ddMapType", ViewBag.ddMapType as SelectList, "---Select Scale Type---", new { @class = "form-control", style = "height:50px;width:300px;font-weight:400;background-color:#fcd767", required = "required" })
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="col-sm-6">
@@ -84,6 +91,9 @@
             <div class="row">
                 <div class="col-sm-6">
                     <img src="@Url.Action("LineCharts")" />
+                </div>
+                <div class="col-sm-6">
+                    <img src="@Url.Action("BarChartsHorizon")" />
                 </div>
                 </div>
             <div style="height:40px">&nbsp;</div>

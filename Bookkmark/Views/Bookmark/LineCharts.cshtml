@@ -1,13 +1,17 @@
 ﻿@{
 
-    string myThemeGreen = @"<Chart Palette=""None"" PaletteCustomColors=""#6bcfe4"">
+    string myThemeGreen = @"<Chart Palette=""None"" PaletteCustomColors=""#8E7AA3"">
                           <ChartAreas>    
-                                <ChartArea Name=""Default"" _Template_=""All"" BackColor=""Transparent"" BackSecondaryColor=""White"" BorderDashStyle=""Solid"" ShadowColor=""Transparent"">
+                                <ChartArea Name=""Default"" _Template_=""All"" BackColor=""Transparent"" BorderColor=""Transparent"" BackSecondaryColor=""White"" BorderDashStyle=""NotSet"" ShadowColor=""Transparent"">
                                     <AxisY>        
-                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                        <LabelStyle Font=""Calibri, 12pt"" />      
+                                        <MinorGrid Enabled=""False"" />
+                                        <MajorGrid Enabled=""False"" />      
                                     </AxisY>      
                                     <AxisX>        
-                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                        <LabelStyle Font=""Calibri, 12pt"" />      
+                                        <MinorGrid Enabled=""False"" />
+                                        <MajorGrid Enabled=""False"" />      
                                     </AxisX>    
                                 </ChartArea>  
                             </ChartAreas>  
@@ -24,7 +28,7 @@
         name: "Employee",
         chartType: "Line",
         xValue: ViewBag.MyXAxisValues,
-        yValues: ViewBag.MyYAxisValues) 
+        yValues: ViewBag.MyYAxisValues)
         .Write();
 }
 

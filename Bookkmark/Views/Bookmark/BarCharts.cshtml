@@ -1,13 +1,17 @@
 ﻿@{
 
-    string myThemeBlue = @"<Chart Palette=""None"" PaletteCustomColors=""#6bcfe4"">
+    string myThemeBlue = @"<Chart Palette=""None"" PaletteCustomColors=""255,128,128"">
                           <ChartAreas>    
                                 <ChartArea Name=""Default"" _Template_=""All"" BackColor=""Transparent"" BorderColor=""Transparent"" BackSecondaryColor=""White"" BorderDashStyle=""NotSet"" ShadowColor=""Transparent"">
                                     <AxisY>        
-                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                        <LabelStyle Font=""Calibri, 14pt"" />  
+                                        <MinorGrid Enabled=""False"" />
+                                        <MajorGrid Enabled=""False"" />      
                                     </AxisY>      
-                                    <AxisX>        
-                                        <LabelStyle Font=""Calibri, 12pt, style=Bold"" />      
+                                    <AxisX LineColor=""Black"">        
+                                        <LabelStyle Font=""Calibri, 14pt"" />      
+                                        <MinorGrid Enabled=""False"" />
+                                        <MajorGrid Enabled=""False"" />      
                                     </AxisX>    
                                 </ChartArea>  
                             </ChartAreas>  
@@ -17,6 +21,21 @@
                             </Legends>  
                             <BorderSkin  />
                         </Chart>";
+
+
+    //@"<Chart Palette=""SemiTransparent"" BorderColor=""#000"" BorderWidth=""2"" BorderlineDashStyle=""Solid"">
+    //                <ChartAreas>    
+    //                    <ChartArea _Template_=""All"" Name=""Default"">            
+    //                    <AxisX>                
+    //                        <MinorGrid Enabled=""False"" />                
+    //                        <MajorGrid Enabled=""False"" />            
+    //                    </AxisX>            <AxisY>                <MajorGrid Enabled=""False"" />                <MinorGrid Enabled=""False"" />            </AxisY>    </ChartArea></ChartAreas></Chart>"
+
+
+
+
+
+
 
 
     var myChartBar = new Chart(width: 600, height: 400, theme: myThemeBlue)
