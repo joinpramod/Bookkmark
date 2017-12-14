@@ -6,6 +6,7 @@ using System.Text;
 using System.Data;
 using System.Net;
 using System.Xml;
+using System.IO;
 
 /// <summary>
 /// Summary description for Utilities
@@ -13,69 +14,72 @@ using System.Xml;
 namespace Bookmark
 {
     public static class Utilities
-{
-    static string Target = "";
-
-    public static string ExpandUrls(string inputText)
     {
-        string pattern = @"[""'=]?(http://|ftp://|https://|www\.|ftp\.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
-        System.Text.RegularExpressions.RegexOptions options = RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline | RegexOptions.IgnoreCase;
-        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(pattern, options);
-        MatchEvaluator MatchEval = new MatchEvaluator(ExpandUrlsRegExEvaluator);
-        return Regex.Replace(inputText, pattern, MatchEval);
-    }
+        static string Target = "";
+        private static byte[] key;
+        private static byte[] IV = { 0X12, 0X20, 0X38, 0X36, 0X48, 0XAB, 0XCD, 0XEF };
 
-    private static string ExpandUrlsRegExEvaluator(System.Text.RegularExpressions.Match M)
-    {
 
-        string Href = M.Value;
-        if (Href.StartsWith("=") || Href.StartsWith("'") || Href.StartsWith("\""))
-            return Href;
-
-        string Text = Href;
-        if (Href.IndexOf("://") < 0)
+        public static string ExpandUrls(string inputText)
         {
-            if (Href.StartsWith("www."))
-                Href = "http://" + Href;
-            else if (Href.StartsWith("ftp"))
-                Href = "ftp://" + Href;
-            else if (Href.IndexOf("@") > -1)
-                Href = "mailto:" + Href;
+            string pattern = @"[""'=]?(http://|ftp://|https://|www\.|ftp\.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
+            System.Text.RegularExpressions.RegexOptions options = RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline | RegexOptions.IgnoreCase;
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(pattern, options);
+            MatchEvaluator MatchEval = new MatchEvaluator(ExpandUrlsRegExEvaluator);
+            return Regex.Replace(inputText, pattern, MatchEval);
         }
 
-        string Targ = !string.IsNullOrEmpty(Target) ? " target='" + Target + "'" : "";
-        return "<a href='" + Href + "'" + Targ + ">" + Text + "</a>";
-
-    }
-
-    public static string GetUserIP()
-    {
-        string strIP = String.Empty;
-        HttpRequest httpReq = HttpContext.Current.Request;
-
-        //test for non-standard proxy server designations of client's IP
-        if (httpReq.ServerVariables["HTTP_CLIENT_IP"] != null)
+        private static string ExpandUrlsRegExEvaluator(System.Text.RegularExpressions.Match M)
         {
-            strIP = httpReq.ServerVariables["HTTP_CLIENT_IP"].ToString();
+
+            string Href = M.Value;
+            if (Href.StartsWith("=") || Href.StartsWith("'") || Href.StartsWith("\""))
+                return Href;
+
+            string Text = Href;
+            if (Href.IndexOf("://") < 0)
+            {
+                if (Href.StartsWith("www."))
+                    Href = "http://" + Href;
+                else if (Href.StartsWith("ftp"))
+                    Href = "ftp://" + Href;
+                else if (Href.IndexOf("@") > -1)
+                    Href = "mailto:" + Href;
+            }
+
+            string Targ = !string.IsNullOrEmpty(Target) ? " target='" + Target + "'" : "";
+            return "<a href='" + Href + "'" + Targ + ">" + Text + "</a>";
+
         }
-        else if (httpReq.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+
+        public static string GetUserIP()
         {
-            strIP = httpReq.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+            string strIP = String.Empty;
+            HttpRequest httpReq = HttpContext.Current.Request;
+
+            //test for non-standard proxy server designations of client's IP
+            if (httpReq.ServerVariables["HTTP_CLIENT_IP"] != null)
+            {
+                strIP = httpReq.ServerVariables["HTTP_CLIENT_IP"].ToString();
+            }
+            else if (httpReq.ServerVariables["HTTP_X_FORWARDED_FOR"] != null)
+            {
+                strIP = httpReq.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+            }
+            //test for host address reported by the server
+            else if
+            (
+                //if exists
+                (httpReq.UserHostAddress.Length != 0)
+                &&
+                //and if not localhost IPV6 or localhost name
+                ((httpReq.UserHostAddress != "::1") || (httpReq.UserHostAddress != "localhost"))
+            )
+            {
+                strIP = httpReq.UserHostAddress;
+            }
+            return strIP;
         }
-        //test for host address reported by the server
-        else if
-        (
-            //if exists
-            (httpReq.UserHostAddress.Length != 0)
-            &&
-            //and if not localhost IPV6 or localhost name
-            ((httpReq.UserHostAddress != "::1") || (httpReq.UserHostAddress != "localhost"))
-        )
-        {
-            strIP = httpReq.UserHostAddress;
-        }
-        return strIP;
-    }
 
 
         public static string GetGravatarUrlForAddress(string address)
@@ -155,6 +159,84 @@ namespace Bookmark
                 //return null;
             }
         }
+
+
+
+
+
+        public static string Decrypt(string stringToDecrypt, string sEncryptionKey)
+        {
+            byte[] inputByteArray = new byte[stringToDecrypt.Length + 1];
+            try
+            {
+                key = System.Text.Encoding.UTF8.GetBytes(sEncryptionKey.Substring(0, 8));
+                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+                inputByteArray = Convert.FromBase64String(stringToDecrypt);
+                MemoryStream ms = new MemoryStream();
+                CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(key, IV), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+                return encoding.GetString(ms.ToArray());
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+        }
+
+        public static string Encrypt(string stringToEncrypt, string SEncryptionKey)
+        {
+            try
+            {
+                key = System.Text.Encoding.UTF8.GetBytes(SEncryptionKey.Substring(0, 8));
+                DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
+                MemoryStream ms = new MemoryStream();
+                CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(key, IV), CryptoStreamMode.Write);
+                cs.Write(inputByteArray, 0, inputByteArray.Length);
+                cs.FlushFinalBlock();
+                return Convert.ToBase64String(ms.ToArray());
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+        }
+
+        public static string EncryptString(string strQueryString)
+        {
+            if (strQueryString == "")
+            {
+                return "";
+            }
+            try
+            {
+                return Encrypt(strQueryString, "!D#2%vin");
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
+        public static string DecryptString(string strQueryString)
+        {
+            if (strQueryString == "")
+            {
+                return "";
+            }
+            try
+            {
+                return Decrypt(strQueryString.Replace(" ", "+"), "!D#2%vin");
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
+
 
     }
 }
