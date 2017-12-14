@@ -15,19 +15,26 @@ namespace Bookmark.Controllers
         private BookmarkCls bmrk = new BookmarkCls();
         private Domain domain = new Domain();
 
-        public ActionResult Show(string lnk, string h, string w, string sd, string t)
+
+        //public ActionResult Show(string lnk, string h, string w, string sd, string t)
+
+        public ActionResult Show(string did, string lnk, string t)
         {
             ViewData["Bookmark"] = lnk;
-            ViewData["ht"] = h;
-            ViewData["wd"] = w;
+            ViewData["ht"] = "50";
+            ViewData["wd"] = "40";
             ViewData["title"] = t;
+
+            //if (!ValidateRequest(did, lnk))
+                //return null;
 
             //temp
             ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
             ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmark.jpg";
             return View();
 
-            if (sd == "true")
+            //if (sd == "true")
+            if (false)
             {
                 ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
             }
@@ -74,7 +81,8 @@ namespace Bookmark.Controllers
             string resp = null;
             Session["bookmark"] = null;
             Session["bookmark"] = bmrk;
-
+            resp = "../../Bookmark/Images/Bookmarked.jpg";
+            return resp;
 
             if (Session["User"] == null)
             {
@@ -85,7 +93,7 @@ namespace Bookmark.Controllers
                 Users user = (Users)Session["User"];
                 if (bmrk.BookmarkExists(user.UserId.ToString()))
                 {
-                    resp = "../../Bookmark/Bookmark/Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    resp = "../../Bookmark/Images/Bookmarked.jpg,Edit," + bmrk.Id;
                 }
                 else
                 {
@@ -102,7 +110,7 @@ namespace Bookmark.Controllers
                     bmrk.City = strCity;
                     bmrk.Country = strState;
                     bmrk.ManageBookmark();
-                    resp = "../../Bookmark/Bookmark/Images/Bookmarked.jpg";
+                    resp = "../../Bookmark/Images/Bookmarked.jpg";
                 }
             }
             return resp;
@@ -141,9 +149,11 @@ namespace Bookmark.Controllers
             //Get ScriptCode from DB and assign to ViewState
             ViewData["ScriptCode"] = domain.GetDomainScript(user.UserId.ToString(), ddDomains);
 
+            //string domainId = Utilities.EncryptString("DomainId");
 
             //SaveScript();
-            ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://booqmarqs.com/Bookmark.1.249.js?cid=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
+            //ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
+            ViewData["ScriptCode"] = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString("DomainId") + "\"></script>";
 
 
             if (Request.Form["btnSave"] != null)
@@ -249,6 +259,20 @@ namespace Bookmark.Controllers
             var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo);
             ViewBag.TotalRows = totalRecord;
             ViewBag.search = search;
+            List<SelectListItem> lstMapTypes = new List<SelectListItem>();
+            SelectListItem sli = new SelectListItem();
+            sli.Text = "URL Vs Count";
+            sli.Value = "1";
+            lstMapTypes.Add(sli);
+            sli = new SelectListItem();
+            sli.Text = "Country Vs Count";
+            sli.Value = "2";
+            lstMapTypes.Add(sli);
+            sli = new SelectListItem();
+            sli.Text = "URL Vs Country";
+            sli.Value = "3";
+            lstMapTypes.Add(sli);
+            ViewBag.ddMapType = lstMapTypes;
             return View(data);
         }
 
@@ -526,6 +550,13 @@ namespace Bookmark.Controllers
         }
 
         public ActionResult LineCharts()
+        {
+            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
+            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            return View();
+        }
+
+        public ActionResult BarChartsHorizon()
         {
             ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
             ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
