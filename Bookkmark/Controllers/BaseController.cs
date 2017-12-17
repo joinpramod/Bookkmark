@@ -13,7 +13,8 @@ namespace Bookmark.Controllers
 
                 ViewBag.lblFirstName = user.FirstName;
                 ViewBag.UserEmail = user.Email;
-                ViewBag.IsUserLoggedIn = true;
+                ViewBag.IsUserLoggedIn = true; 
+                //
             }
             else if (Request.Cookies["BookmaqLogin"] != null && Request.Cookies["BookmaqLogin"].HasKeys)
             {
