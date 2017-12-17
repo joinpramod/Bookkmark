@@ -124,7 +124,8 @@ namespace Bookmark.Controllers
         public ActionResult ScriptCode(string txtDomain, string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
         {
             Users user = (Users)Session["User"];
-            List<Domain> lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
+            List<Domain> lstDomains = new List<Domain>();
+            lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
             ViewData["domains"] = lstDomains;
 
             if (!string.IsNullOrEmpty(txtHeight))
@@ -213,11 +214,11 @@ namespace Bookmark.Controllers
             return View(data);
         }
 
-        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord, string txtCreatedFrom, string txtCreatedTo)
+        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
         {
             BookmarkCls bmrk = new BookmarkCls();
             Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo);
+            List<BookmarkCls> lstBookmarks = bmrk.GetReports(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains);
             totalRecord = lstBookmarks.Count();
             var varBookmarks = lstBookmarks.AsQueryable();
 
@@ -233,7 +234,8 @@ namespace Bookmark.Controllers
         {
             Domain domain = new Domain();
             Users user = (Users)Session["User"];
-            List<Domain> lstDomains = domain.GetDomains(search, sort, sortdir, user.UserId.ToString());
+            List<Domain> lstDomains = new List<Domain>();
+            lstDomains = domain.GetDomains(search, sort, sortdir, user.UserId.ToString());
             totalRecord = lstDomains.Count();
             var varBookmarks = lstDomains.AsQueryable();
 
@@ -250,15 +252,43 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "")
+        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "", string ddDomains = "")
         {
             int pageSize = 10;
             int totalRecord = 0;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
-            var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo);
+            double domainId = 0;
+
+
+            if (string.IsNullOrEmpty(ddDomains))
+            {
+                Users user = (Users)Session["User"];
+                List<Domain> lstDomains = new List<Domain>();
+                lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
+                ViewData["domains"] = lstDomains;
+               
+                if (lstDomains != null && lstDomains.Count > 0)
+                {
+                    ViewData["selectedIndex"] = lstDomains[0].Name;
+                    domainId = lstDomains[0].Id;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(ddDomains))
+                {
+                    double.TryParse(ddDomains.ToString(), out domainId);
+                }                
+            }
+
+
+            var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
             ViewBag.TotalRows = totalRecord;
             ViewBag.search = search;
+
+
+
             List<SelectListItem> lstMapTypes = new List<SelectListItem>();
             SelectListItem sli = new SelectListItem();
             sli.Text = "URL Vs Count";

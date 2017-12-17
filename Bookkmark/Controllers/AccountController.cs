@@ -59,37 +59,37 @@ namespace Bookmark.Controllers
         {
 
             ///////Temporary
-            Users user1 = new Users();
-            user1.UserId = 1;
-            user1.FirstName = "FirstName";
-            user1.LastName = "LastName";
-            user1.Email = txtEMailId;
-            user.IsPublisher = true;
-            Session["User"] = user1;
-            Session["user.Email"] = user1.Email;
-            ViewBag.UserEmail = user1.Email;
-            HttpCookie mycookie = new HttpCookie("BookmaqLogin");
-            mycookie.Values["UserId"] = txtEMailId;
-            mycookie.Values["FirstName"] = "FirstName";
-            mycookie.Values["LastName"] = "LastName";
-            mycookie.Expires = System.DateTime.Now.AddDays(180);
-            Response.Cookies.Add(mycookie);
+            //Users user1 = new Users();
+            //user1.UserId = 1;
+            //user1.FirstName = "FirstName";
+            //user1.LastName = "LastName";
+            //user1.Email = txtEMailId;
+            //user.IsPublisher = true;
+            //Session["User"] = user1;
+            //Session["user.Email"] = user1.Email;
+            //ViewBag.UserEmail = user1.Email;
+            //HttpCookie mycookie = new HttpCookie("BookmaqLogin");
+            //mycookie.Values["UserId"] = txtEMailId;
+            //mycookie.Values["FirstName"] = "FirstName";
+            //mycookie.Values["LastName"] = "LastName";
+            //mycookie.Expires = System.DateTime.Now.AddDays(180);
+            //Response.Cookies.Add(mycookie);
 
-            if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
-            {
-                //AddBookmark(Session["bookmark"]);
-                Session["bookmark"] = null;
-                return View("../Bookmark/BMAdded");
-            }
-            else if (user.IsPublisher)
-            {
-                Session["RegisType"] = null;
-                return RedirectToAction("Reports", "Bookmark");
-            }
-            else
-            {
-                return RedirectToAction("MyBookmarks", "Bookmark");
-            }
+            //if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
+            //{
+            //    //AddBookmark(Session["bookmark"]);
+            //    Session["bookmark"] = null;
+            //    return View("../Bookmark/BMAdded");
+            //}
+            //else if (user.IsPublisher)
+            //{
+            //    Session["RegisType"] = null;
+            //    return RedirectToAction("Reports", "Bookmark");
+            //}
+            //else
+            //{
+            //    return RedirectToAction("MyBookmarks", "Bookmark");
+            //}
             //////////
 
 
@@ -132,10 +132,11 @@ namespace Bookmark.Controllers
                 ViewBag.UserEmail = user.Email;
                 
                 HttpCookie userCookie = new HttpCookie("BookmaqLogin");
-                mycookie.Values["UserId"] = user.Email;
-                mycookie.Values["FirstName"] = user.FirstName;
-                mycookie.Values["LastName"] = user.LastName;
-                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                userCookie.Values["UserId"] = user.UserId.ToString();
+                userCookie.Values["EMail"] = user.Email;
+                userCookie.Values["FirstName"] = user.FirstName;
+                userCookie.Values["LastName"] = user.LastName;
+                userCookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(userCookie);
 
 
@@ -578,7 +579,7 @@ namespace Bookmark.Controllers
                 ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
 
                 Users user1 = new Users();
-                user1.UserId = 1;
+                //user1.UserId = 1;
                 user1.FirstName = (from c in claimsIdentities.Claims
                                    where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
                                    select c.Value).Single();

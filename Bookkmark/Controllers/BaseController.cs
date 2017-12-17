@@ -17,11 +17,11 @@ namespace Bookmark.Controllers
             }
             else if (Request.Cookies["BookmaqLogin"] != null && Request.Cookies["BookmaqLogin"].HasKeys)
             {
-                string uname = Request.Cookies["BookmaqLogin"].Values["UserId"].ToString();
+                string uname = Request.Cookies["BookmaqLogin"].Values["EMail"].ToString();
                 Users user1 = new Users();
-                //user1.UserId = 1;
-                user1.FirstName = "FirstName";
-                user1.LastName = "LastName";
+                user1.UserId = double.Parse(Request.Cookies["BookmaqLogin"].Values["UserId"].ToString());
+                user1.FirstName = Request.Cookies["BookmaqLogin"].Values["FirstName"].ToString();
+                user1.LastName = Request.Cookies["BookmaqLogin"].Values["LastName"].ToString();
                 user1.Email = uname;
                 Session["User"] = user1;
                 Session["user.Email"] = user1.Email;
