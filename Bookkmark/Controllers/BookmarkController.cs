@@ -13,7 +13,7 @@ namespace Bookmark.Controllers
     public class BookmarkController : BaseController
     {
         private BookmarkCls bmrk = new BookmarkCls();
-        private Domain domain = new Domain();
+        private Domain domain = new Domain(); 
 
 
         //public ActionResult Show(string lnk, string h, string w, string sd, string t)
