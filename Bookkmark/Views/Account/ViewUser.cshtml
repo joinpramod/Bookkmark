@@ -7,36 +7,37 @@
 
 
 
-<section class="pt150 pb100">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-8">
-                <div class="page_title_area">
-                    <div class="section_heading">
-                        <h3><span>My Profile</span> </h3>
+        <div class="span12">
 
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section_heading" style="padding-top:20px">
+                        <h3><span>My profile</span> </h3>
                     </div>
-                </div>
-                @using (Html.BeginForm("EditUser", "Account", FormMethod.Post))
-                {
+                    @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
                 <div class="contact_from">
-                    <div class="form_area">
+                    <div class="form_area justify-content-center">
                         <div class="form-group row">
-                            <label class="col-2 col-form-label">First Name:</label>
-                            <div class="col-10">
-                                @Html.Label("txtFirstName", "First Name", new { @class = "form-control", placeholder = "First Name", disabled = true })
+                            <div class="col-3">&nbsp</div>
+                            <label class="col-2 text-left">First Name:</label>
+                            <div class="col-6 text-left">
+                                <b>@Model.FirstName</b>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-2 col-form-label">Last Name:</label>
-                            <div class="col-10">
-                                @Html.Label("txtLastName", "Last Name", new { @class = "form-control", placeholder = "Last Name", disabled = true })
+                            <div class="col-3">&nbsp</div>
+                            <label class="col-2 text-left">Last Name:</label>
+                            <div class="col-6 text-left">
+                                <b>@Model.LastName</b>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-2 col-form-label">Email Id:</label>
-                            <div class="col-10">
-                                @Html.Label("txtEmailId", "EMail Id", new { @class = "form-control", placeholder = "Email ID", disabled = true })
+                            <div class="col-3">&nbsp</div>
+                            <label class="col-2 text-left">Email Id:</label>
+                            <div class="col-6  text-left">
+                                <b>@Model.Email</b>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -51,11 +52,11 @@
                         </div>
                     </div>
                 </div>
-            }
+}
+                </div>
+            </div>
             </div>
         </div>
-    </div>
-</section>
 
 
 
