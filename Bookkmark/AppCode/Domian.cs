@@ -93,43 +93,43 @@ namespace Bookmark
         {
             List<Domain> lstDomains = new List<Domain>();
             Domain _Domain = new Domain();
-            //DataTable dt = new DataTable();
-            //using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
-            //{
-            //    conn.Open();
-            //    using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where CreatedUserId = " + userId, conn))
-            //    {
-            //        sda.Fill(dt);
-            //    }
-            //}
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where DomainCreatedUser = " + userId, conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
 
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    _Domain.Id = double.Parse(dt.Rows[i]["Id"].ToString());
-            //    _Domain.Name = dt.Rows[i]["Name"].ToString();
-            //    _Domain.Script = dt.Rows[i]["Script"].ToString(); 
-            //    lstDomains.Add(_Domain);
-            //    _Domain = new Domain();
-            //}
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Domain.Id = double.Parse(dt.Rows[i]["DomainId"].ToString());
+                _Domain.Name = dt.Rows[i]["DomainName"].ToString();
+                _Domain.Script = dt.Rows[i]["Script"].ToString();
+                lstDomains.Add(_Domain);
+                _Domain = new Domain();
+            }
 
-            _Domain = new Domain();
-            _Domain.Id = 1;
-            _Domain.Name = "google.com";
-            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
-            lstDomains.Add(_Domain);
+            //_Domain = new Domain();
+            //_Domain.Id = 1;
+            //_Domain.Name = "google.com";
+            //_Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            //lstDomains.Add(_Domain);
 
-            _Domain = new Domain();
-            _Domain.Id = 2;
-            _Domain.Name = "facebook.com";
-            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
-            lstDomains.Add(_Domain);
+            //_Domain = new Domain();
+            //_Domain.Id = 2;
+            //_Domain.Name = "facebook.com";
+            //_Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            //lstDomains.Add(_Domain);
 
 
-            _Domain = new Domain();
-            _Domain.Id = 3;
-            _Domain.Name = "twitter.com";
-            _Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
-            lstDomains.Add(_Domain);
+            //_Domain = new Domain();
+            //_Domain.Id = 3;
+            //_Domain.Name = "twitter.com";
+            //_Domain.Script = "sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd sdfsdf ssfddsfsd";
+            //lstDomains.Add(_Domain);
 
             return lstDomains;
        }
