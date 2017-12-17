@@ -252,6 +252,8 @@
     <Content Include="Global.asax" />
     <Content Include="Images\banner1.png" />
     <Content Include="Images\banner2.png" />
+    <Content Include="Images\Bookmark.jpg" />
+    <Content Include="Images\Bookmarked.jpg" />
     <Content Include="Images\chromebtn.png" />
     <Content Include="Images\CR3.png" />
     <Content Include="Images\CR4.png" />
@@ -271,6 +273,7 @@
     <Content Include="Images\IE4.png" />
     <Content Include="Images\IE5.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\logom.png" />
     <Content Include="Images\OpenFolder2.jpg" />
     <Content Include="Images\SiteOwner-htw.png" />
     <Content Include="Images\siteowner.png" />
@@ -355,9 +358,7 @@
   <ItemGroup>
     <Content Include="Views\Bookmark\Extensions.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Bookmark\ExtBookmarks.cshtml" />
   </ItemGroup>
