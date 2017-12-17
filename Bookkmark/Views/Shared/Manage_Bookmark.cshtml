@@ -39,13 +39,13 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="my_logo_area">
                                 <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"><span>Booqmarqs</span> </a>  
                             </div>                          
                         </div>
 
-                        <div class="col-sm-7 text-right">
+                        <div class="col-sm-8 text-right">
                             <div class="main_menu_area d-inline-block">
                                 <div class="mainmenu">
                                     <nav>
@@ -68,7 +68,7 @@
                                             <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
                                             @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                             <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
-                                            @*<li>@Html.ActionLink("Logout", "Logout", "Account")</li>*@
+                                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                                         }
                                         </ul>
                                     </nav>
@@ -132,8 +132,8 @@
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/owl.carousel.min.js"></script>
-    @*<script src="~/Scripts/plugins.min.js"></script>*@
-    @*<script src="~/Scripts/custom.js"></script>*@
+    <script src="~/Scripts/plugins.min.js"></script>
+    <script src="~/Scripts/custom.js"></script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
