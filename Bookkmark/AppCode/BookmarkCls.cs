@@ -15,7 +15,6 @@ namespace Bookmark
         public string URL { get; set; }
         public double FolderId { get; set; }
         public bool IsFolder { get; set; }
-
         public string Name { get; set; }
         public string IpAddr { get; set; }
         public string City { get; set; }
@@ -24,11 +23,11 @@ namespace Bookmark
         public string CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public string ModifiedDate { get; set; }
+
         public bool SetCommandBookmark(ref SqlCommand CmdSent)
         {
             SqlCommand Cmd = new SqlCommand("Bookmark_Sp");
             Cmd.CommandType = CommandType.StoredProcedure;
-
 
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamId = Cmd.Parameters.Add("@Id", SqlDbType.Float);
@@ -183,61 +182,7 @@ namespace Bookmark
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
-            }
-
-
-            //_Bookmark.Id = 1;
-            //_Bookmark.Name = "Default";
-            //_Bookmark.URL = "Forums";
-            //_Bookmark.FolderId = 0;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "12";
-            //lstBookmarks.Add(_Bookmark);
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 102;
-            //_Bookmark.Name = "Forums";
-            //_Bookmark.URL = "Forums";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "San Francisco";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "10/7/2017 12:24 PM";
-            //_Bookmark.Count = "9";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 103;
-            //_Bookmark.Name = "News";
-            //_Bookmark.URL = "News";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Chicago";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "09/21/2017 10:24 AM";
-            //_Bookmark.Count = "20";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 104;
-            //_Bookmark.Name = "MyFolder";
-            //_Bookmark.URL = "MyFolder";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Texas";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "08/20/2017 10:24 AM";
-            //_Bookmark.Count = "4";
-            //lstBookmarks.Add(_Bookmark);
+            }            
 
             return lstBookmarks;
         }
@@ -273,290 +218,11 @@ namespace Bookmark
                 _Bookmark = new BookmarkCls();
             }
 
-
-            //_Bookmark.Id = 1;
-            //_Bookmark.Name = "Default";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 0;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "12";
-            //lstBookmarks.Add(_Bookmark);
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 102;
-            //_Bookmark.Name = "Social";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "San Francisco";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "10/7/2017 12:24 PM";
-            //_Bookmark.Count = "9";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 103;
-            //_Bookmark.Name = "General";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Chicago";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "09/21/2017 10:24 AM";
-            //_Bookmark.Count = "20";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 104;
-            //_Bookmark.Name = "MyFolder";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Texas";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "08/20/2017 10:24 AM";
-            //_Bookmark.Count = "4";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            ////Forums
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1001;
-            //_Bookmark.Name = "Facebook - The Social Network, Get Connected with all your friends";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.facebook.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Bengaluru";
-            //_Bookmark.Country = "India";
-            //_Bookmark.CreatedDate = "07/25/2017 10:24 AM";
-            //_Bookmark.Count = "21";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1003;
-            //_Bookmark.Name = "Quora - Question and Answer Forum to discuss anything";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.quora.com/stats";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Los Angeles";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "05/02/2017 10:24 AM";
-            //_Bookmark.Count = "15";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1005;
-            //_Bookmark.Name = "LinkedIn - Professional People Network to stay in touch with collegues";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.linkedin.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "North Carolina";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "03/05/2017 10:24 AM";
-            //_Bookmark.Count = "24";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1006;
-            //_Bookmark.Name = "Twitter -  Tweet Whats Happening Everyday to stay connected";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.twitter.com";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Vegas";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "02/10/2017 10:24 AM";
-            //_Bookmark.Count = "28";
-            //lstBookmarks.Add(_Bookmark);
-
-            ////CDS
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1009;
-            //_Bookmark.Name = "Google Plus - Get Connected With Friends on Google ";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://plus.google.com/discover";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "27";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            ////News
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1004;
-            //_Bookmark.Name = "Wikipedia - Online Encyclopedia where you can get any information you need";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.wikipedia.org/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Florida";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "04/21/2017 10:24 AM";
-            //_Bookmark.Count = "18";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1008;
-            //_Bookmark.Name = "Google -  Search Whatever You Want online and get it in a flash";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.google.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "17";
-            //lstBookmarks.Add(_Bookmark);
-
-            ////My Folder
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1007;
-            //_Bookmark.Name = "Yahoo -  Oldest Internet Site serving mail and news";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.yahoo.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Boston";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "01/12/2017 10:24 AM";
-            //_Bookmark.Count = "31";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1008;
-            //_Bookmark.Name = "Bing -  Search Made Better With better results everytime";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://www.bing.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "17";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1002;
-            //_Bookmark.Name = "Amazon - Buy whatever you want online with ease";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.amazon.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New Jersey";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "06/11/2017 10:24 AM";
-            //_Bookmark.Count = "19";
-
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "ESPN -  Sports only destination where you can be";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://www.espn.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "query All Queries - Change and Configuration Management";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://formoid.com/articles/bootstrap-form-template-810.html";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "CA Workload Automation (RCAUTOSYS2012EEM) (2)";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://getbootstrap.com/docs/3.3/css/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "You searched for rj naved - Whatsapp Audio Download";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.bing.com/webmaster/home/dashboard/?url=http://codeanalyze.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-            
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "jQuery UI DatePicker Examples in MVC www.dotnetmentors";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://dotnetmentors.com/mvc/jquery-ui-datepicker-examples-in-mvc.aspx";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
             return lstBookmarks;
         }
 
 
-        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
+        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains, out string total)
         {
 
             List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
@@ -576,300 +242,64 @@ namespace Bookmark
                     sda.Fill(dt);
                 }
             }
+            total = "0";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Bookmark.Id = double.Parse(dt.Rows[i]["Id"].ToString());
+                //_Bookmark.Name = dt.Rows[i]["Name"].ToString();
+                _Bookmark.URL = dt.Rows[i]["URL"].ToString();
+                _Bookmark.FolderId = double.Parse(dt.Rows[i]["FolderId"].ToString());
+                //_Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
+                //_Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
+                _Bookmark.City = dt.Rows[i]["City"].ToString();
+                _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
+                _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
+                lstBookmarks.Add(_Bookmark);
+                _Bookmark = new BookmarkCls();
+                total = dt.Rows[i]["Total_Count"].ToString();
+            }       
+
+            return lstBookmarks;
+        }
+
+        public List<BookmarkCls> GetReports(string strQuery, out string total)
+        {
+
+            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+            BookmarkCls _Bookmark = new BookmarkCls();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                SqlCommand com = new SqlCommand();
+                com.CommandType = CommandType.Text;
+                com.Connection = conn;
+                com.CommandText = strQuery;
+                using (SqlDataAdapter sda = new SqlDataAdapter(com))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            total = "0";
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 _Bookmark.Id = double.Parse(dt.Rows[i]["Id"].ToString());
-                _Bookmark.Name = dt.Rows[i]["Name"].ToString();
+                //_Bookmark.Name = dt.Rows[i]["Name"].ToString();
                 _Bookmark.URL = dt.Rows[i]["URL"].ToString();
                 _Bookmark.FolderId = double.Parse(dt.Rows[i]["FolderId"].ToString());
-                _Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
-                _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
+                _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
+                //_Bookmark.IsFolder = bool.Parse(dt.Rows[i]["IsFolder"].ToString());
+                //_Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
+                total = dt.Rows[i]["Total_Count"].ToString();
+
             }
-
-
-            //_Bookmark.Id = 1;
-            //_Bookmark.Name = "Default";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 0;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "12";
-            //lstBookmarks.Add(_Bookmark);
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 102;
-            //_Bookmark.Name = "Social";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "San Francisco";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "10/7/2017 12:24 PM";
-            //_Bookmark.Count = "9";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 103;
-            //_Bookmark.Name = "General";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Chicago";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "09/21/2017 10:24 AM";
-            //_Bookmark.Count = "20";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 104;
-            //_Bookmark.Name = "MyFolder";
-            //_Bookmark.URL = "";
-            //_Bookmark.FolderId = 1;
-            //_Bookmark.IsFolder = true;
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Texas";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "08/20/2017 10:24 AM";
-            //_Bookmark.Count = "4";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            ////Forums
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1001;
-            //_Bookmark.Name = "Facebook - The Social Network, Get Connected with all your friends";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.facebook.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Bengaluru";
-            //_Bookmark.Country = "India";
-            //_Bookmark.CreatedDate = "07/25/2017 10:24 AM";
-            //_Bookmark.Count = "21";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1003;
-            //_Bookmark.Name = "Quora - Question and Answer Forum to discuss anything";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.quora.com/stats";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Los Angeles";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "05/02/2017 10:24 AM";
-            //_Bookmark.Count = "15";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1005;
-            //_Bookmark.Name = "LinkedIn - Professional People Network to stay in touch with collegues";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.linkedin.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "North Carolina";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "03/05/2017 10:24 AM";
-            //_Bookmark.Count = "24";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1006;
-            //_Bookmark.Name = "Twitter -  Tweet Whats Happening Everyday to stay connected";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.twitter.com";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Vegas";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "02/10/2017 10:24 AM";
-            //_Bookmark.Count = "28";
-            //lstBookmarks.Add(_Bookmark);
-
-            ////CDS
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1009;
-            //_Bookmark.Name = "Google Plus - Get Connected With Friends on Google ";
-            //_Bookmark.FolderId = 102;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://plus.google.com/discover";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "27";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            ////News
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1004;
-            //_Bookmark.Name = "Wikipedia - Online Encyclopedia where you can get any information you need";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.wikipedia.org/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Florida";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "04/21/2017 10:24 AM";
-            //_Bookmark.Count = "18";
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1008;
-            //_Bookmark.Name = "Google -  Search Whatever You Want online and get it in a flash";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.google.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "17";
-            //lstBookmarks.Add(_Bookmark);
-
-            ////My Folder
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1007;
-            //_Bookmark.Name = "Yahoo -  Oldest Internet Site serving mail and news";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.yahoo.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "Boston";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "01/12/2017 10:24 AM";
-            //_Bookmark.Count = "31";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1008;
-            //_Bookmark.Name = "Bing -  Search Made Better With better results everytime";
-            //_Bookmark.FolderId = 103;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://www.bing.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "17";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1002;
-            //_Bookmark.Name = "Amazon - Buy whatever you want online with ease";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.amazon.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New Jersey";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "06/11/2017 10:24 AM";
-            //_Bookmark.Count = "19";
-
-            //lstBookmarks.Add(_Bookmark);
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "ESPN -  Sports only destination where you can be";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://www.espn.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "query All Queries - Change and Configuration Management";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://formoid.com/articles/bootstrap-form-template-810.html";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "CA Workload Automation (RCAUTOSYS2012EEM) (2)";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://getbootstrap.com/docs/3.3/css/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "You searched for rj naved - Whatsapp Audio Download";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "https://www.bing.com/webmaster/home/dashboard/?url=http://codeanalyze.com/";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
-
-            //_Bookmark = new BookmarkCls();
-            //_Bookmark.Id = 1010;
-            //_Bookmark.Name = "jQuery UI DatePicker Examples in MVC www.dotnetmentors";
-            //_Bookmark.FolderId = 104;
-            //_Bookmark.IsFolder = false;
-            //_Bookmark.URL = "http://dotnetmentors.com/mvc/jquery-ui-datepicker-examples-in-mvc.aspx";
-            //_Bookmark.IpAddr = "121.0.0.1";
-            //_Bookmark.City = "New York";
-            //_Bookmark.Country = "USA";
-            //_Bookmark.CreatedDate = "11/8/2017 10:24 AM";
-            //_Bookmark.Count = "25";
-            //lstBookmarks.Add(_Bookmark);
-
-
 
             return lstBookmarks;
         }
@@ -907,6 +337,8 @@ namespace Bookmark
 
             return _Bookmark;
         }
+
+
 
 
     }
