@@ -214,20 +214,57 @@ namespace Bookmark.Controllers
             return View(data);
         }
 
-        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
+        public List<BookmarkCls> GetReports(string search, string sort, string sortdir, int skip, int pageSize, out string totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
         {
-            BookmarkCls bmrk = new BookmarkCls();
-            Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetReports(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains);
-            totalRecord = lstBookmarks.Count();
-            var varBookmarks = lstBookmarks.AsQueryable();
-
-            if (pageSize > 0)
+            if (!string.IsNullOrEmpty(ddDomains))
             {
-                varBookmarks = varBookmarks.Skip(skip).Take(pageSize);
-            }
+                BookmarkCls bmrk = new BookmarkCls();
+                Users user = (Users)Session["User"];
+                List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+                string strQuery = string.Empty;
 
-            return varBookmarks.ToList();
+                if (string.IsNullOrEmpty(txtCreatedFrom) && string.IsNullOrEmpty(txtCreatedTo) && string.IsNullOrEmpty(search))
+                    lstBookmarks = bmrk.GetReports(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains, out totalRecord);
+                else
+                {
+
+                    Domain _domain = new Domain();
+                    List<Domain> lstDomains = new List<Domain>();
+                    lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
+
+
+                    strQuery = " SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        strQuery += " and URL like '%" + search + "%'";
+                    }
+                    if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
+                    {
+                        strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
+                    }
+
+                    strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId ";
+
+                    lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                }
+
+
+                
+                var varBookmarks = lstBookmarks.AsQueryable();
+
+                if (pageSize > 0)
+                {
+                    varBookmarks = varBookmarks.Skip(skip).Take(pageSize);
+                }
+
+                return varBookmarks.ToList();
+            }
+            else
+            {
+                totalRecord = "0";
+                return null;
+            }
         }
 
         public List<Domain> GetDomains(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
@@ -252,22 +289,29 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "", string ddDomains = "")
+
+        public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "", string ddDomains = "", string ddScaleType = "")
         {
+            double domainId = 0;
+            int loopCount = 0;
+            string[] strLabels = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+            Dictionary<string, string> bmrkDict = new Dictionary<string, string>();
+            List<BookmarkCls> lstBmrk = new List<BookmarkCls>();
+
+            Users user = (Users)Session["User"];
+            List<Domain> lstDomains = new List<Domain>();
+            lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
+            ViewData["domains"] = lstDomains;
+            Session["ChartData"] = null;
+            Session["bmrkDict"] = null;
+
             int pageSize = 10;
-            int totalRecord = 0;
+            string totalRecord = string.Empty;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
-            double domainId = 0;
-
 
             if (string.IsNullOrEmpty(ddDomains))
             {
-                Users user = (Users)Session["User"];
-                List<Domain> lstDomains = new List<Domain>();
-                lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
-                ViewData["domains"] = lstDomains;
-               
                 if (lstDomains != null && lstDomains.Count > 0)
                 {
                     ViewData["selectedIndex"] = lstDomains[0].Name;
@@ -279,32 +323,39 @@ namespace Bookmark.Controllers
                 if (!string.IsNullOrEmpty(ddDomains))
                 {
                     double.TryParse(ddDomains.ToString(), out domainId);
-                }                
+                }
             }
 
-
             var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
-            ViewBag.TotalRows = totalRecord;
+            lstBmrk = data.ToList();
+
+            if (lstBmrk.Count > 10)
+                loopCount = 10;
+            else
+                loopCount = lstBmrk.Count;
+
+            for (int count = 0; count < loopCount; count++)
+            {
+                bmrkDict.Add(strLabels[count], lstBmrk[count].URL);
+            }
+
+            if (string.IsNullOrEmpty(ddScaleType) || ddScaleType == "1")
+            {
+               ddScaleType = "1";
+                ViewBag.Dictionary = bmrkDict;
+            }
+
+            ViewBag.TotalBookmarks = totalRecord;
+            ViewBag.TotalRows = data.ToList().Count;
+            Session["ChartData"] = data.ToList();
+            Session["ScaleType"] = ddScaleType;
+            Session["bmrkDict"] = bmrkDict;
             ViewBag.search = search;
-
-
-
-            List<SelectListItem> lstMapTypes = new List<SelectListItem>();
-            SelectListItem sli = new SelectListItem();
-            sli.Text = "URL Vs Count";
-            sli.Value = "1";
-            lstMapTypes.Add(sli);
-            sli = new SelectListItem();
-            sli.Text = "Country Vs Count";
-            sli.Value = "2";
-            lstMapTypes.Add(sli);
-            sli = new SelectListItem();
-            sli.Text = "URL Vs Country";
-            sli.Value = "3";
-            lstMapTypes.Add(sli);
-            ViewBag.ddMapType = lstMapTypes;
+            LoadChartScaleDropDown();
             return View(data);
         }
+
+
 
         public ActionResult Manage()
         {
@@ -564,138 +615,177 @@ namespace Bookmark.Controllers
             return View();
         }
 
+        private void LoadChartData()
+        {
+            List<BookmarkCls> lstBmrk = new List<BookmarkCls>();
+            lstBmrk = Session["ChartData"] as List<BookmarkCls>;
+            Dictionary<string, string> bmrkDict  = Session["bmrkDict"] as Dictionary<string, string>;
+
+            if (Session["ScaleType"].ToString() == "1")
+            {
+                ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Count).ToArray();
+            }
+            else if (Session["ScaleType"].ToString() == "2")
+            {
+                ViewBag.MyXAxisValues = lstBmrk.Select(x => x.Country).Distinct().ToArray();
+                ViewBag.MyYAxisValues = lstBmrk.GroupBy(x => x.Country).Select(y => y.Sum(z => Convert.ToInt64(z.Count)).ToString()).ToArray();
+            }
+            //if (Session["ScaleType"].ToString() == "2")
+            //{
+            //    ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+            //    ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Country).ToArray();
+            //}           
+        }
+
+
         public ActionResult BarCharts()
         {
-            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
-            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            LoadChartData();
             return View();
         }
 
         public ActionResult PieCharts()
         {
-
-            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
-            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            LoadChartData();
             return View();
         }
 
         public ActionResult LineCharts()
         {
-            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
-            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            LoadChartData();
             return View();
         }
 
         public ActionResult BarChartsHorizon()
         {
-            ViewBag.MyXAxisValues = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
-            ViewBag.MyYAxisValues = new[] { "2", "6", "4", "5", "3" };
+            LoadChartData();
             return View();
         }
+
+        private void LoadChartScaleDropDown()
+        {
+            List<SelectListItem> lstSacleTypes = new List<SelectListItem>();
+            SelectListItem sli = new SelectListItem();
+            sli.Text = "URL Vs Count";
+            sli.Value = "1";
+            sli.Selected = true;
+            lstSacleTypes.Add(sli);
+            sli = new SelectListItem();
+            sli.Text = "Country Vs Count";
+            sli.Value = "2";
+            lstSacleTypes.Add(sli);
+            //sli = new SelectListItem();
+            //sli.Text = "URL Vs Country";
+            //sli.Value = "3";
+            //lstSacleTypes.Add(sli);
+            ViewBag.ddScaleType = lstSacleTypes;
+        }
+
     }
 
 
 
-//    public static class ChartTheme
-//    {
-//        // Review: Need better names.
+    //    public static class ChartTheme
+    //    {
+    //        // Review: Need better names.
 
-//        public const string Blue = @"<Chart BackColor="" #D3DFF0"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 26, 59, 105"" BorderlineDashStyle="" Solid"" BorderWidth="" 2"" Palette="" BrightPastel"">
-//    	                            <ChartAreas>
-//        	                            <ChartArea Name="" Default"" _Template_="" All"" BackColor="" 64, 165, 191, 228"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"" />
-//                                        </ChartAreas>
-//    	                                <Legends>
-//        	                            <Legend _Template_="" All"" BackColor="" Transparent"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" />
-//                                        </Legends>
-//    	                                <BorderSkin SkinStyle="" Emboss"" />    
-//                                    </Chart>";
+    //        public const string Blue = @"<Chart BackColor="" #D3DFF0"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 26, 59, 105"" BorderlineDashStyle="" Solid"" BorderWidth="" 2"" Palette="" BrightPastel"">
+    //    	                            <ChartAreas>
+    //        	                            <ChartArea Name="" Default"" _Template_="" All"" BackColor="" 64, 165, 191, 228"" BackGradientStyle="" TopBottom"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"" />
+    //                                        </ChartAreas>
+    //    	                                <Legends>
+    //        	                            <Legend _Template_="" All"" BackColor="" Transparent"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" />
+    //                                        </Legends>
+    //    	                                <BorderSkin SkinStyle="" Emboss"" />    
+    //                                    </Chart>";
 
-//        public const string Green =
-//@"<Chart BackColor="" #C9DC87"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" BrightPastel"">
-//    	  <ChartAreas>
-//        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
-//           	      <AxisY LineColor="" 64, 64, 64, 64"">
-//                	        <MajorGrid Interval="" Auto"" LineColor="" 64, 64, 64, 64"" />
-//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
-                
-//            </AxisY>
-//            	      <AxisX LineColor="" 64, 64, 64, 64"">
-//                	        <MajorGrid LineColor="" 64, 64, 64, 64"" />
-//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
-                
-//            </AxisX>
-//            	      <Area3DStyle Inclination="" 15"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" 10"" WallWidth="" 0"" />
-            
-//        </ChartArea>
-       
-//    </ChartAreas>
-//      <Legends>
-//        	    <Legend _Template_="" All"" Alignment="" Center"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" LegendStyle="" Row"">
-            
-//        </Legend>
-        
-//    </Legends>
-//    	  <BorderSkin SkinStyle="" Emboss"" />
-    
-//</Chart>";
+    //        public const string Green =
+    //@"<Chart BackColor="" #C9DC87"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" BrightPastel"">
+    //    	  <ChartAreas>
+    //        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+    //           	      <AxisY LineColor="" 64, 64, 64, 64"">
+    //                	        <MajorGrid Interval="" Auto"" LineColor="" 64, 64, 64, 64"" />
+    //                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
 
-//        public const string Vanilla =
-//@"<Chart Palette="" SemiTransparent"" BorderColor="" #000"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"">
-//    	<ChartAreas>
-//        	    <ChartArea _Template_="" All"" Name="" Default"">
-//            	            <AxisX>
-//                	                <MinorGrid Enabled="" False"" />
-//                	                <MajorGrid Enabled="" False"" />
-                
-//            </AxisX>
-//            	            <AxisY>
-//                	                <MajorGrid Enabled="" False"" />
-//                	                <MinorGrid Enabled="" False"" />
-                
-//            </AxisY>
-            
-//        </ChartArea>
-        
-//    </ChartAreas>
-    
-//</Chart>";
+    //            </AxisY>
+    //            	      <AxisX LineColor="" 64, 64, 64, 64"">
+    //                	        <MajorGrid LineColor="" 64, 64, 64, 64"" />
+    //                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
 
-//        public const string Vanilla3D =
-//@"<Chart BackColor="" #555"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" SemiTransparent"" AntiAliasing="" All"">
-//    	    <ChartAreas>
-//        	        <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
-//            	            <Area3DStyle LightStyle="" Simplistic"" Enable3D="" True"" Inclination="" 30"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" -30"" WallWidth="" 0"" />
-            
-//        </ChartArea>
-        
-//    </ChartAreas>
-    
-//</Chart>";
+    //            </AxisX>
+    //            	      <Area3DStyle Inclination="" 15"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" 10"" WallWidth="" 0"" />
 
-//        public const string Yellow =
-//@"<Chart BackColor="" #FADA5E"" BackGradientStyle="" TopBottom"" BorderColor="" #B8860B"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" EarthTones"">
-//    	  <ChartAreas>
-//        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
-//            	      <AxisY>
-//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
-                
-//            </AxisY>
-//            	      <AxisX LineColor="" 64, 64, 64, 64"">
-//                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
-                
-//            </AxisX>
-            
-//        </ChartArea>
-        
-//    </ChartAreas>
-//    	  <Legends>
-//        	    <Legend _Template_="" All"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" LegendStyle="" Row"">
-            
-//        </Legend>
-        
-//    </Legends>
-//    	  <BorderSkin SkinStyle="" Emboss"" />
-    
-//</Chart>";
-//    }
+    //        </ChartArea>
+
+    //    </ChartAreas>
+    //      <Legends>
+    //        	    <Legend _Template_="" All"" Alignment="" Center"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" IsTextAutoFit="" False"" LegendStyle="" Row"">
+
+    //        </Legend>
+
+    //    </Legends>
+    //    	  <BorderSkin SkinStyle="" Emboss"" />
+
+    //</Chart>";
+
+    //        public const string Vanilla =
+    //@"<Chart Palette="" SemiTransparent"" BorderColor="" #000"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"">
+    //    	<ChartAreas>
+    //        	    <ChartArea _Template_="" All"" Name="" Default"">
+    //            	            <AxisX>
+    //                	                <MinorGrid Enabled="" False"" />
+    //                	                <MajorGrid Enabled="" False"" />
+
+    //            </AxisX>
+    //            	            <AxisY>
+    //                	                <MajorGrid Enabled="" False"" />
+    //                	                <MinorGrid Enabled="" False"" />
+
+    //            </AxisY>
+
+    //        </ChartArea>
+
+    //    </ChartAreas>
+
+    //</Chart>";
+
+    //        public const string Vanilla3D =
+    //@"<Chart BackColor="" #555"" BackGradientStyle="" TopBottom"" BorderColor="" 181, 64, 1"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" SemiTransparent"" AntiAliasing="" All"">
+    //    	    <ChartAreas>
+    //        	        <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+    //            	            <Area3DStyle LightStyle="" Simplistic"" Enable3D="" True"" Inclination="" 30"" IsClustered="" False"" IsRightAngleAxes="" False"" Perspective="" 10"" Rotation="" -30"" WallWidth="" 0"" />
+
+    //        </ChartArea>
+
+    //    </ChartAreas>
+
+    //</Chart>";
+
+    //        public const string Yellow =
+    //@"<Chart BackColor="" #FADA5E"" BackGradientStyle="" TopBottom"" BorderColor="" #B8860B"" BorderWidth="" 2"" BorderlineDashStyle="" Solid"" Palette="" EarthTones"">
+    //    	  <ChartAreas>
+    //        	    <ChartArea Name="" Default"" _Template_="" All"" BackColor="" Transparent"" BackSecondaryColor="" White"" BorderColor="" 64, 64, 64, 64"" BorderDashStyle="" Solid"" ShadowColor="" Transparent"">
+    //            	      <AxisY>
+    //                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+
+    //            </AxisY>
+    //            	      <AxisX LineColor="" 64, 64, 64, 64"">
+    //                	        <LabelStyle Font="" Trebuchet MS, 8.25pt, style=Bold"" />
+
+    //            </AxisX>
+
+    //        </ChartArea>
+
+    //    </ChartAreas>
+    //    	  <Legends>
+    //        	    <Legend _Template_="" All"" BackColor="" Transparent"" Docking="" Bottom"" Font="" Trebuchet MS, 8.25pt, style=Bold"" LegendStyle="" Row"">
+
+    //        </Legend>
+
+    //    </Legends>
+    //    	  <BorderSkin SkinStyle="" Emboss"" />
+
+    //</Chart>";
+    //    }
 }
