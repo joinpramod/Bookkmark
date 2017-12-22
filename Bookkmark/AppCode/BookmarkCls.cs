@@ -94,7 +94,7 @@ namespace Bookmark
             string bmrkCount = string.Empty;
             DataTable dtUserExists = new DataTable();
             ConnManager connManager = new ConnManager();
-            dtUserExists = connManager.GetDataTable("Select * from Bookmark where url  = '" + strlnk + "'");
+            dtUserExists = connManager.GetDataTable("Select * from Bookmarks where url  = '" + strlnk + "'");
             if (dtUserExists.Rows.Count > 0)
             {
                 bmrkCount = dtUserExists.Rows.Count.ToString();
@@ -108,13 +108,13 @@ namespace Bookmark
         {
             DataTable dtBmrkExists = new DataTable();
             ConnManager connManager = new ConnManager();
-            dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where URL= '"+ URL + "' and  UserId = " + _userId + "");
+            dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where URL= '"+ URL + "' and  CreatedUser = " + _userId + "");
             if (dtBmrkExists!= null && dtBmrkExists.Rows.Count > 0)
             {
                 URL = dtBmrkExists.Rows[0]["URL"].ToString();
                 FolderId  = double.Parse(dtBmrkExists.Rows[0]["FolderId"].ToString());
                 Name = dtBmrkExists.Rows[0]["Name"].ToString();
-                CreatedUserId = dtBmrkExists.Rows[0]["CreatedUserId"].ToString();
+                CreatedUserId = dtBmrkExists.Rows[0]["CreatedUser"].ToString();
                 return true;
             }
             else
