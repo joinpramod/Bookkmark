@@ -136,6 +136,31 @@ namespace Bookmark
             return lstDomains;
        }
 
+        public Domain GetDomains(string domainId)
+        {
+            Domain _Domain = new Domain();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where DomainId = " + domainId, conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Domain.Id = double.Parse(dt.Rows[i]["DomainId"].ToString());
+                _Domain.Name = dt.Rows[i]["DomainName"].ToString();
+                _Domain.Script = dt.Rows[i]["Script"].ToString();
+                _Domain.Height = dt.Rows[i]["Height"].ToString();
+                _Domain.Width = dt.Rows[i]["Width"].ToString();
+                _Domain.ShowCount = dt.Rows[i]["ShowCount"].ToString();
+            }
+
+            return _Domain;
+        }
 
         public List<Domain> GetDomains(string userId, string domainId)
         {
