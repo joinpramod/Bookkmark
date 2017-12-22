@@ -151,10 +151,10 @@ namespace Bookmark.Controllers
                 if (string.IsNullOrEmpty(txtDomain))
                 {
                     _domain.Id = double.Parse(ddDomains);
-                    _domain.OptID = 3;
+                    _domain.OptID = 2;
                     _domain.ModifiedDate = DateTime.Now;
                     _domain.Name = txtExistingDomain;
-                    _domain.ManageDomain(out _domain.Id);
+                    _domain.ManageDomain(out domainId);
                 }
                 else
                 {
@@ -180,7 +180,6 @@ namespace Bookmark.Controllers
                     ViewData["chkShowCount"] = true;
                 else
                     ViewData["chkShowCount"] = false;
-
                 ViewBag.Ack = "Domain registered and Script saved successfully. Use the generated script in your application to make user bookmark you website.";
             }
             else
