@@ -11,6 +11,70 @@
     };
 </script>
 
+<script>
+    function ValidatePage() {
+        //var txtHeight = document.getElementById("txtHeight").value;
+        //if (txtHeight == "") {
+        //    document.getElementById("divAck").innerText = "Please enter the required Height";
+        //    return false;
+        //}
+
+        //var txtWidth = document.getElementById("txtWidth").value;
+        //if (txtWidth == "") {
+        //    document.getElementById("divAck").innerText = "Please enter the required Width";
+        //    return false;
+        //}
+
+        //Domain
+        if (document.getElementById("txtDomain") != null) {
+            var txtDomain = document.getElementById("txtDomain").value;
+            var re = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/);
+            if (!txtDomain.match(re)) {
+                document.getElementById("divAck").innerText = "Please enter a valid domain name";
+                return false;
+            }
+        }
+        if (document.getElementById("txtExistingDomain") != null) {
+            var txtDomain = document.getElementById("txtExistingDomain").value;
+            var re = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/);
+            if (!txtDomain.match(re)) {
+                document.getElementById("divAck").innerText = "Please enter a valid domain name";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //$(document).on('change','#ddDomains',function(){
+    //    $('#scriptForm').submit();
+    //});
+</script>
+
+
+<script type="text/javascript">
+    function GetValues() {
+    var domId = document.getElementById("ddDomains").value;
+    $.ajax({
+        url: '@Url.Action("GetDomainInfo", "Bookmark")',
+        type: "POST",
+        data: { "ddDomains": domId},
+        "success": function (data) {
+            var res = data.split(",");
+            $("#txtExistingDomain").val(res[0]);
+            $("#txtHeight").val(res[1]);
+            $("#txtWidth").val(res[2]);
+            if (res[3] == "False")
+                res[3] = false;
+            else if (res[3] == "True")
+                res[3] = true;
+            document.getElementById("chkShowCount").checked = res[3];
+            document.getElementById("divScriptCode").innerText = res[4];
+
+        }
+    });
+}
+</script>
+
 <style>
     .mycontainer {
   display: block;
@@ -83,39 +147,51 @@
             <h3><span>Script</span> </h3>
         </div>
 
-
-
         <div class="form_search">
-            @using (Html.BeginForm("ScriptCode", "Bookmark"))
+            @using (Html.BeginForm("ScriptCode", "Bookmark", FormMethod.Post, new { id = "scriptForm" }))
             {
                 <div class="row justify-content-center">
-
                     <div class="col-12 col-lg-10 ">
                         Select the attributes of the Bookmark image to be displayed on your web page
-                        <div style="height:20px">&nbsp;</div>
-                        <div class="form-group row">
-                            <label for="example-text-input" class="col-2 col-form-label">Domain</label>
-                            <div class="col-10">
-                            @if (ViewData["domains"] == null)
-                            {
-                                @Html.TextBox("txtDomain", "", new { @class = "form-control", placeholder = "Domain name", required = "required" })
-                            }
-                            else
-                            {
-                                @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), "---Select Domain---", new { @class = "form-control", required = "required" })
-                            }
-                            </div>
+                        <div style="height:10px">&nbsp;</div>
+                        <div class="form-group text-center">
+                            <div id="divAck" class="error_info"></div>
                         </div>
+                        <div style="height:10px">&nbsp;</div>                
+                            @if (ViewData["domains"] == null || ((List<Domain>)ViewData["domains"]).ToList().Count <= 0)
+                            {
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">Domain</label>
+                                    <div class="col-10">
+                                        @Html.TextBox("txtDomain", "", new { @class = "form-control", placeholder = "Ex domain.com, no http or www required", required = "required" })
+                                    </div>
+                                </div>
+                            }
+                            @if (ViewData["domains"] != null && ((List<Domain>)ViewData["domains"]).ToList().Count > 0)
+                            {
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">Domain</label>
+                                    <div class="col-10">
+                                        @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), new { @class = "form-control", required = "required", onchange = "GetValues();" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Domain Name</label>
+                                    <div class="col-10">
+                                        @Html.TextBox("txtExistingDomain", ViewData["txtExistingDomain"], new { @class = "form-control", placeholder = "", required = "required" })
+                                    </div>
+                                </div>
+                            }
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Height</label>
                             <div class="col-10">
-                                @Html.TextBox("txtHeight", "", new { @class = "form-control", placeholder = "Height. Ex 50", required="required" })
+                                @Html.TextBox("txtHeight", ViewData["txtHeight"], new { @class = "form-control", placeholder = "Height. Ex 50", required = "required" })
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Width</label>
                             <div class="col-10">
-                                @Html.TextBox("txtWidth", "", new { @class = "form-control", placeholder = "Width, Ex 40", required = "required" })
+                                @Html.TextBox("txtWidth", ViewData["txtWidth"], new { @class = "form-control", placeholder = "Width, Ex 40", required = "required" })
                             </div>
                         </div>
                         <div class="form-group row">
@@ -128,44 +204,44 @@
                                 </label>
                             </div>
                         </div>
-
                     </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-12 col-md-12 text-center">
+                        <button type="submit" id="btnPreview" name="btnPreview" onclick="return ValidatePage()" class="btn btn-block">Preview</button>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-xs-12 col-md-12 text-center">
-                            <button type="submit" id="btnPreview" name="btnPreview" class="btn btn-block">Preview</button>
-                        </div>
-                    </div>
+                </div>
                     <div class="form-group row">
                         <div class="col-xs-12 col-md-12 text-center">
                             <img id="imgBookmark" src="../../Bookmark/Images/logo.png" title="Bookmark this page" /><br />
-                            @if (ViewData["chkShowCount"] != null)
+                            @if (bool.Parse(ViewData["chkShowCount"].ToString()))
                             {
-                                <span style="font-size:12px">@ViewData["BookmarkCount"]</span>
+                            @*<span style="font-size:12px">@ViewData["BookmarkCount"]</span>*@
+                            <span style="font-size:12px">50</span>
                             }
                         </div>
                     </div>
-                    <div style="height:20px">&nbsp;</div>
+                    <div style="height:10px">&nbsp;</div>
                     <div class="form-group row">
                         <div class="col-xs-12 col-md-12 text-center">
-                            Copy and paste the Script Code generated below in your application where you want the Bookmark icon to be displayed
-                            <br />
                             <div style="height:60%;border-radius:5px;font-weight:500;font-size:18px;border:solid 1px #808080;width:100%;text-align:center;padding-top:1%;color:green">
-                                <span style="font-size:16px;"> @ViewData["ScriptCode"]</span><br /><br />
+                                <div id="divScriptCode" style="font-size:16px;"> @ViewData["ScriptCode"]</div><br /><br />
                             </div>
+                            Copy and paste the script generated here in your application where you want the Booqmarqs icon to be displayed
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-xs-12 col-md-12 text-center">
-                            <button type="submit"  id="btnSave" name="btnSave" class="btn btn-block">Save Script</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
+                    <div style="height:10px">&nbsp;</div>
+                    <div class="form-group text-center">
                         <div class="error_info">@ViewBag.Ack</div>
                     </div>
-            }
-                </div>
-    </div>
-    <div style="height:40px">&nbsp;</div>
-</div>
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-md-12 text-center">
+                            <button type="submit" id="btnSave" name="btnSave" class="btn btn-block" style="width:140px" onclick="return ValidatePage()">Generate Script</button>
+                        </div>
+                    </div>
 
+            }
+        </div>
+        <div style="height:40px">&nbsp;</div>
+    </div>
+</div>
