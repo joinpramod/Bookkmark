@@ -1,7 +1,7 @@
-USE [booqmarqs]
+USE [bookmarks]
 GO
 
-/****** Object:  Table [dbo].[Domain]    Script Date: 12/17/2017 10:04:59 AM ******/
+/****** Object:  Table [dbo].[Domain]    Script Date: 12/22/2017 2:51:24 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,9 +12,12 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[Domain](
-	[Id] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[Id] [numeric](18, 0) IDENTITY(100,1) NOT NULL,
 	[Name] [varchar](100) NULL,
 	[Script] [varchar](300) NULL,
+	[Height] [nvarchar](10) NULL,
+	[Width] [nvarchar](10) NULL,
+	[ShowCount] [bit] NULL,
 	[CreatedUser] [numeric](18, 0) NULL,
 	[CreatedDateTime] [datetime] NULL,
 	[ModifiedDateTime] [datetime] NULL,
@@ -29,3 +32,5 @@ GO
 SET ANSI_PADDING OFF
 GO
 
+　
+　
