@@ -121,63 +121,105 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult ScriptCode(string txtDomain, string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
+        public ActionResult ScriptCode(string txtDomain, string txtExistingDomain, string ddDomains, string txtHeight, string txtWidth, string chkShowCount)
         {
+            string domainId = string.Empty;
             Users user = (Users)Session["User"];
             List<Domain> lstDomains = new List<Domain>();
             lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
             ViewData["domains"] = lstDomains;
 
-            if (!string.IsNullOrEmpty(txtHeight))
-                ViewData["txtHeight"] = txtHeight;
-            else
-                ViewData["txtHeight"] = "60";
-
-            if (!string.IsNullOrEmpty(txtWidth))
-                ViewData["txtWidth"] = txtWidth;
-            else
-                ViewData["txtWidth"] = "50";
-
-            if (!string.IsNullOrEmpty(chkShowCount))
+            if (Request.Form["btnPreview"] != null)
             {
-                ViewData["chkShowCount"] = chkShowCount;
-                ViewData["BookmarkCount"] = "24";
+                if (!string.IsNullOrEmpty(txtHeight))
+                    ViewData["txtHeight"] = txtHeight;
+                if (!string.IsNullOrEmpty(txtWidth))
+                    ViewData["txtWidth"] = txtWidth;
+                if (bool.Parse(chkShowCount))
+                    ViewData["chkShowCount"] = true;
+                else
+                    ViewData["chkShowCount"] = false;
             }
-            else
-                ViewData["chkShowCount"] = "false";
-
-
-            //Get ScriptCode from DB and assign to ViewState
-            ViewData["ScriptCode"] = domain.GetDomainScript(user.UserId.ToString(), ddDomains);
-
-            //string domainId = Utilities.EncryptString("DomainId");
-
-            //SaveScript();
-            //ViewData["ScriptCode"] = @"<div id=""divBookmark""/><script id=""bookmark"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=2468&h=" + ViewData["txtHeight"].ToString() + "&w=" + ViewData["txtWidth"].ToString() + "&data=" + ViewData["chkShowCount"] + "\"></script>";
-            ViewData["ScriptCode"] = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString("DomainId") + "\"></script>";
-
-
-            if (Request.Form["btnSave"] != null)
+            else if (Request.Form["btnSave"] != null)
             {
                 Domain _domain = new Bookmark.Domain();
-                if(string.IsNullOrEmpty(txtDomain))
+                _domain.Height = txtHeight;
+                _domain.Width = txtWidth;
+                _domain.ShowCount = chkShowCount;
+
+
+                if (string.IsNullOrEmpty(txtDomain))
                 {
                     _domain.Id = double.Parse(ddDomains);
                     _domain.OptID = 3;
-                    _domain.Script = ViewData["ScriptCode"].ToString();
                     _domain.ModifiedDate = DateTime.Now;
+                    _domain.Name = txtExistingDomain;
+                    _domain.ManageDomain(out _domain.Id);
                 }
                 else
                 {
                     _domain.Name = txtDomain;
-                    _domain.OptID = 1;
-                    _domain.Script = ViewData["ScriptCode"].ToString();
-                    _domain.ModifiedDate = DateTime.Now;
+                    _domain.OptID = 1;                    
+                    _domain.CreatedDate = DateTime.Now;
+                    _domain.CreatedUserId = user.UserId.ToString();
+                    _domain.ManageDomain(out domainId);
                 }
-                _domain.CreateDomain();
-                ViewBag.Ack = "Script saved successfully";
+
+                          
+
+                _domain.Script = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString(domainId) + "\"></script>";
+                _domain.OptID = 5;
+                _domain.Id = double.Parse(domainId);
+                _domain.ManageDomain(out domainId);
+                ViewData["ScriptCode"] = _domain.Script;
+
+                ViewData["txtHeight"] = txtHeight;
+                ViewData["txtWidth"] = txtWidth;
+
+                if (bool.Parse(chkShowCount))
+                    ViewData["chkShowCount"] = true;
+                else
+                    ViewData["chkShowCount"] = false;
+
+                ViewBag.Ack = "Domain registered and Script saved successfully. Use the generated script in your application to make user bookmark you website.";
             }
-                return View(lstDomains);
+            else
+            {
+                if (lstDomains.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(ddDomains))
+                    {
+                        double domId = double.Parse(ddDomains);
+                        var varDom = lstDomains.Where(x => x.Id == domId).ToList();
+                        ViewData["txtExistingDomain"] = varDom[0].Name;
+                        ViewData["ScriptCode"] = varDom[0].Script;
+                        ViewData["txtHeight"] = varDom[0].Height;
+                        ViewData["txtWidth"] = varDom[0].Width;
+                        ViewData["chkShowCount"] = varDom[0].ShowCount;
+                    }
+                    else
+                    {
+                        ViewData["txtExistingDomain"] = lstDomains[0].Name;
+                        ViewData["ScriptCode"] = lstDomains[0].Script;
+                        ViewData["txtHeight"] = lstDomains[0].Height;
+                        ViewData["txtWidth"] = lstDomains[0].Width;
+                        ViewData["chkShowCount"] = lstDomains[0].ShowCount;
+                    }
+                }
+                else  //First time, new
+                {
+                    ViewData["chkShowCount"] = false;
+                }
+            }
+
+            return View(lstDomains);
+        }
+
+        public string GetDomainInfo(string ddDomains)
+        {
+            Users user = (Users)Session["User"];
+            var lstDomains = domain.GetDomains(user.UserId.ToString(), ddDomains);
+            return lstDomains[0].Name + "," + lstDomains[0].Height + "," + lstDomains[0].Width + "," + bool.Parse(lstDomains[0].ShowCount) + "," + lstDomains[0].Script;
         }
 
         public ActionResult MyBookmarks()
@@ -489,10 +531,11 @@ namespace Bookmark.Controllers
 
             Users user = (Users)Session["User"];
             Domain _domain = new Domain();
+            string domId = string.Empty;
             _domain.OptID = 1; //Delete
             _domain.Name = txtDomain;
             _domain.CreatedUserId = user.UserId.ToString();
-            _domain.CreateDomain();
+            _domain.ManageDomain(out domId);
             ViewBag.Ack = "Domain Added Successfully";
             return View();
         }
