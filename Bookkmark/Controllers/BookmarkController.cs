@@ -15,26 +15,27 @@ namespace Bookmark.Controllers
         private BookmarkCls bmrk = new BookmarkCls();
         private Domain domain = new Domain(); 
 
-
-        //public ActionResult Show(string lnk, string h, string w, string sd, string t)
-
         public ActionResult Show(string did, string lnk, string t)
         {
+            Domain _domain = new Bookmark.Domain();
+            did = Utilities.DecryptString(did);
+            _domain = _domain.GetDomains(did);
+
+            if(string.IsNullOrEmpty(lnk))
+            {
+                lnk = Request.UrlReferrer.ToString();
+            }
+
             ViewData["Bookmark"] = lnk;
-            ViewData["ht"] = "50";
-            ViewData["wd"] = "40";
+            ViewData["ht"] = _domain.Height;
+            ViewData["wd"] = _domain.Width;
             ViewData["title"] = t;
 
-            //if (!ValidateRequest(did, lnk))
-                //return null;
+            if (!ValidateBookmarkRequest(_domain, lnk))
+                return null;
 
-            //temp
-            ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
-            ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmark.jpg";
-            return View();
 
-            //if (sd == "true")
-            if (false)
+            if (bool.Parse(_domain.ShowCount))
             {
                 ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
             }
@@ -42,7 +43,6 @@ namespace Bookmark.Controllers
             {
                 ViewData["BookmarkCount"] = null;
             }
-
 　
             if (Session["User"] == null)
             {
@@ -55,7 +55,7 @@ namespace Bookmark.Controllers
                 bookmark.URL = lnk;
                 if (bookmark.BookmarkExists(user.UserId.ToString()))
                 {
-                    ViewData["bookmarkImgSrc"] = "../../Bookmark/Imagess/Bookmarked.jpg";
+                    ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmarked.jpg";
                 }
                 else
                 {
@@ -66,9 +66,29 @@ namespace Bookmark.Controllers
             return View();
         }
 
+
+        private bool ValidateBookmarkRequest(Domain _dom, string lnk)
+        {
+            var uri = new Uri(lnk);
+            var host = uri.Host;
+           // var parts = host.ToLowerInvariant().Split('.');
+           // string lnkDom = string.Empty;
+
+            if (_dom.Name == host)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //throw new NotImplementedException();
+        }
+
+
         private object GetBookmarkCount(string lnk)
         {
-            return "24";
+            //return "24";
             string bmrkCount = bmrk.GetBookmarkCount(lnk);
             return bmrkCount;
         }
