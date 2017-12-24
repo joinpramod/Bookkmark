@@ -26,20 +26,21 @@ namespace Bookmark
 
         public bool SetCommandBookmark(ref SqlCommand CmdSent)
         {
-            SqlCommand Cmd = new SqlCommand("Bookmark_Sp");
+            SqlCommand Cmd = new SqlCommand("Bookmarks_Sp");
             Cmd.CommandType = CommandType.StoredProcedure;
 
             SqlParameter ParamOptID = Cmd.Parameters.Add("@OptID", SqlDbType.Int);
             SqlParameter ParamId = Cmd.Parameters.Add("@Id", SqlDbType.Float);
             SqlParameter ParamURL = Cmd.Parameters.Add("@URL", SqlDbType.VarChar);
-            SqlParameter ParamCategoryId = Cmd.Parameters.Add("@FolderId", SqlDbType.Int);
+            SqlParameter ParamCategoryId = Cmd.Parameters.Add("@FolderId", SqlDbType.Float);
+            SqlParameter ParamIsFolder = Cmd.Parameters.Add("@IsFolder", SqlDbType.Bit);
             SqlParameter ParamName = Cmd.Parameters.Add("@Name", SqlDbType.VarChar);
             SqlParameter ParamIpAddr = Cmd.Parameters.Add("@IpAddr", SqlDbType.VarChar);
             SqlParameter ParamCity = Cmd.Parameters.Add("@City", SqlDbType.VarChar);
-            SqlParameter ParamCountry = Cmd.Parameters.Add("@Country", SqlDbType.Float);
-            SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime);
-            SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUserId", SqlDbType.Int);
-            SqlParameter ParamModifiedDate = Cmd.Parameters.Add("@ModifiedDate", SqlDbType.DateTime);
+            SqlParameter ParamCountry = Cmd.Parameters.Add("@Country", SqlDbType.VarChar);
+            SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
+            SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUser", SqlDbType.VarChar);
+            SqlParameter ParamModifiedDate = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
 
 
             ParamOptID.Value = OptID;
@@ -50,6 +51,8 @@ namespace Bookmark
             ParamURL.Direction = ParameterDirection.Input;
             ParamCategoryId.Value = FolderId;
             ParamCategoryId.Direction = ParameterDirection.Input;
+            ParamIsFolder.Value = IsFolder;
+            ParamIsFolder.Direction = ParameterDirection.Input;
             ParamName.Value = Name;
             ParamName.Direction = ParameterDirection.Input;
             ParamIpAddr.Value = IpAddr;

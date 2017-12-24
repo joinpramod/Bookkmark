@@ -99,14 +99,10 @@ namespace Bookmark.Controllers
             string strState = string.Empty;
             string strCountry = string.Empty;
             string resp = null;
-            Session["bookmark"] = null;
-            Session["bookmark"] = bmrk;
-            resp = "../../Bookmark/Images/Bookmarked.jpg";
-            return resp;
 
             if (Session["User"] == null)
             {
-                resp = null;    // which will open Login Window
+                resp = null;                    // which will open Login Window
             }
             else
             {
@@ -121,9 +117,8 @@ namespace Bookmark.Controllers
                     bmrk.Name = title;
                     bmrk.IpAddr = ipAddr;
                     Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
-                    bmrk.OptID = 1;  //Insert, Create
-                    bmrk.FolderId = 0;  //Default Folder
-                    bmrk.CreatedUserId = user.UserId.ToString();
+                    bmrk.OptID = 1;                 //Insert, Create
+                    bmrk.FolderId = 0;              //Default Folder
                     bmrk.IsFolder = false;
                     bmrk.CreatedDate = DateTime.Now.ToString();
                     bmrk.CreatedUserId = user.UserId.ToString();
