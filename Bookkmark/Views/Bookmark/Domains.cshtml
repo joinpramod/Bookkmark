@@ -5,6 +5,23 @@
     var grid = new WebGrid(canPage: true, rowsPerPage: 10);
     grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
+
+<script>
+    function ValidatePage() {
+        //Domain
+        if (document.getElementById("txtDomain") != null) {
+            var txtDomain = document.getElementById("txtDomain").value;
+            var re = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/);
+            if (!txtDomain.match(re)) {
+                document.getElementById("divAck").innerText = "Please enter a valid domain name";
+                return false;
+            }
+        }
+        return true;
+    }
+
+</script>
+
 <div class="container">
     <div class="span12">
         <div class="section_heading" style="padding-top:20px">
@@ -13,23 +30,26 @@
 
         <nav class="navbar navbar-default">
             <div class="form_search">
-                @using (Html.BeginForm("AddDomain", "Bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
-                {
-                    <div class="form-group">
-                        <div class="error_info">@ViewBag.Ack</div>
-                    </div>
-                    <table>
-                        <tr>
-                            <td>
-                                @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:200px", placeholder = "Domain name", required="required" })
-                            </td>
-                            <td  style="padding-left:10px">
-                                @*<button id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="btn btn-block" />*@
-                                <button type="submit" name="AddDomain" value="Add another domain" class="btn btn-block" style="width:120px">Add domain</button>
-                            </td>
-                        </tr>
-                    </table>
-                }
+                @using (Html.BeginForm("Domains", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+    {
+            <div class="form-group text-left">
+                <div id="divAck" class="error_info"></div>
+            </div>
+            <div class="form-group text-left">
+                <div class="error_info">@ViewBag.Ack</div>
+            </div>
+            <table>
+                <tr>
+                    <td>
+                        @Html.TextBox("txtDomain", "", new { @class = "form-control", style = "width:300px", placeholder = "Domain name, Ex test.com", required = "required" })
+                    </td>
+                    <td style="padding-left:10px">
+                        @*<button id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="btn btn-block" />*@
+                        <button type="submit" name="AddDomain" id="AddDomain" value="Add another domain"  onclick="return ValidatePage()" class="btn btn-block" style="width:120px">Add domain</button>
+                    </td>
+                </tr>
+            </table>
+}
             </div>
         </nav>
         <div style="height:20px"></div>

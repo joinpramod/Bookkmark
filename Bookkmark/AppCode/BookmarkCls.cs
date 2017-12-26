@@ -182,7 +182,7 @@ namespace Bookmark
                 _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
-                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
             }            
@@ -333,7 +333,7 @@ namespace Bookmark
                 _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
-                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+                _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
             }

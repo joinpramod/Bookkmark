@@ -118,16 +118,17 @@
         padding-right: 5%;
     }
 
-    a,
-    a:hover,
-    a:focus {
-        -webkit-transition: all 500ms ease 0s;
-        transition: all 500ms ease 0s;
-        text-decoration: none;
-        outline: none;
-        font-weight: bold;
-        color:#f5bf1c;
-    }
+a,
+a:hover,
+a:focus {
+    -webkit-transition: all 500ms ease 0s;
+    transition: all 500ms ease 0s;
+    text-decoration: none;
+    outline: none;
+    font-weight: bold;
+    color: #f5bf1c;
+
+}
 
           a {
         -webkit-transition: all 500ms ease 0s;
@@ -576,7 +577,6 @@
 	.boxed_version .mainmenu ul#nav li:hover a,
     .rtl_version .mainmenu ul#nav li:hover a {
         color: #444;
-        /*border-radius:10px;*/
 
     }
 
@@ -588,18 +588,22 @@
         text-align: left;
     }
 
-    .sticky .mainmenu ul#nav li.active a,
-    .sticky .mainmenu ul#nav li:hover a {
-        color: #444;
-        background-color:#fcd767;
-        /*border-radius:10px;*/
-    }
+.sticky .mainmenu ul#nav li.active a,
+.sticky .mainmenu ul#nav li:hover a {
+    color: #444;
+    background-color: #fcd767;
+    /*border-radius:10px;*/
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
 
-    .mainmenu ul#nav li.active a,
-    .mainmenu ul#nav li:hover a {
-        color: #444;
-        background-color:#fcd767;
-    }
+.mainmenu ul#nav li.active a,
+.mainmenu ul#nav li:hover a {
+    color: #444;
+    background-color: #fcd767;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
 
     .sticky .mainmenu ul#nav li a:hover,
     .sticky .mainmenu ul#nav li.current_page_item a,

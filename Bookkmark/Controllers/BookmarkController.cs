@@ -258,15 +258,26 @@ namespace Bookmark.Controllers
             return View(lstBookmarks);
         }
 
-        public ActionResult Domains(int page = 1, string sort = "Name", string sortdir = "asc", string search = "")
+        public ActionResult Domains(string txtDomain, int page = 1, string sort = "Name", string sortdir = "asc", string search = "")
         {
+            if (Request.Form["AddDomain"] != null)
+            {
+                Users user = (Users)Session["User"];
+                Domain _domain = new Domain();
+                string domId = string.Empty;
+                _domain.OptID = 1;
+                _domain.Name = txtDomain;
+                _domain.ShowCount = false.ToString();
+                _domain.CreatedUserId = user.UserId.ToString();
+                _domain.ManageDomain(out domId);
+                ViewBag.Ack = "Domain Added Successfully. Now generate script for the new domain in \"Script\"";
+            }
             int pageSize = 10;
             int totalRecord = 0;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
             var data = GetDomains(search, sort, sortdir, skip, pageSize, out totalRecord);
             ViewBag.TotalRows = totalRecord;
-            ViewBag.search = search;
             return View(data);
         }
 
@@ -539,21 +550,6 @@ namespace Bookmark.Controllers
             ViewData["Refresh"] = "true";
             return View();
         }
-
-        public ActionResult AddDomain(string txtDomain)
-        {
-
-            Users user = (Users)Session["User"];
-            Domain _domain = new Domain();
-            string domId = string.Empty;
-            _domain.OptID = 1; //Delete
-            _domain.Name = txtDomain;
-            _domain.CreatedUserId = user.UserId.ToString();
-            _domain.ManageDomain(out domId);
-            ViewBag.Ack = "Domain Added Successfully";
-            return View();
-        }
-
 
         public ActionResult Import(HttpPostedFileBase fileImport)
         {
