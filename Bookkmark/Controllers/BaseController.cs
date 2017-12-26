@@ -19,15 +19,11 @@ namespace Bookmark.Controllers
             {
                 string uname = Request.Cookies["BookmaqLogin"].Values["EMail"].ToString();
                 Users user1 = new Users();
-                user1.UserId = double.Parse(Request.Cookies["BookmaqLogin"].Values["UserId"].ToString());
-                user1.FirstName = Request.Cookies["BookmaqLogin"].Values["FirstName"].ToString();
-                user1.LastName = Request.Cookies["BookmaqLogin"].Values["LastName"].ToString();
-                user1.Email = uname;
+                user1 = user1.GetUser(uname);
                 Session["User"] = user1;
                 Session["user.Email"] = user1.Email;
                 ViewBag.UserEmail = user1.Email;
                 ViewBag.lblFirstName = user1.FirstName;
-
             }
             else
             {

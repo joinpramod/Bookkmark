@@ -66,7 +66,6 @@ namespace Bookmark.Controllers
             return View();
         }
 
-
         private bool ValidateBookmarkRequest(Domain _dom, string lnk)
         {
             var uri = new Uri(lnk);
@@ -84,7 +83,6 @@ namespace Bookmark.Controllers
             }
             //throw new NotImplementedException();
         }
-
 
         private object GetBookmarkCount(string lnk)
         {
@@ -107,6 +105,7 @@ namespace Bookmark.Controllers
             else
             {
                 Users user = (Users)Session["User"];
+                bmrk.URL = Bookmark;
                 if (bmrk.BookmarkExists(user.UserId.ToString()))
                 {
                     resp = "../../Bookmark/Images/Bookmarked.jpg,Edit," + bmrk.Id;
@@ -238,10 +237,6 @@ namespace Bookmark.Controllers
 
         public ActionResult MyBookmarks()
         {
-            //string strCity = string.Empty;
-            //string strState = string.Empty;
-            //string strCountry = string.Empty;
-            //GetLocation("69.248.7.33", ref strCity, ref strState, ref strCountry);
             Users user = (Users)Session["User"];
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
@@ -356,7 +351,6 @@ namespace Bookmark.Controllers
             return View();
         }
 
-
         public ActionResult Reports(int page =1, string sort = "Name", string sortdir = "asc", string search = "", string txtCreatedFrom = "", string txtCreatedTo = "", string ddDomains = "", string ddScaleType = "")
         {
             double domainId = 0;
@@ -422,8 +416,6 @@ namespace Bookmark.Controllers
             return View(data);
         }
 
-
-
         public ActionResult Manage()
         {
             Users user = (Users)Session["User"];
@@ -465,6 +457,14 @@ namespace Bookmark.Controllers
                 if (!bmrk.IsFolder)
                     ViewBag.DeleteType = "Bookmark";
                 ViewBag.Name = bmrk.Name;
+                if (bmrk.IsFolder)
+                {
+                    ViewBag.Info = "Deleting folder will delete all bookmarks within. Are you sure you want to delete folder? ";
+                }
+                else
+                {
+                    ViewBag.Info = "Are you sure you want to delete ?";
+                }
                 return View("../Bookmark/Delete", bmrk);
             }
         }
@@ -481,6 +481,10 @@ namespace Bookmark.Controllers
 
             if (!string.IsNullOrEmpty(txtLink))
             {
+                if(!txtLink.StartsWith("http://") || !txtLink.StartsWith("https://"))
+                {
+                    txtLink = "http://" + txtLink;
+                }
                 bmrk.URL = txtLink;
                 bmrk.IsFolder = false;
             }
@@ -488,6 +492,7 @@ namespace Bookmark.Controllers
             {
                 bmrk.IsFolder = true;
             }
+            bmrk.OptID = 1;
             bmrk.Name = txtName;
             bmrk.FolderId = double.Parse(ddFolder);
             bmrk.CreatedDate = DateTime.Now.ToString();
@@ -499,41 +504,19 @@ namespace Bookmark.Controllers
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
-            return View();
+            return View("../Bookmark/BMAdded");
         }
 
         public ActionResult EditBMFolder(BookmarkCls bmrk)
         {
             Users user = (Users)Session["User"];
-            //BookmarkCls bmrk = new BookmarkCls();
-            //string strCity = string.Empty;
-            //string strState = string.Empty;
-            //string strCountry = string.Empty;
-            //string ipAddr = Utilities.GetIPAddress();
-            //Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
-
-            //if (!string.IsNullOrEmpty(bmrk.URL))
-            //{
-            //    //bmrk.URL = txtLink;
-            //    bmrk.IsFolder = false;
-            //}
-            //else
-            //{
-            //    bmrk.IsFolder = true;
-            //}
-            bmrk.OptID = 3;  //Update
-            //bmrk.Name = txtName;
-            //bmrk.FolderId = double.Parse(ddFolder);
+            bmrk.OptID = 2;  //Update
             bmrk.ModifiedDate = DateTime.Now.ToString();
-            bmrk.CreatedUserId = user.UserId.ToString();
-            //bmrk.City = strCity;
-            //bmrk.Country = strState;
             bmrk.ManageBookmark();
-
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-            ViewData["ddFolders"] = lstFolders;
+            ViewData["ddFolders"] = lstFolders;           
             ViewData["Refresh"] = "true";
-            return View();
+            return View("../Bookmark/BMAdded");
         }
 
         public ActionResult Delete(string HFBookmarkId)
@@ -542,13 +525,28 @@ namespace Bookmark.Controllers
             {
                 Users user = (Users)Session["User"];
                 BookmarkCls bmrk = new BookmarkCls();
-                bmrk.Id = double.Parse(HFBookmarkId);
-                bmrk.OptID = 4; //Delete
+                bmrk= bmrk.GetBookmarkFromId(HFBookmarkId, user.UserId);
+                if(bmrk.IsFolder)
+                    bmrk.OptID = 4; //Delete  folder
+                else
+                    bmrk.OptID = 3; //Delete bookmark
                 bmrk.CreatedUserId = user.UserId.ToString();
                 bmrk.ManageBookmark();               
             }
             ViewData["Refresh"] = "true";
-            return View();
+            return View("../Bookmark/BMAdded");
+        }
+
+        public ActionResult MoveBMFolder(BookmarkCls bmrk)
+        {
+            Users user = (Users)Session["User"];
+            bmrk.OptID = 5; //Update folder
+            bmrk.ModifiedDate = DateTime.Now.ToString();
+            bmrk.ManageBookmark();
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            ViewData["ddFolders"] = lstFolders;
+            ViewData["Refresh"] = "true";
+            return View("../Bookmark/BMAdded");
         }
 
         public ActionResult Import(HttpPostedFileBase fileImport)
@@ -557,16 +555,6 @@ namespace Bookmark.Controllers
             {
                 StreamReader reader = new StreamReader(fileImport.InputStream);
                 string fileText = reader.ReadToEnd();
-
-                //var regexImage = new Regex(@"data:(?<mime>[\w/\-\.]+);(?<encoding>\w+),(?<data>.>)", RegexOptions.Compiled);
-
-                //var regexComment = new Regex(@"(?=<!--)([\s\S]*?)-->", RegexOptions.Compiled);      //<!--(.*?)-->
-                //var match = regexImage.Match(fileText);
-
-
-                //fileText = regexImage.Replace(fileText, "");
-                //fileText = regexComment.Replace(fileText, "");
-
 
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(fileText);
@@ -601,65 +589,10 @@ namespace Bookmark.Controllers
                         bmrk.OptID = 1;
                         bmrk.CreatedUserId = user.UserId.ToString();
                         bmrk.CreatedDate = DateTime.Now.ToString();
-                       // bmrk.ManageBookmark();
+                        bmrk.ManageBookmark();
                     }
                 }
-
-
-                //List<string> hrefTags = new List<string>();
-
-                //foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
-                //{
-                //    HtmlAttribute att = link.Attributes["href"];
-                //    hrefTags.Add(att.Value);
-                //}
-
-
-                //var linkedPages = doc.DocumentNode.Descendants("a").Select(a=> a.Attributes);
-
-                //foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
-                //{
-                //    //HtmlAttribute att = link["href"];
-                //    //att.Value = FixLink(att);
-                //}
-
-             
-
             }
-            return View();
-        }
-
-        public ActionResult MoveBMFolder(string txtLink, string txtName, string ddFolder, string HFBookmarkId)
-        {
-            Users user = (Users)Session["User"];
-            BookmarkCls bmrk = new BookmarkCls();
-            //string strCity = string.Empty;
-            //string strState = string.Empty;
-            //string strCountry = string.Empty;
-            //string ipAddr = Utilities.GetIPAddress();
-            //Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
-
-            //if (!string.IsNullOrEmpty(txtLink))
-            //{
-            //    bmrk.URL = txtLink;
-            //    bmrk.IsFolder = false;
-            //}
-            //else
-            //{
-            //    bmrk.IsFolder = true;
-            //}
-            bmrk.OptID = 5; //Update folder
-            //bmrk.Name = txtName;
-            bmrk.FolderId = double.Parse(ddFolder);
-            //bmrk.CreatedDate = DateTime.Now.ToString();
-            bmrk.CreatedUserId = user.UserId.ToString();
-            //bmrk.City = strCity;
-            //bmrk.Country = strState;
-            bmrk.ManageBookmark();
-
-            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-            ViewData["ddFolders"] = lstFolders;
-            ViewData["Refresh"] = "true";
             return View();
         }
 
@@ -690,7 +623,6 @@ namespace Bookmark.Controllers
             //    ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Country).ToArray();
             //}           
         }
-
 
         public ActionResult BarCharts()
         {
