@@ -114,6 +114,7 @@ namespace Bookmark
             dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where URL= '"+ URL + "' and  CreatedUser = " + _userId + "");
             if (dtBmrkExists!= null && dtBmrkExists.Rows.Count > 0)
             {
+                Id = double.Parse(dtBmrkExists.Rows[0]["Id"].ToString());
                 URL = dtBmrkExists.Rows[0]["URL"].ToString();
                 FolderId  = double.Parse(dtBmrkExists.Rows[0]["FolderId"].ToString());
                 Name = dtBmrkExists.Rows[0]["Name"].ToString();
@@ -200,11 +201,19 @@ namespace Bookmark
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
             {
                 conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwUserBookmarks where CreatedUser = " + userId + "", conn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder desc", conn))
                 {
                     sda.Fill(dt);
                 }
             }
+
+            _Bookmark.Id = 27;
+            _Bookmark.Name = "Default";
+            _Bookmark.FolderId = 0;
+            _Bookmark.IsFolder = true;
+            lstBookmarks.Add(_Bookmark);
+            _Bookmark = new BookmarkCls();
+
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -310,8 +319,6 @@ namespace Bookmark
 
         public BookmarkCls GetBookmarkFromId(string bmrkId, double userId)
         {
-
-            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
             BookmarkCls _Bookmark = new BookmarkCls();
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
@@ -334,8 +341,6 @@ namespace Bookmark
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
-                lstBookmarks.Add(_Bookmark);
-                _Bookmark = new BookmarkCls();
             }
 
             return _Bookmark;

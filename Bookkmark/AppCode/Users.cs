@@ -129,6 +129,33 @@ namespace Bookmark
         }
 
 
+        public Users GetUser(string emailId)
+        {
+            Users _user = new Users();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from Users where EMail = '" + emailId + "'", conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _user.UserId = double.Parse(dt.Rows[i]["UserId"].ToString());
+                _user.Email = dt.Rows[i]["Email"].ToString();
+                _user.FirstName = dt.Rows[i]["FirstName"].ToString();
+                _user.LastName = dt.Rows[i]["LastName"].ToString();
+                _user.IsPublisher = bool.Parse(dt.Rows[i]["IsPublisher"].ToString());
+            }
+
+            return _user;
+        }
+
+
+
         public Users CreateUser(string strEmail, string strFirstName, string strLastName)
         {
             Users user = new Users();
