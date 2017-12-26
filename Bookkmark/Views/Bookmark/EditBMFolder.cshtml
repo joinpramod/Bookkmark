@@ -43,14 +43,17 @@
                     @if (ViewBag.EditType == "Bookmark")
                     {
                     <div class="form-group">
+                        <b>Link :</b>
                         @Html.TextBoxFor(m => m.URL, new { placeholder = "Link", @class = "form-control", required = "required" })
                     </div>
                     }
                     <div class="form-group">
+                        <b>Name :</b>
                         @Html.TextBoxFor(m => m.Name, new { placeholder = "Link", @class = "form-control", required = "required" })
                     </div>
                     <div class="form-group">
-                        @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { @class = "form-control", style = "height:50px", required="required" })
+                        <b>Folder :</b>
+                        @Html.DropDownListFor(m => m.FolderId, new SelectList((System.Collections.IEnumerable)ViewData["ddFolders"], "Id", "Name"), "---Select Folder---", new { @class = "form-control", style = "height:50px" })
                     </div>
                     <button type="submit" class="btn btn-block" id="btnAdd" name="btnAdd">Submit</button>
                 </div>
