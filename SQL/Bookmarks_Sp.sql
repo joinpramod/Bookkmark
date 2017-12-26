@@ -1,17 +1,15 @@
-USE [booqmarqs]
+USE [bookmarks]
 GO
-
-/****** Object:  StoredProcedure [dbo].[Bookmarks_Sp]    Script Date: 12/17/2017 10:06:40 AM ******/
+/****** Object:  StoredProcedure [dbo].[Bookmarks_Sp]    Script Date: 12/26/2017 12:46:49 PM ******/
 SET ANSI_NULLS OFF
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
-
-CREATE PROCEDURE [dbo].[Bookmarks_Sp]
+　
+　
+　
+ALTER PROCEDURE [dbo].[Bookmarks_Sp]
 @OptID as int = 1,
 @Id As Numeric(9,0) = NULL,
 @URL As VarChar(50) = NULL,
@@ -53,25 +51,16 @@ As
           End
    
    
-   
-   
+      
       If @OptID = 4
           Begin
-            Select * From Bookmarks where Id = @Id
-              Return
+            Delete from Bookmarks where Id in (Select Id from bookmarks where folderid = @Id)
+			Delete from Bookmarks where Id = @Id
           End
-
-
-		   If @OptID = 5
-          Begin
-             Update Bookmarks Set URL=@URL,FolderId=@FolderId,Name=@Name,ModifiedUser=@ModifiedUser,ModifiedDateTime=@ModifiedDateTime where Id = @Id
-		End
    
-    If @OptID = 6
-          Begin
-             Update Bookmarks Set URL=@URL,FolderId=@FolderId,Name=@Name,ModifiedUser=@ModifiedUser,ModifiedDateTime=@ModifiedDateTime where Id = @Id
-          End
+   
 
-
-GO
-
+　
+　
+　
+　
