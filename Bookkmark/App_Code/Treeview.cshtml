@@ -1,38 +1,48 @@
 @helper GetTreeView(List<Bookmark.BookmarkCls> siteMenu, double parentID)
 {
-foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
-{
-        <li class="task" data-id="@i.Id">
-            @{ var submenu = siteMenu.Where(a => a.FolderId.Equals(i.Id)).Count();
-            }
-            @if (submenu > 0)
-            {
-                <span class="expand1 collapsible">&nbsp;</span>
-            }
-            else
-            {
-                <span style="padding-left:25px"> &nbsp;</span>
-            }
-            <span>
-
-                @if (!string.IsNullOrEmpty(i.URL))
+    foreach (var i in siteMenu.Where(a => a.FolderId.Equals(parentID)))
+    {
+            <li class="task" data-id="@i.Id">
+                @{ var submenu = siteMenu.Where(a => a.FolderId.Equals(i.Id)).Count();
+                }
+                @if (submenu > 0)
                 {
-                    var strSrc = "http://www.google.com/s2/favicons?domain_url=" + @i.URL;
-                    <a href="#" onclick="window.open('@i.URL');"><img src="@strSrc" style="height:17px;width:17px" /> @i.Name </a>
+                    <span class="expand1 collapsible">&nbsp;</span>
                 }
                 else
                 {
-                    <a>@i.Name</a>
+                    if (i.IsFolder)
+                    {
+                        <span class="expand1 collapsible">&nbsp;</span>
+                    }
+                    else
+                    {
+                        <span style="padding-left:25px"> &nbsp;</span>
+                    }
                 }
-            </span>
-            @if (submenu > 0)
-            {
-                <ul>
-                    @Treeview.GetTreeView(siteMenu, i.Id)
-                </ul>
-            }
-        </li>
+
+
+
+
+                <span>
+                    @if (!string.IsNullOrEmpty(i.URL))
+                    {
+                        var strSrc = "http://www.google.com/s2/favicons?domain_url=" + @i.URL;
+                        <a href="#" onclick="window.open('@i.URL');"><img src="@strSrc" style="height:17px;width:17px" /> @i.Name </a>
+                    }
+                    else
+                    {
+                        <a>@i.Name</a>
+                    }
+                </span>
+                @if (submenu > 0 && i.IsFolder)
+                {
+                    <ul>
+                        @Treeview.GetTreeView(siteMenu, i.Id)
+                    </ul>
                 }
+            </li>
+    }
 }
 
 
