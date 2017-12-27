@@ -17,7 +17,7 @@ namespace Bookmark.Controllers
             }
             else if (Request.Cookies["BookmaqLogin"] != null && Request.Cookies["BookmaqLogin"].HasKeys)
             {
-                string uname = Request.Cookies["BookmaqLogin"].Values["EMail"].ToString();
+                string uname = Request.Cookies["BookmaqLogin"].Values["EMail"];
                 Users user1 = new Users();
                 user1 = user1.GetUser(uname);
                 Session["User"] = user1;
