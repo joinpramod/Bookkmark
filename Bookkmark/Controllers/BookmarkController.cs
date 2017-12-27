@@ -551,8 +551,15 @@ namespace Bookmark.Controllers
 
         public ActionResult Import(HttpPostedFileBase fileImport)
         {
+            string folderId = string.Empty;
             if (fileImport != null)
             {
+                string strCity = string.Empty;
+                string strState = string.Empty;
+                string strCountry = string.Empty;
+                string ipAddr = Utilities.GetIPAddress();
+                Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+
                 StreamReader reader = new StreamReader(fileImport.InputStream);
                 string fileText = reader.ReadToEnd();
 
@@ -571,14 +578,16 @@ namespace Bookmark.Controllers
                         {
                             //Create Folder
                             bmrk.IsFolder = true;
-                            bmrk.Name = node.InnerText;
+                            bmrk.FolderId = 27;
+                            bmrk.URL = string.Empty;
+                            folderId = string.Empty;
                         }
                         else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
                         {
                             //Create Bookmark
                             bmrk.IsFolder = false;
-                            bmrk.Name = node.InnerText;
                             bmrk.URL = node.Attributes[0].Value;
+                            bmrk.FolderId = double.Parse(folderId);
                         }
                         else
                         {
@@ -589,9 +598,18 @@ namespace Bookmark.Controllers
                         bmrk.OptID = 1;
                         bmrk.CreatedUserId = user.UserId.ToString();
                         bmrk.CreatedDate = DateTime.Now.ToString();
-                        bmrk.ManageBookmark();
+                        bmrk.City = strCity;
+                        bmrk.Country = strState;
+                        bmrk.IpAddr = ipAddr;
+
+                        if (bmrk.IsFolder)
+                            bmrk.ManageBookmark(out folderId);
+                        else
+                            bmrk.ManageBookmark();
                     }
                 }
+
+                ViewBag.Ack = "Bookmarks imported successfully";
             }
             return View();
         }
