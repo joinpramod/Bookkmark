@@ -60,9 +60,13 @@
                                         }
                                         else
                                         {
+                                            Users user = (Users)Session["User"];
+                                            if (user.IsPublisher)
+                                            {
                                             <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
                                             <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
                                             <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+                                            }
                                             <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
                                             <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
                                             <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
