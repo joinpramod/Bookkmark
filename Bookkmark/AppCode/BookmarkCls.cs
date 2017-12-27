@@ -92,6 +92,30 @@ namespace Bookmark
         }
 
 
+        public bool ManageBookmark(out string bmrkID)
+        {
+            SqlCommand CmdExecute = new SqlCommand();
+            bmrkID = string.Empty;
+            if (SetCommandBookmark(ref CmdExecute))
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (CmdExecute)
+                    {
+                        conn.Open();
+                        CmdExecute.Connection = conn;
+                        SqlDataReader sqlReader = CmdExecute.ExecuteReader();
+                        while (sqlReader.Read())
+                        {
+                            bmrkID = sqlReader[0].ToString();
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+
         public string GetBookmarkCount(string strlnk)
         {
             string bmrkCount = string.Empty;
