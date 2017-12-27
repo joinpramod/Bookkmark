@@ -138,6 +138,8 @@ a:focus {
         font-weight: 500;
         color:#005eaf;
         font-size:15px;
+        line-height:25px;
+        height:30px;
         }
 
 
@@ -524,7 +526,7 @@ a:focus {
         color: #fff;
         display: block;
         font-size: 17px;
-        padding: 20px 8px;
+        padding: 33px 8px;
     }
 
 
@@ -593,8 +595,8 @@ a:focus {
     color: #444;
     background-color: #fcd767;
     /*border-radius:10px;*/
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .mainmenu ul#nav li.active a,
@@ -603,6 +605,8 @@ a:focus {
     background-color: #fcd767;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+    height:20px;
+    padding-top:15px;
 }
 
     .sticky .mainmenu ul#nav li a:hover,
