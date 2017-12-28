@@ -1,18 +1,16 @@
-USE [booqmarqs]
+USE [bookmarks]
 GO
-
-/****** Object:  StoredProcedure [dbo].[User_Sp]    Script Date: 12/17/2017 10:07:34 AM ******/
+/****** Object:  StoredProcedure [dbo].[User_Sp]    Script Date: 12/28/2017 2:47:39 PM ******/
 SET ANSI_NULLS OFF
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
-
-
-CREATE PROCEDURE [dbo].[User_Sp]
+　
+　
+　
+　
+ALTER PROCEDURE [dbo].[User_Sp]
 @OptID as int = 1,
 @UserId As Numeric(9,0) = NULL,
 @FirstName As VarChar(50) = NULL,
@@ -40,7 +38,7 @@ As
    
       If @OptID = 2
           Begin
-             Update Users Set FirstName=@FirstName,LastName=@LastName,Password=@Password,Email=@Email,Status=@Status,IsPublisher=@IsPublisher,IsWebUser=@IsWebUser,CreatedDateTime=@CreatedDateTime,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
+             Update Users Set FirstName=@FirstName,LastName=@LastName,Email=@Email,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
           End
    
    
@@ -60,11 +58,7 @@ As
               Return
           End
 
-
-		   If @OptID = 5
-          Begin
-             Update Users Set FirstName=@FirstName,LastName=@LastName,Email=@Email,Status=@Status,CreatedDateTime=@CreatedDateTime,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
-          End
+　
    
     If @OptID = 6
           Begin
@@ -72,13 +66,9 @@ As
           End
 
 		  
-		   If @OptID = 7
-          Begin
-             Update Users Set FirstName=@FirstName,LastName=@LastName,Email=@Email,Status=@Status,CreatedDateTime=@CreatedDateTime,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
-          End
 
-
-
-
-GO
-
+　
+　
+　
+　
+　
