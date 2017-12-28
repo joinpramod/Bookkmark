@@ -1,4 +1,7 @@
 ﻿//using Bookmark.AppCode;
+using Newtonsoft.Json.Linq;
+using System.Configuration;
+using System.Net;
 using System.Web.Mvc;
 
 namespace Bookmark.Controllers
@@ -21,14 +24,25 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        [ReCaptcha]
+        //[ReCaptcha]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Contact(string txtEMail, string txtMessage, string txtSubject, string txtNumber, string txtName)
         {
-            //if (ModelState.IsValid)
-            //{
-                if (!string.IsNullOrEmpty(txtMessage))
+
+
+            if (!string.IsNullOrEmpty(txtMessage))
+            {
+                var response = Request["g-recaptcha-response"];
+                string secretKey = ConfigurationManager.AppSettings["ReCaptcha.PrivateKey"];
+                var client = new WebClient();
+                var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+                var obj = JObject.Parse(result);
+                var status = (bool)obj.SelectToken("success");
+                //ViewBag.Message = status ? "Google reCaptcha validation success" : "Google reCaptcha validation failed";
+
+                if (status)
                 {
+
                     if (string.IsNullOrEmpty(txtEMail))
                     {
                         if (Session["User"] != null)
@@ -37,10 +51,6 @@ namespace Bookmark.Controllers
                             txtEMail = user.Email;
                         }
                     }
-                    //else
-                    //{
-                    //    return View();
-                    //}
                     Mail mail = new Mail();
 
                     string strBody = txtMessage + " from " + txtEMail;
@@ -70,21 +80,13 @@ namespace Bookmark.Controllers
 
                     return View();
                 }
-
-                if (Session["User"] != null)
+                else
                 {
-                    user = (Users)Session["User"];
-                    ViewBag.UserEMail = user.Email;
+                    ViewBag.Ack = "reCaptcha validation failed";
+                    return View();
                 }
-            //}
+            }
 
-            //else
-            //{
-            //    if (!string.IsNullOrEmpty(txtSuggestion))
-            //    {
-            //        ViewBag.Ack = "Invalid ReCaptcha, Please try again";
-            //    }
-            //}
             return View();
         }
 

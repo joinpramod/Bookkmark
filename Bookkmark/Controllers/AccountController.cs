@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Bookmark.Models;
 using System.Security.Claims;
 using System.Linq;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace Bookmark.Controllers
 {
@@ -53,45 +55,6 @@ namespace Bookmark.Controllers
 
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
-
-            ///////Temporary
-            //Users user1 = new Users();
-            //user1.UserId = 1;
-            //user1.FirstName = "FirstName";
-            //user1.LastName = "LastName";
-            //user1.Email = txtEMailId;
-            //user.IsPublisher = true;
-            //Session["User"] = user1;
-            //Session["user.Email"] = user1.Email;
-            //ViewBag.UserEmail = user1.Email;
-            //HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
-            //mycookie.Values["UserId"] = txtEMailId;
-            //mycookie.Values["FirstName"] = "FirstName";
-            //mycookie.Values["LastName"] = "LastName";
-            //mycookie.Expires = System.DateTime.Now.AddDays(180);
-            //Response.Cookies.Add(mycookie);
-
-            //if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
-            //{
-            //    //AddBookmark(Session["bookmark"]);
-            //    Session["bookmark"] = null;
-            //    return View("../Bookmark/BMAdded");
-            //}
-            //else if (user.IsPublisher)
-            //{
-            //    Session["RegisType"] = null;
-            //    return RedirectToAction("Reports", "Bookmark");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("MyBookmarks", "Bookmark");
-            //}
-            //////////
-
-
-
-
-            /////Actual
             ConnManager connManager = new ConnManager();
             DataTable DtUserList = new DataTable();
             DataTable dtUserActivation = new DataTable();
@@ -154,21 +117,16 @@ namespace Bookmark.Controllers
             }
         }
 
-        public ActionResult Register()
-        {
-            return View("../Account/Register", user);
-        }
-
         public ActionResult WebUserReg()
         {
             //ViewData["RegisType"] = "WebUser";
-            return Register();
+            return Register(null, null, null, null);
         }
 
         public ActionResult SiteOwnerReg()
         {
-            Session["Session"] = "SiteOwner";
-            return Register();
+            Session["SiteOwner"] = "SiteOwner";
+            return Register(null, null, null, null);
         }
 
         [AllowAnonymous]
@@ -201,77 +159,105 @@ namespace Bookmark.Controllers
             return View();
         }
 
-
-
-        [ReCaptcha]
+        //[ReCaptcha]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult CreateUser(Users user, string txtPassword)
+        public ActionResult Register(string txtFirstName, string txtLastName, string txtEMailId, string txtNewPassword)
         {
             string activationCode = Guid.NewGuid().ToString();
             //AddEdit user
-            if (Request.Form["Cancel"] == null)
+            if (!string.IsNullOrEmpty(txtEMailId))
             {
-                if (ModelState.IsValid)
+                var response = Request["g-recaptcha-response"];
+                string secretKey = ConfigurationManager.AppSettings["ReCaptcha.PrivateKey"];
+                var client = new WebClient();
+                var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+                var obj = JObject.Parse(result);
+                var status = (bool)obj.SelectToken("success");
+                //ViewBag.Message = status ? "Google reCaptcha validation success" : "Google reCaptcha validation failed";
+
+                if (status)
                 {
                     ConnManager con = new ConnManager();
 
-                    DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + user.Email + "'");
+                    DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
                     if (dtUserActivation.Rows.Count > 0)
                     {
                         //ViewBag.Ack = "User activation pending";
                         ViewBag.Activation = "User activation pending. Resend Activation Code?";
-                        ViewBag.UserActEMail = user.Email;
-                        return View("Users", user);
+                        ViewBag.UserActEMail = txtEMailId;
+                        return View();
                     }
 
-                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user.Email + "'");
+                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + txtEMailId + "'");
                     if (dtUser.Rows.Count > 0)
                     {
                         ViewBag.Ack = "EMail id already exists. If you have forgotten password, please click forgot password link on the Sign In page.";
-                        return View("Users", user);
+                        return View();
                     }
 
                     double dblUserID = 0;
                     user.OptionID = 1;
                     user.CreatedDateTime = DateTime.Now;
-                    user.Password = txtPassword;
-                    user.Email = user.Email;
+                    user.Password = txtNewPassword;
+                    user.Email = txtEMailId;
+                    user.FirstName = txtFirstName;
+                    user.LastName = txtLastName;
                     user.IsWebUser = true;
+                    if (Session["SiteOwner"] != null)
+                        user.IsPublisher = true;
+                    else
+                        user.IsPublisher = false;
                     user.CreateUsers(ref dblUserID);
                     user.CreateUserActivation(user, activationCode, dblUserID);
                     ViewBag.Ack = "User Info Saved Successfully. An activation link has been sent to your email address, please check your inbox and activate your account";
                     SendActivationEMail(user.Email, activationCode);
                     SendEMail(user.Email, user.FirstName, user.LastName);
                     user = new Users();
-                    return View("Register", user);
+                    Session["SiteOwner"] = null;
+                    return View();
                 }
                 else
                 {
-                    ViewBag.Ack = ModelState["ReCaptcha"].Errors[0].ErrorMessage;
-                    return View("Register", user);
+                    ViewBag.Ack = "reCaptcha validation failed";
+                    return View();
                 }
             }
             else
             {
-                return View("../Account/Choice");
+                return View("../Account/Register");
             }
         }
+
+        public ActionResult ViewUser(Users user)
+        {
+            string email = string.Empty;
+            if (Session["User"] != null)
+            {
+                user = (Users)Session["User"];
+                email = user.Email;
+                return View("../Account/ViewUser", user);
+            }
+            else
+            {
+                return View("../Account/Login");
+            }
+        }
+
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult EditUser(Users user)
         {
             double dblUserID = 0;
-            Users tempUser = new global::Bookmark.Users();
+            Users tempUser = new Users();
 
-            user = (Users)Session["User"];
+            tempUser = (Users)Session["User"];
             if (Request.Form["Edit"] != null)
             {
-                return View("../Account/EditUser", user);
+                return View("../Account/EditUser", tempUser);
             }
             else if (Request.Form["ChangePassword"] != null)
             {
-                ViewBag.OldPassword = user.Password;
-                return View("../Account/ChangePassword", user);
+                return View("../Account/ChangePassword", tempUser);
             }
 
             if (Request.Form["EditSubmit"] != null)
@@ -279,13 +265,14 @@ namespace Bookmark.Controllers
                 if (ModelState.IsValid)
                 {
                     ConnManager con = new ConnManager();
-                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + user.Email + "'");
+                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + tempUser.Email + "'");
                     if (dtUser.Rows.Count > 0)
                     {
                         user.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
-                        user.OptionID = 7;
-                        tempUser = (Users)Session["User"];                        
-                        //user.ImageURL = tempUser.ImageURL;
+                        user.OptionID = 2;
+                        user.FirstName = user.FirstName;
+                        user.LastName = user.LastName;
+                        user.Email = user.Email;
                         user.ModifiedDateTime = DateTime.Now;
                         dblUserID = user.UserId;
                         user.CreateUsers(ref dblUserID);
@@ -311,18 +298,31 @@ namespace Bookmark.Controllers
             }
         }
 
-        public ActionResult ViewUser(Users user)
+        public ActionResult ChangePassword(string txtNewPassword)
         {
-            string email = string.Empty;
-            if (Session["User"] != null)
+            if (Request.Form["Cancel"] == null)
             {
-                user = (Users)Session["User"];
-                email = user.Email;
-                return View("../Account/ViewUser", user);
+                if (Session["User"] != null && !string.IsNullOrEmpty(txtNewPassword))
+                {
+                    user = (Users)Session["User"];
+                    double dblUserID = 0;
+                    user.OptionID = 5;
+                    user.Password = txtNewPassword;
+                    user.ModifiedDateTime = DateTime.Now;
+                    dblUserID = user.UserId;
+                    user.CreateUsers(ref dblUserID);
+                    ViewBag.Ack = "Password changed successfully";
+                }
+                return View(user);
             }
             else
             {
-                return View("../Account/Login");
+                if (Session["User"] != null)
+                {
+                    user = (Users)Session["User"];
+                    ViewBag.UserEMail = user.Email;
+                }
+                return View("../Account/ViewUser", user);
             }
         }
 
@@ -337,24 +337,24 @@ namespace Bookmark.Controllers
                 {
                     //ViewBag.Ack = "User activation pending";
                     ViewBag.Activation = "User activation pending. Resend Activation Code?";
-                    return View("../Account/Login");
+                    ViewBag.UserActEMail = txtEMailId;
+                    return View();
                 }
 
                 DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + txtEMailId + "'");
                 if (dtUser.Rows.Count <= 0)
                 {
-                    ViewBag.Ack = "No such EMail Id exists";
+                    ViewBag.Ack = "No such email exists";
                 }
 
-                if (!string.IsNullOrEmpty(dtUser.Rows[0]["Password"].ToString()))
+                else if (!string.IsNullOrEmpty(dtUser.Rows[0]["Password"].ToString()))
                 {
                     Mail mail = new Mail();
                     mail.IsBodyHtml = true;
-                    string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
-
-                    mail.Body = string.Format(EMailBody, "Your Booqmarqs account password is " + dtUser.Rows[0]["Password"].ToString());
-                    mail.FromAdd = "admin@Booqmarqs.com";
-                    mail.Subject = "Bookmark account password";
+                    string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
+                    mail.Body = string.Format(EMailBody, "Forgot Password", "Your Booqmarqs account password is " + dtUser.Rows[0]["Password"].ToString());
+                    mail.FromAdd = "admin@booqmarqs.com";
+                    mail.Subject = "Booqmarqs account password";
                     mail.ToAdd = dtUser.Rows[0]["EMail"].ToString();
                     mail.SendMail();
 
@@ -367,6 +367,28 @@ namespace Bookmark.Controllers
                 }
             }
             return View();
+        }
+
+        public ActionResult Activate()
+        {
+            string ActivationCode = Request.QueryString["ActivationCode"];
+            Users usr = new global::Bookmark.Users();
+            ViewBag.Ack = usr.ActivateUser(ActivationCode);
+            return View("../Account/Login");
+        }
+
+        public ActionResult ProcessActivationCode()
+        {
+            string txtEMailId = Request.Form["hfUserEMail"];
+            ConnManager con = new ConnManager();
+            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
+            if (dtUserActivation.Rows.Count > 0)
+            {
+                SendActivationEMail(txtEMailId, dtUserActivation.Rows[0]["ActivationCode"].ToString());
+                ViewBag.Activation = "Activation Code Sent. Please check your inbox and click on the activation link.";
+                ViewBag.UserActEMail = txtEMailId;
+            }
+            return View("../Account/Login");
         }
 
         private void SendEMail(string Email_address, string firstName, string LastName)
@@ -387,12 +409,12 @@ namespace Bookmark.Controllers
                 }
 
                 mail.Body = strBody;
-                mail.FromAdd = "admin@Booqmarqs.com";
+                mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = "New User registered";
 
-                mail.ToAdd = "admin@Booqmarqs.com";
+                mail.ToAdd = "admin@booqmarqs.com";
                 mail.IsBodyHtml = true;
-                mail.SendMail();
+                //mail.SendMail();
             }
             catch
             {
@@ -408,12 +430,12 @@ namespace Bookmark.Controllers
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://Booqmarqs.com>Booqmarqs</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
+                mail.Body = string.Format(EMailBody, "New User Register", "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
                 mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = "Welcome to Booqmarqs - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
-                mail.SendMail();
+                //mail.SendMail();
             }
             catch
             {
@@ -430,7 +452,7 @@ namespace Bookmark.Controllers
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
                 string strActLink = "http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode;
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com>Booqmarqs</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
+                mail.Body = string.Format(EMailBody, "User Activation", "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
                 mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = "Welcome to Booqmarqs - ";
                 mail.ToAdd = email;
@@ -443,58 +465,6 @@ namespace Bookmark.Controllers
 
             }
         }
-
-        public ActionResult ChangePassword(string txtNewPassword)
-        {
-            if (Request.Form["Cancel"] == null)
-            {
-                if (Session["User"] != null && !string.IsNullOrEmpty(txtNewPassword))
-                {
-                    user = (Users)Session["User"];
-                    double dblUserID = 0;
-                    user.OptionID = 5;
-                    user.Password = txtNewPassword;
-                    user.ModifiedDateTime = DateTime.Now;
-                    dblUserID = user.UserId;
-                    user.CreateUsers(ref dblUserID);
-                    ViewBag.Ack = "Password changed successfully";
-                    ViewBag.OldPassword = txtNewPassword;
-                }
-                return View(user);
-            }
-            else
-            {
-                if (Session["User"] != null)
-                {
-                    user = (Users)Session["User"];
-                }
-                return View("../Account/ViewUser", user);
-            }
-        }
-
-        public ActionResult Activate()
-        {
-            string ActivationCode = Request.QueryString["ActivationCode"];
-            Users usr = new global::Bookmark.Users();
-            ViewBag.Ack = usr.ActivateUser(ActivationCode);
-            return View("../Account/Login");
-        }
-
-        public ActionResult ProcessActivationCode(string txtEMailId)
-        {
-            txtEMailId = Request.Form["hfUserEMail"];
-            ConnManager con = new ConnManager();
-            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
-            if (dtUserActivation.Rows.Count > 0)
-            {
-                SendActivationEMail(txtEMailId, dtUserActivation.Rows[0]["ActivationCode"].ToString());
-                ViewBag.Activation = "Activation Code Sent. Please check your inbox and click on the activation link.";
-                ViewBag.UserActEMail = txtEMailId;
-            }
-            return View("Users", user);
-        }
-
-
 
 
         /// <summary>
