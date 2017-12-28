@@ -29,7 +29,7 @@
     <script src="~/Scripts/jquery-2.2.4.min.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/platform.js" async defer type="text/javascript"></script>
-
+    <script src="~/Scripts/JavaScript.1.3.js" async defer type="text/javascript"></script>
 </head>
 
 <body class="default-page">
@@ -80,7 +80,7 @@
                             </div>
                             @if (Session["User"] == null)
                             {
-                            <div class="header_signup_in_btn d-inline-block">
+                            <div class="header_signup_in_btn d-inline-block" >
                                 <a href="@Url.Action("Choice", "Account")">Get Started</a>
                             </div>
                             }
