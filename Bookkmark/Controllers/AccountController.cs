@@ -14,14 +14,10 @@ using System.Linq;
 
 namespace Bookmark.Controllers
 {
-
-
     public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-
         private Users user = new Users();
 
         public ActionResult Login()
@@ -68,7 +64,7 @@ namespace Bookmark.Controllers
             //Session["User"] = user1;
             //Session["user.Email"] = user1.Email;
             //ViewBag.UserEmail = user1.Email;
-            //HttpCookie mycookie = new HttpCookie("BookmaqLogin");
+            //HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
             //mycookie.Values["UserId"] = txtEMailId;
             //mycookie.Values["FirstName"] = "FirstName";
             //mycookie.Values["LastName"] = "LastName";
@@ -131,7 +127,7 @@ namespace Bookmark.Controllers
                 Session["user.Email"] = user.Email;
                 ViewBag.UserEmail = user.Email;
                 
-                HttpCookie userCookie = new HttpCookie("BookmaqLogin");
+                HttpCookie userCookie = new HttpCookie("BooqmarqsLogin");
                 userCookie.Values["UserId"] = user.UserId.ToString();
                 userCookie.Values["EMail"] = user.Email;
                 userCookie.Values["FirstName"] = user.FirstName;
@@ -174,6 +170,38 @@ namespace Bookmark.Controllers
             Session["Session"] = "SiteOwner";
             return Register();
         }
+
+        [AllowAnonymous]
+        public ActionResult LogOut()
+        {
+            Session["User"] = null;
+            Session["Facebook"] = null;
+            Session["bookmark"] = null;
+            Session.RemoveAll();
+            ViewBag.UserEmail = null;
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            if (Request.Cookies["BooqmarqsLogin"] != null)
+            {
+                HttpCookie myCookie = Request.Cookies["BooqmarqsLogin"];
+                myCookie.Expires = DateTime.Now.AddDays(-1d);
+                myCookie.Values["UserId"] = null;
+                myCookie.Values["FirstName"] = null;
+                myCookie.Values["LastName"] = null;
+                Response.Cookies.Set(myCookie);
+            }
+
+            //Response.Redirect("../Home/Index");　
+            return View("../Home/Index");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Choice()
+        {
+            return View();
+        }
+
+
 
         [ReCaptcha]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -228,8 +256,6 @@ namespace Bookmark.Controllers
                 return View("../Account/Choice");
             }
         }
-
-
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult EditUser(Users user)
@@ -326,8 +352,8 @@ namespace Bookmark.Controllers
                     mail.IsBodyHtml = true;
                     string EMailBody = System.IO.File.ReadAllText(Server.MapPath("EMailBody.txt"));
 
-                    mail.Body = string.Format(EMailBody, "Your Bookmaq account password is " + dtUser.Rows[0]["Password"].ToString());
-                    mail.FromAdd = "admin@bookmaq.com";
+                    mail.Body = string.Format(EMailBody, "Your Booqmarqs account password is " + dtUser.Rows[0]["Password"].ToString());
+                    mail.FromAdd = "admin@Booqmarqs.com";
                     mail.Subject = "Bookmark account password";
                     mail.ToAdd = dtUser.Rows[0]["EMail"].ToString();
                     mail.SendMail();
@@ -361,10 +387,10 @@ namespace Bookmark.Controllers
                 }
 
                 mail.Body = strBody;
-                mail.FromAdd = "admin@bookmaq.com";
+                mail.FromAdd = "admin@Booqmarqs.com";
                 mail.Subject = "New User registered";
 
-                mail.ToAdd = "admin@bookmaq.com";
+                mail.ToAdd = "admin@Booqmarqs.com";
                 mail.IsBodyHtml = true;
                 mail.SendMail();
             }
@@ -381,10 +407,10 @@ namespace Bookmark.Controllers
             {
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://bookmaq.com>Bookmaq</a>";
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://Booqmarqs.com>Booqmarqs</a>";
                 mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
-                mail.FromAdd = "admin@bookmaq.com";
-                mail.Subject = "Welcome to Bookmaq - ";
+                mail.FromAdd = "admin@booqmarqs.com";
+                mail.Subject = "Welcome to Booqmarqs - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
@@ -402,11 +428,11 @@ namespace Bookmark.Controllers
             {
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
-                string strActLink = "http://bookmaq.com/Account/Activate/?ActivationCode=" + ActivationCode;
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://bookmaq.com>Bookmaq</a>";
-                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://bookmaq.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
-                mail.FromAdd = "admin@bookmaq.com";
-                mail.Subject = "Welcome to Bookmaq - ";
+                string strActLink = "http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode;
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com>Booqmarqs</a>";
+                mail.Body = string.Format(EMailBody, "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
+                mail.FromAdd = "admin@booqmarqs.com";
+                mail.Subject = "Welcome to Booqmarqs - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
@@ -416,36 +442,6 @@ namespace Bookmark.Controllers
 
 
             }
-        }
-
-        [AllowAnonymous]
-        public ActionResult LogOut()
-        {
-            Session["User"] = null;
-            Session["Facebook"] = null;
-            Session["bookmark"] = null;
-            Session.RemoveAll();
-            ViewBag.UserEmail = null;
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-
-            if (Request.Cookies["BookmaqLogin"] != null)
-            {
-                HttpCookie myCookie = Request.Cookies["BookmaqLogin"];
-                myCookie.Expires = DateTime.Now.AddDays(-1d);
-                myCookie.Values["UserId"] = null;
-                myCookie.Values["FirstName"] = null;
-                myCookie.Values["LastName"] = null;
-                Response.Cookies.Set(myCookie);
-            }
-
-            //Response.Redirect("../Home/Index");　
-           return View("../Home/Index");
-        }
-
-        [AllowAnonymous]
-        public ActionResult Choice()
-        {
-            return View();
         }
 
         public ActionResult ChangePassword(string txtNewPassword)
@@ -592,7 +588,7 @@ namespace Bookmark.Controllers
                 Session["User"] = user1;
                 Session["user.Email"] = user1.Email;
                 ViewBag.UserEmail = user1.Email;
-                HttpCookie mycookie = new HttpCookie("BookmaqLogin");
+                HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
                 mycookie.Values["UserId"] = user1.Email;
                 mycookie.Values["FirstName"] = user1.FirstName;
                 mycookie.Values["LastName"] = user1.LastName;

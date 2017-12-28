@@ -59,11 +59,11 @@ namespace Bookmark.Controllers
                     mail.IsBodyHtml = true;
                     //mail.Body = txtSuggestion + " from " + txtEMail;
                     //if (Session["User"] != null)
-                    mail.FromAdd = "admin@bookmaq.com";
+                    mail.FromAdd = "admin@booqmarqs.com";
                     // else
                     // mail.FromAdd = txtEMail;
                     mail.Subject = "Suggestion";
-                    mail.ToAdd = "admin@bookmaq.com";
+                    mail.ToAdd = "admin@booqmarqs.com";
 
                     mail.SendMail();
                     ViewBag.Ack = "Thanks for your time in reaching out to us, we will get back to you soon if needed.";
@@ -156,9 +156,9 @@ namespace Bookmark.Controllers
             //}
 
             //mail.Body = strBody;
-            //mail.FromAdd = "admin@bookmaq.com";
+            //mail.FromAdd = "admin@booqmarqs.com";
             //mail.Subject = "Not Found";
-            //mail.ToAdd = "admin@bookmaq.com";
+            //mail.ToAdd = "admin@booqmarqs.com";
             //mail.IsBodyHtml = true;
             //mail.SendMail();         
         

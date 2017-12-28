@@ -15,9 +15,9 @@ namespace Bookmark.Controllers
                 ViewBag.UserEmail = user.Email;
                 ViewBag.IsUserLoggedIn = true;
             }
-            else if (Request.Cookies["BookmaqLogin"] != null && Request.Cookies["BookmaqLogin"].HasKeys)
+            else if (Request.Cookies["BooqmarqsLogin"] != null && Request.Cookies["BooqmarqsLogin"].HasKeys)
             {
-                string uname = Request.Cookies["BookmaqLogin"].Values["EMail"];
+                string uname = Request.Cookies["BooqmarqsLogin"].Values["EMail"];
                 Users user1 = new Users();
                 user1 = user1.GetUser(uname);
                 Session["User"] = user1;

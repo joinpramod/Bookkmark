@@ -34,15 +34,15 @@ namespace Bookmark
                 else
                     HttpContext.Current.Response.Redirect("/Home/NotFound");
             }
-            else if ((Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/48408/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/home/rewards")) ||
-               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/48360/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/articles/details/20073/")) ||
-               (Request.Url.ToString().ToLower().Equals("http://bookmaq.com/que/ans/38198/")) ||
-               (Request.Url.ToString().ToLower().Contains("bookmaq.com/soln.aspx")) ||
-               (Request.Url.ToString().ToLower().Contains("bookmaq.com/questions/soln")) ||
-               (Request.Url.ToString().ToLower().Contains("bookmaq.com/articles/details/home/rewards")) ||
-               (Request.Url.ToString().ToLower().Contains("bookmaq.com/que/ans/home/rewards")))
+            else if ((Request.Url.ToString().ToLower().Equals("http://booqmarqs.com/que/ans/48408/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://booqmarqs.com/que/ans/home/rewards")) ||
+               (Request.Url.ToString().ToLower().Equals("http://booqmarqs.com/que/ans/48360/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://booqmarqs.com/articles/details/20073/")) ||
+               (Request.Url.ToString().ToLower().Equals("http://booqmarqs.com/que/ans/38198/")) ||
+               (Request.Url.ToString().ToLower().Contains("booqmarqs.com/soln.aspx")) ||
+               (Request.Url.ToString().ToLower().Contains("booqmarqs.com/questions/soln")) ||
+               (Request.Url.ToString().ToLower().Contains("booqmarqs.com/articles/details/home/rewards")) ||
+               (Request.Url.ToString().ToLower().Contains("booqmarqs.com/que/ans/home/rewards")))
             {
                 if (Request.Url.ToString().Contains("localhost"))
                     HttpContext.Current.Response.Redirect("/Bookmark/Home/NotFound");
@@ -149,9 +149,9 @@ namespace Bookmark
                         strBody += " Stack Trace -- " + ex.StackTrace + " <br /><br />";
 
                     mail.Body = strBody;
-                    mail.FromAdd = "admin@bookmaq.com";
+                    mail.FromAdd = "admin@booqmarqs.com";
                     mail.Subject = "Error";
-                    mail.ToAdd = "admin@bookmaq.com";
+                    mail.ToAdd = "admin@booqmarqs.com";
                     mail.IsBodyHtml = true;
                   //  mail.SendMail();
 
