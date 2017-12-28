@@ -46,41 +46,46 @@
                             <div class="success_info">You can also email us directly at contactus@booqmarqs.com</div>
                                 <div class="success_info">@ViewBag.Ack</div>
                             <div class="error_info">@*Opps somthing went worng please check form and try again!*@</div>
-                            <div class="row">
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        @*<input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>*@
-                                        @Html.TextBox("txtName", "", new { placeholder = "Name", @class = "form-control", required = "required" })
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            @*<input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>*@
+                                            @Html.TextBox("txtName", "", new { placeholder = "Name", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            @*<input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>*@
+                                            @Html.TextBox("txtEMail", "", new { placeholder = "EMail Id", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            @*<input type="text" class="form-control" name="subject" id="subject" placeholder="Your Subject" required>*@
+                                            @Html.TextBox("txtSubject", "", new { placeholder = "Subject", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            @*<input type="number" class="form-control" name="number" id="number" placeholder="Your Number *" required>*@
+                                            @Html.TextBox("txtNumber", "", new { placeholder = "Your Number", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group textarea">
+                                            @*<textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Your Message *" required></textarea>*@
+                                            @Html.TextArea("txtMessage", "", new { placeholder = "Your Message", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                   
+                                        <div  style="margin: 0 auto;display: block;padding-top:5px;padding-bottom:10px">
+                                            <div class="g-recaptcha" data-sitekey="6Ld7oD4UAAAAALIOKHkpmTmnbt_JiZohkd6Xjat5"></div>
+                                        </div>
+                                    
+                                    <div class="col-12">
+                                        <button type="submit" class="btn">SEND</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        @*<input type="email" class="form-control" name="email" id="email" placeholder="Your E-mail" required>*@
-                                        @Html.TextBox("txtEMail", "", new { placeholder = "EMail Id", @class = "form-control", required="required" })
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        @*<input type="text" class="form-control" name="subject" id="subject" placeholder="Your Subject" required>*@
-                                        @Html.TextBox("txtSubject", "", new { placeholder = "Subject", @class = "form-control", required = "required" })
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                        @*<input type="number" class="form-control" name="number" id="number" placeholder="Your Number *" required>*@
-                                        @Html.TextBox("txtNumber", "", new { placeholder = "Your Number", @class = "form-control", required = "required" })
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group textarea">
-                                        @*<textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Your Message *" required></textarea>*@
-                                        @Html.TextArea("txtMessage", "", new { placeholder = "Your Message", @class = "form-control", required = "required" })
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn">SEND</button>
-                                </div>
-                            </div>
                         </div>
                         @Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)
 } 
