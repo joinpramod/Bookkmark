@@ -21,41 +21,45 @@
                            
                                 @if (ViewBag.Activation != null)
                                 {
-                                    <div class="row">
+                                    <div class="form-group">
                                         <div class="error_info">@ViewBag.Activation</div>
-
-                                        <button type="submit" value="Resend Activation Link" id="btnResendAct" class="btn btn-block" />
-                                        @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
-
                                     </div>
-                                }
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form_area">
-                                            @using (Html.BeginForm("ProcessLogin", "Account"))
-                                            {
-                                                <div class="form-group">
-                                                    @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", name = "txtEMailId", type = "email", required = "required" })
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.Password("txtPassword", "", new { @class = "form-control", placeholder = "Password", name = "txtPassword", type = "password", required = "required" })
-                                                </div>
-                                                <p class="mt20"> <a href="@Url.Action("ForgotPassword", "Account")">Forgotten your password?</a></p>
-                                                <div class="form_area">
-                                                    <button type="submit" class="btn btn-block">LOGIN</button>
-                                                </div>
-                                            }
+                                    <div class="col-lg-6 col-6">
+                                        <div class="form-area">
+                                            <button type="submit" id="btnResendAct" class="btn btn-block">Resend Activation Link</button>
+                                            @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
                                         </div>
                                     </div>
+                                }
 
-                                    <div class="col-lg-6 col-12">
-                                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                <div style="height:20px"></div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form_area">
+                                                        @using (Html.BeginForm("ProcessLogin", "Account"))
+                                                        {
+                                                            <div class="form-group">
+                                                                @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", name = "txtEMailId", type = "email", required = "required" })
+                                                            </div>
+                                                            <div class="form-group">
+                                                                @Html.Password("txtPassword", "", new { @class = "form-control", placeholder = "Password", name = "txtPassword", type = "password", required = "required" })
+                                                            </div>
+                                                            <p class="mt20"> <a href="@Url.Action("ForgotPassword", "Account")">Forgotten your password?</a></p>
+                                                            <div class="form_area">
+                                                                <button type="submit" class="btn btn-block">LOGIN</button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
 
-                                       <p class="mt20">Don't have an account? <a href="@Url.Action("Register", "Account")">Register</a></p>
+                                                <div class="col-lg-6 col-12">
+                                                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+
+                                                    <p class="mt20">Don't have an account? <a href="@Url.Action("Register", "Account")">Register</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-            </div>
-        </div>
     </div>
 </section>
 
