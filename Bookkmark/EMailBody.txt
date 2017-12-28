@@ -156,15 +156,6 @@
 <script src="http://booqmarqs.com/Scripts/respond.js"></script>
 
             
-
-
-<!-- Visual Studio Browser Link -->
-<script type="application/json" id="__browserLink_initializationData">
-    {"appName":"Internet Explorer","requestId":"efe96220d9e54c7f94c7eecc298b0442"}
-</script>
-<script type="text/javascript" src="http://localhost:59258/b3da4b1240ec4ce79591da98184c2f05/browserLink" async="async"></script>
-<!-- End Browser Link -->
-
 </body>
 
 </html>
