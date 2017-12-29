@@ -156,14 +156,14 @@ namespace Bookmark
 
 
 
-        public Users CreateUser(string strEmail, string strFirstName, string strLastName)
+        public Users CreateUser(string strEmail, string strFirstName, string strLastName, bool IsPublisher)
         {
             Users user = new Users();
             double dblUserID = 0;
             user.Email = strEmail.Trim();
             user.FirstName = strFirstName.Trim();
             user.LastName = strLastName.Trim();
-            //user.ImageURL = strImageURL.Trim();
+            user.IsPublisher = IsPublisher;
             user.OptionID = 1;
             user.CreatedDateTime = DateTime.Now;
             user.CreateUsers(ref dblUserID);
