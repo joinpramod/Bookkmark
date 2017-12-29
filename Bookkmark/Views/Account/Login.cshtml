@@ -17,9 +17,10 @@
 
                             @*<div class="success_info">Thank you! your message sent successful</div>*@
                             <div class="error_info">@ViewBag.Ack</div>
+@using (Html.BeginForm("ProcessActivationCode", "Account"))
+{
 
-                           
-                                @if (ViewBag.Activation != null)
+                                if (ViewBag.Activation != null)
                                 {
                                     <div class="form-group">
                                         <div class="error_info">@ViewBag.Activation</div>
@@ -31,7 +32,7 @@
                                         </div>
                                     </div>
                                 }
-
+}
                                 <div style="height:20px"></div>
                                             <div class="row">
                                                 <div class="col-lg-6 col-12">
