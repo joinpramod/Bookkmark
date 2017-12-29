@@ -51,7 +51,7 @@ namespace Bookmark.Controllers
             {
                 return CheckUserLogin(txtEMailId, txtPassword);
             }
-        }
+        } 
 
         private ActionResult CheckUserLogin(string txtEMailId, string txtPassword)
         {
@@ -87,27 +87,22 @@ namespace Bookmark.Controllers
 
                 //user.Details = DtUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
-                Session["user.Email"] = user.Email;
-                ViewBag.UserEmail = user.Email;
                 
                 HttpCookie userCookie = new HttpCookie("BooqmarqsLogin");
-                userCookie.Values["UserId"] = user.UserId.ToString();
                 userCookie.Values["EMail"] = user.Email;
-                userCookie.Values["FirstName"] = user.FirstName;
-                userCookie.Values["LastName"] = user.LastName;
                 userCookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(userCookie);
 
 
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
-                    //AddBookmark(Session["bookmark"]);
+                    AddBookmark(Session["bookmark"], user.UserId.ToString());
                     Session["bookmark"] = null;
                     return View("../Bookmark/BMAdded");
                 }
                 else if (user.IsPublisher)
                 {
-                    Session["RegisType"] = null;
+                    Session["SiteOwner"] = null;
                     return RedirectToAction("Reports", "Bookmark");
                 }
                 else
@@ -115,6 +110,32 @@ namespace Bookmark.Controllers
                     return RedirectToAction("MyBookmarks", "Bookmark");
                 }
             }
+        }
+
+        private void AddBookmark(object bmrk, string userId)
+        {
+            string url = string.Empty;
+            if (bmrk != null)
+            {
+                url = bmrk.ToString();
+                BookmarkCls objBmrk = new Bookmark.BookmarkCls();
+                string strCity = string.Empty;
+                string strState = string.Empty;
+                string strCountry = string.Empty;
+                string ipAddr = Utilities.GetIPAddress();
+                Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+
+                objBmrk.URL = url;
+                objBmrk.FolderId = 27;
+                objBmrk.CreatedDate = DateTime.Now.ToString();
+                objBmrk.CreatedUserId = userId;
+                objBmrk.Name = url;
+                objBmrk.IsFolder = false;
+                objBmrk.IpAddr = ipAddr;
+                objBmrk.City = strCity;
+                objBmrk.Country = strCountry;
+            }
+
         }
 
         public ActionResult WebUserReg()
@@ -136,7 +157,6 @@ namespace Bookmark.Controllers
             Session["Facebook"] = null;
             Session["bookmark"] = null;
             Session.RemoveAll();
-            ViewBag.UserEmail = null;
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             if (Request.Cookies["BooqmarqsLogin"] != null)
@@ -177,19 +197,13 @@ namespace Bookmark.Controllers
 
                 if (status)
                 {
-                    ConnManager con = new ConnManager();
 
-                    DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + txtEMailId + "'");
-                    if (dtUserActivation.Rows.Count > 0)
+                    if(!IsActivated(txtEMailId))
                     {
-                        //ViewBag.Ack = "User activation pending";
-                        ViewBag.Activation = "User activation pending. Resend Activation Code?";
-                        ViewBag.UserActEMail = txtEMailId;
                         return View();
                     }
 
-                    DataTable dtUser = con.GetDataTable("Select * from Users where Email = '" + txtEMailId + "'");
-                    if (dtUser.Rows.Count > 0)
+                    if (!IsNewUser(txtEMailId))
                     {
                         ViewBag.Ack = "EMail id already exists. If you have forgotten password, please click forgot password link on the Sign In page.";
                         return View();
@@ -555,34 +569,43 @@ namespace Bookmark.Controllers
                 user1.Email = (from c in claimsIdentities.Claims
                                where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                select c.Value).Single();
-                Session["User"] = user1;
-                Session["user.Email"] = user1.Email;
-                ViewBag.UserEmail = user1.Email;
-                HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
-                mycookie.Values["UserId"] = user1.Email;
-                mycookie.Values["FirstName"] = user1.FirstName;
-                mycookie.Values["LastName"] = user1.LastName;
-                mycookie.Expires = System.DateTime.Now.AddDays(180);
-                Response.Cookies.Add(mycookie);
+
+
+                if (!IsActivated(user1.Email))
+                {
+                    return View("../Account/Login");
+                }
+
 
                 if (IsNewUser(ref user1))
                 {
                     _isNewUser = true;
+                    if (Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
+                    {
+                        user1.IsPublisher = true;
+                    }
                     RegisterUser(user1);
                 }
 
 
+                Session["User"] = user1;
+                HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
+                mycookie.Values["EMail"] = user1.Email;
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(mycookie);
+
+
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
-                    //AddBookmark(Session["bookmark"]);
+                    AddBookmark(Session["bookmark"], user1.UserId.ToString());
                     Session["bookmark"] = null;
                     return View("../Bookmark/BMAdded");
                 }
                 if (_isNewUser)
                 { 
-                    if(Session["RegisType"] != null && Session["RegisType"].ToString() == "SiteOwner")
+                    if(Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
                     {
-                        Session["RegisType"] = null;
+                     
                         return RedirectToAction("ScriptCode", "Bookmark");
                     }
                     else
@@ -605,6 +628,26 @@ namespace Bookmark.Controllers
         }
 
 
+
+        private bool IsNewUser(string email)
+        {
+            bool userExists = false;
+            DataTable dtUser = new DataTable();
+            ConnManager con = new ConnManager();
+            dtUser = con.GetDataTable("Select * from Users where Email = '" + email + "'");
+
+            if (dtUser.Rows.Count > 0)
+            {
+                userExists = false;
+            }
+            else
+            {
+                userExists = true;
+            }
+            return userExists;
+        }
+
+
         private bool IsNewUser(ref Users user1)
         {
             bool userExists = false;
@@ -614,12 +657,12 @@ namespace Bookmark.Controllers
 
             if (dtUser.Rows.Count > 0)
             {
-                userExists = true;
-                user.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
-                user.FirstName = dtUser.Rows[0]["FirstName"].ToString();
-                user.LastName = dtUser.Rows[0]["LastName"].ToString();
-                user.Email = dtUser.Rows[0]["EMail"].ToString();
-                user.IsPublisher = bool.Parse(dtUser.Rows[0]["IsPublisher"].ToString());
+                userExists = false;
+                user1.UserId = double.Parse(dtUser.Rows[0]["UserId"].ToString());
+                user1.FirstName = dtUser.Rows[0]["FirstName"].ToString();
+                user1.LastName = dtUser.Rows[0]["LastName"].ToString();
+                user1.Email = dtUser.Rows[0]["EMail"].ToString();
+                user1.IsPublisher = bool.Parse(dtUser.Rows[0]["IsPublisher"].ToString());
             }
             else
             {
@@ -631,11 +674,24 @@ namespace Bookmark.Controllers
 
         private void RegisterUser(Users user1)
         {
-            user1.CreateUser(user1.Email, user1.FirstName, user1.LastName);
+            user1 = user1.CreateUser(user1.Email, user1.FirstName, user1.LastName, user1.IsPublisher);
             SendEMail(user.Email, user.FirstName, user.LastName);
         }
 
-
+        private bool IsActivated(string email)
+        {
+            ConnManager con = new ConnManager();
+            DataTable dtUserActivation = con.GetDataTable("select * from UserActivation where  Emailid = '" + email + "'");
+            if (dtUserActivation.Rows.Count > 0)
+            {
+                //ViewBag.Ack = "User activation pending";
+                ViewBag.Activation = "User activation pending. Resend Activation Code?";
+                ViewBag.UserActEMail = email;
+                return false;
+            }
+            else
+                return true;
+        }
 
         #region Helpers
 

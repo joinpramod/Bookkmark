@@ -12,7 +12,6 @@ namespace Bookmark.Controllers
                 Users user = (Users)filterContext.HttpContext.Session["User"];
 
                 ViewBag.lblFirstName = user.FirstName;
-                ViewBag.UserEmail = user.Email;
                 ViewBag.IsUserLoggedIn = true;
             }
             else if (Request.Cookies["BooqmarqsLogin"] != null && Request.Cookies["BooqmarqsLogin"].HasKeys)
@@ -21,8 +20,6 @@ namespace Bookmark.Controllers
                 Users user1 = new Users();
                 user1 = user1.GetUser(uname);
                 Session["User"] = user1;
-                Session["user.Email"] = user1.Email;
-                ViewBag.UserEmail = user1.Email;
                 ViewBag.lblFirstName = user1.FirstName;
             }
             else
