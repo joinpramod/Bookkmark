@@ -57,8 +57,8 @@ namespace Bookmark
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "882773719808-l9q1st1slo1vgiof529o0g3d356sak78.apps.googleusercontent.com",
-                ClientSecret = "zntsaTUrTJ8yhb5HLY_foQ3_"
+                ClientId = "930865072781-l00iqn7m9umbnfajkjf83s1fsnpjqnah.apps.googleusercontent.com",
+                ClientSecret = "InJcZxdY1zZjq7NgM4haaM-g"
             });
 
             app.UseTwitterAuthentication(

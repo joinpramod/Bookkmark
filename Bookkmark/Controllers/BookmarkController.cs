@@ -294,13 +294,12 @@ namespace Bookmark.Controllers
                     List<Domain> lstDomains = new List<Domain>();
                     lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
 
-
                     strQuery = " SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
 
                     if (!string.IsNullOrEmpty(search))
                     {
                         strQuery += " and URL like '%" + search + "%'";
-                    }
+                    } 
                     if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
                     {
                         strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
@@ -310,8 +309,6 @@ namespace Bookmark.Controllers
 
                     lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
                 }
-
-
                 
                 var varBookmarks = lstBookmarks.AsQueryable();
 
@@ -328,6 +325,48 @@ namespace Bookmark.Controllers
                 return null;
             }
         }
+
+        public List<BookmarkCls> GetChartData(string search, string sort, string sortdir, int skip, int pageSize, out string totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
+        {
+            if (!string.IsNullOrEmpty(ddDomains))
+            {
+                BookmarkCls bmrk = new BookmarkCls();
+                Users user = (Users)Session["User"];
+                List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+                string strQuery = string.Empty;
+
+                if (string.IsNullOrEmpty(txtCreatedFrom) && string.IsNullOrEmpty(txtCreatedTo) && string.IsNullOrEmpty(search))
+                    lstBookmarks = bmrk.GetCharts(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains, out totalRecord);
+                else
+                {
+                    Domain _domain = new Domain();
+                    List<Domain> lstDomains = new List<Domain>();
+                    lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
+
+                    strQuery = "  SELECT url, COUNT(url) AS URLCount from ( SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        strQuery += " and URL like '%" + search + "%'";
+                    }
+                    if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
+                    {
+                        strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
+                    }
+
+                    strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY url";
+
+                    lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                }
+                return lstBookmarks;
+            }
+            else
+            {
+                totalRecord = "0";
+                return null;
+            }
+        }
+
 
         public List<Domain> GetDomains(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
         {
@@ -358,6 +397,8 @@ namespace Bookmark.Controllers
             string[] strLabels = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             Dictionary<string, string> bmrkDict = new Dictionary<string, string>();
             List<BookmarkCls> lstBmrk = new List<BookmarkCls>();
+            string totalRecord = string.Empty;
+            string temp = string.Empty;
 
             Users user = (Users)Session["User"];
             List<Domain> lstDomains = new List<Domain>();
@@ -367,7 +408,6 @@ namespace Bookmark.Controllers
             Session["bmrkDict"] = null;
 
             int pageSize = 10;
-            string totalRecord = string.Empty;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
 
@@ -375,8 +415,8 @@ namespace Bookmark.Controllers
             {
                 if (lstDomains != null && lstDomains.Count > 0)
                 {
-                    ViewData["selectedIndex"] = lstDomains[0].Name;
-                    domainId = lstDomains[0].Id;
+                    ViewData["selectedIndex"] = lstDomains[1].Name;
+                    domainId = lstDomains[1].Id;
                 }
             }
             else
@@ -387,33 +427,35 @@ namespace Bookmark.Controllers
                 }
             }
 
-            var data = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
-            lstBmrk = data.ToList();
+            var gridData = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
+            lstBmrk = gridData.ToList();
 
-            if (lstBmrk.Count > 10)
+            var chartData = GetChartData(search, sort, sortdir, skip, pageSize, out temp, txtCreatedFrom, txtCreatedTo, domainId.ToString()).ToList();
+
+            if (chartData.Count > 10)
                 loopCount = 10;
             else
-                loopCount = lstBmrk.Count;
+                loopCount = chartData.Count;
 
             for (int count = 0; count < loopCount; count++)
             {
-                bmrkDict.Add(strLabels[count], lstBmrk[count].URL);
+                bmrkDict.Add(strLabels[count], chartData[count].URL);
             }
 
             if (string.IsNullOrEmpty(ddScaleType) || ddScaleType == "1")
             {
-               ddScaleType = "1";
+                ddScaleType = "1";
                 ViewBag.Dictionary = bmrkDict;
             }
 
             ViewBag.TotalBookmarks = totalRecord;
-            ViewBag.TotalRows = data.ToList().Count;
-            Session["ChartData"] = data.ToList();
+            ViewBag.TotalRows = gridData.ToList().Count;
+            Session["ChartData"] = chartData.ToList();
             Session["ScaleType"] = ddScaleType;
             Session["bmrkDict"] = bmrkDict;
             ViewBag.search = search;
             LoadChartScaleDropDown();
-            return View(data);
+            return View(gridData);
         }
 
         public ActionResult Manage()

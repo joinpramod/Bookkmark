@@ -257,7 +257,6 @@ namespace Bookmark
             return lstBookmarks;
         }
 
-
         public List<BookmarkCls> GetReports(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains, out string total)
         {
 
@@ -294,6 +293,38 @@ namespace Bookmark
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
                 total = dt.Rows[i]["Total_Count"].ToString();
+            }
+
+            return lstBookmarks;
+        }
+
+
+        public List<BookmarkCls> GetCharts(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains, out string total)
+        {
+            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+            BookmarkCls _Bookmark = new BookmarkCls();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                SqlCommand com = new SqlCommand();
+                com.CommandType = CommandType.StoredProcedure;
+                com.Connection = conn;
+                com.CommandText = "Charts_Sp";
+                com.Parameters.Add("DomainCreatedUser", SqlDbType.Decimal).Value = userId;
+                com.Parameters.Add("@DomainId", SqlDbType.Decimal).Value = ddDomains;
+                using (SqlDataAdapter sda = new SqlDataAdapter(com))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            total = "0";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Bookmark.URL = dt.Rows[i]["URL"].ToString();
+                _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
+                lstBookmarks.Add(_Bookmark);
+                _Bookmark = new BookmarkCls();
             }       
 
             return lstBookmarks;
