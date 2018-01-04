@@ -326,7 +326,7 @@ namespace Bookmark.Controllers
             }
         }
 
-        public List<BookmarkCls> GetChartData(string search, string sort, string sortdir, int skip, int pageSize, out string totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains)
+        public List<BookmarkCls> GetChartData(string search, string sort, string sortdir, int skip, int pageSize, out string totalRecord, string txtCreatedFrom, string txtCreatedTo, string ddDomains, string ddScaleType)
         {
             if (!string.IsNullOrEmpty(ddDomains))
             {
@@ -334,30 +334,66 @@ namespace Bookmark.Controllers
                 Users user = (Users)Session["User"];
                 List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
                 string strQuery = string.Empty;
-
-                if (string.IsNullOrEmpty(txtCreatedFrom) && string.IsNullOrEmpty(txtCreatedTo) && string.IsNullOrEmpty(search))
-                    lstBookmarks = bmrk.GetCharts(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains, out totalRecord);
-                else
+                if(string.IsNullOrEmpty(ddScaleType))
                 {
-                    Domain _domain = new Domain();
-                    List<Domain> lstDomains = new List<Domain>();
-                    lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
-
-                    strQuery = "  SELECT url, COUNT(url) AS URLCount from ( SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
-
-                    if (!string.IsNullOrEmpty(search))
-                    {
-                        strQuery += " and URL like '%" + search + "%'";
-                    }
-                    if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
-                    {
-                        strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
-                    }
-
-                    strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY url";
-
-                    lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                    ddScaleType = "1";
                 }
+
+                totalRecord = string.Empty;
+                if (ddScaleType.Equals("1") || string.IsNullOrEmpty(ddScaleType))
+                {
+                    if (string.IsNullOrEmpty(txtCreatedFrom) && string.IsNullOrEmpty(txtCreatedTo) && string.IsNullOrEmpty(search))
+                        lstBookmarks = bmrk.GetCharts(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains, out totalRecord, ddScaleType);
+                    else
+                    {
+                        Domain _domain = new Domain();
+                        List<Domain> lstDomains = new List<Domain>();
+                        lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
+
+                        strQuery = "  SELECT url, COUNT(url) AS URLCount from ( SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
+
+                        if (!string.IsNullOrEmpty(search))
+                        {
+                            strQuery += " and URL like '%" + search + "%'";
+                        }
+                        if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
+                        {
+                            strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
+                        }
+
+                        strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY url";
+
+                        lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                    }
+                }
+                else if (ddScaleType.Equals("2"))
+                {
+                    if (string.IsNullOrEmpty(txtCreatedFrom) && string.IsNullOrEmpty(txtCreatedTo) && string.IsNullOrEmpty(search))
+                        lstBookmarks = bmrk.GetCharts(search, sort, sortdir, user.UserId.ToString(), txtCreatedFrom, txtCreatedTo, ddDomains, out totalRecord, ddScaleType);
+                    else
+                    {
+                        Domain _domain = new Domain();
+                        List<Domain> lstDomains = new List<Domain>();
+                        lstDomains = _domain.GetDomains(user.UserId.ToString(), ddDomains);
+
+                        strQuery = "  SELECT city, COUNT(city) AS CityCount from ( SELECT url, createddatetime, city, country, Id, FolderId, COUNT(url) AS URLCount, SUM(COUNT(url)) OVER() AS total_count from Bookmarks where IsFolder = 0 and URL like '%" + lstDomains[0].Name + "%' ";
+
+                        if (!string.IsNullOrEmpty(search))
+                        {
+                            strQuery += " and URL like '%" + search + "%'";
+                        }
+                        if (!string.IsNullOrEmpty(txtCreatedFrom) && !string.IsNullOrEmpty(txtCreatedTo))
+                        {
+                            strQuery += " and CreatedDateTime between '" + txtCreatedFrom + "' and '" + txtCreatedTo + "'";
+                        }
+
+                        strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY city";
+
+                        lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                    }
+                }
+
+
                 return lstBookmarks;
             }
             else
@@ -430,7 +466,7 @@ namespace Bookmark.Controllers
             var gridData = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
             lstBmrk = gridData.ToList();
 
-            var chartData = GetChartData(search, sort, sortdir, skip, pageSize, out temp, txtCreatedFrom, txtCreatedTo, domainId.ToString()).ToList();
+            var chartData = GetChartData(search, sort, sortdir, skip, pageSize, out temp, txtCreatedFrom, txtCreatedTo, domainId.ToString(), ddScaleType).ToList();
 
             if (chartData.Count > 10)
                 loopCount = 10;
@@ -439,15 +475,22 @@ namespace Bookmark.Controllers
 
             for (int count = 0; count < loopCount; count++)
             {
-                bmrkDict.Add(strLabels[count], chartData[count].URL);
+                if (ddScaleType.Equals("1"))
+                {
+                    bmrkDict.Add(strLabels[count], chartData[count].URL);
+                }
+                else
+                {
+                    bmrkDict.Add(strLabels[count], chartData[count].City);
+                }
             }
 
-            if (string.IsNullOrEmpty(ddScaleType) || ddScaleType == "1")
+            if (string.IsNullOrEmpty(ddScaleType))
             {
-                ddScaleType = "1";
-                ViewBag.Dictionary = bmrkDict;
+                ddScaleType = "1";               
             }
 
+            ViewBag.Dictionary = bmrkDict;
             ViewBag.TotalBookmarks = totalRecord;
             ViewBag.TotalRows = gridData.ToList().Count;
             Session["ChartData"] = chartData.ToList();
@@ -674,8 +717,10 @@ namespace Bookmark.Controllers
             }
             else if (Session["ScaleType"].ToString() == "2")
             {
-                ViewBag.MyXAxisValues = lstBmrk.Select(x => x.Country).Distinct().ToArray();
-                ViewBag.MyYAxisValues = lstBmrk.GroupBy(x => x.Country).Select(y => y.Sum(z => Convert.ToInt64(z.Count)).ToString()).ToArray();
+                ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Count).ToArray();
+                //ViewBag.MyXAxisValues = lstBmrk.Select(x => x.City).Distinct().ToArray();
+                //ViewBag.MyYAxisValues = lstBmrk.GroupBy(x => x.City).Select(y => y.Sum(z => Convert.ToInt64(z.Count)).ToString()).ToArray();
             }
             //if (Session["ScaleType"].ToString() == "2")
             //{
@@ -717,7 +762,7 @@ namespace Bookmark.Controllers
             sli.Selected = true;
             lstSacleTypes.Add(sli);
             sli = new SelectListItem();
-            sli.Text = "Country Vs Count";
+            sli.Text = "City Vs Count";
             sli.Value = "2";
             lstSacleTypes.Add(sli);
             //sli = new SelectListItem();
