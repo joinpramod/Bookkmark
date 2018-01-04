@@ -299,7 +299,7 @@ namespace Bookmark
         }
 
 
-        public List<BookmarkCls> GetCharts(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains, out string total)
+        public List<BookmarkCls> GetCharts(string search, string sort, string sortdir, string userId, string txtCreatedFrom, string txtCreatedTo, string ddDomains, out string total, string optId)
         {
             List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
             BookmarkCls _Bookmark = new BookmarkCls();
@@ -313,19 +313,34 @@ namespace Bookmark
                 com.CommandText = "Charts_Sp";
                 com.Parameters.Add("DomainCreatedUser", SqlDbType.Decimal).Value = userId;
                 com.Parameters.Add("@DomainId", SqlDbType.Decimal).Value = ddDomains;
+                com.Parameters.Add("@OptId", SqlDbType.Int).Value = int.Parse(optId);
                 using (SqlDataAdapter sda = new SqlDataAdapter(com))
                 {
                     sda.Fill(dt);
                 }
             }
             total = "0";
-            for (int i = 0; i < dt.Rows.Count; i++)
+
+            if (int.Parse(optId) == 1)
             {
-                _Bookmark.URL = dt.Rows[i]["URL"].ToString();
-                _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
-                lstBookmarks.Add(_Bookmark);
-                _Bookmark = new BookmarkCls();
-            }       
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    _Bookmark.URL = dt.Rows[i]["URL"].ToString();
+                    _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
+                    lstBookmarks.Add(_Bookmark);
+                    _Bookmark = new BookmarkCls();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    _Bookmark.City = dt.Rows[i]["City"].ToString();
+                    _Bookmark.Count = dt.Rows[i]["CityCount"].ToString();
+                    lstBookmarks.Add(_Bookmark);
+                    _Bookmark = new BookmarkCls();
+                }
+            }
 
             return lstBookmarks;
         }
