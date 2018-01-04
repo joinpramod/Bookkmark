@@ -72,7 +72,7 @@
                           //grid.Column(columnName: "URL", format: ),
                           grid.Column(columnName: "URL", header: "URL"),
                           grid.Column(columnName: "CreatedDate", header: "Created Date"),
-                          grid.Column(columnName: "City", header: "State"),
+                          grid.Column(columnName: "City", header: "City"),
                           grid.Column(columnName: "Country", header: "Country"),
                           grid.Column(columnName: "Count", header: "Count")
                       )
@@ -96,7 +96,7 @@
             @Html.Hidden("col", grid.SortColumn)
 
         </div>
-        <div style="height:40px"></div>
+        <div style="height:20px"></div>
 
         if (int.Parse(ViewBag.TotalBookmarks) > 0)
         {
@@ -116,45 +116,49 @@
 }
 
         @if (int.Parse(ViewBag.TotalBookmarks) > 0)
-{
-        <div class="row">
-            <div class="col-sm-6">
-                <img src="@Url.Action("BarCharts")" />
-            </div>
-            <div class="col-sm-6">
-                <img src="@Url.Action("PieCharts")" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <img src="@Url.Action("LineCharts")" />
-            </div>
-            <div class="col-sm-6">
-                <img src="@Url.Action("BarChartsHorizon")" />
-            </div>
-        </div>
-        <div style="height:40px">&nbsp;</div>
-}
+        {
+            if (ViewBag.Dictionary != null && int.Parse(ViewBag.TotalBookmarks) > 0)
+            {
+                <div class="section_heading" style="padding-top:20px">
+                    <h2><span>Mapping</span> </h2>
+                </div>
 
-        @if (ViewBag.Dictionary != null && int.Parse(ViewBag.TotalBookmarks) > 0)           
-{
-        <div class="section_heading" style="padding-top:20px">
-            <h2><span>Mapping</span> </h2>
-        </div>
-        <div class="row justify-content-center">
-            @foreach (KeyValuePair<string, string> entry in ViewBag.Dictionary)
-    {
-        <div class="col-sm-1 text-left">
-            <span style="font-weight:bold">@entry.Key - </span>
-            &nbsp; &nbsp; &nbsp; &nbsp;
-        </div>
-        <div class="col-sm-11 text-left">
-            @entry.Value
-        </div>
-}
-        </div>
-        <div style="height:20px">&nbsp;</div>
-}
+
+                <div class="row justify-content-center">
+                    <div style="border-radius:5px;border:solid 1px #808080;width:96%;padding-top:1%;background-color:#f5f3f3">
+                        @foreach (KeyValuePair<string, string> entry in ViewBag.Dictionary)
+                        {
+                            <div class="col-sm-12 text-left">
+                                <span style="font-weight:bold">@entry.Key - </span>
+                                &nbsp; &nbsp; &nbsp; &nbsp; @entry.Value
+                            </div>
+                        }
+                        <div style="height:10px">&nbsp;</div>
+                    </div>
+                    </div>
+                <div style="height:20px">&nbsp;</div>
+            }
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="@Url.Action("BarCharts")" />
+                </div>
+                <div class="col-sm-6">
+                    <img src="@Url.Action("PieCharts")" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="@Url.Action("LineCharts")" />
+                </div>
+                <div class="col-sm-6">
+                    <img src="@Url.Action("BarChartsHorizon")" />
+                </div>
+            </div>
+            <div style="height:40px">&nbsp;</div>
+        }
+
+
         </div>
     </div>
 
