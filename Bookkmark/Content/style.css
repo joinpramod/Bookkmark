@@ -595,8 +595,8 @@ a:focus {
     color: #444;
     background-color: #fcd767;
     /*border-radius:10px;*/
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .mainmenu ul#nav li.active a,
