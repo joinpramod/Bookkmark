@@ -114,10 +114,14 @@ namespace Bookmark.Controllers
                 {
                     bmrk.URL = Bookmark;
                     bmrk.Name = title;
+                    if(string.IsNullOrEmpty(ipAddr))
+                    {
+                        ipAddr = Utilities.GetIPAddress();
+                    }
                     bmrk.IpAddr = ipAddr;
                     Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
                     bmrk.OptID = 1;                 //Insert, Create
-                    bmrk.FolderId = 0;              //Default Folder
+                    bmrk.FolderId = 27;              //Default Folder
                     bmrk.IsFolder = false;
                     bmrk.CreatedDate = DateTime.Now.ToString();
                     bmrk.CreatedUserId = user.UserId.ToString();
@@ -129,6 +133,39 @@ namespace Bookmark.Controllers
             }
             return resp;
         }
+
+        public ActionResult add()
+        {
+            string strCity = string.Empty;
+            string strState = string.Empty;
+            string strCountry = string.Empty;
+
+            bmrk.URL = Request.QueryString["URL"];           
+
+            if (Session["User"] == null)
+            {
+                Session["Bookmark"] = bmrk;
+                return View("../Account/Login");                   // which will open Login Window
+            }
+            else
+            {
+                Users user = (Users)Session["User"];
+                if (bmrk.BookmarkExists(user.UserId.ToString()))
+                {
+                    ViewBag.Ack = "Bookmark already exists";
+                    return View("../Bookmark/BMAdded");
+                }
+                else
+                {
+                    ViewBag.URL = bmrk.URL;
+                    List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+                    ViewBag.AddType = "Bookmark";
+                    ViewData["ddFolders"] = lstFolders;
+                    return View("../Bookmark/NewBMFolder");
+                }
+            }
+        }
+
 
         public ActionResult ClientPage()
         {
@@ -142,7 +179,7 @@ namespace Bookmark.Controllers
             List<Domain> lstDomains = new List<Domain>();
             lstDomains = domain.GetDomains(null, null, null, user.UserId.ToString());
             ViewData["domains"] = lstDomains;
-
+            ViewData["Preview"] = null;
             if (Request.Form["btnPreview"] != null)
             {
                 if (!string.IsNullOrEmpty(txtHeight))
@@ -153,9 +190,11 @@ namespace Bookmark.Controllers
                     ViewData["chkShowCount"] = true;
                 else
                     ViewData["chkShowCount"] = false;
+                ViewData["Preview"] = "1";
             }
             else if (Request.Form["btnSave"] != null)
             {
+                ViewData["Preview"] = "1";
                 Domain _domain = new Bookmark.Domain();
                 _domain.Height = txtHeight;
                 _domain.Width = txtWidth;
@@ -194,7 +233,7 @@ namespace Bookmark.Controllers
                     ViewData["chkShowCount"] = true;
                 else
                     ViewData["chkShowCount"] = false;
-                ViewBag.Ack = "Domain registered and Script saved successfully. Use the generated script in your application to make user bookmark you website.";
+                ViewBag.Ack = "Domain registered and script saved successfully. Verify your domian ownership by downloading the html file give below and placing it ";
             }
             else
             {
@@ -423,6 +462,7 @@ namespace Bookmark.Controllers
 
         public ActionResult BMAdded()
         {
+            ViewBag.Ack = "Bookmark saved successfully";
             return View();
         }
 
@@ -475,7 +515,7 @@ namespace Bookmark.Controllers
 
             for (int count = 0; count < loopCount; count++)
             {
-                if (ddScaleType.Equals("1"))
+                if (ddScaleType.Equals("1") || string.IsNullOrEmpty(ddScaleType))
                 {
                     bmrkDict.Add(strLabels[count], chartData[count].URL);
                 }
