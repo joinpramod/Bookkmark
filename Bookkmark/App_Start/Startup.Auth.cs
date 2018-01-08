@@ -6,8 +6,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Bookmark.Models;
-using Microsoft.Owin.Security.Twitter;
 using Microsoft.Owin.Security.Facebook;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Bookmark
 {
@@ -58,8 +59,8 @@ namespace Bookmark
 
             var options = new FacebookAuthenticationOptions
             {
-                AppId = "523698201314994",
-                AppSecret = "7bc5614dad20a3cea3da68ec02235069",
+                AppId = ConfigurationManager.AppSettings["facebook_AppId"],
+                AppSecret = ConfigurationManager.AppSettings["facebook_AppSecret"],
             };
             options.Scope.Add("public_profile");
             options.Scope.Add("email");
@@ -67,18 +68,33 @@ namespace Bookmark
             //add this for facebook to actually return the email and name
             options.Fields.Add("email");
             options.Fields.Add("name");
-            app.UseFacebookAuthentication(options);            
-
+            app.UseFacebookAuthentication(options);
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "930865072781-l00iqn7m9umbnfajkjf83s1fsnpjqnah.apps.googleusercontent.com",
-                ClientSecret = "InJcZxdY1zZjq7NgM4haaM-g"
+                ClientId = ConfigurationManager.AppSettings["google_ClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["google_ClientSecret"]
             });
 
-            app.UseTwitterAuthentication(
-               consumerKey: "gGSbd91itjdoNmDogbcB0HczN",
-               consumerSecret: "pG4LhI3Dq3LOi0cZXLGIvzKUNQhLfdTkNNlwfiZUFW6sN9Y6V8");
+
+            var twitterOptions = new Microsoft.Owin.Security.Twitter.TwitterAuthenticationOptions()
+            {
+                ConsumerKey = ConfigurationManager.AppSettings["twitter_consumer_key"],
+                ConsumerSecret = ConfigurationManager.AppSettings["twitter_consumer_secret"],
+                Provider = new Microsoft.Owin.Security.Twitter.TwitterAuthenticationProvider
+                {
+                    OnAuthenticated = (context) =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("urn:twitter:access_token", context.AccessToken));
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("urn:twitter:access_secret", context.AccessTokenSecret));
+                        return Task.FromResult(0);
+                    }
+                },
+                CallbackPath = new PathString("/bookmark/account/ExternalLoginCallback")
+            };
+
+            app.UseTwitterAuthentication(twitterOptions);
+
 
         }
     }
