@@ -224,7 +224,7 @@
       var top = (screen.height) - (0.60 * screen.height);
       var height = 540;
       var width = 480;
-      window.open("/bookmark/bookmark/manage?id=" + taskId + "&action=" + taskAction, "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+      window.open("/bookmark/manage?id=" + taskId + "&action=" + taskAction, "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
 
     toggleMenuOff();
 

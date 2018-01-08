@@ -39,7 +39,7 @@
                 'bookmarkImgSrc' : document.getElementById("imgBookmark").src
             };
             $.ajax({
-                url: '/bookmark/bookmark/addbm',
+                url: '/bookmark/addbm',
                 type: 'POST',
                 dataType: "text",
                 data: BookmarkModel,
@@ -50,7 +50,7 @@
                         var top = (screen.height)-(0.80*screen.height);
                         var height = screen.height*0.50;
                         var width = screen.height*0.38;
-                        window.open("/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
+                        window.open("/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
                     }
                     else
                     {
@@ -62,7 +62,7 @@
                             var top = (screen.height) - (0.60 * screen.height);
                             var height = 470;
                             var width = 500;
-                            window.open("/bookmark/bookmark/manage?id=" + res[2] + "&action=" + res[1], "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+                            window.open("/bookmark/manage?id=" + res[2] + "&action=" + res[1], "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
                         }
                     }
                 },

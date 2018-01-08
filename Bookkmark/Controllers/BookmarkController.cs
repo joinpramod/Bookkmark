@@ -46,7 +46,7 @@ namespace Bookmark.Controllers
 　
             if (Session["User"] == null)
             {
-                ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmark.jpg";
+                ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg";
             }
             else
             {
@@ -55,11 +55,11 @@ namespace Bookmark.Controllers
                 bookmark.URL = lnk;
                 if (bookmark.BookmarkExists(user.UserId.ToString()))
                 {
-                    ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmarked.jpg";
+                    ViewData["bookmarkImgSrc"] = "../../Images/Bookmarked.jpg";
                 }
                 else
                 {
-                    ViewData["bookmarkImgSrc"] = "../../Bookmark/Images/Bookmark.jpg"; //temporary
+                    ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //temporary
                     //ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
                 }
             }
@@ -108,7 +108,7 @@ namespace Bookmark.Controllers
                 bmrk.URL = Bookmark;
                 if (bmrk.BookmarkExists(user.UserId.ToString()))
                 {
-                    resp = "../../Bookmark/Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    resp = "../../Images/Bookmarked.jpg,Edit," + bmrk.Id;
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace Bookmark.Controllers
                     bmrk.City = strCity;
                     bmrk.Country = strState;
                     bmrk.ManageBookmark();
-                    resp = "../../Bookmark/Images/Bookmarked.jpg";
+                    resp = "../../Images/Bookmarked.jpg";
                 }
             }
             return resp;
