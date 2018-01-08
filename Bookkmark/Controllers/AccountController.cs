@@ -13,6 +13,10 @@ using System.Security.Claims;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Bookmark.Controllers
 {
@@ -556,19 +560,42 @@ namespace Bookmark.Controllers
             }
             else
             {
-                ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
-
                 Users user1 = new Users();
-                //user1.UserId = 1;
-                user1.FirstName = (from c in claimsIdentities.Claims
-                                   where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
-                                   select c.Value).Single();
-                user1.LastName = (from c in claimsIdentities.Claims
-                                  where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
-                                  select c.Value).Single();
-                user1.Email = (from c in claimsIdentities.Claims
-                               where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-                               select c.Value).Single();
+
+                if (loginInfo.Login.LoginProvider.ToLower() == "twitter")
+                {
+                    string access_token = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_token").Select(x => x.Value).FirstOrDefault();
+                    string access_secret = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_secret").Select(x => x.Value).FirstOrDefault();
+                    TwitterDto response = TwitterLogin(access_token, access_secret, ConfigurationManager.AppSettings["twitter_consumer_key"], ConfigurationManager.AppSettings["twitter_consumer_secret"]);
+                    user1.Email = response.email;
+                    user1.FirstName = response.name;
+                }
+                else
+                {
+                    ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
+                    if (loginInfo.Login.LoginProvider.ToLower() == "facebook")
+                    {
+                        user1.FirstName = (from c in claimsIdentities.Claims
+                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+                                           select c.Value).Single();
+                        user1.Email = (from c in claimsIdentities.Claims
+                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                       select c.Value).Single();
+                    }
+                    else if (loginInfo.Login.LoginProvider.ToLower() == "google")
+                    {
+                        user1.FirstName = (from c in claimsIdentities.Claims
+                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
+                                           select c.Value).Single();
+                        user1.LastName = (from c in claimsIdentities.Claims
+                                          where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
+                                          select c.Value).Single();
+                        user1.Email = (from c in claimsIdentities.Claims
+                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                       select c.Value).Single();
+                    }                  
+
+                }
 
 
                 if (!IsActivated(user1.Email))
@@ -693,29 +720,103 @@ namespace Bookmark.Controllers
                 return true;
         }
 
-        #region Helpers
+
+        public static TwitterDto TwitterLogin(string oauth_token, string oauth_token_secret, string oauth_consumer_key, string oauth_consumer_secret)
+        {
+            // oauth implementation details
+            var oauth_version = "1.0";
+            var oauth_signature_method = "HMAC-SHA1";
+
+            // unique request details
+            var oauth_nonce = Convert.ToBase64String(
+                new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
+            var timeSpan = DateTime.UtcNow
+                - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var oauth_timestamp = Convert.ToInt64(timeSpan.TotalSeconds).ToString();
+
+            var resource_url = "https://api.twitter.com/1.1/account/verify_credentials.json";
+            var request_query = "include_email=true";
+            // create oauth signature
+            var baseFormat = "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method={2}" +
+                            "&oauth_timestamp={3}&oauth_token={4}&oauth_version={5}";
+
+            var baseString = string.Format(baseFormat,
+                                        oauth_consumer_key,
+                                        oauth_nonce,
+                                        oauth_signature_method,
+                                        oauth_timestamp,
+                                        oauth_token,
+                                        oauth_version
+                                        );
+
+            baseString = string.Concat("GET&", Uri.EscapeDataString(resource_url) + "&" + Uri.EscapeDataString(request_query), "%26", Uri.EscapeDataString(baseString));
+
+            var compositeKey = string.Concat(Uri.EscapeDataString(oauth_consumer_secret),
+                                    "&", Uri.EscapeDataString(oauth_token_secret));
+
+            string oauth_signature;
+            using (HMACSHA1 hasher = new HMACSHA1(ASCIIEncoding.ASCII.GetBytes(compositeKey)))
+            {
+                oauth_signature = Convert.ToBase64String(
+                    hasher.ComputeHash(ASCIIEncoding.ASCII.GetBytes(baseString)));
+            }
+
+            // create the request header
+            var headerFormat = "OAuth oauth_consumer_key=\"{0}\", oauth_nonce=\"{1}\", oauth_signature=\"{2}\", oauth_signature_method=\"{3}\", oauth_timestamp=\"{4}\", oauth_token=\"{5}\", oauth_version=\"{6}\"";
+
+            var authHeader = string.Format(headerFormat,
+                                    Uri.EscapeDataString(oauth_consumer_key),
+                                    Uri.EscapeDataString(oauth_nonce),
+                                    Uri.EscapeDataString(oauth_signature),
+                                    Uri.EscapeDataString(oauth_signature_method),
+                                    Uri.EscapeDataString(oauth_timestamp),
+                                    Uri.EscapeDataString(oauth_token),
+                                    Uri.EscapeDataString(oauth_version)
+                            );
 
 
-        // Sign in the user with this external login provider if the user already has a login
-        //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-        //switch (result)
-        //{
-        //    case SignInStatus.Success:
-        //        return RedirectToLocal(returnUrl);
-        //    //case SignInStatus.LockedOut:
-        //        //return View("Lockout");
-        //    //case SignInStatus.RequiresVerification:
-        //        //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-        //    case SignInStatus.Failure:
-        //    default:
-        //        // If the user does not have an account, then prompt the user to create an account
-        //        ViewBag.ReturnUrl = returnUrl;
-        //        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-        //        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-        //}
+            // make the request
+
+            ServicePointManager.Expect100Continue = false;
+            resource_url += "?include_email=true";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(resource_url);
+            request.Headers.Add("Authorization", authHeader);
+            request.Method = "GET";
+
+            WebResponse response = request.GetResponse();
+            return JsonConvert.DeserializeObject<TwitterDto>(new StreamReader(response.GetResponseStream()).ReadToEnd());
+        }
+    
+
+    public class TwitterDto
+    {
+        public string name { get; set; }
+        public string email { get; set; }
+    }
+
+    #region Helpers
 
 
-        [HttpPost]
+    // Sign in the user with this external login provider if the user already has a login
+    //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+    //switch (result)
+    //{
+    //    case SignInStatus.Success:
+    //        return RedirectToLocal(returnUrl);
+    //    //case SignInStatus.LockedOut:
+    //        //return View("Lockout");
+    //    //case SignInStatus.RequiresVerification:
+    //        //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+    //    case SignInStatus.Failure:
+    //    default:
+    //        // If the user does not have an account, then prompt the user to create an account
+    //        ViewBag.ReturnUrl = returnUrl;
+    //        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+    //        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+    //}
+
+
+    [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
