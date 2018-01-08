@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Bookmark.Models;
+using Microsoft.Owin.Security.Twitter;
+using Microsoft.Owin.Security.Facebook;
 
 namespace Bookmark
 {
@@ -50,9 +52,22 @@ namespace Bookmark
             //    clientId: "",
             //    clientSecret: "");
 
-            app.UseFacebookAuthentication(
-            appId: "523698201314994",
-            appSecret: "7bc5614dad20a3cea3da68ec02235069");
+            //app.UseFacebookAuthentication(
+            //appId: "523698201314994",
+            //appSecret: "7bc5614dad20a3cea3da68ec02235069");
+
+            var options = new FacebookAuthenticationOptions
+            {
+                AppId = "523698201314994",
+                AppSecret = "7bc5614dad20a3cea3da68ec02235069",
+            };
+            options.Scope.Add("public_profile");
+            options.Scope.Add("email");
+
+            //add this for facebook to actually return the email and name
+            options.Fields.Add("email");
+            options.Fields.Add("name");
+            app.UseFacebookAuthentication(options);            
 
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
@@ -64,8 +79,6 @@ namespace Bookmark
             app.UseTwitterAuthentication(
                consumerKey: "gGSbd91itjdoNmDogbcB0HczN",
                consumerSecret: "pG4LhI3Dq3LOi0cZXLGIvzKUNQhLfdTkNNlwfiZUFW6sN9Y6V8");
-
-
 
         }
     }
