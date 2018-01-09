@@ -355,7 +355,9 @@
   <ItemGroup>
     <Content Include="Views\Bookmark\Extensions.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Account\ExtLogin.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Bookmark\ExtBookmarks.cshtml" />
   </ItemGroup>
