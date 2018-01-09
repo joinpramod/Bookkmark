@@ -16,6 +16,7 @@ namespace Bookmark
         public string Script { get; set; }
         public string Height { get; set; }
         public string Width { get; set; }
+        public string IsOwner { get; set; }
         public string ShowCount { get; set; }
         public string CreatedUserId { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -31,6 +32,7 @@ namespace Bookmark
             SqlParameter ParamName = Cmd.Parameters.Add("@Name", SqlDbType.VarChar);
             SqlParameter ParamHeight = Cmd.Parameters.Add("@Height", SqlDbType.VarChar);
             SqlParameter ParamWidth = Cmd.Parameters.Add("@Width", SqlDbType.VarChar);
+            SqlParameter ParamIsOwner = Cmd.Parameters.Add("@IsOwner", SqlDbType.VarChar);
             SqlParameter ParamShowCount = Cmd.Parameters.Add("@ShowCount", SqlDbType.VarChar);
             SqlParameter ParamScript = Cmd.Parameters.Add("@Script", SqlDbType.VarChar);
             SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
@@ -48,6 +50,8 @@ namespace Bookmark
             ParamHeight.Direction = ParameterDirection.Input;
             ParamWidth.Value = Width;
             ParamWidth.Direction = ParameterDirection.Input;
+            ParamIsOwner.Value = IsOwner;
+            ParamIsOwner.Direction = ParameterDirection.Input;
             ParamShowCount.Value = ShowCount;
             ParamShowCount.Direction = ParameterDirection.Input;
             ParamScript.Value = Script;
@@ -107,6 +111,24 @@ namespace Bookmark
         }
 
 
+
+        public void ManageDomain()
+        {
+            SqlCommand CmdExecute = new SqlCommand();
+            if (SetCommandDomain(ref CmdExecute))
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+                {
+                    using (CmdExecute)
+                    {
+                        conn.Open();
+                        CmdExecute.Connection = conn;
+                        CmdExecute.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
         public List<Domain> GetDomains(string search, string sort, string sortdir, string userId)
         {
             List<Domain> lstDomains = new List<Domain>();
@@ -128,6 +150,7 @@ namespace Bookmark
                 _Domain.Script = dt.Rows[i]["Script"].ToString();
                 _Domain.Height = dt.Rows[i]["Height"].ToString();
                 _Domain.Width = dt.Rows[i]["Width"].ToString();
+                _Domain.IsOwner = dt.Rows[i]["IsOwner"].ToString();
                 _Domain.ShowCount = dt.Rows[i]["ShowCount"].ToString();
                 lstDomains.Add(_Domain);
                 _Domain = new Domain();
@@ -156,6 +179,7 @@ namespace Bookmark
                 _Domain.Script = dt.Rows[i]["Script"].ToString();
                 _Domain.Height = dt.Rows[i]["Height"].ToString();
                 _Domain.Width = dt.Rows[i]["Width"].ToString();
+                _Domain.IsOwner = dt.Rows[i]["IsOwner"].ToString();
                 _Domain.ShowCount = dt.Rows[i]["ShowCount"].ToString();
             }
 
@@ -183,6 +207,7 @@ namespace Bookmark
                 _Domain.Script = dt.Rows[i]["Script"].ToString();
                 _Domain.Height = dt.Rows[i]["Height"].ToString();
                 _Domain.Width = dt.Rows[i]["Width"].ToString();
+                _Domain.IsOwner = dt.Rows[i]["IsOwner"].ToString();
                 _Domain.ShowCount = dt.Rows[i]["ShowCount"].ToString();
                 lstDomains.Add(_Domain);
                 _Domain = new Domain();
@@ -218,6 +243,7 @@ namespace Bookmark
                 _Domain.Script = dt.Rows[i]["Script"].ToString();
                 _Domain.Height = dt.Rows[i]["Height"].ToString();
                 _Domain.Width = dt.Rows[i]["Width"].ToString();
+                _Domain.IsOwner = dt.Rows[i]["IsOwner"].ToString();
                 _Domain.ShowCount = dt.Rows[i]["ShowCount"].ToString();
                 lstDomains.Add(_Domain);
                 _Domain = new Domain();
