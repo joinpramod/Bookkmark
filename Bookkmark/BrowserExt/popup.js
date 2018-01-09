@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
                 var top = (screen.height) - (0.80 * screen.height);
                 var height = screen.height * 0.50;
                 var width = screen.height * 0.38;
-                window.open("http://localhost/bookmark/account/extlogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+                window.open("http://localhost/bookmark/account/login", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
             }
         },
         error: function (exception) {
