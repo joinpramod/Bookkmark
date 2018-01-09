@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
     var BookmarkModel = {
         'Bookmark':message.url,
         'title': message.title,
-        'ipAddr': '10',
+        'ipAddr': '',
        'bookmarkImgSrc':'extension'
     };
     $.ajax({
@@ -25,14 +25,11 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
                 var top = (screen.height) - (0.80 * screen.height);
                 var height = screen.height * 0.50;
                 var width = screen.height * 0.38;
-                window.open("http://localhost/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
-            }
-            else {
-                alert(data);
+                window.open("http://localhost/bookmark/account/extlogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
             }
         },
         error: function (exception) {
-            alert(exception);
+            
         }
     });
 
