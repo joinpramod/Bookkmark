@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Bookmarqs",
-  "description": "Extension to view online bookmarqs",
+  "name": "Booqmarqs",
+  "description": "Extension for booqmarqs.com",
   "version": "1.0",
 
   "icons": {

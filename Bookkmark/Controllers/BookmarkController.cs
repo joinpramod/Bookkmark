@@ -134,39 +134,6 @@ namespace Bookmark.Controllers
             return resp;
         }
 
-        public ActionResult add()
-        {
-            string strCity = string.Empty;
-            string strState = string.Empty;
-            string strCountry = string.Empty;
-
-            bmrk.URL = Request.QueryString["URL"];           
-
-            if (Session["User"] == null)
-            {
-                Session["Bookmark"] = bmrk;
-                return View("../Account/Login");                   // which will open Login Window
-            }
-            else
-            {
-                Users user = (Users)Session["User"];
-                if (bmrk.BookmarkExists(user.UserId.ToString()))
-                {
-                    ViewBag.Ack = "Bookmark already exists";
-                    return View("../Bookmark/BMAdded");
-                }
-                else
-                {
-                    ViewBag.URL = bmrk.URL;
-                    List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
-                    ViewBag.AddType = "Bookmark";
-                    ViewData["ddFolders"] = lstFolders;
-                    return View("../Bookmark/NewBMFolder");
-                }
-            }
-        }
-
-
         public ActionResult ClientPage()
         {
             return View();
@@ -216,15 +183,15 @@ namespace Bookmark.Controllers
                     _domain.CreatedDate = DateTime.Now;
                     _domain.CreatedUserId = user.UserId.ToString();
                     _domain.ManageDomain(out domainId);
-                }
-
-                          
+                }                          
 
                 _domain.Script = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString(domainId) + "\"></script>";
+                ViewData["ScriptCode"] = _domain.Script;
+                ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(domainId) + "&URL=[YourUrlToBeBookmarked]";
                 _domain.OptID = 5;
                 _domain.Id = double.Parse(domainId);
                 _domain.ManageDomain(out domainId);
-                ViewData["ScriptCode"] = _domain.Script;
+                
 
                 ViewData["txtHeight"] = txtHeight;
                 ViewData["txtWidth"] = txtWidth;
@@ -233,7 +200,7 @@ namespace Bookmark.Controllers
                     ViewData["chkShowCount"] = true;
                 else
                     ViewData["chkShowCount"] = false;
-                ViewBag.Ack = "Domain registered and script saved successfully. Verify your domian ownership by downloading the html file give below and placing it ";
+                ViewBag.Ack = "Domain registered and script saved successfully.";
             }
             else
             {
