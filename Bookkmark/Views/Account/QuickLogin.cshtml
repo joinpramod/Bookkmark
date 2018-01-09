@@ -1,108 +1,86 @@
-﻿@using Bookmark.Models
-@{
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
+﻿@{
+    ViewBag.Title = "My Bookmarks";
+    Layout = null;
 }
 
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-<script src="~/Scripts/js/Facebook.js"></script>
-<script src="~/Scripts/js/Google.js"></script>
-<div style="height:50px"></div>
-<h2>Login</h2><br />
+<link rel="stylesheet" href="~/Content/bootstrap.min.css">
+@*<link rel="stylesheet" href="~/Content/bootstrap-theme.min.css" />*@
+@*<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.min.css" />*@
+@*<link rel="stylesheet" href="~/Content/plugins.min.css">*@
+<link rel="stylesheet" href="~/Content/pe-icon-7-stroke.css">
+<link rel="stylesheet" href="~/Content/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/style.css">
+@*<link rel="stylesheet" href="~/Content/responsive.css">*@
 
-@*<script type="text/javascript">
-    window.onload = function () {
-
-        var RefreshValue = @Html.Raw(Json.Encode(ViewData["Refresh"]));
-        if(RefreshValue != null)
-        {
-            window.close();
-        }
-    };
-</script>*@
+<script src="~/Scripts/jquery-2.2.4.min.js"></script>
+@*<script src="~/Scripts/jquery-ui.js"></script>*@
+@*<script src="~/Scripts/platform.js" async defer type="text/javascript"></script>*@
 
 
-<div align="center" style="width:100%;">
-    <table style="border-radius:6%;background-color:#EFF0ED;width:90%;height:380px">
-        <tr>
-            <td align="center">
-                <table style="font-size:16px;width:90%" cellpadding="5">
-                    <tr>
-                        <td>
-                            <div id="divAck" style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</div>
-                        </td>
-                    </tr>
 
-                    @using (Html.BeginForm("ProcessLogin", "Account"))
+    @using Bookmark.Models
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div style="height:5px"></div>
+                    @*<div class="page_title_area">
+                        <div class="section_heading">
+                            <h4><span>Login</span> </h4>
+                        </div>
+                    </div>*@
+
+                    @*<div class="success_info">Thank you! your message sent successful</div>*@
+                    <div class="error_info">@ViewBag.Ack</div>
+                    @using (Html.BeginForm("ProcessActivationCode", "Account"))
                     {
-                      if(ViewBag.Activation != null)
-                      {
-                    <tr>
-                        <td>
-                            <span style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Activation</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <input type="submit" value="Resend Activation Link" id="btnResendAct" style="border-radius:10px" class="mysubmit" />
-                            @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
-                        </td>
-                    </tr>
-                      }
-                    <tr>
-                        <td>
-                            @Html.TextBox("txtEMailId", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Email" })
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            @Html.Password("txtPassword", "", new { style = "border:groove;width:100%;border-width:1px;border-color:grey;border-radius:5px;height:40px", placeholder = "Password" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" value="Login" id="btnQuickLogin" name="btnQuickLogin" onclick="return ValidateLogin()" style="width:100%;height:40px;border-radius:10px" class="mysubmit" />
-                        </td>
-                    </tr>
-
+                        if (ViewBag.Activation != null)
+                        {
+                            <div class="form-group">
+                                <div class="error_info">@ViewBag.Activation</div>
+                            </div>
+                            <div class="col-lg-6 col-6">
+                                        <div class="form-area">
+                                            <button type="submit" id="btnResendAct" class="btn btn-block">Resend Activation Link</button>
+                                            @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                                        </div>
+                                    </div>
+                        }
                     }
-                    <tr>
-                        <td>
-                            @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", null, new { style = "font-size:14px" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.ActionLink("New User? Register", "Register", "Account", null, new { style = "font-size:14px" })
-                        </td>
-                    </tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr>
-                        <td align="center">
-                            <input type="image" onclick="FaceBookLogin()" value="Test" style="height:35px;width:200px" src="~/Images/SignInWithFacebook.png" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <div id="my-signin2"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <section id="socialLoginForm">
-                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                            </section>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+                   
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="form_area">
+                                @using (Html.BeginForm("ProcessLogin", "Account"))
+                                {
+                                    <div class="form-group">
+                                        @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", name = "txtEMailId", type = "email", required = "required", style="width:90%" })
+                                    </div>
+                                                            <div class="form-group">
+                                                                @Html.Password("txtPassword", "", new { @class = "form-control", placeholder = "Password", name = "txtPassword", type = "password", required = "required", style = "width:90%" })
+                                                            </div>
+                                                            <p class="mt20"> <a target="_blank" href="@Url.Action("ForgotPassword", "Account")">Forgotten your password?</a></p>
+                                                            <div class="form_area">
+                                                                <button type="submit" class="btn btn-block">LOGIN</button>
+                                                            </div>
+                                }
+                            </div>
+                        </div>
 
+                        <div class="col-lg-6 col-12">
+                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
 
-</div> 
+                            <p class="mt20">Don't have an account? <a target="_blank" href="@Url.Action("Register", "Account")">Register</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/owl.carousel.min.js"></script>
+<script src="~/Scripts/plugins.min.js"></script>
+<script src="~/Scripts/custom.js"></script>

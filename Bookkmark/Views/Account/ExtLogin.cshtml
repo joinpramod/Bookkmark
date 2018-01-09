@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "ExtLogin";
+    Layout = "~/Views/Shared/Ext_Manage_Bookmark.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div style="height:5px"></div>
+            @*<div class="page_title_area">
+                <div class="section_heading">
+                    <h4><span>Login</span> </h4>
+                </div>
+            </div>*@
+            <div style="height:20px"></div>
+            <div class="row">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="error_info">Please login into Booqmarqs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <a target="_blank" style="font-size:24px;font-weight:500" href="@Url.Action("Login", "Account")">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
