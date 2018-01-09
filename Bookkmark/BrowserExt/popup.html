@@ -6,19 +6,31 @@
     <link rel="stylesheet" href="http://booqmarqs.com/Content/bootstrap.min.css">
     <link rel="stylesheet" href="http://booqmarqs.com/Content/style.css">
 
-
+    <!--<script type="text/javascript">
+        window.onload() = function () {
+            debugger;
+                alert(document.getElementById("iframe_id").contentWindow.location.href);
+                var strURL = document.getElementById("iframe_id").contentWindow.location.href;
+                if (strURL.toLower().contains("extlogin")) {
+                    document.getElementById('clickme').style.visibility = 'hidden';
+                }
+                else {
+                    document.getElementById('clickme').style.visibility = 'visible';
+                }
+        };
+    </script>-->
 
     <div class="container" style="background-color:#6bcfe4">
         <div class="span12">
 
             <div class="form_search">
                 <div class="col-sm-12">
-                    <div class="my_logo_area" style="text-align:center;height:80px">
+                    <div class="my_logo_area" style="text-align:center;height:70px">
 
-                        <a href=""><img src="http://booqmarqs.com/images/logo.png" alt="Booqmarqs" /><span>Booqmarqs</span> </a>
+                        <a href=""><img style="height:40px;width:35px" src="http://booqmarqs.com/images/logo.png" alt="Booqmarqs" /><span>Booqmarqs</span> </a>
                         </div>
                     <div  style="text-align:center;padding-bottom:10px">
-                        <button id="clickme" class="btn btn-block" style="width:80%">Bookmark current page</button>
+                        <button id="clickme" class="btn btn-block" style="width:80%;height:30px;line-height:20px">Bookmark current page</button>
                     </div>
                 </div>
             </div>
@@ -47,7 +59,7 @@
 
         <div id="container1">
             <div id="container2">
-                <iframe src="http://booqmarqs.com/Bookmark/ExtBookmarks" style="width: 350px;height:700px;border:none;overflow:hidden;" />
+                <iframe id="iframe_id" src="http://localhost/Bookmark/Bookmark/ExtBookmarks" style="width: 350px;height:700px;border:none;overflow:hidden;" ></iframe>
             </div>
         </div>
 </body>

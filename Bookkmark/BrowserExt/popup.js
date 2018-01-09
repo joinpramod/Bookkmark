@@ -5,10 +5,8 @@ document.getElementById("clickme").addEventListener("click", function(e) {
 
 
 chrome.runtime.onMessage.addListener(function (message, sender) {
-    console.log(message.url);
-    console.log(message.title);
-    document.getElementById("divTitle").innerText = message.title;
-    document.getElementById("divURL").innerText = message.url;
+    //document.getElementById("divTitle").innerText = message.title;
+    //document.getElementById("divURL").innerText = message.url;
     var BookmarkModel = {
         'Bookmark':message.url,
         'title': message.title,
@@ -27,7 +25,7 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
                 var top = (screen.height) - (0.80 * screen.height);
                 var height = screen.height * 0.50;
                 var width = screen.height * 0.38;
-               // window.open("http://localhost/bookmark/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+                window.open("http://localhost/bookmark/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
             }
             else {
                 alert(data);
