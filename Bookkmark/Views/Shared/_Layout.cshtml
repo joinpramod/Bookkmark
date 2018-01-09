@@ -45,7 +45,7 @@
 
                     <div class="col-8 col-sm-9 text-right">
                         <div class="main_menu_area d-inline-block">
-                            <div class="mainmenu">
+                            <li class="mainmenu">
                                 <nav>
                                     <ul id="nav">
                                         <li><a href="/Home/Index#home">Home</a></li>
@@ -62,16 +62,17 @@
                                             <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
 
                                         }
+                                        @if (Session["User"] == null)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Choice", "Account")">Get Started</a>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        @if (Session["User"] == null)
-                        {
-                            <div class="header_signup_in_btn d-inline-block">
-                                <a href="@Url.Action("Choice", "Account")">Get Started</a>
-                            </div>
-                        }
+                      
                     </div>
                 </div>
             </div>
