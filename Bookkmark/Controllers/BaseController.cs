@@ -24,13 +24,24 @@ namespace Bookmark.Controllers
             }
             else
             {
-                if (Request.Url.AbsoluteUri.Contains("Bookmark/Reports")
-                    || Request.Url.AbsoluteUri.Contains("Bookmark/ScriptCode")
-                    || Request.Url.AbsoluteUri.Contains("Bookmark/Domains")
-                    || Request.Url.AbsoluteUri.Contains("Bookmark/MyBookmarks")
-                    || Request.Url.AbsoluteUri.Contains("Bookmark/Import")
-                    || Request.Url.AbsoluteUri.Contains("Account/ViewUser")
-                    || Request.Url.AbsoluteUri.Contains("Account/EditUser")
+                if (Request.Url.AbsoluteUri.Contains("bookmark/barcharts")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/barchartshorizon")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/bmadded")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/delete")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/domains")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/editbmfolder")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/import")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/linecharts")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/movebmfolder")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/mybookmarks")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/newbmfolder")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/piecharts")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/reports")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/scriptcode")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("account/changepassword")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("account/edituser")
+                    || Request.Url.AbsoluteUri.ToLower().Contains("account/viewuser")
+
                     )
                 {
                     //filterContext.Result = new RedirectResult("Account/Login");
@@ -41,13 +52,14 @@ namespace Bookmark.Controllers
                     
                 }
 
-                //Users user1 = new Users();
-                //user1.UserId = 1;
-                //user1.FirstName = "FirstName";
-                //user1.LastName = "LastName";
-                //user1.Email = "test@booqmarqs.com";
-                //Session["User"] = user1;
+                if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/extbookmarks"))
+                {
+                    filterContext.Result = new RedirectToRouteResult(
+                                               new RouteValueDictionary
+                                                   {{"controller", "Account"}, {"action", "ExtLogin"}});
+                    return;
 
+                }
             }
         }
     }

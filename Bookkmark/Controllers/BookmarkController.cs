@@ -75,6 +75,12 @@ namespace Bookmark.Controllers
 
             if (_dom.Name == host)
             {
+                if(!bool.Parse(_dom.IsOwner))
+                {
+                    _dom.OptID = 6;
+                    _dom.IsOwner = "1";
+                    _dom.ManageDomain();
+                }
                 return true;
             }
             else
@@ -134,6 +140,27 @@ namespace Bookmark.Controllers
             return resp;
         }
 
+        public ActionResult add()
+        {
+            Users user = (Users)Session["User"];
+            string did = Request.QueryString["did"];
+            Domain _domain = new Bookmark.Domain();
+            did = Utilities.DecryptString(did);
+            _domain = _domain.GetDomains(did);
+
+            if (!ValidateBookmarkRequest(_domain, Request.UrlReferrer.ToString()))
+            {
+                ViewBag.Ack = "Client Id does not match the domain verified";
+                return View("../Home/Error");
+            }
+            ViewBag.URL = Request.UrlReferrer.ToString();
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            ViewData["ddFolders"] = lstFolders;
+            ViewBag.AddType = "Bookmark";
+            return View("../Bookmark/NewBMFolder");
+        }
+
+
         public ActionResult ClientPage()
         {
             return View();
@@ -187,7 +214,7 @@ namespace Bookmark.Controllers
 
                 _domain.Script = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString(domainId) + "\"></script>";
                 ViewData["ScriptCode"] = _domain.Script;
-                ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(domainId) + "&URL=[YourUrlToBeBookmarked]";
+                ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(domainId);     // + "&URL=[YourUrlToBeBookmarked]"
                 _domain.OptID = 5;
                 _domain.Id = double.Parse(domainId);
                 _domain.ManageDomain(out domainId);

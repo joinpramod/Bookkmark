@@ -36,6 +36,12 @@ namespace Bookmark.Controllers
                 return View();
         }
 
+        public ActionResult ExtLogin()
+        {
+            return View();
+        }
+
+
         public ActionResult ProcessLogin(string txtEMailId, string txtPassword)
         {
             if (Request.Form["hfUserEMail"] != null)
@@ -50,6 +56,7 @@ namespace Bookmark.Controllers
                     ViewBag.UserActEMail = txtEMailId;
                 }
                 return View("../Account/Login");
+
             }
             else
             {
@@ -97,6 +104,11 @@ namespace Bookmark.Controllers
                 userCookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(userCookie);
 
+                if (Request.UrlReferrer.ToString().ToLower().Contains("account/quicklogin"))
+                {
+                    //return View("../Bookmark/ExtBookmarks");
+                    return RedirectToAction("ExtBookmarks", "Bookmark");
+                }
 
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
@@ -406,7 +418,7 @@ namespace Bookmark.Controllers
                 ViewBag.Activation = "Activation Code Sent. Please check your inbox and click on the activation link.";
                 ViewBag.UserActEMail = txtEMailId;
             }
-            return View("../Account/Login");
+           return View("../Account/Login");
         }
 
         private void SendEMail(string Email_address, string firstName, string LastName)
@@ -600,7 +612,7 @@ namespace Bookmark.Controllers
 
                 if (!IsActivated(user1.Email))
                 {
-                    return View("../Account/Login");
+                        return View("../Account/Login");
                 }
 
 
@@ -816,7 +828,7 @@ namespace Bookmark.Controllers
     //}
 
 
-    [HttpPost]
+        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
