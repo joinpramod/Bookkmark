@@ -41,7 +41,8 @@ namespace Bookmark.Controllers
                     || Request.Url.AbsoluteUri.ToLower().Contains("account/changepassword")
                     || Request.Url.AbsoluteUri.ToLower().Contains("account/edituser")
                     || Request.Url.AbsoluteUri.ToLower().Contains("account/viewuser")
-
+                      || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/add")
+                      || Request.Url.AbsoluteUri.ToLower().Contains("bookmark/addBmrk")
                     )
                 {
                     //filterContext.Result = new RedirectResult("Account/Login");

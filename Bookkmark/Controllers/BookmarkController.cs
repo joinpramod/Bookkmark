@@ -97,6 +97,7 @@ namespace Bookmark.Controllers
             return bmrkCount;
         }
 
+        //From Booqmarq Icon
         public string addbm(string Bookmark, string title, string ipAddr, string bookmarkImgSrc)
         {
             string strCity = string.Empty;
@@ -140,6 +141,7 @@ namespace Bookmark.Controllers
             return resp;
         }
 
+        //From Booqmarq Link
         public ActionResult add()
         {
             Users user = (Users)Session["User"];
@@ -154,6 +156,21 @@ namespace Bookmark.Controllers
                 return View("../Home/Error");
             }
             ViewBag.URL = Request.UrlReferrer.ToString();
+            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            ViewData["ddFolders"] = lstFolders;
+            ViewBag.AddType = "Bookmark";
+            return View("../Bookmark/NewBMFolder");
+        }
+
+
+        //From Booqmarq Ext
+        public ActionResult addBmrk()
+        {
+            Users user = (Users)Session["User"];
+            string strURL = Request.QueryString["url"];
+            string strName = Request.QueryString["name"];
+            ViewBag.URL = strURL;
+            ViewBag.Name = strName;
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewBag.AddType = "Bookmark";
