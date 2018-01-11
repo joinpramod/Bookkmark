@@ -755,7 +755,7 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        private void LoadChartData()
+        private void LoadChartData(string ChartType)
         {
             List<BookmarkCls> lstBmrk = new List<BookmarkCls>();
             lstBmrk = Session["ChartData"] as List<BookmarkCls>;
@@ -763,12 +763,20 @@ namespace Bookmark.Controllers
 
             if (Session["ScaleType"].ToString() == "1")
             {
-                ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                if (!string.IsNullOrEmpty(ChartType))
+                {
+                    ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                }
+                else
+                {
+                    ViewBag.MyXAxisValues = lstBmrk.Select(x => x.URL).ToArray();
+                }
                 ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Count).ToArray();
             }
             else if (Session["ScaleType"].ToString() == "2")
             {
-                ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                //ViewBag.MyXAxisValues = bmrkDict.Keys.ToArray();
+                ViewBag.MyXAxisValues = lstBmrk.Select(x => x.City).ToArray();
                 ViewBag.MyYAxisValues = lstBmrk.Select(x => x.Count).ToArray();
                 //ViewBag.MyXAxisValues = lstBmrk.Select(x => x.City).Distinct().ToArray();
                 //ViewBag.MyYAxisValues = lstBmrk.GroupBy(x => x.City).Select(y => y.Sum(z => Convert.ToInt64(z.Count)).ToString()).ToArray();
@@ -782,25 +790,25 @@ namespace Bookmark.Controllers
 
         public ActionResult BarCharts()
         {
-            LoadChartData();
+            LoadChartData(null);
             return View();
         }
 
         public ActionResult PieCharts()
         {
-            LoadChartData();
+            LoadChartData("Pie");
             return View();
         }
 
         public ActionResult LineCharts()
         {
-            LoadChartData();
+            LoadChartData(null);
             return View();
         }
 
         public ActionResult BarChartsHorizon()
         {
-            LoadChartData();
+            LoadChartData(null);
             return View();
         }
 

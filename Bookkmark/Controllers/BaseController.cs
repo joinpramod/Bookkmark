@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Bookmark.Controllers
@@ -13,6 +14,7 @@ namespace Bookmark.Controllers
 
                 ViewBag.lblFirstName = user.FirstName;
                 ViewBag.IsUserLoggedIn = true;
+                RedirectToProfile(filterContext);
             }
             else if (Request.Cookies["BooqmarqsLogin"] != null && Request.Cookies["BooqmarqsLogin"].HasKeys)
             {
@@ -21,6 +23,7 @@ namespace Bookmark.Controllers
                 user1 = user1.GetUser(uname);
                 Session["User"] = user1;
                 ViewBag.lblFirstName = user1.FirstName;
+
             }
             else
             {
@@ -61,6 +64,19 @@ namespace Bookmark.Controllers
                     return;
 
                 }
+            }
+        }
+
+        private void RedirectToProfile(ActionExecutingContext filterContext)
+        {
+            if (Request.Url.AbsoluteUri.Contains("account/register")
+                   || Request.Url.AbsoluteUri.ToLower().Contains("account/login")
+                   || Request.Url.AbsoluteUri.ToLower().Contains("account/register"))
+                {
+
+                filterContext.Result = new RedirectToRouteResult(
+                                              new RouteValueDictionary
+                                                  {{"controller", "Account"}, {"action", "ViewUser"}});
             }
         }
     }
