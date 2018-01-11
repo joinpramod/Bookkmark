@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Domains";
-    Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
+    Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
     var grid = new WebGrid(canPage: true, rowsPerPage: 10);
     grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
