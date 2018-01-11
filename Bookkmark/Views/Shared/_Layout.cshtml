@@ -22,6 +22,15 @@
     <link rel="stylesheet" href="~/Content/style.css">
     <link rel="stylesheet" href="~/Content/responsive.css">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112287387-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-112287387-1');
+        </script>
 
 
 </head>
@@ -48,25 +57,30 @@
                             <li class="mainmenu">
                                 <nav>
                                     <ul id="nav">
-                                        <li><a href="/Home/Index#home">Home</a></li>
-                                        <li><a href="/Home/Index#howitworks">How It Works</a></li>
-                                        <li><a href="/Home/Index#whattoexpect">What To Expect</a></li>
-                                        @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                         @if (Session["User"] == null)
                                         {
+                                            <li><a href="/Home/Index#home">Home</a></li>
+                                            <li><a href="/Home/Index#howitworks">How It Works</a></li>
+                                            <li><a href="/Home/Index#whattoexpect">What To Expect</a></li>
+                                            @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                             <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                                            <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
                                         }
                                         else
                                         {
-                                            <li>@Html.ActionLink("My Profile", "ViewUser", "Account")</li>
+                                            Users user = (Users)Session["User"];
+                                            if (user.IsPublisher)
+                                            {
+                                                <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+                                                <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+                                                <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+                                            }
+                                            <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+                                            <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                                            @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
+                                            <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
                                             <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-
-                                        }
-                                        @if (Session["User"] == null)
-                                        {
-                                            <li>
-                                                <a href="@Url.Action("Choice", "Account")">Get Started</a>
-                                            </li>
                                         }
                                     </ul>
                                 </nav>
