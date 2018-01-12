@@ -59,6 +59,11 @@ As
           End
    
    
+  If @OptID = 5
+          Begin
+            Update Bookmarks set FolderId=@FolderId where Id = @Id
+          End
+   
 
 　
 　
