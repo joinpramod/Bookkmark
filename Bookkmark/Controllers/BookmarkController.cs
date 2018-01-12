@@ -317,7 +317,7 @@ namespace Bookmark.Controllers
                 _domain.ManageDomain(out domId);
                 ViewBag.Ack = "Domain Added Successfully. Now generate script for the new domain in \"Script\"";
             }
-            int pageSize = 10;
+            int pageSize = 5;
             int totalRecord = 0;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
@@ -359,15 +359,8 @@ namespace Bookmark.Controllers
 
                     lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
                 }
-                
-                var varBookmarks = lstBookmarks.AsQueryable();
 
-                if (pageSize > 0)
-                {
-                    varBookmarks = varBookmarks.Skip(skip).Take(pageSize);
-                }
-
-                return varBookmarks.ToList();
+                return lstBookmarks;
             }
             else
             {
@@ -484,7 +477,7 @@ namespace Bookmark.Controllers
             string[] strLabels = new[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             Dictionary<string, string> bmrkDict = new Dictionary<string, string>();
             List<BookmarkCls> lstBmrk = new List<BookmarkCls>();
-            string totalRecord = string.Empty;
+            string totalRecord = "0";
             string temp = string.Empty;
 
             Users user = (Users)Session["User"];
@@ -515,24 +508,37 @@ namespace Bookmark.Controllers
             }
 
             var gridData = GetReports(search, sort, sortdir, skip, pageSize, out totalRecord, txtCreatedFrom, txtCreatedTo, domainId.ToString());
-            lstBmrk = gridData.ToList();
+            //lstBmrk = gridData.ToList();
+
+            var varBookmarks = gridData.AsQueryable();
+
+            if (pageSize > 0)
+            {
+                varBookmarks = varBookmarks.Skip(skip).Take(pageSize);
+            }
+
+
 
             var chartData = GetChartData(search, sort, sortdir, skip, pageSize, out temp, txtCreatedFrom, txtCreatedTo, domainId.ToString(), ddScaleType).ToList();
+            var varchartData = chartData.AsQueryable();
 
             if (chartData.Count > 10)
-                loopCount = 10;
+            {
+                //loopCount = 10;
+                varchartData = varchartData.Skip(skip).Take(pageSize);
+            }
             else
                 loopCount = chartData.Count;
 
-            for (int count = 0; count < loopCount; count++)
+            for (int count = 0; count < varchartData.ToList().Count; count++)
             {
                 if (ddScaleType.Equals("1") || string.IsNullOrEmpty(ddScaleType))
                 {
-                    bmrkDict.Add(strLabels[count], chartData[count].URL);
+                    bmrkDict.Add(strLabels[count], varchartData.ToList()[count].URL);
                 }
                 else
                 {
-                    bmrkDict.Add(strLabels[count], chartData[count].City);
+                    bmrkDict.Add(strLabels[count], varchartData.ToList()[count].City);
                 }
             }
 
@@ -543,13 +549,13 @@ namespace Bookmark.Controllers
 
             ViewBag.Dictionary = bmrkDict;
             ViewBag.TotalBookmarks = totalRecord;
-            ViewBag.TotalRows = gridData.ToList().Count;
-            Session["ChartData"] = chartData.ToList();
+            ViewBag.TotalRows = Int32.Parse(totalRecord);
+            Session["ChartData"] = varchartData.ToList();
             Session["ScaleType"] = ddScaleType;
             Session["bmrkDict"] = bmrkDict;
             ViewBag.search = search;
             LoadChartScaleDropDown();
-            return View(gridData);
+            return View(varBookmarks.ToList());
         }
 
         public ActionResult Manage()
