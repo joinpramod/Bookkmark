@@ -38,7 +38,7 @@ As
    
       If @OptID = 2
           Begin
-             Update Users Set FirstName=@FirstName,LastName=@LastName,Email=@Email,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
+             Update Users Set FirstName=@FirstName,LastName=@LastName,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
           End
    
    
@@ -60,7 +60,7 @@ As
 
 　
    
-    If @OptID = 6
+    If @OptID = 5
           Begin
              Update Users Set Password=@Password,ModifiedDateTime=@ModifiedDateTime where UserId = @UserId
           End
