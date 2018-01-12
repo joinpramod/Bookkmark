@@ -194,7 +194,7 @@ namespace Bookmark
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
             {
                 conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("select * from VwDomains where DomainCreatedUser = " + userId + " and DomainId = " + domainId, conn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("select * from VwDomains where IsOwner = 1 and DomainCreatedUser = " + userId + " and DomainId = " + domainId, conn))
                 {
                     sda.Fill(dt);
                 }
