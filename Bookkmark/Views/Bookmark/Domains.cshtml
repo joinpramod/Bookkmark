@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Domains";
     Layout = "~/Views/Shared/_Layout_NoGoogle.cshtml";
-    var grid = new WebGrid(canPage: true, rowsPerPage: 10);
+    var grid = new WebGrid(canPage: true, rowsPerPage: 5);
     grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
 
