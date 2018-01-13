@@ -171,6 +171,21 @@ namespace Bookmark
             return user;
         }
 
+        public string GetPassword(string strEmail)
+        {
+            DataTable dtUserExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtUserExists = connManager.GetDataTable("Select Password from Users where EMail = '" + strEmail + "'");
+            if (dtUserExists.Rows.Count > 0)
+            {
+                return dtUserExists.Rows[0]["Password"].ToString();                 
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public bool UserExists(string strEmail, ref double _userId)
         {
             DataTable dtUserExists = new DataTable();
