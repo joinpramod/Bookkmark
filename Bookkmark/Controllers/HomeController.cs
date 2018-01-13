@@ -53,7 +53,7 @@ namespace Bookmark.Controllers
                     }
                     Mail mail = new Mail();
 
-                    string strBody = txtMessage + " from " + txtEMail;
+                    string strBody = txtMessage + " from " + txtEMail + "<br /><br /> Number - " + txtNumber;
 
                     try
                     {
@@ -72,7 +72,7 @@ namespace Bookmark.Controllers
                     mail.FromAdd = "admin@booqmarqs.com";
                     // else
                     // mail.FromAdd = txtEMail;
-                    mail.Subject = "Suggestion";
+                    mail.Subject = "Suggestion - " + txtSubject;
                     mail.ToAdd = "admin@booqmarqs.com";
 
                     mail.SendMail();

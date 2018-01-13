@@ -265,6 +265,8 @@ namespace Bookmark.Controllers
             {
                 user = (Users)Session["User"];
                 email = user.Email;
+
+                GetUserRefType(user);
                 return View("../Account/ViewUser", user);
             }
             else
@@ -273,6 +275,13 @@ namespace Bookmark.Controllers
             }
         }
 
+        private void GetUserRefType(Users user)
+        {
+            if (string.IsNullOrEmpty(user.GetPassword(user.Email)))
+            {
+                ViewBag.RefType = "Social";
+            }
+        }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult EditUser(Users user)
@@ -302,7 +311,7 @@ namespace Bookmark.Controllers
                         user.OptionID = 2;
                         user.FirstName = user.FirstName;
                         user.LastName = user.LastName;
-                        user.Email = user.Email;
+                        //user.Email = user.Email;
                         user.ModifiedDateTime = DateTime.Now;
                         dblUserID = user.UserId;
                         user.CreateUsers(ref dblUserID);
@@ -324,24 +333,33 @@ namespace Bookmark.Controllers
             else
             {
                 user = (Users)Session["User"];
+                GetUserRefType(user);
                 return View("../Account/ViewUser", user);
             }
         }
 
-        public ActionResult ChangePassword(string txtNewPassword)
+        public ActionResult ChangePassword(string txtPassword, string txtNewPassword)
         {
             if (Request.Form["Cancel"] == null)
             {
-                if (Session["User"] != null && !string.IsNullOrEmpty(txtNewPassword))
+                if (Session["User"] != null && !string.IsNullOrEmpty(txtPassword))
                 {
                     user = (Users)Session["User"];
-                    double dblUserID = 0;
-                    user.OptionID = 5;
-                    user.Password = txtNewPassword;
-                    user.ModifiedDateTime = DateTime.Now;
-                    dblUserID = user.UserId;
-                    user.CreateUsers(ref dblUserID);
-                    ViewBag.Ack = "Password changed successfully";
+
+                    if (user.GetPassword(user.Email) == txtPassword)
+                    {
+                        double dblUserID = 0;
+                        user.OptionID = 5;
+                        user.Password = txtNewPassword;
+                        user.ModifiedDateTime = DateTime.Now;
+                        dblUserID = user.UserId;
+                        user.CreateUsers(ref dblUserID);
+                        ViewBag.Ack = "Password changed successfully";
+                    }
+                    else
+                    {
+                        ViewBag.Ack = "Current password does not match with existing password";
+                    }
                 }
                 return View(user);
             }
@@ -352,6 +370,7 @@ namespace Bookmark.Controllers
                     user = (Users)Session["User"];
                     ViewBag.UserEMail = user.Email;
                 }
+                GetUserRefType(user);
                 return View("../Account/ViewUser", user);
             }
         }
