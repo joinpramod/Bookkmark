@@ -463,7 +463,7 @@ namespace Bookmark.Controllers
 
                 mail.ToAdd = "admin@booqmarqs.com";
                 mail.IsBodyHtml = true;
-                //mail.SendMail();
+                mail.SendMail();
             }
             catch
             {
@@ -484,7 +484,7 @@ namespace Bookmark.Controllers
                 mail.Subject = "Welcome to Booqmarqs - ";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
-                //mail.SendMail();
+                mail.SendMail();
             }
             catch
             {

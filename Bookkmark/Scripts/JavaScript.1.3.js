@@ -1,8 +1,8 @@
 function ValidateUserReg() {
-    var e = document.getElementById("FirstName").value;
-    var b = document.getElementById("LastName").value;
-    var d = document.getElementById("Email").value;    
-    var c = document.getElementById("txtPassword").value;
+    var e = document.getElementById("txtFirstName").value;
+    var b = document.getElementById("txtLastName").value;
+    var d = document.getElementById("txtEMailId").value;    
+    var c = document.getElementById("txtNewPassword").value;
     var f = document.getElementById("txtConfirmPassword").value;
     if (e == "" || b == "" || d == "" || c == "" || f == "") {
         document.getElementById("divAck").innerText = "Please enter all details. First and Last names, EMail, Password";
