@@ -1,22 +1,21 @@
-﻿using System.Web.Mvc;
-using System.Data;
-using System;
-using System.Web;
-using System.Data.SqlClient;
-using System.Configuration;
+﻿using Bookmark.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using System.Threading.Tasks;
-using Bookmark.Models;
-using System.Security.Claims;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Configuration;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
-using Newtonsoft.Json.Linq;
-using System.Text;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using Newtonsoft.Json;
-using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Bookmark.Controllers
 {
@@ -284,18 +283,21 @@ namespace Bookmark.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult EditUser(Users user)
+        public ActionResult EditUser(Users user, string chkIsPublisher)
         {
             double dblUserID = 0;
             Users tempUser = new Users();
-
+            ViewData["chkIsPublisher"] = false;
+                
             tempUser = (Users)Session["User"];
             if (Request.Form["Edit"] != null)
             {
+                ViewData["chkIsPublisher"] = tempUser.IsPublisher;
                 return View("../Account/EditUser", tempUser);
             }
             else if (Request.Form["ChangePassword"] != null)
             {
+                ViewData["chkIsPublisher"] = tempUser.IsPublisher;
                 return View("../Account/ChangePassword", tempUser);
             }
 
@@ -312,9 +314,14 @@ namespace Bookmark.Controllers
                         user.FirstName = user.FirstName;
                         user.LastName = user.LastName;
                         //user.Email = user.Email;
+                        user.IsPublisher = bool.Parse(chkIsPublisher);
                         user.ModifiedDateTime = DateTime.Now;
                         dblUserID = user.UserId;
                         user.CreateUsers(ref dblUserID);
+                        if (bool.Parse(chkIsPublisher))
+                            ViewData["chkIsPublisher"] = true;
+                        else
+                            ViewData["chkIsPublisher"] = false;
                         ViewBag.Ack = "User Updated Successfully.";
                         Session["User"] = user;
                     }
@@ -326,10 +333,10 @@ namespace Bookmark.Controllers
                     return RedirectToAction("ViewUser", "Account");     //return View("../Account/ViewUser", user);
                 }
             }
-            else if (Request.Form["UpdateAsSiteOwner"] != null)
-            {
-                return RedirectToAction("ScriptCode", "Bookmark");               
-            }
+            //else if (Request.Form["UpdateAsSiteOwner"] != null)
+            //{
+            //    return RedirectToAction("ScriptCode", "Bookmark");               
+            //}
             else
             {
                 user = (Users)Session["User"];
@@ -412,7 +419,7 @@ namespace Bookmark.Controllers
                 else
                 {
 
-                    ViewBag.Ack = "You have created your profile thorugh one of the social sites. Please use the same channel to login. Google Or Facebook";
+                    ViewBag.Ack = "You might have created your profile by using one of the popular social logins. Please use the same channel to login.";
                 }
             }
             return View();
@@ -479,9 +486,9 @@ namespace Bookmark.Controllers
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://Booqmarqs.com>Booqmarqs</a>";
-                mail.Body = string.Format(EMailBody, "New User Register", "Welcome to " + strCA + ". We appreciate your time for posting code that help many.");
+                mail.Body = string.Format(EMailBody, "New User Register", "Welcome to " + strCA + ". Start using the new way of Booqmarqs and feel the difference.");
                 mail.FromAdd = "admin@booqmarqs.com";
-                mail.Subject = "Welcome to Booqmarqs - ";
+                mail.Subject = "Welcome to Booqmarqs";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
@@ -501,9 +508,9 @@ namespace Bookmark.Controllers
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("../EMailBody.txt"));
                 string strActLink = "http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode;
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com>Booqmarqs</a>";
-                mail.Body = string.Format(EMailBody, "User Activation", "Welcome to " + strCA + ". We appreciate your time for posting code that help many. <br/> <br/>Please click <a id=actHere href=http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
+                mail.Body = string.Format(EMailBody, "User Activation", "Welcome to " + strCA + ". Activate your account and start using the new way of Booqmarqs and feel the difference.<br/> <br/>Please click <a id=actHere href=http://booqmarqs.com/Account/Activate/?ActivationCode=" + ActivationCode + ">" + strActLink + "</a> to activate your account");
                 mail.FromAdd = "admin@booqmarqs.com";
-                mail.Subject = "Welcome to Booqmarqs - ";
+                mail.Subject = "Welcome to Booqmarqs";
                 mail.ToAdd = email;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
