@@ -12,8 +12,8 @@ namespace Bookmark
         protected void Button1_Click(object sender, EventArgs e)
         {
             user = (Users)Session["User"];
-            //if (user != null && user.Email != null && user.Email == "admin@booqmarqs.com")
-            //{
+            if (user != null && user.Email != null && user.Email == "admin@booqmarqs.com")
+            {
                 ConnManager connManager = new ConnManager();
 
                 if (txtSQL.Text.ToLower().StartsWith("select"))
@@ -40,11 +40,11 @@ namespace Bookmark
                         }
                     }                   
                 }
-            //}
-            //else
-            //{
-            //    Response.Redirect("http://www.booqmarqs.com");
-            //}
+            }
+            else
+            {
+                Response.Redirect("http://www.booqmarqs.com");
+            }
         }
     }
 }
