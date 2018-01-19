@@ -13,55 +13,70 @@ namespace Bookmark.Controllers
     public class BookmarkController : BaseController
     {
         private BookmarkCls bmrk = new BookmarkCls();
-        private Domain domain = new Domain(); 
+        private Domain domain = new Domain();
 
         public ActionResult Show(string did, string lnk, string t)
         {
-            Domain _domain = new Bookmark.Domain();
-            did = Utilities.DecryptString(did);
-            _domain = _domain.GetDomains(did);
-
-            if(string.IsNullOrEmpty(lnk))
+            try
             {
-                lnk = Request.UrlReferrer.ToString();
-            }
-
-            ViewData["Bookmark"] = lnk;
-            ViewData["ht"] = _domain.Height;
-            ViewData["wd"] = _domain.Width;
-            ViewData["title"] = t;
-
-            if (!ValidateBookmarkRequest(_domain, lnk))
-                return null;
+                if (!string.IsNullOrEmpty(Request.QueryString["did"]))
+                    did = Request.QueryString["did"];
+                if (!string.IsNullOrEmpty(Request.QueryString["lnk"]))
+                    lnk = Request.QueryString["lnk"];
+                if (!string.IsNullOrEmpty(Request.QueryString["t"]))
+                    t = Request.QueryString["t"];
 
 
-            if (bool.Parse(_domain.ShowCount))
-            {
-                ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
-            }
-            else
-            {
-                ViewData["BookmarkCount"] = null;
-            }
-　
-            if (Session["User"] == null)
-            {
-                ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg";
-            }
-            else
-            {
-                Users user = (Users)Session["User"];
-                BookmarkCls bookmark = new BookmarkCls();
-                bookmark.URL = lnk;
-                if (bookmark.BookmarkExists(user.UserId.ToString()))
+                Domain _domain = new Bookmark.Domain();
+                did = Utilities.DecryptString(did);
+                _domain = _domain.GetDomains(did);
+
+                if (string.IsNullOrEmpty(lnk))
                 {
-                    ViewData["bookmarkImgSrc"] = "../../Images/Bookmarked.jpg";
+                    lnk = Request.UrlReferrer.ToString();
+                }
+
+                ViewData["Bookmark"] = lnk;
+                ViewData["ht"] = _domain.Height;
+                ViewData["wd"] = _domain.Width;
+                ViewData["title"] = t;
+
+                if (!ValidateBookmarkRequest(_domain, lnk))
+                    ViewData["bookmarkImgSrc"] = null;
+
+
+                if (bool.Parse(_domain.ShowCount))
+                {
+                    ViewData["BookmarkCount"] = GetBookmarkCount(lnk);
                 }
                 else
                 {
-                    ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //temporary
-                    //ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
+                    ViewData["BookmarkCount"] = null;
                 }
+
+                if (Session["User"] == null)
+                {
+                    ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg";
+                }
+                else
+                {
+                    Users user = (Users)Session["User"];
+                    BookmarkCls bookmark = new BookmarkCls();
+                    bookmark.URL = lnk;
+                    if (bookmark.BookmarkExists(user.UserId.ToString()))
+                    {
+                        ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmarked.jpg";
+                    }
+                    else
+                    {
+                        ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg"; //temporary
+                                                                                  //ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
+                    }
+                }
+            }
+            catch
+            {
+                ViewData["bookmarkImgSrc"] = null;
             }
             return View();
         }
@@ -115,7 +130,7 @@ namespace Bookmark.Controllers
                 bmrk.URL = Bookmark;
                 if (bmrk.BookmarkExists(user.UserId.ToString()))
                 {
-                    resp = "../../Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    resp = "http://booqmarqs.com/Images/Bookmarked.jpg,Edit," + bmrk.Id;
                 }
                 else
                 {
@@ -135,7 +150,7 @@ namespace Bookmark.Controllers
                     bmrk.City = strCity;
                     bmrk.Country = strState;
                     bmrk.ManageBookmark();
-                    resp = "../../Images/Bookmarked.jpg";
+                    resp = "http://booqmarqs.com/Images/Bookmarked.jpg";
                 }
             }
             return resp;
@@ -229,7 +244,7 @@ namespace Bookmark.Controllers
                     _domain.ManageDomain(out domainId);
                 }                          
 
-                _domain.Script = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?did=" + Utilities.EncryptString(domainId) + "\"></script>";
+                _domain.Script = @"<div id=""divBqmrq""/><script id=""bqmrq"" src=""http://booqmarqs.com/Bookmark.1.249.js?h="+ txtHeight + "&w="+ txtWidth+"&did=" + Utilities.EncryptString(domainId) + "\"></script>";
                 ViewData["ScriptCode"] = _domain.Script;
                 ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(domainId);     // + "&URL=[YourUrlToBeBookmarked]"
                 _domain.OptID = 5;
@@ -259,6 +274,7 @@ namespace Bookmark.Controllers
                         ViewData["txtHeight"] = varDom[0].Height;
                         ViewData["txtWidth"] = varDom[0].Width;
                         ViewData["chkShowCount"] = varDom[0].ShowCount;
+                        ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(domId.ToString());
                     }
                     else
                     {
@@ -267,6 +283,7 @@ namespace Bookmark.Controllers
                         ViewData["txtHeight"] = lstDomains[0].Height;
                         ViewData["txtWidth"] = lstDomains[0].Width;
                         ViewData["chkShowCount"] = lstDomains[0].ShowCount;
+                        ViewData["DirectLink"] = @"http://booqmarqs.com/bookmark/add?did=" + Utilities.EncryptString(lstDomains[0].Id.ToString());
                     }
                 }
                 else  //First time, new
@@ -487,6 +504,13 @@ namespace Bookmark.Controllers
             Session["ChartData"] = null;
             Session["bmrkDict"] = null;
 
+            if(lstDomains.Count <=0)
+            {
+                ViewData["chkShowCount"] = false;
+                ViewData["domains"] = lstDomains;
+                return View("../Bookmark/ScriptCode", lstDomains);
+            }
+
             int pageSize = 10;
             if (page < 1) page = 1;
             int skip = (page * pageSize) - pageSize;
@@ -495,8 +519,8 @@ namespace Bookmark.Controllers
             {
                 if (lstDomains != null && lstDomains.Count > 0)
                 {
-                    ViewData["selectedIndex"] = lstDomains[1].Name;
-                    domainId = lstDomains[1].Id;
+                    ViewData["selectedIndex"] = lstDomains[0].Name;
+                    domainId = lstDomains[0].Id;
                 }
             }
             else
@@ -751,7 +775,7 @@ namespace Bookmark.Controllers
                     }
                 }
 
-                ViewBag.Ack = "Bookmarks imported successfully";
+                ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
             }
             return View();
         }
