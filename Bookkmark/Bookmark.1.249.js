@@ -2,7 +2,7 @@
     var queryString = document.getElementById("bqmrq").src.split("?")[1];
     var querystrArray = queryString.split("&");
     var ifrm = document.createElement("iframe");
-    var lnk = document.referrer;
+    var lnk = document.URL;
     var ht = querystrArray[0].split("=")[1];
     var wd = querystrArray[1].split("=")[1];
     var did = querystrArray[2].substring(4);
