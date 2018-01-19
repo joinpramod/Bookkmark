@@ -17,7 +17,7 @@ namespace Bookmark
     {
         static string Target = "";
         private static byte[] key;
-        private static byte[] IV = { 0X12, 0X20, 0X38, 0X36, 0X48, 0XAB, 0XCD, 0XEF };
+        private static byte[] IV = { 0X8, 0X16, 0X24, 0X32, 0X40, 0X48, 0X56, 0X64 };
 
 
         public static string ExpandUrls(string inputText)
@@ -212,7 +212,7 @@ namespace Bookmark
             }
             try
             {
-                return Encrypt(strQueryString, "!D#2%vin");
+                return Encrypt(strQueryString, "^!Anvita*$#").Replace("=", "");
             }
             catch (Exception ex)
             {
@@ -228,7 +228,7 @@ namespace Bookmark
             }
             try
             {
-                return Decrypt(strQueryString.Replace(" ", "+"), "!D#2%vin");
+                return Decrypt(strQueryString.Replace(" ", "+"), "^!Anvita*$#").Replace("=", "");
             }
             catch (Exception ex)
             {
