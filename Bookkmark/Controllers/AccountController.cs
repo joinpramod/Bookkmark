@@ -27,12 +27,24 @@ namespace Bookmark.Controllers
 
         public ActionResult Login()
         {
-                return View();
+            user = (Users)Session["User"];
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                GetUserRefType(user);
+                return View("../Account/ViewUser", user);
+            }
+            return View();
         }
 
         public ActionResult QuickLogin()
         {
-                return View();
+            user = (Users)Session["User"];
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                GetUserRefType(user);
+                return View("../Account/ViewUser", user);
+            }
+            return View();
         }
 
         public ActionResult ExtLogin()
@@ -191,6 +203,12 @@ namespace Bookmark.Controllers
         [AllowAnonymous]
         public ActionResult Choice()
         {
+            user = (Users)Session["User"];
+            if(!string.IsNullOrEmpty(user.Email))
+            {
+                GetUserRefType(user);
+                return View("../Account/ViewUser", user);
+            }
             return View();
         }
 
@@ -384,6 +402,13 @@ namespace Bookmark.Controllers
 
         public ActionResult ForgotPassword(string txtEMailId)
         {
+            user = (Users)Session["User"];
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                GetUserRefType(user);
+                return View("../Account/ViewUser", user);
+            }
+
             if (!string.IsNullOrEmpty(txtEMailId))
             {
                 ConnManager con = new ConnManager();
