@@ -31,18 +31,19 @@
                 'bookmarkImgSrc' : document.getElementById("imgBookmark").src
             };
             $.ajax({
-                url: '/bookmark/addbm',
+                url: 'http://booqmarqs.com/bookmark/addbm',
                 type: 'POST',
                 dataType: "text",
                 data: BookmarkModel,
                 success: function (data) {
+                   
                     if(data == null || data == ""){
                         //alert("Bookmark not added");
                         var left = (screen.width)-(0.30*screen.width);
                         var top = (screen.height)-(0.80*screen.height);
                         var height = screen.height*0.50;
                         var width = screen.height*0.38;
-                        window.open("/account/quicklogin", "_blank", "toolbar=yes,scrollbars=no,resizable=no,top="+top+",left="+left+",width="+width+",height="+height+"");
+                        window.open("http://booqmarqs.com/account/quicklogin", "_blank");
                     }
                     else
                     {
@@ -54,12 +55,11 @@
                             var top = (screen.height) - (0.60 * screen.height);
                             var height = 470;
                             var width = 500;
-                            window.open("/bookmark/manage?id=" + res[2] + "&action=" + res[1], "_blank", "toolbar=no,scrollbars=no,resizable=no,top=" + top + ",left=" + left + ",width=" + width + ",height=" + height + "");
+                            window.open("http://booqmarqs.com/bookmark/manage?id=" + res[2] + "&action=" + res[1], "_blank");
                         }
                     }
                 },
                 error: function(exception) {
-                    //alert(exception);
                 }
             });
         }
