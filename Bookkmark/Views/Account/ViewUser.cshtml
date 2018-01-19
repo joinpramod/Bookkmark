@@ -17,147 +17,53 @@
                     </div>
                     @using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                <div class="form_search">
-                    <div class="form_area justify-content-center">
-                        <div class="form-group row">
-                            <div class="col-3">&nbsp</div>
-                            <label class="col-2 text-left">First Name:</label>
-                            <div class="col-6 text-left">
-                                <b>@Model.FirstName</b>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-3">&nbsp</div>
-                            <label class="col-2 text-left">Last Name:</label>
-                            <div class="col-6 text-left">
-                                <b>@Model.LastName</b>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-3">&nbsp</div>
-                            <label class="col-2 text-left">Email Id:</label>
-                            <div class="col-6  text-left">
-                                <b>@Model.Email</b>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-
-                            <div class="col-xs-6">
-                                <button class="btn btn-block" id="Edit" name="Edit">Edit</button>
-                            </div>
-                            @if (string.IsNullOrEmpty(ViewBag.RefType))
-                            {
-                                <div class="col-xs-6">
-                                    <button class="btn btn-block" id="ChangePassword" name="ChangePassword" style="width:200px">Change Password</button>
+                         <div class="form_search">
+                            <div class="form_area justify-content-center">
+                                <div class="form-group row">
+                                    <div class="col-5 text-right">First Name:</div>                            
+                                    <div class="col-7 text-left">
+                                        <b>@Model.FirstName</b>
+                                    </div>
                                 </div>
-                            }
+                                <div style="height:10px"></div>
+                                <div class="form-group row">
+                                    <div class="col-5 text-right">Last Name:</div>       
+                                    <div class="col-7 text-left">
+                                        <b>@Model.LastName</b>
+                                    </div>
+                                </div>
+                                <div style="height:10px"></div>
+                                <div class="form-group row">
+                                    <div class="col-5 text-right">EMail Address:</div>       
+                                    <div class="col-7  text-left">
+                                        <b>@Model.Email</b>
+                                    </div>
+                                </div>
+                                <div style="height:10px"></div>
+                                <div class="row justify-content-center">
 
-                        </div>
+                                    <div class="col-xs-6">
+                                        <button class="btn btn-block" id="Edit" name="Edit">Edit</button>
+                                    </div>
+                                    @if (string.IsNullOrEmpty(ViewBag.RefType))
+                                    {
+                                        <div class="col-xs-6">
+                                            <button class="btn btn-block" id="ChangePassword" name="ChangePassword" style="width:200px">Change Password</button>
+                                        </div>
+                                    }
+
+                                    </div>
+                                </div>
+                            </div>
+                    } 
+                    <div style="height:40px"></div>    
+                    <div class="row justify-content-center">
+                        If you want to change yourself to a publisher to use Booqmarqs in your web application, then edit your info and update your profile.
+                        After updating yourself as publisher, go to Script tab to register your domain and generate script to use it in your application.
                     </div>
-                </div>
-}
-                </div>
             </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div style="height:100px"></div>
-<h2>My Profile</h2><br />
-
-@using (Html.BeginForm("EditUser", "Account", FormMethod.Post))
-{
-    <br />
-    @*if (Model.UserId != null && Model.UserId == 1)
-    {
-       <a href="~/ManageWeb.aspx">Admin</a><br/>
-    }*@
-
-
-    @*<div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">
-        <table style="width: 30%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
-            <tr><td>&nbsp;</td></tr>
-            <tr>
-                <td>
-                    First Name:
-                </td>
-                <td align="left">
-                    <b> @Model.FirstName</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Last Name:
-                </td>
-                <td align="left">
-                    <b>@Model.LastName</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    EMail:
-                </td>
-                <td align="left">
-                    <b>@Model.Email</b>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                    <input type="submit" name="Edit" value="Edit Profile" class="mysubmitsmall" />&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="submit" name="ChangePassword" value="Change Password" class="mysubmitsmall" />
-                    <br />
-                </td>
-            </tr>
-            <tr><td>&nbsp;</td></tr>
-        </table>
-        @*</div>
-        <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;border-color:lightgrey;background-color:#EFF0ED">*@
-
-            @*<table style="width: 42%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
-                <tr><td>&nbsp;</td></tr>
-                <tr>
-                    <td colspan="2">
-                        @if (!Model.IsPublisher)
-                        {
-                            <input type="submit" name="UpdateAsSiteOwner" value="Update me as Site Owner so that I can make my users bookmark my page" id="UpdateAsSiteOwner" class="mysubmitsmall" />
-                        }
-                    </td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>*@
-                @*<tr>
-                    <td colspan="2">
-                        @if (!Model.IsWebUser)
-                        {
-                            <input type="submit" name="UpdateAsWebUser" value="Update me as Web User so that I can save bookmarks online" id="UpdateAsWebUser" class="mysubmitsmall" />
-                        }
-                    </td>
-                </tr>*@
-                @*<tr><td>&nbsp;</td></tr>*@
-                @*<tr>
-                    <td colspan="2">
-                        @if (!Model.IsPublisher)
-                        {
-                            <input id="AddDomain" name="AddDomain" value="Add another domain" type="submit" class="mysubmitsmall" />
-                        }
-                    </td>
-                </tr>*@
-
-            @*</table>
         </div>
 
-}*@
 

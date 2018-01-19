@@ -102,6 +102,12 @@
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "EMail", type="email", required = "required", @readonly="readonly" })
                             </div>
                         </div>
+                        <div style="height:20px"></div>
+                        <div>
+                            If you want to change yourself to a publisher to use Booqmarqs in your web application, then tick the "Update as publisher" checkbox below and save your profile.
+                            After updating yourself as publisher, go to Script tab to register your domain and generate script to use it in your application.
+                        </div>
+                        <div style="height:10px"></div>
                         <div class="form-group row">
                             <label class="col-3">
                                 Update as publisher                             
@@ -146,57 +152,3 @@
 
 
 
-
-
-
-@*<div style="height:100px"></div>
-<h2>Edit Profile</h2><br />
-
-@using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div style="text-align:center;height: 100%; width: 100%; font-size: 16px;border:solid;border-radius:20px;border-width:0px;
-          border-color:lightgrey;background-color:#EFF0ED">
-        <table style="width: 30%; margin: 0 auto; text-align: left" cellpadding="4" cellspacing="4">
-            <tr>
-                <td style="font-weight: bold; color: red;" colspan="2">
-                    <div id="divAck" style="width: 100%; font-weight: bold;  color: Red">@ViewBag.Ack</div>
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    First Name:
-                </td>
-                <td align="left">
-                    <b>@Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name", @class = "myText" })</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Last Name:
-                </td>
-                <td align="left">
-                    <b>@Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "myText" })</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    EMail:
-                </td>
-                <td align="left">
-                    <b>@Html.TextBoxFor(m => m.Email, new { placeholder = "EMail", @class = "myText", style="width:200px" })</b>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding-left:15%">
-                    <br />
-                    <input type="submit" id="btnEditUser" name="EditSubmit" value="Submit" onclick="return ValidateEditUser()" class="mysubmit" />&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="submit" id="btnCancel" name="Cancel" value="Cancel" class="mysubmit" />
-                    <br />
-                </td>
-            </tr>
-            <tr><td>&nbsp;</td></tr>
-        </table>
-        @Html.Hidden("hfUserEMail", (object)ViewBag.UserEMail)
-    </div>
-}*@
