@@ -9,6 +9,14 @@ namespace Bookmark
     {
         Users user = new Users();
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (user != null && user.Email != null && user.Email == "admin@booqmarqs.com")
+            {
+                Response.Redirect("http://www.booqmarqs.com");
+            }
+        }
+
         protected void Button1_Click(object sender, EventArgs e)
         {
             user = (Users)Session["User"];
