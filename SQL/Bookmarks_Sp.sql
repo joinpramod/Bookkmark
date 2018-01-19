@@ -12,7 +12,7 @@ GO
 ALTER PROCEDURE [dbo].[Bookmarks_Sp]
 @OptID as int = 1,
 @Id As Numeric(9,0) = NULL,
-@URL As VarChar(50) = NULL,
+@URL As VarChar(500) = NULL,
 @FolderId As Numeric(9,0) = NULL,
 @IsFolder As VarChar(50) = NULL,
 @Name As VarChar(50) = NULL,
