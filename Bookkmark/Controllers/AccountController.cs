@@ -28,7 +28,7 @@ namespace Bookmark.Controllers
         public ActionResult Login()
         {
             user = (Users)Session["User"];
-            if (!string.IsNullOrEmpty(user.Email))
+            if (user!=null && !string.IsNullOrEmpty(user.Email))
             {
                 GetUserRefType(user);
                 return View("../Account/ViewUser", user);
@@ -39,7 +39,7 @@ namespace Bookmark.Controllers
         public ActionResult QuickLogin()
         {
             user = (Users)Session["User"];
-            if (!string.IsNullOrEmpty(user.Email))
+            if (user != null && !string.IsNullOrEmpty(user.Email))
             {
                 GetUserRefType(user);
                 return View("../Account/ViewUser", user);
@@ -204,7 +204,7 @@ namespace Bookmark.Controllers
         public ActionResult Choice()
         {
             user = (Users)Session["User"];
-            if(!string.IsNullOrEmpty(user.Email))
+            if(user!=null && !string.IsNullOrEmpty(user.Email))
             {
                 GetUserRefType(user);
                 return View("../Account/ViewUser", user);
@@ -403,7 +403,7 @@ namespace Bookmark.Controllers
         public ActionResult ForgotPassword(string txtEMailId)
         {
             user = (Users)Session["User"];
-            if (!string.IsNullOrEmpty(user.Email))
+            if (user!=null && !string.IsNullOrEmpty(user.Email))
             {
                 GetUserRefType(user);
                 return View("../Account/ViewUser", user);
