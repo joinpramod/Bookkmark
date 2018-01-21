@@ -19,7 +19,6 @@ namespace Bookmark.Controllers
         {
             try
             {
-                string str = Utilities.DecryptString("wmjtVh/qlKo");
                 if (!string.IsNullOrEmpty(Request.QueryString["did"]))
                     did = Request.QueryString["did"];
                 if (!string.IsNullOrEmpty(Request.QueryString["lnk"]))
