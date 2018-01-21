@@ -11,7 +11,10 @@
     ifrm.style.overflow = "hidden";
     ifrm.scrolling = "no";
     ifrm.id = "frmBqmrq";
-    ifrm.height = (parseInt(ht) + 10).toString() + "px";
+    ifrm.height = (parseInt(ht) + 17).toString() + "px";
     ifrm.width = (parseInt(wd) + 10).toString() + "px";
+    document.getElementById("divBqmrq").height = (parseInt(ht) + 16).toString() + "px";
+    document.getElementById("divBqmrq").width = (parseInt(wd) + 10).toString() + "px";
     document.getElementById("divBqmrq").appendChild(ifrm);
 };
+ 

@@ -19,6 +19,7 @@ namespace Bookmark.Controllers
         {
             try
             {
+                string str = Utilities.DecryptString("wmjtVh/qlKo");
                 if (!string.IsNullOrEmpty(Request.QueryString["did"]))
                     did = Request.QueryString["did"];
                 if (!string.IsNullOrEmpty(Request.QueryString["lnk"]))
@@ -26,9 +27,9 @@ namespace Bookmark.Controllers
                 if (!string.IsNullOrEmpty(Request.QueryString["t"]))
                     t = Request.QueryString["t"];
 
-
                 Domain _domain = new Bookmark.Domain();
                 did = Utilities.DecryptString(did);
+
                 _domain = _domain.GetDomains(did);
 
                 if (string.IsNullOrEmpty(lnk))
@@ -74,8 +75,16 @@ namespace Bookmark.Controllers
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                try
+                {
+                    Utilities.EmailException(ex);
+                }
+                catch
+                {
+
+                }
                 ViewData["bookmarkImgSrc"] = null;
             }
             return View();

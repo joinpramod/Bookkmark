@@ -1,9 +1,9 @@
 @{
-        Layout = null;
+    Layout = null;
 }
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript">
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
         window.onload = function () {
             var script = document.createElement("script");
             script.type = "text/javascript";
@@ -15,9 +15,9 @@
             document.body.appendChild(hidden);
             document.getElementById("imgBookmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
             document.getElementById("imgBookmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
-            document.getElementById("imgBookmark").src = @Html.Raw(Json.Encode(ViewData["bookmarkImgSrc"]));           
-            @*window.parent.document.getElementById('frmBqmrq').height = (parseInt(@Html.Raw(Json.Encode(ViewData["ht"]))) + 10).toString() + "px";
-            window.parent.document.getElementById('frmBqmrq').width = (parseInt(@Html.Raw(Json.Encode(ViewData["wd"]))) + 10).toString() + "px";*@
+            document.getElementById("imgBookmark").src = @Html.Raw(Json.Encode(ViewData["bookmarkImgSrc"]));
+            window.parent.document.getElementById('divInnerBmrq').height = (parseInt(@Html.Raw(Json.Encode(ViewData["ht"]))) + 16).toString() + "px";
+            window.parent.document.getElementById('divInnerBmrq').width = (parseInt(@Html.Raw(Json.Encode(ViewData["wd"]))) + 9).toString() + "px";
         };
         function DisplayIP(response) {
             document.getElementById("ipAddr").value = response.ip.toString();
@@ -36,7 +36,7 @@
                 dataType: "text",
                 data: BookmarkModel,
                 success: function (data) {
-                   
+
                     if(data == null || data == ""){
                         //alert("Bookmark not added");
                         var left = (screen.width)-(0.30*screen.width);
@@ -63,10 +63,14 @@
                 }
             });
         }
-    </script>
-            <a onclick="AddBookmark()" href="javascript:void(0);">
-                <img id="imgBookmark" tooltip="Bookmark this page" />
-            </a>
-            <span style="font-size:10px;">@ViewData["BookmarkCount"]</span>
+</script>
 
-
+@if(ViewData["bookmarkImgSrc"]!=null)
+{ 
+    <div style="text-align:center;width:100%" id="divInnerBmrq">
+        <a onclick="AddBookmark()" href="javascript:void(0);">
+            <img id="imgBookmark" title="Booqmarq this page" />
+        </a>
+        <span style="font-size:10px;">@ViewData["BookmarkCount"]</span>
+    </div>
+}
