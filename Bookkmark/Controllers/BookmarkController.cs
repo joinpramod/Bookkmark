@@ -466,7 +466,7 @@ namespace Bookmark.Controllers
 
                         strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY url";
 
-                        lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                        lstBookmarks = bmrk.GetURLReports(strQuery, out totalRecord);
                     }
                 }
                 else if (ddScaleType.Equals("2"))
@@ -492,7 +492,7 @@ namespace Bookmark.Controllers
 
                         strQuery += " GROUP BY url, createddatetime, city, Country, Id, FolderId) as bookmarks GROUP BY city";
 
-                        lstBookmarks = bmrk.GetReports(strQuery, out totalRecord);
+                        lstBookmarks = bmrk.GetCityReports(strQuery, out totalRecord);
                     }
                 }
 
