@@ -37,37 +37,25 @@
             </div>
             @using (Html.BeginForm("reports", "bookmark", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
             {
+                <div id="divAck" class="error_info"></div>
                 <nav class="navbar navbar-default">
-                    <div class="form_search">
-                        <div id="divAck" class="error_info"></div>
-
-                        <table>
-                            <tr>
-                                <td>
-                                    @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), "---Select Domain---", new { @class = "form-control", required = "required", style = "width:200px" })
-                                </td>
-
-                                <td style="padding-left:10px">
-                                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
-                                </td>
-                                <td style="padding-left:10px">
-                                    @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })
-                                </td>
-                                <td style="padding-left:10px">
-                                    @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
-                                </td>
-                                <td style="padding-left:10px">
-                                    <button type="submit" value="Search" class="btn btn-block" onclick="return ValidateSearch()">Search</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
+                    <form class="form-inline">
+                        <div class="row" style="padding-left:2%">
+                            @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), "---Select Domain---", new { @class = "form-control", required = "required", style = "width:200px" })
+                            <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
+                            @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })
+                            @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
+                            <div class="form_search">
+                                <button type="submit" value="Search" class="btn btn-block" onclick="return ValidateSearch()">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    </nav>
             }
 
-            <div class="error_info">@ViewBag.Ack</div>
-        <div style="font-size:14px">
-            @grid.Table(
+                    <div class="error_info">@ViewBag.Ack</div>
+            <div style="font-size:14px;width:99%;overflow: scroll">
+                @grid.Table(
                       tableStyle: "table table-responsive table-bordered table-striped",
                       columns: grid.Columns(
                           //grid.Column(columnName: "Name", header: "Name"),
@@ -79,93 +67,93 @@
                           grid.Column(columnName: "Count", header: "Count")
                       )
                   )
-
-            <div class="container">
-                <div class="text-right">
-                    <span style="font-weight:bold; font-size:15px;color:#333">Total: @ViewBag.TotalBookmarks</span>
-                </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-sm-6">
-                    @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
-                </div>
-            </div>
-
-            <div style="height:20px">&nbsp;</div>
-            @Html.Hidden("dir", grid.SortDirection)
-            @Html.Hidden("col", grid.SortColumn)
-
-        </div>
-        <div style="height:20px"></div>
-
-        @if (int.Parse(ViewBag.TotalBookmarks) > 0)
-        {
-        <div class="form_search">
-            <div class="row justify-content-center">
-                <div class="col-xs-6 text-right">
-                    @Html.DropDownList("ddScaleType", ViewBag.ddScaleType as SelectList, new { @class = "form-control", style = "height:40px;width:200px;font-weight:400;", required = "required" })
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                </div>
-                <div class="col-xs-6 text-left">
-                    <button id="Submit" name="Submit" type="submit" class="btn btn-block" formnovalidate>Submit</button>
-                </div>
-            </div>
-        </div>
-        }
-        <div style="height:20px"></div>
-
-
-        @if (int.Parse(ViewBag.TotalBookmarks) > 0)
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <img src="@Url.Action("BarChartsHorizon")" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <img src="@Url.Action("LineCharts")" />
-                </div>
-                <div class="col-sm-6">
-                    <img src="@Url.Action("BarCharts")" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <img src="@Url.Action("PieCharts")" />
-                </div>
-                <div class="col-sm-6">
-                    @if (ViewBag.Dictionary != null && int.Parse(ViewBag.TotalBookmarks) > 0)
-                    {
-                    <div class="section_heading" style="padding-top:20px">
-                        <h2><span>Mapping</span> </h2>
-                    </div>
-
-
-                    <div class="row justify-content-center">
-                        <div style="border-radius:5px;border:solid 1px #808080;width:96%;padding-top:1%;background-color:#f5f3f3">
-                            @foreach (KeyValuePair<string, string> entry in ViewBag.Dictionary)
-                            {
-                                <div class="col-sm-12 text-left">
-                                    <span style="font-weight:bold">@entry.Key - </span>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; @entry.Value
-                                </div>
-                            }
-                            <div style="height:10px">&nbsp;</div>
+                        <div class="container">
+                            <div class="text-right">
+                                <span style="font-weight:bold; font-size:15px;color:#333">Total: @ViewBag.TotalBookmarks</span>
+                            </div>
                         </div>
-                    </div>
-                    <div style="height:20px">&nbsp;</div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                            </div>
+                        </div>
+
+                        <div style="height:20px">&nbsp;</div>
+                        @Html.Hidden("dir", grid.SortDirection)
+                        @Html.Hidden("col", grid.SortColumn)
+
+                  
+                    <div style="height:20px"></div>
+
+                    @if (int.Parse(ViewBag.TotalBookmarks) > 0)
+                    {
+                        <div class="form_search">
+                            <div class="row justify-content-center">
+                                <div class="col-xs-6 text-right">
+                                    @Html.DropDownList("ddScaleType", ViewBag.ddScaleType as SelectList, new { @class = "form-control", style = "height:40px;width:200px;font-weight:400;", required = "required" })
+                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button id="Submit" name="Submit" type="submit" class="btn btn-block" formnovalidate>Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </div>
-            </div>
-           
-            <div style="height:40px">&nbsp;</div>
-        }
+                    <div style="height:20px"></div>
 
 
-        </div>
+                    @if (int.Parse(ViewBag.TotalBookmarks) > 0)
+                    {
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <img src="@Url.Action("BarChartsHorizon")" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <img src="@Url.Action("LineCharts")" />
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="@Url.Action("BarCharts")" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <img src="@Url.Action("PieCharts")" />
+                            </div>
+                            <div class="col-sm-6">
+                                @if (ViewBag.Dictionary != null && int.Parse(ViewBag.TotalBookmarks) > 0)
+                    {
+                                    <div class="section_heading" style="padding-top:20px">
+                                        <h2><span>Mapping</span> </h2>
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+                                        <div style="border-radius:5px;border:solid 1px #808080;width:96%;padding-top:1%;background-color:#f5f3f3">
+                                            @foreach (KeyValuePair<string, string> entry in ViewBag.Dictionary)
+                                            {
+                                                <div class="col-sm-12 text-left">
+                                                    <span style="font-weight:bold">@entry.Key - </span>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp; @entry.Value
+                                                </div>
+                                            }
+                                            <div style="height:10px">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                    <div style="height:20px">&nbsp;</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div style="height:40px">&nbsp;</div>
+                    }
+
+
+</div>
     </div>
 
 
