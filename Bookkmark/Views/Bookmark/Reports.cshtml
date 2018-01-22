@@ -51,23 +51,23 @@
                         </div>
                     </form>
                     </nav>
-            }
+           
 
                     <div class="error_info">@ViewBag.Ack</div>
-            <div style="font-size:14px;width:99%;overflow: scroll">
-                @grid.Table(
-                      tableStyle: "table table-responsive table-bordered table-striped",
-                      columns: grid.Columns(
-                          //grid.Column(columnName: "Name", header: "Name"),
-                          //grid.Column(columnName: "URL", format: ),
-                          grid.Column(columnName: "URL", header: "URL"),
-                          grid.Column(columnName: "CreatedDate", header: "Created Date"),
-                          grid.Column(columnName: "City", header: "City"),
-                          grid.Column(columnName: "Country", header: "Country"),
-                          grid.Column(columnName: "Count", header: "Count")
-                      )
-                  )
-            </div>
+                        <div style="font-size:14px;width:100%;overflow-x: scroll">
+                            @grid.Table(
+                                  tableStyle: "table table-responsive table-bordered table-striped",
+                                  columns: grid.Columns(
+                                      //grid.Column(columnName: "Name", header: "Name"),
+                                      //grid.Column(columnName: "URL", format: ),
+                                      grid.Column(columnName: "URL", header: "URL"),
+                                      grid.Column(columnName: "CreatedDate", header: "Created Date"),
+                                      grid.Column(columnName: "City", header: "City"),
+                                      grid.Column(columnName: "Country", header: "Country"),
+                                      grid.Column(columnName: "Count", header: "Count")
+                                  )
+                              )
+                        </div>
                         <div class="container">
                             <div class="text-right">
                                 <span style="font-weight:bold; font-size:15px;color:#333">Total: @ViewBag.TotalBookmarks</span>
@@ -88,7 +88,7 @@
                   
                     <div style="height:20px"></div>
 
-                    @if (int.Parse(ViewBag.TotalBookmarks) > 0)
+                    if (int.Parse(ViewBag.TotalBookmarks) > 0)
                     {
                         <div class="form_search">
                             <div class="row justify-content-center">
@@ -97,14 +97,14 @@
                                     &nbsp; &nbsp; &nbsp; &nbsp;
                                 </div>
                                 <div class="col-xs-6 text-left">
-                                    <button id="Submit" name="Submit" type="submit" class="btn btn-block" formnovalidate>Submit</button>
+                                    <button type="submit" value="Submit" class="btn btn-block" formnovalidate>Submit</button>
                                 </div>
                             </div>
                         </div>
                     }
                     <div style="height:20px"></div>
 
-
+            }
                     @if (int.Parse(ViewBag.TotalBookmarks) > 0)
                     {
                         <div class="row">
