@@ -640,6 +640,14 @@ namespace Bookmark.Controllers
             }
             else if (Request.QueryString["action"].ToString().Equals("AddF"))
             {
+                if(lstFolders==null || lstFolders.Count ==0)
+                {
+                    BookmarkCls tempBmrk = new BookmarkCls();
+                    tempBmrk.Id = 27;
+                    tempBmrk.Name = "Default";
+                    lstFolders.Add(tempBmrk);
+                    ViewData["ddFolders"] = lstFolders;
+                }
                 return View("../Bookmark/NewBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("Move"))
