@@ -56,7 +56,14 @@ namespace Bookmark.Controllers
 
                 if (Session["User"] == null)
                 {
-                    ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg";
+                    if (!Request.Url.AbsoluteUri.ToString().Contains("localhost"))
+                    {
+                        ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg";
+                    }
+                    else
+                    {
+                        ViewData["bookmarkImgSrc"] = "http://localhost/bookmark/Images/Bookmark.jpg";
+                    }
                 }
                 else
                 {
@@ -65,12 +72,26 @@ namespace Bookmark.Controllers
                     bookmark.URL = lnk;
                     if (bookmark.BookmarkExists(user.UserId.ToString()))
                     {
-                        ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmarked.jpg";
+                        if (!Request.Url.AbsoluteUri.ToString().Contains("localhost"))
+                        {
+                            ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmarked.jpg";
+                        }
+                        else
+                        {
+                            ViewData["bookmarkImgSrc"] = "http://localhost/bookmark/Images/Bookmarked.jpg";
+                        }
                     }
                     else
                     {
-                        ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg"; //temporary
-                                                                                  //ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
+                        if (!Request.Url.AbsoluteUri.ToString().Contains("localhost"))
+                        {
+                            ViewData["bookmarkImgSrc"] = "http://booqmarqs.com/Images/Bookmark.jpg"; //temporary
+                        }
+                        else
+                        {
+                            ViewData["bookmarkImgSrc"] = "http://localhost/bookmark/Images/Bookmark.jpg";
+                        }                                                                    //ViewData["bookmarkImgSrc"] = "../../Images/Bookmark.jpg"; //actual later
+
                     }
                 }
             }
@@ -121,7 +142,7 @@ namespace Bookmark.Controllers
         }
 
         //From Booqmarq Icon
-        public string addbm(string Bookmark, string title, string ipAddr, string bookmarkImgSrc)
+        public string managebm(string Bookmark, string title, string ipAddr, string bookmarkImgSrc)
         {
             string strCity = string.Empty;
             string strState = string.Empty;
@@ -138,7 +159,14 @@ namespace Bookmark.Controllers
                 bmrk.URL = Bookmark;
                 if (bmrk.BookmarkExists(user.UserId.ToString()))
                 {
-                    resp = "http://booqmarqs.com/Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    if (!Request.Url.AbsoluteUri.ToString().Contains("localhost"))
+                    {
+                        resp = "http://booqmarqs.com/Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    }
+                    else
+                    {
+                        resp = "http://localhost/bookmark/Images/Bookmarked.jpg,Edit," + bmrk.Id;
+                    }
                 }
                 else
                 {
@@ -158,7 +186,14 @@ namespace Bookmark.Controllers
                     bmrk.City = strCity;
                     bmrk.Country = strState;
                     bmrk.ManageBookmark();
-                    resp = "http://booqmarqs.com/Images/Bookmarked.jpg";
+                    if (!Request.Url.AbsoluteUri.ToString().Contains("localhost"))
+                    {
+                        resp = "http://booqmarqs.com/Images/Bookmarked.jpg";
+                    }
+                    else
+                    {
+                        resp = "http://localhost/bookmark/Images/Bookmarked.jpg";
+                    }
                 }
             }
             return resp;
