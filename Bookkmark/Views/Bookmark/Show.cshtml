@@ -16,8 +16,8 @@
             document.getElementById("imgBookmark").style.height = @Html.Raw(Json.Encode(ViewData["ht"]));
             document.getElementById("imgBookmark").style.width = @Html.Raw(Json.Encode(ViewData["wd"]));
             document.getElementById("imgBookmark").src = @Html.Raw(Json.Encode(ViewData["bookmarkImgSrc"]));
-            window.parent.document.getElementById('divInnerBmrq').height = (parseInt(@Html.Raw(Json.Encode(ViewData["ht"]))) + 16).toString() + "px";
-            window.parent.document.getElementById('divInnerBmrq').width = (parseInt(@Html.Raw(Json.Encode(ViewData["wd"]))) + 9).toString() + "px";
+            document.getElementById('divInnerBmrq').height = (parseInt(@Html.Raw(Json.Encode(ViewData["ht"]))) + 16).toString() + "px";
+            document.getElementById('divInnerBmrq').width = (parseInt(@Html.Raw(Json.Encode(ViewData["wd"]))) + 9).toString() + "px";
         };
         function DisplayIP(response) {
             document.getElementById("ipAddr").value = response.ip.toString();
@@ -31,19 +31,18 @@
                 'bookmarkImgSrc' : document.getElementById("imgBookmark").src
             };
             $.ajax({
-                url: 'http://booqmarqs.com/bookmark/addbm',
+                url: 'http://booqmarqs.com/bookmark/managebm',
                 type: 'POST',
                 dataType: "text",
                 data: BookmarkModel,
                 success: function (data) {
 
                     if(data == null || data == ""){
-                        //alert("Bookmark not added");
                         var left = (screen.width)-(0.30*screen.width);
                         var top = (screen.height)-(0.80*screen.height);
-                        var height = screen.height*0.50;
+                        var height = screen.height*0.60;
                         var width = screen.height*0.38;
-                        window.open("http://booqmarqs.com/account/quicklogin", "_blank");
+                        window.open("http://booqmarqs.com/account/login", "_blank", "toolbar=yes,scrollbars=no,resizable=yes,top="+top+",left="+left+",width="+width+",height="+height+"");
                     }
                     else
                     {
