@@ -386,6 +386,69 @@ namespace Bookmark
             return lstBookmarks;
         }
 
+        public List<BookmarkCls> GetURLReports(string strQuery, out string total)
+        {
+
+            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+            BookmarkCls _Bookmark = new BookmarkCls();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                SqlCommand com = new SqlCommand();
+                com.CommandType = CommandType.Text;
+                com.Connection = conn;
+                com.CommandText = strQuery;
+                using (SqlDataAdapter sda = new SqlDataAdapter(com))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            total = "0";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Bookmark.URL = dt.Rows[i]["URL"].ToString(); 
+                _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
+                lstBookmarks.Add(_Bookmark);
+                _Bookmark = new BookmarkCls();
+
+            }
+
+            return lstBookmarks;
+        }
+
+        public List<BookmarkCls> GetCityReports(string strQuery, out string total)
+        {
+
+            List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
+            BookmarkCls _Bookmark = new BookmarkCls();
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                SqlCommand com = new SqlCommand();
+                com.CommandType = CommandType.Text;
+                com.Connection = conn;
+                com.CommandText = strQuery;
+                using (SqlDataAdapter sda = new SqlDataAdapter(com))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            total = "0";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                _Bookmark.Count = dt.Rows[i]["CityCount"].ToString();
+                _Bookmark.City = dt.Rows[i]["City"].ToString();
+                lstBookmarks.Add(_Bookmark);
+                _Bookmark = new BookmarkCls();
+            }
+
+            return lstBookmarks;
+        }
+
 
         public BookmarkCls GetBookmarkFromId(string bmrkId, double userId)
         {
