@@ -56,11 +56,14 @@
                                 </div>
                             </div>
                     } 
+                     @if (ViewBag.IsOwner == null || !ViewBag.IsOwner)
+                     {
                     <div style="height:40px"></div>    
                     <div class="row justify-content-center">
                         If you want to change yourself to a publisher to use Booqmarqs in your web application, then edit your info and update your profile.
                         After updating yourself as publisher, go to Script tab to register your domain and generate script to use it in your application.
                     </div>
+                     }
             </div>
             </div>
         </div>

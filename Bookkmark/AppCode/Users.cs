@@ -18,6 +18,7 @@ namespace Bookmark
         public string Password { get; set; }
         public string Email { get; set; }
         public bool IsPublisher { get; set; }
+        public bool IsOwner { get; set; }
         public bool IsWebUser { get; set; }
         //public string ScriptId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
@@ -136,7 +137,7 @@ namespace Bookmark
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
             {
                 conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from Users where EMail = '" + emailId + "'", conn))
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwDomains where EMail = '" + emailId + "'", conn))
                 {
                     sda.Fill(dt);
                 }
@@ -149,6 +150,7 @@ namespace Bookmark
                 _user.FirstName = dt.Rows[i]["FirstName"].ToString();
                 _user.LastName = dt.Rows[i]["LastName"].ToString();
                 _user.IsPublisher = bool.Parse(dt.Rows[i]["IsPublisher"].ToString());
+                _user.IsOwner = bool.Parse(dt.Rows[i]["IsOwner"].ToString());
             }
 
             return _user;

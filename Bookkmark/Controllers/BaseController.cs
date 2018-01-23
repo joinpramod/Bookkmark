@@ -14,6 +14,7 @@ namespace Bookmark.Controllers
 
                 ViewBag.lblFirstName = user.FirstName;
                 ViewBag.IsUserLoggedIn = true;
+                ViewBag.IsOwner = user.IsOwner;
                 RedirectToProfile(filterContext);
             }
             else if (Request.Cookies["BooqmarqsLogin"] != null && Request.Cookies["BooqmarqsLogin"].HasKeys)

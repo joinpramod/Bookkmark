@@ -40,7 +40,7 @@
                 <div id="divAck" class="error_info"></div>
                 <nav class="navbar navbar-default">
                     <div class="form-inline">
-                        <div class="row" style="padding-left:2%">
+                        <div class="row">
                             @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), "---Select Domain---", new { @class = "form-control", required = "required", style = "width:200px" })
                             <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
                             @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })

@@ -90,7 +90,7 @@ namespace Bookmark.Controllers
                 return View("../Account/Login");
             }
 
-           DtUserList = connManager.GetDataTable("select * from users where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
+           DtUserList = connManager.GetDataTable("select * from VwDomains where email = '" + txtEMailId + "' and Password = '" + txtPassword + "'");
 
             if (DtUserList.Rows.Count == 0)
             {
@@ -105,7 +105,7 @@ namespace Bookmark.Controllers
                 user.LastName = DtUserList.Rows[0]["LastName"].ToString();
                 user.Email = DtUserList.Rows[0]["EMail"].ToString();
                 user.IsPublisher = bool.Parse(DtUserList.Rows[0]["IsPublisher"].ToString());
-
+                user.IsOwner = bool.Parse(DtUserList.Rows[0]["IsOwner"].ToString());
 
                 //user.Details = DtUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
@@ -127,9 +127,10 @@ namespace Bookmark.Controllers
                     Session["bookmark"] = null;
                     return View("../Bookmark/BMAdded");
                 }
-                else if (user.IsPublisher)
+                else if (user.IsOwner)
                 {
                     Session["SiteOwner"] = null;
+                    ViewBag.IsOwner = true;
                     return RedirectToAction("Reports", "Bookmark");
                 }
                 else
@@ -705,8 +706,9 @@ namespace Bookmark.Controllers
                 }
                 else
                 {
-                    if(user1.IsPublisher)
+                    if(user1.IsOwner)
                     {
+                        ViewBag.IsOwner = true;
                         return RedirectToAction("Reports", "Bookmark");
                     }
                     else
@@ -743,7 +745,7 @@ namespace Bookmark.Controllers
             bool userExists = false;
             DataTable dtUser = new DataTable();
             ConnManager con = new ConnManager();            
-            dtUser = con.GetDataTable("Select * from Users where Email = '" + user1.Email + "'");           
+            dtUser = con.GetDataTable("Select * from VwDomains where Email = '" + user1.Email + "'");           
 
             if (dtUser.Rows.Count > 0)
             {
@@ -753,6 +755,7 @@ namespace Bookmark.Controllers
                 user1.LastName = dtUser.Rows[0]["LastName"].ToString();
                 user1.Email = dtUser.Rows[0]["EMail"].ToString();
                 user1.IsPublisher = bool.Parse(dtUser.Rows[0]["IsPublisher"].ToString());
+                user1.IsOwner = bool.Parse(dtUser.Rows[0]["IsOwner"].ToString());
             }
             else
             {
