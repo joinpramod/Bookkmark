@@ -107,16 +107,29 @@
 
 <div class="container">
     <div class="span12">
-            <div class="section_heading" style="padding-top:20px;">
-                <h3><span>My Bookmarks</span> </h3>
+        <div class="section_heading" style="padding-top:20px;">
+            <h3><span>My Bookmarks</span> </h3>
         </div>
+        @using (Html.BeginForm("MyBookmarks", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+        {
+        <nav class="navbar navbar-default">
+            <div class="form-inline">
+                <div class="row">
+                    @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:250px", placeholder = "Link like" })
+                    <div class="form_search">
+                        <button type="submit" name="Search" id="Search" value="Search" class="btn btn-block" style="width:100px">Search</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        }
         <div class="treeview">
             @if (Model != null && Model.Count() > 0)
-            {
-                <ul>
-                    @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
-                </ul>
-            }
+        {
+            <ul>
+                @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
+            </ul>
+    }
         </div>
         <div style="height:40px">&nbsp;</div>
         <nav id="context-menu" class="context-menu">

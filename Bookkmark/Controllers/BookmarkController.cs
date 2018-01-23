@@ -345,21 +345,17 @@ namespace Bookmark.Controllers
             return lstDomains[0].Name + "," + lstDomains[0].Height + "," + lstDomains[0].Width + "," + bool.Parse(lstDomains[0].ShowCount) + "," + lstDomains[0].Script;
         }
 
-        public ActionResult MyBookmarks()
+        public ActionResult MyBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString(), null, null);
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
 
-        public ActionResult ExtBookmarks()
+        public ActionResult ExtBookmarks(string txtSearch)
         {
-            //string strCity = string.Empty;
-            //string strState = string.Empty;
-            //string strCountry = string.Empty;
-            //GetLocation("69.248.7.33", ref strCity, ref strState, ref strCountry);
             Users user = (Users)Session["User"];
-            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(null, null, null, user.UserId.ToString(), null, null);
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
 

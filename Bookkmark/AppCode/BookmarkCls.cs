@@ -222,10 +222,20 @@ namespace Bookmark
             List<BookmarkCls> lstBookmarks = new List<BookmarkCls>();
             BookmarkCls _Bookmark = new BookmarkCls();
             DataTable dt = new DataTable();
+            string strWhere = string.Empty;
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
             {
                 conn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder desc", conn))
+                if (string.IsNullOrEmpty(search))
+                { 
+                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder desc";
+                }
+                else
+                {
+                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' order by isfolder desc";
+                }
+
+                using (SqlDataAdapter sda = new SqlDataAdapter(strWhere, conn))
                 {
                     sda.Fill(dt);
                 }
