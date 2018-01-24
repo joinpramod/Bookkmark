@@ -232,7 +232,8 @@ namespace Bookmark
                 }
                 else
                 {
-                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' order by isfolder desc";
+                    strWhere = "(Select * from VwUserBookmarks where id in (Select folderid from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ))";
+                    strWhere += " Union (Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ) order by isfolder desc";
                 }
 
                 using (SqlDataAdapter sda = new SqlDataAdapter(strWhere, conn))
