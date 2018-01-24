@@ -181,6 +181,21 @@ namespace Bookmark
             }
         }
 
+        public bool FolderExists(string _userId, string ddFolder, string folderName)
+        {
+            DataTable dtBmrkExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where IsFolder = 1 and FolderId = " + ddFolder + " and Lower(Name) = '" + folderName.ToLower() + "' and  CreatedUser = " + _userId + "");
+            if (dtBmrkExists != null && dtBmrkExists.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         public List<BookmarkCls> GetFolders(string search, string sort, string sortdir, string userId)
         {
