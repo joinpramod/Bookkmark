@@ -697,6 +697,7 @@ namespace Bookmark.Controllers
             string strCountry = string.Empty;
             string ipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+            List<BookmarkCls> lstFolders = new List<BookmarkCls>();
 
             if (!string.IsNullOrEmpty(txtLink))
             {
@@ -711,16 +712,30 @@ namespace Bookmark.Controllers
             {
                 bmrk.IsFolder = true;
             }
-            bmrk.OptID = 1;
-            bmrk.Name = txtName;
-            bmrk.FolderId = double.Parse(ddFolder);
-            bmrk.CreatedDate = DateTime.Now.ToString();
-            bmrk.CreatedUserId = user.UserId.ToString();
-            bmrk.City = strCity;
-            bmrk.Country = strState;
-            bmrk.ManageBookmark();
 
-            List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            if (bmrk.IsFolder && !bmrk.FolderExists(user.UserId.ToString(), ddFolder, txtName))
+            {
+                bmrk.OptID = 1;
+                bmrk.Name = txtName;
+                bmrk.FolderId = double.Parse(ddFolder);
+                bmrk.CreatedDate = DateTime.Now.ToString();
+                bmrk.CreatedUserId = user.UserId.ToString();
+                bmrk.City = strCity;
+                bmrk.Country = strState;
+                bmrk.ManageBookmark();
+            }
+            else
+            {
+                ViewBag.Ack = "Folder already exists";
+                lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+                BookmarkCls tempBmrk = new BookmarkCls();
+                tempBmrk.Id = 27;
+                tempBmrk.Name = "Default";
+                lstFolders.Add(tempBmrk);
+                ViewData["ddFolders"] = lstFolders;
+                return View("../Bookmark/NewBMFolder");
+            }
+            lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
             ViewData["ddFolders"] = lstFolders;
             ViewData["Refresh"] = "true";
             return View("../Bookmark/BMAdded");
