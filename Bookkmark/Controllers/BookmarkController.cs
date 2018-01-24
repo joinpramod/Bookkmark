@@ -627,58 +627,64 @@ namespace Bookmark.Controllers
             ViewBag.BookmarkId = Request.QueryString["id"];
 
             List<BookmarkCls> lstFolders = bmrk.GetFolders(null, null, null, user.UserId.ToString());
+            BookmarkCls tempBmrk = new BookmarkCls();
+            tempBmrk.Id = 27;
+            tempBmrk.Name = "Default";
+            lstFolders.Add(tempBmrk);
+
             ViewData["ddFolders"] = lstFolders;
 
-            if (Request.QueryString["action"].ToString().Equals("AddB") )
+            if (Request.QueryString["action"].ToString().Equals("AddB"))
             {
                 ViewBag.AddType = "Bookmark";
                 return View("../Bookmark/NewBMFolder");
             }
             else if (Request.QueryString["action"].ToString().Equals("AddF"))
             {
-                if(lstFolders==null || lstFolders.Count ==0)
-                {
-                    BookmarkCls tempBmrk = new BookmarkCls();
-                    tempBmrk.Id = 27;
-                    tempBmrk.Name = "Default";
-                    lstFolders.Add(tempBmrk);
-                    ViewData["ddFolders"] = lstFolders;
-                }
                 return View("../Bookmark/NewBMFolder");
             }
-            else if (Request.QueryString["action"].ToString().Equals("Move"))
+
+            else if (ViewBag.BookmarkId != "27")
             {
-                BookmarkCls bmrk = new BookmarkCls();
-                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
-                if (!bmrk.IsFolder)
-                    ViewBag.MoveType = "Bookmark";
-                ViewBag.Name = bmrk.Name;
-                return View("../Bookmark/MoveBMFolder", bmrk);
-            }
-            else if (Request.QueryString["action"].ToString().Equals("Edit"))
-            {
-                BookmarkCls bmrk = new BookmarkCls();
-                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
-                if(!bmrk.IsFolder)
-                    ViewBag.EditType = "Bookmark";
-                return View("../Bookmark/EditBMFolder", bmrk);
-            }         
-            else
-            {
-                BookmarkCls bmrk = new BookmarkCls();
-                bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
-                if (!bmrk.IsFolder)
-                    ViewBag.DeleteType = "Bookmark";
-                ViewBag.Name = bmrk.Name;
-                if (bmrk.IsFolder)
+                if (Request.QueryString["action"].ToString().Equals("Move"))
                 {
-                    ViewBag.Info = "Deleting folder will delete all bookmarks within. Are you sure you want to delete folder? ";
+                    BookmarkCls bmrk = new BookmarkCls();
+                    bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                    if (!bmrk.IsFolder)
+                        ViewBag.MoveType = "Bookmark";
+                    ViewBag.Name = bmrk.Name;
+                    return View("../Bookmark/MoveBMFolder", bmrk);
+                }
+                else if (Request.QueryString["action"].ToString().Equals("Edit"))
+                {
+                    BookmarkCls bmrk = new BookmarkCls();
+                    bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                    if (!bmrk.IsFolder)
+                        ViewBag.EditType = "Bookmark";
+                    return View("../Bookmark/EditBMFolder", bmrk);
                 }
                 else
                 {
-                    ViewBag.Info = "Are you sure you want to delete ?";
+                    BookmarkCls bmrk = new BookmarkCls();
+                    bmrk = bmrk.GetBookmarkFromId(ViewBag.BookmarkId, user.UserId);
+                    if (!bmrk.IsFolder)
+                        ViewBag.DeleteType = "Bookmark";
+                    ViewBag.Name = bmrk.Name;
+                    if (bmrk.IsFolder)
+                    {
+                        ViewBag.Info = "Deleting folder will delete all bookmarks within. Are you sure you want to delete folder? ";
+                    }
+                    else
+                    {
+                        ViewBag.Info = "Are you sure you want to delete ?";
+                    }
+                    return View("../Bookmark/Delete", bmrk);
                 }
-                return View("../Bookmark/Delete", bmrk);
+            }
+            else
+            {
+                ViewBag.Ack = "Default Folder cannot be modified";
+                return View("../Bookmark/BMAdded");
             }
         }
 
@@ -765,65 +771,95 @@ namespace Bookmark.Controllers
         public ActionResult Import(HttpPostedFileBase fileImport)
         {
             string folderId = string.Empty;
-            if (fileImport != null)
+            bool IfPartialSuccess = false;
+            try
             {
-                string strCity = string.Empty;
-                string strState = string.Empty;
-                string strCountry = string.Empty;
-                string ipAddr = Utilities.GetIPAddress();
-                Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
 
-                StreamReader reader = new StreamReader(fileImport.InputStream);
-                string fileText = reader.ReadToEnd();
-
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(fileText);
-
-                List<HtmlNode> htmlNodes = new List<HtmlNode>();
-                htmlNodes = doc.DocumentNode.Descendants().ToList();
-                Users user = (Users)Session["User"];
-
-                foreach (HtmlNode node in htmlNodes)
+                if (fileImport != null)
                 {
-                    if (node.Attributes.Count > 0)
+                    string strCity = string.Empty;
+                    string strState = string.Empty;
+                    string strCountry = string.Empty;
+                    string ipAddr = Utilities.GetIPAddress();
+                    Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+
+                    StreamReader reader = new StreamReader(fileImport.InputStream);
+                    string fileText = reader.ReadToEnd();
+
+                    HtmlDocument doc = new HtmlDocument();
+                    doc.LoadHtml(fileText);
+
+                    List<HtmlNode> htmlNodes = new List<HtmlNode>();
+                    htmlNodes = doc.DocumentNode.Descendants().ToList();
+                    Users user = (Users)Session["User"];
+
+                    foreach (HtmlNode node in htmlNodes)
                     {
-                        if (node.Name.Trim().ToUpper().Equals("H3"))
+                        try
                         {
-                            //Create Folder
-                            bmrk.IsFolder = true;
-                            bmrk.FolderId = 27;
-                            bmrk.URL = string.Empty;
-                            folderId = string.Empty;
+                            if (node.Attributes.Count > 0)
+                            {
+                                if (node.Name.Trim().ToUpper().Equals("H3"))
+                                {
+                                    //Create Folder
+                                    bmrk.IsFolder = true;
+                                    bmrk.FolderId = 27;
+                                    bmrk.URL = string.Empty;
+                                    folderId = string.Empty;
+                                }
+                                else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
+                                {
+                                    //Create Bookmark
+                                    bmrk.IsFolder = false;
+                                    bmrk.URL = node.Attributes[0].Value;
+                                    bmrk.FolderId = double.Parse(folderId);
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                bmrk.Name = node.InnerText;
+                                bmrk.OptID = 1;
+                                bmrk.CreatedUserId = user.UserId.ToString();
+                                bmrk.CreatedDate = DateTime.Now.ToString();
+                                bmrk.City = strCity;
+                                bmrk.Country = strState;
+                                bmrk.IpAddr = ipAddr;
+
+                                if (bmrk.IsFolder)
+                                    bmrk.ManageBookmark(out folderId);
+                                else
+                                    bmrk.ManageBookmark();
+                                IfPartialSuccess = true;
+
+                            }
                         }
-                        else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
-                        {
-                            //Create Bookmark
-                            bmrk.IsFolder = false;
-                            bmrk.URL = node.Attributes[0].Value;
-                            bmrk.FolderId = double.Parse(folderId);
-                        }
-                        else
+                        catch
                         {
                             continue;
                         }
 
-                        bmrk.Name = node.InnerText;
-                        bmrk.OptID = 1;
-                        bmrk.CreatedUserId = user.UserId.ToString();
-                        bmrk.CreatedDate = DateTime.Now.ToString();
-                        bmrk.City = strCity;
-                        bmrk.Country = strState;
-                        bmrk.IpAddr = ipAddr;
-
-                        if (bmrk.IsFolder)
-                            bmrk.ManageBookmark(out folderId);
-                        else
-                            bmrk.ManageBookmark();
                     }
+
+                    ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
                 }
 
-                ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
             }
+            catch (Exception ex)
+            {
+                if (IfPartialSuccess)
+                {
+                    ViewBag.Ack = "Bookmarks imported. Howere there were warnings, click on \"Bookmarks\" tab to view your bookmarks and make necessary updates if required.";
+                }
+                else
+                {
+                    Utilities.EmailException(ex);
+                    ViewBag.Ack = "Please try again, there seem to be an error";
+                }
+            }
+
+
             return View();
         }
 

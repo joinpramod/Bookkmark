@@ -105,7 +105,10 @@ namespace Bookmark.Controllers
                 user.LastName = DtUserList.Rows[0]["LastName"].ToString();
                 user.Email = DtUserList.Rows[0]["EMail"].ToString();
                 user.IsPublisher = bool.Parse(DtUserList.Rows[0]["IsPublisher"].ToString());
-                user.IsOwner = bool.Parse(DtUserList.Rows[0]["IsOwner"].ToString());
+                if (!string.IsNullOrEmpty(DtUserList.Rows[0]["IsOwner"].ToString()))
+                {
+                    user.IsOwner = bool.Parse(DtUserList.Rows[0]["IsOwner"].ToString());
+                }
 
                 //user.Details = DtUserList.Rows[0]["Details"].ToString();
                 Session["User"] = user;
@@ -755,7 +758,10 @@ namespace Bookmark.Controllers
                 user1.LastName = dtUser.Rows[0]["LastName"].ToString();
                 user1.Email = dtUser.Rows[0]["EMail"].ToString();
                 user1.IsPublisher = bool.Parse(dtUser.Rows[0]["IsPublisher"].ToString());
-                user1.IsOwner = bool.Parse(dtUser.Rows[0]["IsOwner"].ToString());
+                if (!string.IsNullOrEmpty(dtUser.Rows[0]["IsOwner"].ToString()))
+                {
+                    user1.IsOwner = bool.Parse(dtUser.Rows[0]["IsOwner"].ToString());
+                }
             }
             else
             {
