@@ -7,7 +7,14 @@
                 }
                 @if (submenu > 0)
                 {
-                    <span class="expand1 collapsible">&nbsp;</span>
+                    if (i.Name.ToLower().Equals("default"))
+                    {
+                        <span class="expand1 collapsible">&nbsp;</span>
+                    }
+                    else
+                    {
+                        <span class="collapse1 collapsible">&nbsp;</span>
+                    }
                 }
 
                 @if (!string.IsNullOrEmpty(i.URL))
