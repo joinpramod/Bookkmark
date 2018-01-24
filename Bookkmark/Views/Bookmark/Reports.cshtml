@@ -42,7 +42,7 @@
                     <div class="form-inline">
                         <div class="row">
                             @Html.DropDownList("ddDomains", new SelectList((System.Collections.IEnumerable)ViewData["domains"], "ID", "Name"), "---Select Domain---", new { @class = "form-control", required = "required", style = "width:200px" })
-                            <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:400px" />
+                            <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="URL like" style="width:370px" />
                             @Html.TextBox("txtCreatedFrom", "", new { id = "txtCreatedFrom", @class = "form-control", placeholder = "Created from", style = "width:120px" })
                             @Html.TextBox("txtCreatedTo", "", new { id = "txtCreatedTo", @class = "form-control", placeholder = "Created to", style = "width:120px" })
                             <div class="form_search">

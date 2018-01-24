@@ -148,6 +148,7 @@
     <script>
                     $(document).ready(function () {
                         $(".treeview li>ul").css('display', 'show'); // Hide all 2-level ul
+                        $(".treeview li>ul>li").children('ul').slideToggle();
                         $(".collapsible").click(function (e) {
                             e.preventDefault();
                             $(this).toggleClass("collapse1 expand1");
