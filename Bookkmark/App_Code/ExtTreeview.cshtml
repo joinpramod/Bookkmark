@@ -16,6 +16,17 @@
                         <span class="collapse1 collapsible">&nbsp;</span>
                     }
                 }
+                else
+                {
+                    if (i.IsFolder)
+                    {
+                        <span class="collapse1 collapsible">&nbsp;</span>
+                    }
+                    else
+                    {
+                        <span style="padding-left:25px"> &nbsp;</span>
+                    }
+                }
 
                 @if (!string.IsNullOrEmpty(i.URL))
                 {
