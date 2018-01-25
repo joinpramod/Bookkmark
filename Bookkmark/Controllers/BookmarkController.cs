@@ -843,9 +843,19 @@ namespace Bookmark.Controllers
                                 bmrk.IpAddr = ipAddr;
 
                                 if (bmrk.IsFolder)
-                                    bmrk.ManageBookmark(out folderId);
+                                {
+                                    if (!bmrk.FolderExists(user.UserId.ToString(), bmrk.Name, out folderId))
+                                    {
+                                        bmrk.ManageBookmark(out folderId);
+                                    }
+                                }
                                 else
-                                    bmrk.ManageBookmark();
+                                {
+                                    if (!bmrk.BookmarkUnderFolderExists(user.UserId.ToString()))
+                                    {
+                                        bmrk.ManageBookmark();
+                                    }
+                                }
                                 IfPartialSuccess = true;
 
                             }
