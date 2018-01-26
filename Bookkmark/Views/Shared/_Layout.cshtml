@@ -46,6 +46,20 @@
     <div id="preloader">
         <div class="apland-load"></div>
     </div>
+
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+         (document, 'script', 'facebook-jssdk'));</script>
+    <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+
+
     <header class="header_area">
         <div class="main_header_area animated">
             <div class="container">
@@ -95,10 +109,9 @@
                     </div>
                 </div>
             </div>
-        </div>
         <!-- Main Header Area End -->
     </header> 
-
+    
     @RenderBody()
 
 
@@ -117,10 +130,10 @@
                                 <li><a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
                             </ul>
                             <div class="footer_social_area">
-                                <a href="https://www.facebook.com/booqmarqs" target="_blank"><i class="fa fa-facebook"></i></a>
-                                <a href="https://plus.google.com/share?url=http://booqmarqs.com"  target="_blank"><i class="fa fa-google-plus"></i></a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=booqmarqs.com"><i class="fa fa-facebook"></i></a>
+                                <a href="https://plus.google.com/share?url=http://booqmarqs.com"><i class="fa fa-google-plus"></i></a>
                                 @*<a href="#"><i class="fa fa-pinterest"></i></a>*@
-                                <a href="https://twitter.com/booqmarqs"  target="_blank"><i class="fa fa-twitter"></i></a>
+                                <a href="https://twitter.com/share?url=http://booqmarqs.com"><i class="fa fa-twitter"></i></a>
                             </div>
                         </div>
                     </div>
@@ -130,7 +143,11 @@
                             <div class="footer_bottom text-right copywrite-area">
                                 Copyright © 2017 Booqmarqs. All rights reserved.
                             </div>
-                        </div>
+                                <div style="padding-top:7px" class="fb-like" data-href="https://facebook.com/booqmarqs" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
+                                <div style="padding-top:7px">
+                                    <a href="https://twitter.com/booqmarqs" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-lang="en" data-show-count="true">Follow</a>
+                                </div>
+
                     </div>
                 </div>
             </div>
