@@ -704,7 +704,15 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        BookmarkCls bmrk = new BookmarkCls();
+                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
+                        {
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Import", "Bookmark");
+                        }
                     }
                 }
                 else
@@ -716,7 +724,15 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        BookmarkCls bmrk = new BookmarkCls();
+                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
+                        {
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Import", "Bookmark");
+                        }
                     }
                 }
             }
