@@ -181,6 +181,38 @@ namespace Bookmark
             }
         }
 
+        public bool BookmarkUnderFolderExists(string _userId)
+        {
+            DataTable dtBmrkExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where FolderId = " + FolderId + " and URL = '" + URL + "' and  CreatedUser = " + _userId + "");
+            if (dtBmrkExists != null && dtBmrkExists.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool FolderExists(string _userId, string folderName, out string folderId)
+        {
+            DataTable dtBmrkExists = new DataTable();
+            ConnManager connManager = new ConnManager();
+            dtBmrkExists = connManager.GetDataTable("Select * from VwUserBookmarks where IsFolder = 1 and FolderId = " + FolderId + " and Lower(Name) = '" + folderName.ToLower() + "' and  CreatedUser = " + _userId + "");
+            if (dtBmrkExists != null && dtBmrkExists.Rows.Count > 0)
+            {
+                folderId = dtBmrkExists.Rows[0]["Id"].ToString();
+                return true;
+            }
+            else
+            {
+                folderId = null;
+                return false;
+            }
+        }
+
         public bool FolderExists(string _userId, string ddFolder, string folderName)
         {
             DataTable dtBmrkExists = new DataTable();
@@ -196,6 +228,7 @@ namespace Bookmark
             }
         }
 
+       
 
         public List<BookmarkCls> GetFolders(string search, string sort, string sortdir, string userId)
         {
@@ -506,7 +539,26 @@ namespace Bookmark
         }
 
 
+        public Int32 GetBookmarksCountForUser(double userId)
+        {
+            Int32 countBmrk = 0;
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLCON"].ToString()))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter("Select * from VwUserBookmarks where CreatedUser = " + userId.ToString() + "", conn))
+                {
+                    sda.Fill(dt);
+                }
+            }
 
+           if(dt.Rows.Count>0)
+            {
+                countBmrk = dt.Rows.Count;
+            }
+
+            return countBmrk;
+        }
 
     }
 }
