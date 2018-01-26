@@ -4,21 +4,35 @@
     Layout = "~/Views/Shared/Manage_Bookmark.cshtml";
 }
 
-<section class="pt150 pb100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <div>
                     <div class="section_heading">
                         <h3><span>Login</span> </h3>
-
                     </div>
                 </div>
+                <div>
+                    <ul class="fa-ul list-colored mt20" style="font-weight:500">
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Online bookmarks with same tree view.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Chrome and Firefox extensions.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Import bookmarks from all your browsers here in just 1 step. Login now.
+                        </li>
+                    </ul>
+
+
+                </div>
+
 
                             @*<div class="success_info">Thank you! your message sent successful</div>*@
                             <div class="error_info">@ViewBag.Ack</div>
-@using (Html.BeginForm("ProcessActivationCode", "Account"))
-{
+                            @using (Html.BeginForm("ProcessActivationCode", "Account"))
+                            {
 
                                 if (ViewBag.Activation != null)
                                 {
@@ -32,9 +46,9 @@
                                         </div>
                                     </div>
                                 }
-}
-                                <div style="height:20px"></div>
-                                            <div class="row">
+                            }
+                           <div style="height:20px"></div>
+                           <div class="row">
                                                 <div class="col-lg-6 col-12">
                                                     <div class="form_area">
                                                         @using (Html.BeginForm("ProcessLogin", "Account"))
@@ -59,10 +73,19 @@
                                                     <p class="mt20">Don't have an account? <a href="@Url.Action("Choice", "Account")">Register</a></p>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                <div class="row">
+                    <div class="col-6 col-md-6 text-center">
+                        <img src="~/Images/WebUser.png">
+                    </div>
+                    <div class="col-6 col-md-6  text-center">
+                        <img src="~/Images/WhatToExpect.png">
+                    </div>
+                </div>
+                           
+
+            </div>
+        </div>
     </div>
-</section>
 
 
 
