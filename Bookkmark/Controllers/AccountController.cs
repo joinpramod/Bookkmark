@@ -616,6 +616,86 @@ namespace Bookmark.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
+
+        public ActionResult FacebookWelcome()
+        {
+            string returnUrl = string.Empty;
+            return new ChallengeResult("Facebook", Url.Action("FacebookCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> FacebookCallback(string returnUrl)
+        {
+            bool _isNewUser = false;
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                Users user1 = new Users();
+
+              
+                    ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
+                    if (loginInfo.Login.LoginProvider.ToLower() == "facebook")
+                    {
+                        user1.FirstName = (from c in claimsIdentities.Claims
+                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+                                           select c.Value).Single();
+                        user1.Email = (from c in claimsIdentities.Claims
+                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                       select c.Value).Single();
+                    }
+
+
+                if (IsNewUser(ref user1))
+                {
+                    _isNewUser = true;
+                    if (Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
+                    {
+                        user1.IsPublisher = true;
+                    }
+                    RegisterUser(user1);
+                }
+
+
+                Session["User"] = user1;
+                HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
+                mycookie.Values["EMail"] = user1.Email;
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(mycookie);
+   
+                if (_isNewUser)
+                {  
+                    if(Request.Browser.Type.ToLower().Contains("chrome"))
+                    {                        
+                        return Redirect("https://chrome.google.com/webstore/detail/booqmarqs/nabhjndfpicfhnminejhekphlfdaojla");
+                    }
+                    else if (Request.Browser.Type.ToLower().Contains("firefox"))
+                    {
+                        return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
+                    }                    
+                }
+                else
+                {                   
+                    BookmarkCls bmrk = new BookmarkCls();
+                    if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
+                    {
+                        return RedirectToAction("MyBookmarks", "Bookmark");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Import", "Bookmark");
+                    }                    
+                }
+            }
+            return null;
+        }
+
+
+
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {

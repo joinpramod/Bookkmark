@@ -7,6 +7,7 @@ using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.Helpers;
+using Newtonsoft.Json;
 
 namespace Bookmark.Controllers
 {
@@ -968,6 +969,131 @@ namespace Bookmark.Controllers
             //lstSacleTypes.Add(sli);
             ViewBag.ddScaleType = lstSacleTypes;
         }
+
+        public ActionResult extImport(string Id, string Bookmarks)
+        {
+            string folderId = string.Empty;
+
+           List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
+
+
+            //bool IfPartialSuccess = false;
+            try
+            {
+
+                //if (fileImport != null)
+                //{
+                //    string strCity = string.Empty;
+                //    string strState = string.Empty;
+                //    string strCountry = string.Empty;
+                //    string ipAddr = Utilities.GetIPAddress();
+                //    Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
+
+                //    StreamReader reader = new StreamReader(fileImport.InputStream);
+                //    string fileText = reader.ReadToEnd();
+
+                //    HtmlDocument doc = new HtmlDocument();
+                //    doc.LoadHtml(fileText);
+
+                //    List<HtmlNode> htmlNodes = new List<HtmlNode>();
+                //    htmlNodes = doc.DocumentNode.Descendants().ToList();
+                //    Users user = (Users)Session["User"];
+
+                //    foreach (HtmlNode node in htmlNodes)
+                //    {
+                //        try
+                //        {
+                //            if (node.Attributes.Count > 0)
+                //            {
+                //                if (node.Name.Trim().ToUpper().Equals("H3"))
+                //                {
+                //                    //Create Folder
+                //                    bmrk.IsFolder = true;
+                //                    bmrk.FolderId = 27;
+                //                    bmrk.URL = string.Empty;
+                //                    folderId = string.Empty;
+                //                }
+                //                else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
+                //                {
+                //                    //Create Bookmark
+                //                    bmrk.IsFolder = false;
+                //                    bmrk.URL = node.Attributes[0].Value;
+                //                    bmrk.FolderId = double.Parse(folderId);
+                //                }
+                //                else
+                //                {
+                //                    continue;
+                //                }
+
+                //                bmrk.Name = node.InnerText;
+                //                bmrk.OptID = 1;
+                //                bmrk.CreatedUserId = user.UserId.ToString();
+                //                bmrk.CreatedDate = DateTime.Now.ToString();
+                //                bmrk.City = strCity;
+                //                bmrk.Country = strState;
+                //                bmrk.IpAddr = ipAddr;
+
+                //                if (bmrk.IsFolder)
+                //                {
+                //                    if (!bmrk.FolderExists(user.UserId.ToString(), bmrk.Name, out folderId))
+                //                    {
+                //                        bmrk.ManageBookmark(out folderId);
+                //                    }
+                //                }
+                //                else
+                //                {
+                //                    if (!bmrk.BookmarkUnderFolderExists(user.UserId.ToString()))
+                //                    {
+                //                        bmrk.ManageBookmark();
+                //                    }
+                //                }
+                //                IfPartialSuccess = true;
+
+                //            }
+                //        }
+                //        catch
+                //        {
+                //            continue;
+                //        }
+
+                //    }
+
+                //ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                //if (IfPartialSuccess)
+                //{
+                //    ViewBag.Ack = "Bookmarks imported. Howere there were warnings, click on \"Bookmarks\" tab to view your bookmarks and make necessary updates if required.";
+                //}
+                //else
+                //{
+                //    Utilities.EmailException(ex);
+                //    ViewBag.Ack = "Please try again, there seem to be an error";
+                //}
+            }
+
+
+            return View();
+        }
+
+    }
+
+
+
+    public class ChromeBookmark
+    {
+        public string title { get; set; }
+        public string url { get; set; }
+        public string id { get; set; }
+        public string parentId { get; set; }
+
+        public int index { get; set; }
+        public double dateAdded { get; set; }
+        public double dateGroupModified { get; set; }
+        public List<ChromeBookmark> children { get; set; }
 
     }
 

@@ -14,17 +14,23 @@
                     <div class="my_logo_area" style="text-align:center;height:70px">
 
                         <a href="http://booqmarqs.com" target="_blank"><img style="height:40px;width:35px" src="http://booqmarqs.com/images/logo.png" alt="Booqmarqs" /><span>Booqmarqs</span> </a>
-                        </div>
-                    <div  style="text-align:center;padding-bottom:10px">
-                        <button id="clickme" class="btn btn-block" style="width:80%;height:30px;line-height:20px;font-weight:400">Bookmark current page</button>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row justify-content-center" style="padding-bottom:10px">
+                <div class="col-xs-5">
+                    <button id="clickme" style="font-size:14px;height:25px;width:160px;line-height:16px;font-weight:400">Bookmark current tab</button>
+                </div>
+                <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-5">
+                        <button id="import" style="font-size:14px;height:25px;width:160px;line-height:16px;font-weight:400">Import from browser</button>
+                    </div>
+                </div>
+
+            </div>
     </div>
 
-        <div style="font-weight:bold" id="divTitle"></div><br />
-        <div id="divURL"></div>
+       
         <script type="text/javascript" src="popup.js"></script>
 
         <style>
@@ -45,7 +51,7 @@
 
         <div id="container1">
             <div id="container2">
-                <iframe id="iframe_id" src="http://booqmarqs.com/Bookmark/ExtBookmarks" style="width: 350px;height:700px;border:none;overflow:hidden;" ></iframe>
+                <iframe id="iframe_id" src="http://booqmarqs.com/Bookmark/ExtBookmarks" style="padding-top:10px;width: 350px;height:700px;border:none;overflow:hidden;" ></iframe>
             </div>
         </div>
 </body>

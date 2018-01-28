@@ -98,15 +98,14 @@
     <div class="span12">
         @using (Html.BeginForm("ExtBookmarks", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
     {
-            <div class="form-inline" style="width:100%;">
-                <div class="row" style="padding-left:8%">
-                    @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:250px", placeholder = "Link like" })
-                    @*<div class="form_search">
-                        <button type="submit" name="Search" id="Search" value="Search" class="btn btn-block" style="width:80px">Search</button>
-                    </div>*@
-                    <button type="submit" id="Search" class="icon" style="width:40px"><i class="fa fa-search"></i></button>
+                <div class="row justify-content-center">
+                    <div class="col-xs-10">
+                        @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:230px", placeholder = "Link like" })
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit" id="Search" class="icon" style="width:40px;height:38px"><i class="fa fa-search"></i></button>
+                    </div>
                 </div>
-            </div>
         }
         <div class="treeview">
             @if (Model != null && Model.Count() > 0)
