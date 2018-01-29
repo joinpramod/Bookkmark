@@ -96,6 +96,21 @@
 
 <div class="container">
     <div class="span12">
+        @if (ViewBag.Count == 0)
+        {
+            <ul class="fa-ul list-colored mt20" style="font-weight:400;width:240px">
+                
+                <li style="color:#4e4d4d">Almost done, just 1 click on Import button above and feel the comfort of having all your favourites anytime anywhere</li>
+                <li></li>
+                <li style="color:#4e4d4d">
+                    <i class="fa-li fa fa-arrow-circle-o-right"></i>be it Chrome, Firefox, Safari, Edge, IE, Opera or any.
+                </li>
+                <li style="color:#4e4d4d">
+                    <i class="fa-li fa fa-arrow-circle-o-right"></i>be it Personal laptop or official laptop or public machine or any.
+                </li>
+            </ul>
+
+        }
         @using (Html.BeginForm("ExtBookmarks", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
     {
                 <div class="row justify-content-center">
