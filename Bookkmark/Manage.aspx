@@ -25,6 +25,11 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <asp:TextBox ID="txtTemp" runat="server" Height="120px" TextMode="MultiLine" Width="90%"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
                 <td>&nbsp;</td>
             </tr>
             <tr>
