@@ -616,16 +616,8 @@ namespace Bookmark.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-
-        public ActionResult FacebookWelcome()
-        {
-            string returnUrl = string.Empty;
-            return new ChallengeResult("Facebook", Url.Action("FacebookCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
-
-
         [AllowAnonymous]
-        public async Task<ActionResult> FacebookCallback(string returnUrl)
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             bool _isNewUser = false;
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -637,7 +629,16 @@ namespace Bookmark.Controllers
             {
                 Users user1 = new Users();
 
-              
+                if (loginInfo.Login.LoginProvider.ToLower() == "twitter")
+                {
+                    string access_token = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_token").Select(x => x.Value).FirstOrDefault();
+                    string access_secret = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_secret").Select(x => x.Value).FirstOrDefault();
+                    TwitterDto response = TwitterLogin(access_token, access_secret, ConfigurationManager.AppSettings["twitter_consumer_key"], ConfigurationManager.AppSettings["twitter_consumer_secret"]);
+                    user1.Email = response.email;
+                    user1.FirstName = response.name;
+                }
+                else
+                {
                     ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
                     if (loginInfo.Login.LoginProvider.ToLower() == "facebook")
                     {
@@ -648,6 +649,132 @@ namespace Bookmark.Controllers
                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                        select c.Value).Single();
                     }
+                    else if (loginInfo.Login.LoginProvider.ToLower() == "google")
+                    {
+                        user1.FirstName = (from c in claimsIdentities.Claims
+                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
+                                           select c.Value).Single();
+                        user1.LastName = (from c in claimsIdentities.Claims
+                                          where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
+                                          select c.Value).Single();
+                        user1.Email = (from c in claimsIdentities.Claims
+                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                       select c.Value).Single();
+                    }
+
+                }
+
+
+                if (!IsActivated(user1.Email))
+                {
+                    return View("../Account/Login");
+                }
+
+
+                if (IsNewUser(ref user1))
+                {
+                    _isNewUser = true;
+                    if (Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
+                    {
+                        user1.IsPublisher = true;
+                    }
+                    RegisterUser(user1);
+                }
+
+
+                Session["User"] = user1;
+                HttpCookie mycookie = new HttpCookie("BooqmarqsLogin");
+                mycookie.Values["EMail"] = user1.Email;
+                mycookie.Expires = System.DateTime.Now.AddDays(180);
+                Response.Cookies.Add(mycookie);
+
+
+                if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
+                {
+                    AddBookmark(Session["bookmark"], user1.UserId.ToString());
+                    Session["bookmark"] = null;
+                    return View("../Bookmark/BMAdded");
+                }
+                if (_isNewUser)
+                {
+                    if (Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
+                    {
+
+                        return RedirectToAction("ScriptCode", "Bookmark");
+                    }
+                    else
+                    {
+                        BookmarkCls bmrk = new BookmarkCls();
+                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
+                        {
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Import", "Bookmark");
+                        }
+                    }
+                }
+                else
+                {
+                    if (user1.IsOwner)
+                    {
+                        ViewBag.IsOwner = true;
+                        return RedirectToAction("Reports", "Bookmark");
+                    }
+                    else
+                    {
+                        BookmarkCls bmrk = new BookmarkCls();
+                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
+                        {
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Import", "Bookmark");
+                        }
+                    }
+                }
+            }
+        }
+
+        public ActionResult FacebookWelcome()
+        {
+            string returnUrl = string.Empty;
+            return new ChallengeResult("Facebook", Url.Action("FacebookCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> FacebookCallback(string returnUrl)
+        {
+            bool _isNewUser = false;
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                if (Request.Browser.Type.ToLower().Contains("chrome"))
+                {
+                    return Redirect("https://chrome.google.com/webstore/detail/booqmarqs/nabhjndfpicfhnminejhekphlfdaojla");
+                }
+                else if (Request.Browser.Type.ToLower().Contains("firefox"))
+                {
+                    return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                Users user1 = new Users();
+              
+                ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
+                    user1.FirstName = (from c in claimsIdentities.Claims
+                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+                                        select c.Value).Single();
+                    user1.Email = (from c in claimsIdentities.Claims
+                                    where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                    select c.Value).Single();
 
 
                 if (IsNewUser(ref user1))
@@ -694,61 +821,47 @@ namespace Bookmark.Controllers
             return null;
         }
 
-
+        public ActionResult GoogleWelcome()
+        {
+            string returnUrl = string.Empty;
+            return new ChallengeResult("Google", Url.Action("GoogleCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        public async Task<ActionResult> GoogleCallback(string returnUrl)
         {
             bool _isNewUser = false;
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                if (Request.Browser.Type.ToLower().Contains("chrome"))
+                {
+                    return Redirect("https://chrome.google.com/webstore/detail/booqmarqs/nabhjndfpicfhnminejhekphlfdaojla");
+                }
+                else if (Request.Browser.Type.ToLower().Contains("firefox"))
+                {
+                    return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
             }
             else
             {
                 Users user1 = new Users();
 
-                if (loginInfo.Login.LoginProvider.ToLower() == "twitter")
-                {
-                    string access_token = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_token").Select(x => x.Value).FirstOrDefault();
-                    string access_secret = loginInfo.ExternalIdentity.Claims.Where(x => x.Type == "urn:twitter:access_secret").Select(x => x.Value).FirstOrDefault();
-                    TwitterDto response = TwitterLogin(access_token, access_secret, ConfigurationManager.AppSettings["twitter_consumer_key"], ConfigurationManager.AppSettings["twitter_consumer_secret"]);
-                    user1.Email = response.email;
-                    user1.FirstName = response.name;
-                }
-                else
-                {
-                    ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
-                    if (loginInfo.Login.LoginProvider.ToLower() == "facebook")
-                    {
-                        user1.FirstName = (from c in claimsIdentities.Claims
-                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-                                           select c.Value).Single();
-                        user1.Email = (from c in claimsIdentities.Claims
-                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                ClaimsIdentity claimsIdentities = loginInfo.ExternalIdentity;
+
+                    user1.FirstName = (from c in claimsIdentities.Claims
+                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
                                        select c.Value).Single();
-                    }
-                    else if (loginInfo.Login.LoginProvider.ToLower() == "google")
-                    {
-                        user1.FirstName = (from c in claimsIdentities.Claims
-                                           where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
-                                           select c.Value).Single();
-                        user1.LastName = (from c in claimsIdentities.Claims
-                                          where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
-                                          select c.Value).Single();
-                        user1.Email = (from c in claimsIdentities.Claims
-                                       where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-                                       select c.Value).Single();
-                    }                  
-
-                }
-
-
-                if (!IsActivated(user1.Email))
-                {
-                        return View("../Account/Login");
-                }
+                    user1.LastName = (from c in claimsIdentities.Claims
+                                      where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
+                                      select c.Value).Single();
+                    user1.Email = (from c in claimsIdentities.Claims
+                                   where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+                                   select c.Value).Single();
 
 
                 if (IsNewUser(ref user1))
@@ -768,56 +881,32 @@ namespace Bookmark.Controllers
                 mycookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(mycookie);
 
-
-                if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
-                {
-                    AddBookmark(Session["bookmark"], user1.UserId.ToString());
-                    Session["bookmark"] = null;
-                    return View("../Bookmark/BMAdded");
-                }
                 if (_isNewUser)
-                { 
-                    if(Session["SiteOwner"] != null && Session["SiteOwner"].ToString() == "SiteOwner")
+                {
+                    if (Request.Browser.Type.ToLower().Contains("chrome"))
                     {
-                     
-                        return RedirectToAction("ScriptCode", "Bookmark");
+                        return Redirect("https://chrome.google.com/webstore/detail/booqmarqs/nabhjndfpicfhnminejhekphlfdaojla");
                     }
-                    else
+                    else if (Request.Browser.Type.ToLower().Contains("firefox"))
                     {
-                        BookmarkCls bmrk = new BookmarkCls();
-                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
-                        {
-                            return RedirectToAction("MyBookmarks", "Bookmark");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Import", "Bookmark");
-                        }
+                        return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
                     }
                 }
                 else
                 {
-                    if(user1.IsOwner)
+                    BookmarkCls bmrk = new BookmarkCls();
+                    if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
                     {
-                        ViewBag.IsOwner = true;
-                        return RedirectToAction("Reports", "Bookmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
                     }
                     else
                     {
-                        BookmarkCls bmrk = new BookmarkCls();
-                        if (bmrk.GetBookmarksCountForUser(user1.UserId) > 0)
-                        {
-                            return RedirectToAction("MyBookmarks", "Bookmark");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Import", "Bookmark");
-                        }
+                        return RedirectToAction("Import", "Bookmark");
                     }
                 }
             }
+            return null;
         }
-
 
 
         private bool IsNewUser(string email)

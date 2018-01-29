@@ -15,6 +15,10 @@ namespace Bookmark.Controllers
     {
         private BookmarkCls bmrk = new BookmarkCls();
         private Domain domain = new Domain();
+        private string lclCity = string.Empty;
+        private string lclState = string.Empty;
+        private string lclCountry = string.Empty;
+        private string lclipAddr = Utilities.GetIPAddress();
 
         public ActionResult Show(string did, string lnk, string t)
         {
@@ -970,115 +974,90 @@ namespace Bookmark.Controllers
             ViewBag.ddScaleType = lstSacleTypes;
         }
 
-        public ActionResult extImport(string Id, string Bookmarks)
+        public void extImport(string Id, string Bookmarks)
         {
-            string folderId = string.Empty;
+            List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
 
-           List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
-
-
-            //bool IfPartialSuccess = false;
+            string lclipAddr = Utilities.GetIPAddress();
+            Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
+            Users user = new Users();
+            user = user.GetUser(Id.Substring(6));
             try
             {
-
-                //if (fileImport != null)
-                //{
-                //    string strCity = string.Empty;
-                //    string strState = string.Empty;
-                //    string strCountry = string.Empty;
-                //    string ipAddr = Utilities.GetIPAddress();
-                //    Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
-
-                //    StreamReader reader = new StreamReader(fileImport.InputStream);
-                //    string fileText = reader.ReadToEnd();
-
-                //    HtmlDocument doc = new HtmlDocument();
-                //    doc.LoadHtml(fileText);
-
-                //    List<HtmlNode> htmlNodes = new List<HtmlNode>();
-                //    htmlNodes = doc.DocumentNode.Descendants().ToList();
-                //    Users user = (Users)Session["User"];
-
-                //    foreach (HtmlNode node in htmlNodes)
-                //    {
-                //        try
-                //        {
-                //            if (node.Attributes.Count > 0)
-                //            {
-                //                if (node.Name.Trim().ToUpper().Equals("H3"))
-                //                {
-                //                    //Create Folder
-                //                    bmrk.IsFolder = true;
-                //                    bmrk.FolderId = 27;
-                //                    bmrk.URL = string.Empty;
-                //                    folderId = string.Empty;
-                //                }
-                //                else if (node.Name.Trim().ToUpper().Equals("A") && node.Attributes[0].Value.ToString().StartsWith("http"))
-                //                {
-                //                    //Create Bookmark
-                //                    bmrk.IsFolder = false;
-                //                    bmrk.URL = node.Attributes[0].Value;
-                //                    bmrk.FolderId = double.Parse(folderId);
-                //                }
-                //                else
-                //                {
-                //                    continue;
-                //                }
-
-                //                bmrk.Name = node.InnerText;
-                //                bmrk.OptID = 1;
-                //                bmrk.CreatedUserId = user.UserId.ToString();
-                //                bmrk.CreatedDate = DateTime.Now.ToString();
-                //                bmrk.City = strCity;
-                //                bmrk.Country = strState;
-                //                bmrk.IpAddr = ipAddr;
-
-                //                if (bmrk.IsFolder)
-                //                {
-                //                    if (!bmrk.FolderExists(user.UserId.ToString(), bmrk.Name, out folderId))
-                //                    {
-                //                        bmrk.ManageBookmark(out folderId);
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    if (!bmrk.BookmarkUnderFolderExists(user.UserId.ToString()))
-                //                    {
-                //                        bmrk.ManageBookmark();
-                //                    }
-                //                }
-                //                IfPartialSuccess = true;
-
-                //            }
-                //        }
-                //        catch
-                //        {
-                //            continue;
-                //        }
-
-                //    }
-
-                //ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
-                //}
-
+                if (lstChromeBmrks != null && lstChromeBmrks.Count>0)
+                {
+                    ProcessBookmarks(user.UserId.ToString(), lstChromeBmrks, null);
+                }
             }
             catch (Exception ex)
             {
-                //if (IfPartialSuccess)
-                //{
-                //    ViewBag.Ack = "Bookmarks imported. Howere there were warnings, click on \"Bookmarks\" tab to view your bookmarks and make necessary updates if required.";
-                //}
-                //else
-                //{
-                //    Utilities.EmailException(ex);
-                //    ViewBag.Ack = "Please try again, there seem to be an error";
-                //}
+                Utilities.EmailException(ex);
             }
-
-
-            return View();
+            //return View();
         }
 
+        private void ProcessBookmarks(string userId, List<ChromeBookmark> lstChromeBmrks, string folderId)
+        {
+            foreach (ChromeBookmark chromeBmrk in lstChromeBmrks)
+            {
+                try
+                {
+                    if (chromeBmrk.children != null && chromeBmrk.parentId != null)
+                    {
+                        //Create Folder
+                        bmrk.IsFolder = true;
+                        bmrk.FolderId = 27;
+                        bmrk.URL = string.Empty;
+                        folderId = string.Empty;
+                    }
+                    else if (chromeBmrk.url != null)
+                    {
+                        //Create Bookmark
+                        bmrk.IsFolder = false;
+                        bmrk.URL = chromeBmrk.url;
+                        bmrk.FolderId = double.Parse(folderId);
+                    }
+                    else
+                    {
+                        if (chromeBmrk.children != null)
+                        {
+                            ProcessBookmarks(userId, chromeBmrk.children, folderId);
+                        }
+                    }
+
+                    bmrk.Name = chromeBmrk.title;
+                    bmrk.OptID = 1;
+                    bmrk.CreatedUserId = userId.ToString();
+                    bmrk.CreatedDate = DateTime.Now.ToString();
+                    bmrk.City = lclCity;
+                    bmrk.Country = lclState;
+                    bmrk.IpAddr = lclipAddr;
+
+                    if (bmrk.IsFolder)
+                    {
+                        if (!bmrk.FolderExists(userId.ToString(), bmrk.Name, out folderId))
+                        {
+                            bmrk.ManageBookmark(out folderId);
+                        }
+                        ProcessBookmarks(userId, chromeBmrk.children, folderId);
+                    }
+                    else
+                    {
+                        if (!bmrk.BookmarkUnderFolderExists(userId.ToString()))
+                        {
+                            bmrk.ManageBookmark();
+                        }
+                    }
+
+                }
+
+                catch
+                {
+                    continue;
+                }
+            }
+
+        }
     }
 
 
