@@ -14,9 +14,11 @@ chrome.runtime.onMessage.addListener(function (message, sender) {
     else if (message.booqmarqsCookieValue != null || message.booqmarqsCookieValue != undefined) {
         emailId = message.booqmarqsCookieValue;
         chrome.bookmarks.getTree(process_bookmark);
-
     }
-
+    else
+    {
+        alert("Please login to continue");
+    }
 }); 
 
 
@@ -34,7 +36,8 @@ function process_bookmark(bookmarks) {
     http.open("POST", url, true);
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/json");
-    http.send(JSON.stringify(data)); 
+    http.send(JSON.stringify(data));
+    alert("Imported successfully, please click Booqmarqs icon again to refresh");
 }
 
 document.getElementById("import").addEventListener("click", function (e) {
