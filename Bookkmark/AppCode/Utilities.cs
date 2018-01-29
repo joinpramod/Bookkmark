@@ -238,58 +238,67 @@ namespace Bookmark
 
         public static void EmailException(Exception ex)
         {
-            Mail mail = new Mail();
-            string strBody = "";
-
-            if (HttpContext.Current != null)
-            {
-                var varURL = HttpContext.Current.Request.Url;
-                strBody += "URL -- " + varURL + "<br /><br />";
-            }
-
-            if (!string.IsNullOrEmpty(ex.Message))
-                strBody += "Message -- " + ex.Message + "<br /><br />";
-            if (!string.IsNullOrEmpty(ex.Source))
-                strBody += "Source -- " + ex.Source + "<br /><br />";
-            if (ex.TargetSite != null)
-                strBody += "TargetSite -- " + ex.TargetSite + "<br /><br />";
-            if (ex.Data != null)
-                strBody += "Data -- " + ex.Data + "<br /><br />";
-            if (ex.InnerException != null)
-                strBody += "InnerException -- " + ex.InnerException + "<br /><br />";
-            if (!string.IsNullOrEmpty(ex.Source))
-                strBody += "Source -- " + ex.Source + "<br /><br />";
-
             try
             {
-                strBody += "IP - " + Utilities.GetUserIP() + "<br /><br />";
+
+
+                Mail mail = new Mail();
+                string strBody = "";
+
+                if (HttpContext.Current != null)
+                {
+                    var varURL = HttpContext.Current.Request.Url;
+                    strBody += "URL -- " + varURL + "<br /><br />";
+                }
+
+                if (!string.IsNullOrEmpty(ex.Message))
+                    strBody += "Message -- " + ex.Message + "<br /><br />";
+                if (!string.IsNullOrEmpty(ex.Source))
+                    strBody += "Source -- " + ex.Source + "<br /><br />";
+                if (ex.TargetSite != null)
+                    strBody += "TargetSite -- " + ex.TargetSite + "<br /><br />";
+                if (ex.Data != null)
+                    strBody += "Data -- " + ex.Data + "<br /><br />";
+                if (ex.InnerException != null)
+                    strBody += "InnerException -- " + ex.InnerException + "<br /><br />";
+                if (!string.IsNullOrEmpty(ex.Source))
+                    strBody += "Source -- " + ex.Source + "<br /><br />";
+
+                try
+                {
+                    strBody += "IP - " + Utilities.GetUserIP() + "<br /><br />";
+                }
+                catch
+                {
+
+                }
+
+                try
+                {
+                    if (ex.GetType().ToString() != null)
+                        strBody += "Type -- " + ex.GetType().ToString() + "<br />";
+                }
+                catch
+                {
+
+                }
+
+                if (ex.StackTrace != null)
+                    strBody += " Stack Trace -- " + ex.StackTrace + " <br /><br />";
+
+                mail.Body = strBody;
+                mail.FromAdd = "admin@booqmarqs.com";
+                mail.Subject = "Error";
+                mail.ToAdd = "admin@booqmarqs.com";
+                mail.IsBodyHtml = true;
+                mail.SendMail();
+
             }
             catch
             {
 
-            }
-
-            try
-            {
-                if (ex.GetType().ToString() != null)
-                    strBody += "Type -- " + ex.GetType().ToString() + "<br />";
-            }
-            catch
-            {
 
             }
-
-            if (ex.StackTrace != null)
-                strBody += " Stack Trace -- " + ex.StackTrace + " <br /><br />";
-
-            mail.Body = strBody;
-            mail.FromAdd = "admin@booqmarqs.com";
-            mail.Subject = "Error";
-            mail.ToAdd = "admin@booqmarqs.com";
-            mail.IsBodyHtml = true;
-            mail.SendMail();
-
-
         }
 
         public static void EmailText(string txt)
