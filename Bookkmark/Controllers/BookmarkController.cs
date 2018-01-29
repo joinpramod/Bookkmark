@@ -361,6 +361,10 @@ namespace Bookmark.Controllers
         {
             Users user = (Users)Session["User"];
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
+            if(lstBookmarks == null || lstBookmarks.Count<=1)
+            {
+                ViewBag.Count = 0;
+            }
             return View(lstBookmarks);
         }
 
