@@ -803,7 +803,11 @@ namespace Bookmark.Controllers
                     else if (Request.Browser.Type.ToLower().Contains("firefox"))
                     {
                         return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
-                    }                    
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login");
+                    }
                 }
                 else
                 {                   
@@ -890,6 +894,10 @@ namespace Bookmark.Controllers
                     else if (Request.Browser.Type.ToLower().Contains("firefox"))
                     {
                         return Redirect("https://addons.mozilla.org/en-US/firefox/addon/booqmarqs/");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login");
                     }
                 }
                 else
