@@ -14,69 +14,91 @@
 <script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script> 
 
 
-<section class="pt150 pb100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
-                <div class="page_title_area">
+                <div>
                     <div class="section_heading">
-                        <h3><span>Register</span> </h3>
-
+                        <h3><span>Quick Start</span> </h3>
                     </div>
                 </div>
 
+                <div>
+                    <ul class="fa-ul list-colored mt20" style="font-weight:500">
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Save bookmarks online. Hierarchical tree view display with right click menu. No need to register, you can also directly login from social login channels.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Chrome and Firefox extensions.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>Import bookmarks here from any browser in just 2 steps.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>You can also import here by just 1 button click from browser extensions. Login now and install extension.
+                        </li>
+                        <li>
+                            <i class="fa-li fa fa-arrow-circle-o-right"></i>
+                            Access your bookmarks anytime anywhere be it Chrome, Firefox, IE, Safari, Personal or Official laptops or Public machines. Very simple and easy. Take a look at <a href="../Home/Index">Home</a> page for more info.
+                        </li>
+                    </ul>
+
+                </div>
+
+
                 @using (Html.BeginForm("ProcessActivationCode", "Account"))
-                {
-                    if (ViewBag.Activation != null)
-                    {
-                        <div class="col-lg-12 col-12">
+    {
+        if (ViewBag.Activation != null)
+        {
+            <div class="col-lg-12 col-12">
 
-                            <div class="form-group">
-                                <div class="error_info">@ViewBag.Activation</div>
-                            </div>
+                <div class="form-group">
+                    <div class="error_info">@ViewBag.Activation</div>
+                </div>
 
-                            <div class="form-area">
-                                <button type="submit" id="btnResendAct" class="btn btn-block">Resend Activation Link</button>
-                                @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
-                            </div>
-                        </div>
-                    }
-                }
+                <div class="form-area">
+                    <button type="submit" id="btnResendAct" class="btn btn-block">Resend Activation Link</button>
+                    @Html.Hidden("hfUserEMail", (object)ViewBag.UserActEMail)
+                </div>
+            </div>
+}
+}
+
                 <div id="divAck" class="error_info"></div>
                 <div class="error_info">@ViewBag.Ack</div>
                 <div class="row">
                     <div class="col-lg-6 col-12">
                         <div class="form_area">
                             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                            {
+                {
 
-                                <div class="form-group">
-                                    @Html.TextBox("txtFirstName", "", new { placeholder = "First Name", @class = "form-control", required = "required" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBox("txtLastName", "", new { placeholder = "Last Name", @class = "form-control", required = "required" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", type = "email", required = "required" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.Password("txtNewPassword", "", new { placeholder = "New Password", @class = "form-control", required = "required" })
-                                </div>
-                                    <div class="form-group">
-                                        @Html.Password("txtConfirmPassword", "", new { placeholder = "Confirm Password", @class = "form-control" })
-                                    </div>
-                                    <div>
-                                        @if (ViewBag.Ack == null)
-                                        {
-                                            @*@Html.GenerateCaptcha(Theme.White)*@                                            
-                                            <div class="g-recaptcha" data-sitekey="6Ld7oD4UAAAAALIOKHkpmTmnbt_JiZohkd6Xjat5"></div>
-                                        }
-                                    </div>
+                    <div class="form-group">
+                        @Html.TextBox("txtFirstName", "", new { placeholder = "First Name", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBox("txtLastName", "", new { placeholder = "Last Name", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBox("txtEMailId", "", new { @class = "form-control", placeholder = "Email ID", type = "email", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Password("txtNewPassword", "", new { placeholder = "New Password", @class = "form-control", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Password("txtConfirmPassword", "", new { placeholder = "Confirm Password", @class = "form-control" })
+                    </div>
+                    <div>
+                        @if (ViewBag.Ack == null)
+            {
+                @*@Html.GenerateCaptcha(Theme.White)*@
+                <div class="g-recaptcha" data-sitekey="6Ld7oD4UAAAAALIOKHkpmTmnbt_JiZohkd6Xjat5"></div>
+}
+                    </div>
 
-                                    <div class="form_area" style="padding-top:10px">
-                                        <button type="submit" class="btn btn-block" onclick="return ValidateUserReg()">Register</button>
-                                    </div>
-                            }
+                    <div class="form_area" style="padding-top:10px">
+                        <button type="submit" class="btn btn-block" onclick="return ValidateUserReg()">Register</button>
+                    </div>
+    }
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
@@ -84,10 +106,17 @@
                         <p class="mt20">Already have an account? <a href="@Url.Action("Login", "Account")">Login</a></p>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-6 col-md-6 text-center">
+                        <img src="~/Images/WebUser.png">
+                    </div>
+                    <div class="col-6 col-md-6  text-center">
+                        <img src="~/Images/WhatToExpect.png">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</section>
 
 
 
