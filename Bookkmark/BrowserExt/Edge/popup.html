@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<body style="overflow:hidden">
+
+
+    <link rel="stylesheet" href="http://booqmarqs.com/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="http://booqmarqs.com/Content/style.css">
+
+    <div class="container" style="background-color:#6bcfe4">
+        <div class="span12">
+
+            <div class="form_search">
+                <div class="col-sm-12">
+                    <div class="my_logo_area" style="text-align:center;height:70px">
+
+                        <a href="http://booqmarqs.com" target="_blank"><img style="height:40px;width:35px" src="http://booqmarqs.com/images/logo.png" alt="Booqmarqs" /><span>Booqmarqs</span> </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row form_search justify-content-center" style="padding-bottom:10px">
+                <div class="col-xs-5">
+                    <button id="clickme" style="font-size:16px;height:28px;width:90px;line-height:16px;font-weight:400;" class="btn btn-block" title="Bookmark current tab">Bookmark</button>
+                </div>
+                <div class="col-xs-2">&nbsp;</div>
+                    <div class="col-xs-5">
+                        <button id="import" style="font-size:16px;height:28px;width:90px;line-height:16px;font-weight:400" class="btn btn-block" title="Import all bookmarks from browser">Import</button>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+
+       
+        <script type="text/javascript" src="popup.js"></script>
+
+        <style>
+            #container1 {
+                height: 650px;
+                width: 330px;
+                border: none;
+                overflow: hidden;
+            }
+
+            #container2 {
+                height: 700px;
+                width: 350px;
+                border: none;
+                overflow: auto;
+            }
+        </style>
+
+        <div id="container1">
+            <div id="container2">
+                <iframe id="iframe_id" src="http://booqmarqs.com/Bookmark/ExtBookmarks" style="padding-top:10px;width: 350px;height:700px;border:none;overflow:hidden;" ></iframe>
+            </div>
+        </div>
+</body>
+
+</html>
