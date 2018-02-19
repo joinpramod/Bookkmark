@@ -7,6 +7,8 @@ using System.Data;
 using System.Net;
 using System.Xml;
 using System.IO;
+using System.Configuration;
+using System.Globalization;
 
 /// <summary>
 /// Summary description for Utilities
@@ -81,12 +83,10 @@ namespace Bookmark
             return strIP;
         }
 
-
         public static string GetGravatarUrlForAddress(string address)
         {
             return "http://www.gravatar.com/avatar/" + HashEmailAddress(address) + "?s=80&r=g&d=Identicon";
         }
-
 
         public static string HashEmailAddress(string address)
         {
@@ -110,7 +110,6 @@ namespace Bookmark
                 throw ex;
             }
         }
-
 
         public static string GetIPAddress()
         {
@@ -159,10 +158,6 @@ namespace Bookmark
                 //return null;
             }
         }
-
-
-
-
 
         public static string Decrypt(string stringToDecrypt, string sEncryptionKey)
         {
@@ -316,5 +311,17 @@ namespace Bookmark
         }
 
 
+        public static void LogMessage(string Type, string Method, string Description)
+        {
+            try
+            {
+                File.AppendAllText(System.Web.HttpContext.Current.Server.MapPath("~/Logs/Booqmarqs.txt"), DateTime.Now + " --> " + Type + ", " + Method + ",  " + Description + "\n");
+                File.AppendAllText(System.Web.HttpContext.Current.Server.MapPath("~/Logs/Booqmarqs.txt"), " ");
+            }
+            catch (Exception ex)
+            {
+                EmailException(ex);
+            }
+        }
     }
 }
