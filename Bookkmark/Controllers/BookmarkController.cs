@@ -817,6 +817,8 @@ namespace Bookmark.Controllers
                     htmlNodes = doc.DocumentNode.Descendants().ToList();
                     Users user = (Users)Session["User"];
 
+                    Utilities.LogMessage("I", "Import", user.Email);
+
                     foreach (HtmlNode node in htmlNodes)
                     {
                         try
@@ -986,11 +988,16 @@ namespace Bookmark.Controllers
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
             Users user = new Users();
             user = user.GetUser(Id.Substring(6));
+
+            Utilities.LogMessage("I", "extImport", user.Email);
             try
             {
-                if (lstChromeBmrks != null && lstChromeBmrks.Count>0)
+                if (user.UserId != 0)
                 {
-                    ProcessBookmarks(user.UserId.ToString(), lstChromeBmrks, null);
+                    if (lstChromeBmrks != null && lstChromeBmrks.Count > 0)
+                    {
+                        ProcessBookmarks(user.UserId.ToString(), lstChromeBmrks, null);
+                    }
                 }
             }
             catch (Exception ex)

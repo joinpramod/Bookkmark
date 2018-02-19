@@ -118,6 +118,8 @@ namespace Bookmark.Controllers
                 userCookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(userCookie);
 
+                Utilities.LogMessage("I", "Login", user.Email);
+
                 if (Request.UrlReferrer.ToString().ToLower().Contains("account/quicklogin"))
                 {
                     //return View("../Bookmark/ExtBookmarks");
@@ -687,6 +689,8 @@ namespace Bookmark.Controllers
                 mycookie.Values["EMail"] = user1.Email;
                 mycookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(mycookie);
+
+                Utilities.LogMessage("I", "ExternalLogin", user1.Email);
 
 
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
