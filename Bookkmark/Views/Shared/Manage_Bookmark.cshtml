@@ -54,16 +54,15 @@
     <div class="wrapper">
         <div id="fb-root"></div>
         <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-            fjs.parentNode.insertBefore(js, fjs);
-        }
-         (document, 'script', 'facebook-jssdk'));</script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+                (document, 'script', 'facebook-jssdk'));</script>
         <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
-
 
         <header class="header_area">
             <div class="main_header_area animated">
@@ -72,8 +71,8 @@
 
                         <div class="col-sm-4">
                             <div class="my_logo_area">
-                                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"><span>Booqmarqs</span> </a>  
-                            </div>                          
+                                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="Booqmarqs"><span>Booqmarqs</span> </a>
+                            </div>
                         </div>
 
                         <div class="col-sm-8 text-right">
@@ -81,31 +80,31 @@
                                 <div class="mainmenu">
                                     <nav>
                                         <ul id="nav">
-                                        @if (Session["User"] == null)
+                                            @if (Session["User"] == null)
                                         {
                                             <li><a href="/Home/Index#home">Home</a></li>
                                             <li><a href="/Home/Index#howitworks">How It Works</a></li>
                                             <li><a href="/Home/Index#whattoexpect">What To Expect</a></li>
                                             @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
                                             <li><a href="@Url.Action("Login", "Account")">Login</a></li>
-                                            <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
-                                        }
-                                        else
+                                            <li class="active"><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
+                                    }
+                                    else
+                                    {
+                                        Users user = (Users)Session["User"];
+                                        if (user.IsPublisher)
                                         {
-                                            Users user = (Users)Session["User"];
-                                            if (user.IsPublisher)
-                                            {
                                             <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
                                             <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
                                             <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
-                                            }
-                                            <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
-                                            <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
-                                            <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
-                                            @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
-                                            <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
-                                            <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-                                        }
+                                    }
+                                    <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+                                    <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+                                    <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+                                    @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
+                                    <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+                                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                            }
                                         </ul>
                                     </nav>
                                 </div>
@@ -116,7 +115,7 @@
             </div>
             <!-- Main Header Area End -->
         </header>
-        
+
         <div style="height:80px"></div>
         @RenderBody()
         <div class="push"></div>
@@ -152,7 +151,7 @@
                                     </div>
                                     <div style="padding-top:7px" class="fb-like" data-href="https://facebook.com/booqmarqs" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
                                     <div style="padding-top:7px">
-                                        <a href="https://twitter.com/booqmarqs" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-lang="en" data-show-count="true">Follow</a>
+                                        @*<a href="https://twitter.com/booqmarqs" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-lang="en" data-show-count="true">Follow</a>*@
                                     </div>
                                 </div>
                             </div>
