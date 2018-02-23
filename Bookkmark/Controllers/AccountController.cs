@@ -680,7 +680,7 @@ namespace Bookmark.Controllers
                     {
                         user1.IsPublisher = true;
                     }
-                    RegisterUser(user1);
+                    RegisterUser(ref user1);
                 }
 
 
@@ -788,7 +788,7 @@ namespace Bookmark.Controllers
                     {
                         user1.IsPublisher = true;
                     }
-                    RegisterUser(user1);
+                    RegisterUser(ref user1);
                 }
 
 
@@ -879,7 +879,7 @@ namespace Bookmark.Controllers
                     {
                         user1.IsPublisher = true;
                     }
-                    RegisterUser(user1);
+                    RegisterUser(ref user1);
                 }
 
 
@@ -968,7 +968,7 @@ namespace Bookmark.Controllers
         }
 
 
-        private void RegisterUser(Users user1)
+        private void RegisterUser(ref Users user1)
         {
             user1 = user1.CreateUser(user1.Email, user1.FirstName, user1.LastName, user1.IsPublisher);
             SendEMail(user.Email, user.FirstName, user.LastName);
