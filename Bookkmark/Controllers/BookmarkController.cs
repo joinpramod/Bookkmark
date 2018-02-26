@@ -982,7 +982,11 @@ namespace Bookmark.Controllers
 
         public void extImport(string Id, string Bookmarks)
         {
-            List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
+            //Bookmarks = Regex.Replace(Bookmarks, "\\p{C}+", "");
+            //Bookmarks = Regex.Replace(Bookmarks, "[^\u0000-\u007F]+", "");
+            //Bookmarks = Regex.Replace(Bookmarks, "[^a-zA-Z0-9 #'/\\_%$#@)(*&?._+=:;,{}\"-]", "");
+
+            List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);          
 
             string lclipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
