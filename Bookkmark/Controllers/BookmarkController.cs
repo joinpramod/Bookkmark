@@ -984,15 +984,16 @@ namespace Bookmark.Controllers
         {
             //Bookmarks = Regex.Replace(Bookmarks, "\\p{C}+", "");
             //Bookmarks = Regex.Replace(Bookmarks, "[^\u0000-\u007F]+", "");
-            Bookmarks = Regex.Replace(Bookmarks, "[^a-zA-Z0-9 #'/\\_%$#@)(*&?._+=:;,{}\"-]", "");
+            //Bookmarks = Regex.Replace(Bookmarks, "[^a-zA-Z0-9 #'/\\_%$#@)(*&?._+=:;,{}\"-]", "");
 
-
+            Utilities.LogMessage("I", "extImport", "Reached Server");
+            Utilities.LogMessage("I", "extImport", Id + "-------" + Bookmarks);
             List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
 
             string lclipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
             Users user = new Users();
-            user = user.GetUser(Id.Substring(6));
+            user = user.GetUser(Id.Substring(6));       //Ex Id = EMail=admin@codeanalyze.com
 
             Utilities.LogMessage("I", "extImport", user.Email);
             try
