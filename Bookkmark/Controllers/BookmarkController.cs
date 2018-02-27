@@ -353,6 +353,7 @@ namespace Bookmark.Controllers
         public ActionResult MyBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
+            Utilities.LogMessage("I", "MyBookmarks", user.Email);
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
@@ -360,6 +361,7 @@ namespace Bookmark.Controllers
         public ActionResult ExtBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
+            Utilities.LogMessage("I", "ExtBookmarks", user.Email);
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             if(lstBookmarks == null || lstBookmarks.Count<=1)
             {
@@ -551,6 +553,7 @@ namespace Bookmark.Controllers
             ViewData["domains"] = lstDomains;
             Session["ChartData"] = null;
             Session["bmrkDict"] = null;
+            //Utilities.LogMessage("I", "Reports", user.Email);
 
             if(lstDomains.Count <=0)
             {
