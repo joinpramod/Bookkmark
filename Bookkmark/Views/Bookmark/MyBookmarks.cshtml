@@ -123,13 +123,23 @@
             </div>
         </nav>
         }
+        <br />
         <div class="treeview">
             @if (Model != null && Model.Count() > 0)
-        {
+            {
             <ul>
                 @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
             </ul>
-    }
+            }
+            @if (Model != null && Model.Count() == 1)
+            {
+                <br/>
+                <div class="error_info" style="width:90%">
+                    There are no bookmarks currently. <br/>
+                    You can either import bookmarks from <a href="/Bookmark/Import">Import</a> tab above or create new ones by just right clicking on the <b>Default</b> folder above. <br/>
+                    Go ahead and get started, very easy and handy tool.
+                </div>
+            }
         </div>
         <div style="height:40px">&nbsp;</div>
         <nav id="context-menu" class="context-menu">
