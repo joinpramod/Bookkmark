@@ -715,7 +715,8 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                            //return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -735,7 +736,8 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                            //return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -822,7 +824,8 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        //return RedirectToAction("Import", "Bookmark");
                     }                    
                 }
             }
@@ -913,7 +916,8 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        //return RedirectToAction("Import", "Bookmark");
                     }
                 }
             }
