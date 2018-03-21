@@ -49,6 +49,37 @@
         </table>
 
     </div>
+
+
+        <div>
+
+
+            <br />
+            <br />
+            <asp:TextBox ID="txtEmailId" runat="server" Width="562px"></asp:TextBox>
+            <br />
+            <br />
+            <asp:TextBox ID="txtSubject" runat="server" Width="562px"></asp:TextBox>
+            <br />
+            <br />
+            <br />
+            <asp:TextBox ID="txtMessage" runat="server" Height="98px" style="margin-top: 0px" TextMode="MultiLine" Width="709px"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="btnSend" runat="server" OnClick="btnSend_Click" Text="Send" />
+            <br />
+            <br />
+            <asp:Button ID="btnSendBulkEMails" runat="server" OnClick="btnSendBulkEMails_Click" Text="Send email to all who have bookmarks" />
+            <br />
+            <br />
+            <asp:Button ID="btnSendBulkEMailsWhoDontHaveBookmarks" runat="server" OnClick="btnSendBulkEMailsWhoDontHaveBookmarks_Click" Text="Send email to all who dont have bookmarks" />
+            <br />
+            <br />
+
+
+        </div>
+
+
     </form>
 </body>
 </html>

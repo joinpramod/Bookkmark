@@ -11,7 +11,8 @@ namespace Bookmark
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (user != null && user.Email != null && user.Email == "admin@booqmarqs.com")
+            user = (Users)Session["User"];
+            if (user == null || user.Email == null || user.Email != "admin@booqmarqs.com")
             {
                 Response.Redirect("http://www.booqmarqs.com");
             }
@@ -35,6 +36,11 @@ namespace Bookmark
                             GridView1.DataSource = DSQuestions;
                             GridView1.DataBind();
                         }
+                        else
+                        {
+                            GridView1.DataSource = new DataTable();
+                            GridView1.DataBind();
+                        }
                     }
                 }
                 else
@@ -53,6 +59,75 @@ namespace Bookmark
             {
                 Response.Redirect("http://www.booqmarqs.com");
             }
+        }
+
+
+        protected void btnSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Mail mail = new Mail();
+                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
+                mail.Body = string.Format(EMailBody, "My Bookmarks", "You are having your bookmarks always handy. View your " + strCA + " and access them on any machine or browser <br/> <br/> Also you use our browser extension");
+                mail.FromAdd = "admin@booqmarqs.com";
+                mail.Subject = txtSubject.Text;
+                mail.ToAdd = txtEmailId.Text;
+                mail.IsBodyHtml = true;
+                mail.SendMail();
+            }
+            catch
+            {
+
+
+            }
+        }
+
+
+        protected void btnSendBulkEMails_Click(object sender, EventArgs e)
+        {
+
+            ConnManager conn = new Bookmark.ConnManager();
+            DataTable dtData = conn.GetDataTable("select count(*), createduser, max(email) as email from VwUserBookmarks group by createduser order by createduser");
+
+            if (dtData != null && dtData.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dtData.Rows)
+                {
+                    try
+                    {
+                        Mail mail = new Mail();
+                        string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+                        string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
+                        mail.Body = string.Format(EMailBody, "My Bookmarks", "You are having your bookmarks always handy. View your " + strCA + " and access them on any machine or browser.  <br/> <br/> Also you can use our browser extension");
+                        mail.FromAdd = "admin@booqmarqs.com";
+                        mail.Subject = "Booqmarqs - View your bookmarks";
+                        mail.ToAdd = dr["EMAil"].ToString();
+                        mail.IsBodyHtml = true;
+                        mail.SendMail();
+                    }
+                    catch
+                    {
+
+
+                    }
+                }
+            }
+        }
+
+
+
+        protected void btnSendBulkEMailsWhoDontHaveBookmarks_Click(object sender, EventArgs e)
+        {
+            Mail mail = new Mail();
+            string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+            string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>here</a>";
+            mail.Body = string.Format(EMailBody, "My Bookmarks", "You can have your bookmarks always handy. Quick import " + strCA + " and access them on any machine or browser <br/> <br/> Also you use our browser extension");
+            mail.FromAdd = "admin@booqmarqs.com";
+            mail.Subject = "Booqmarqs - View your bookmarks";
+            mail.ToAdd = txtEmailId.Text;
+            mail.IsBodyHtml = true;
+            mail.SendMail();
         }
     }
 }
