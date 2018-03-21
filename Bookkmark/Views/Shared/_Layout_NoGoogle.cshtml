@@ -79,30 +79,149 @@
                                     <nav>
                                         <ul id="nav">
                                             @if (Session["User"] == null)
-                                            {
-                                                <li><a href="/Home/Index#home">Home</a></li>
-                                                <li><a href="/Home/Index#howitworks">How It Works</a></li>
-                                                <li><a href="/Home/Index#whattoexpect">What To Expect</a></li>
-                                                @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
-                                                <li><a href="@Url.Action("Login", "Account")">Login</a></li>
-                                                <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
-                                            }
-                                            else
-                                            {
-                                                Users user = (Users)Session["User"];
-                                                if (user.IsPublisher)
-                                                {
-                                                    <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
-                                                    <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
-                                                    <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
-                                                }
-                                                <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
-                                                <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
-                                                <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
-                                                @*<li><a href="@Url.Action("Demo", "Home")">Demo</a></li>*@
-                                                <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
-                                                <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
-                                            }
+    {
+        if (Request.Url.AbsoluteUri.ToLower().Contains("home/index") || Request.Url.AbsoluteUri.ToLower().Contains("home/index#home"))
+        {
+                                        <li class="active"><a href="/Home/Index#home">Home</a></li>
+}
+else
+{
+                                        <li><a href="/Home/Index#home">Home</a></li>
+}
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("home/index#howitworks"))
+{
+                                        <li class="active"><a href="/Home/Index#howitworks">How It Works</a></li>
+}
+else
+{
+                                        <li><a href="/Home/Index#howitworks">How It Works</a></li>
+}
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("home/index#whattoexpect"))
+{
+                                        <li class="active"><a href="/Home/Index#whattoexpect">What To Expect</a></li>
+}
+else
+{
+                                        <li><a href="/Home/Index#whattoexpect">What To Expect</a></li>
+}
+
+
+
+
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/extensions"))
+{
+                                        <li class="active">@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+}
+if (Request.Url.AbsoluteUri.ToLower().Contains("account/login"))
+{
+                                        <li class="active"><a href="@Url.Action("Login", "Account")">Login</a></li>
+}
+else
+{
+                                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+}
+if (Request.Url.AbsoluteUri.ToLower().Contains("account/choice"))
+{
+
+                                        <li class="active"><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
+}
+else
+{
+                                        <li><a href="@Url.Action("Choice", "Account")">Get Started</a></li>
+}
+}
+else
+{
+Users user = (Users)Session["User"];
+if (user.IsPublisher)
+{
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/reports"))
+{
+                                        <li class="active">@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Reports", "Reports", "Bookmark")</li>
+}
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/scriptcode"))
+{
+                                        <li class="active">@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Script", "ScriptCode", "Bookmark")</li>
+}
+
+
+
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/domains"))
+{
+                                        <li class="active">@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Domains", "Domains", "Bookmark")</li>
+}
+
+
+}
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/mybookmarks"))
+{
+                                        <li class="active">@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Bookmarks", "MyBookmarks", "Bookmark")</li>
+}
+
+
+
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/import"))
+{
+                                        <li class="active">@Html.ActionLink("Import", "Import", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Import", "Import", "Bookmark")</li>
+}
+
+
+
+
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("bookmark/extensions"))
+{
+                                        <li class="active">@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Extensions", "Extensions", "Bookmark")</li>
+}
+
+
+
+
+if (Request.Url.AbsoluteUri.ToLower().Contains("account/viewuser"))
+{
+                                        <li class="active">@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+}
+else
+{
+                                        <li>@Html.ActionLink("Profile", "ViewUser", "Account")</li>
+}
+
+                                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+}
                                         </ul>
                                     </nav>
                                 </div>
@@ -113,6 +232,13 @@
             </div>
             <!-- Main Header Area End -->
         </header>
+
+        @*<script>
+            $("#nav li a").click(function () {
+                $("#nav li").removeClass('active');
+                $(this).parent().addClass('active');
+            });
+        </script>*@
 
         <div style="height:80px"></div>
         @RenderBody()
