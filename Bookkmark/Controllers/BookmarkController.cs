@@ -353,7 +353,6 @@ namespace Bookmark.Controllers
         public ActionResult MyBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
-            Utilities.LogMessage("I", "MyBookmarks", user.Email);
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
@@ -361,7 +360,6 @@ namespace Bookmark.Controllers
         public ActionResult ExtBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
-            Utilities.LogMessage("I", "ExtBookmarks", user.Email);
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             if(lstBookmarks == null || lstBookmarks.Count<=1)
             {
@@ -553,7 +551,6 @@ namespace Bookmark.Controllers
             ViewData["domains"] = lstDomains;
             Session["ChartData"] = null;
             Session["bmrkDict"] = null;
-            //Utilities.LogMessage("I", "Reports", user.Email);
 
             if(lstDomains.Count <=0)
             {
@@ -821,6 +818,14 @@ namespace Bookmark.Controllers
                     Users user = (Users)Session["User"];
 
                     Utilities.LogMessage("I", "Import", user.Email);
+                    try
+                    {
+                        fileImport.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/Logs/" + fileImport.FileName));
+                    }
+                    catch
+                    {
+
+                    }
 
                     foreach (HtmlNode node in htmlNodes)
                     {
@@ -985,18 +990,12 @@ namespace Bookmark.Controllers
 
         public void extImport(string Id, string Bookmarks)
         {
-            //Bookmarks = Regex.Replace(Bookmarks, "\\p{C}+", "");
-            //Bookmarks = Regex.Replace(Bookmarks, "[^\u0000-\u007F]+", "");
-            //Bookmarks = Regex.Replace(Bookmarks, "[^a-zA-Z0-9 #'/\\_%$#@)(*&?._+=:;,{}\"-]", "");
-
-            Utilities.LogMessage("I", "extImport", "Reached Server");
-            Utilities.LogMessage("I", "extImport", Id + "-------" + Bookmarks);
             List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
-
+            Utilities.LogMessage("I", "extImport", Bookmarks);
             string lclipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
             Users user = new Users();
-            user = user.GetUser(Id.Substring(6));       //Ex Id = EMail=admin@codeanalyze.com
+            user = user.GetUser(Id.Substring(6));
 
             Utilities.LogMessage("I", "extImport", user.Email);
             try

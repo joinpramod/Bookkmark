@@ -264,7 +264,7 @@ namespace Bookmark.Controllers
                     user.CreateUserActivation(user, activationCode, dblUserID);
                     ViewBag.Ack = "User Info Saved Successfully. An activation link has been sent to your email address, please check your inbox and activate your account";
                     SendActivationEMail(user.Email, activationCode);
-                    SendEMail(user.Email, user.FirstName, user.LastName);
+                    SendEMail(txtEMailId, txtFirstName, txtLastName);
                     user = new Users();
                     Session["SiteOwner"] = null;
                     return View();
@@ -715,8 +715,7 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("MyBookmarks", "Bookmark");
-                            //return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -736,8 +735,7 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("MyBookmarks", "Bookmark");
-                            //return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -824,8 +822,7 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("MyBookmarks", "Bookmark");
-                        //return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("Import", "Bookmark");
                     }                    
                 }
             }
@@ -916,8 +913,7 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("MyBookmarks", "Bookmark");
-                        //return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("Import", "Bookmark");
                     }
                 }
             }
@@ -975,7 +971,7 @@ namespace Bookmark.Controllers
         private void RegisterUser(ref Users user1)
         {
             user1 = user1.CreateUser(user1.Email, user1.FirstName, user1.LastName, user1.IsPublisher);
-            SendEMail(user1.Email, user1.FirstName, user1.LastName);
+            SendEMail(user.Email, user.FirstName, user.LastName);
         }
 
         private bool IsActivated(string email)
