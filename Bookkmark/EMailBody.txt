@@ -2,7 +2,7 @@
             cellpadding="2" cellspacing="2">
             <tr>
                 <td align="right" style="padding-right: 10px" width="20%">
-                    <img id="Image1" src="http://booqmarqs.com/Images/logo.PNG" alt="" height="72px" width="91px" />
+                    <img id="Image1" src="http://booqmarqs.com/Images/logo.PNG" alt="" height="100%" width="25%" />
                 </td>
                 <td>
                     <table style="width:100%;">
@@ -49,5 +49,9 @@
             <tr>
                 <td colspan="3" style="font-size: medium; font-family: Calibri; padding-left: 50px" height="100px">
                     {1}</td>
+            </tr>
+			  <tr>
+                <td colspan="3" style="font-size: medium; font-family: Calibri; padding-left: 50px" height="100px">
+                    thanks<br/>Booqmarqs Team</td>
             </tr>
         </table>
