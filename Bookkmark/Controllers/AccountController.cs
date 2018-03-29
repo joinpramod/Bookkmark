@@ -971,7 +971,7 @@ namespace Bookmark.Controllers
         private void RegisterUser(ref Users user1)
         {
             user1 = user1.CreateUser(user1.Email, user1.FirstName, user1.LastName, user1.IsPublisher);
-            SendEMail(user.Email, user.FirstName, user.LastName);
+            SendEMail(user1.Email, user1.FirstName, user1.LastName);
         }
 
         private bool IsActivated(string email)
