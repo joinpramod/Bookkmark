@@ -353,6 +353,7 @@ namespace Bookmark.Controllers
         public ActionResult MyBookmarks(string txtSearch)
         {
             Users user = (Users)Session["User"];
+            Utilities.LogMessage("I", "MyBookmarks", user.Email);
             List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
             return View(lstBookmarks);
         }
@@ -365,6 +366,7 @@ namespace Bookmark.Controllers
             {
                 ViewBag.Count = 0;
             }
+            Utilities.LogMessage("I", "ExtBookmarks", user.Email);
             return View(lstBookmarks);
         }
 
