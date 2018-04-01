@@ -638,6 +638,7 @@ namespace Bookmark.Controllers
                     TwitterDto response = TwitterLogin(access_token, access_secret, ConfigurationManager.AppSettings["twitter_consumer_key"], ConfigurationManager.AppSettings["twitter_consumer_secret"]);
                     user1.Email = response.email;
                     user1.FirstName = response.name;
+                    Utilities.LogMessage("I", "ExternalLoginCallback - Twitter", user1.Email);
                 }
                 else
                 {
@@ -650,6 +651,7 @@ namespace Bookmark.Controllers
                         user1.Email = (from c in claimsIdentities.Claims
                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                        select c.Value).Single();
+                        Utilities.LogMessage("I", "ExternalLoginCallback - Facebook", user1.Email);
                     }
                     else if (loginInfo.Login.LoginProvider.ToLower() == "google")
                     {
@@ -662,6 +664,7 @@ namespace Bookmark.Controllers
                         user1.Email = (from c in claimsIdentities.Claims
                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                        select c.Value).Single();
+                        Utilities.LogMessage("I", "ExternalLoginCallback - Google", user1.Email);
                     }
 
                 }
