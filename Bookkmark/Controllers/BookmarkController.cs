@@ -993,7 +993,6 @@ namespace Bookmark.Controllers
         public void extImport(string Id, string Bookmarks)
         {
             List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
-            Utilities.LogMessage("I", "extImport", Bookmarks);
             string lclipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
             Users user = new Users();
@@ -1012,6 +1011,7 @@ namespace Bookmark.Controllers
             }
             catch (Exception ex)
             {
+                Utilities.LogMessage("I", "extImport", Bookmarks);
                 Utilities.EmailException(ex);
             }
             //return View();
