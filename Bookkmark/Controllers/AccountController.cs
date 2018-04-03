@@ -120,11 +120,11 @@ namespace Bookmark.Controllers
 
                 Utilities.LogMessage("I", "Login", user.Email);
 
-                if (Request.UrlReferrer.ToString().ToLower().Contains("account/quicklogin"))
-                {
-                    //return View("../Bookmark/ExtBookmarks");
-                    return RedirectToAction("ExtBookmarks", "Bookmark");
-                }
+                //if (Request.UrlReferrer.ToString().ToLower().Contains("account/quicklogin"))
+                //{
+                //    //return View("../Bookmark/ExtBookmarks");
+                //    return RedirectToAction("ExtBookmarks", "Bookmark");
+                //}
 
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
                 {
@@ -638,7 +638,7 @@ namespace Bookmark.Controllers
                     TwitterDto response = TwitterLogin(access_token, access_secret, ConfigurationManager.AppSettings["twitter_consumer_key"], ConfigurationManager.AppSettings["twitter_consumer_secret"]);
                     user1.Email = response.email;
                     user1.FirstName = response.name;
-                    Utilities.LogMessage("I", "ExternalLoginCallback - Twitter", user1.Email);
+                    Utilities.LogMessage("I", "SocialLogin - Twitter", user1.Email);
                 }
                 else
                 {
@@ -651,7 +651,7 @@ namespace Bookmark.Controllers
                         user1.Email = (from c in claimsIdentities.Claims
                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                        select c.Value).Single();
-                        Utilities.LogMessage("I", "ExternalLoginCallback - Facebook", user1.Email);
+                        Utilities.LogMessage("I", "SocialLogin - Facebook", user1.Email);
                     }
                     else if (loginInfo.Login.LoginProvider.ToLower() == "google")
                     {
@@ -664,7 +664,7 @@ namespace Bookmark.Controllers
                         user1.Email = (from c in claimsIdentities.Claims
                                        where c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
                                        select c.Value).Single();
-                        Utilities.LogMessage("I", "ExternalLoginCallback - Google", user1.Email);
+                        Utilities.LogMessage("I", "SocialLogin - Google", user1.Email);
                     }
 
                 }
@@ -693,7 +693,7 @@ namespace Bookmark.Controllers
                 mycookie.Expires = System.DateTime.Now.AddDays(180);
                 Response.Cookies.Add(mycookie);
 
-                Utilities.LogMessage("I", "ExternalLogin", user1.Email);
+                //Utilities.LogMessage("I", "SocialLogin", user1.Email);
 
 
                 if (Session["bookmark"] != null && Request.Form["btnQuickLogin"] != null)
@@ -718,7 +718,8 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                            //return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -738,7 +739,8 @@ namespace Bookmark.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Import", "Bookmark");
+                            return RedirectToAction("MyBookmarks", "Bookmark");
+                            //return RedirectToAction("Import", "Bookmark");
                         }
                     }
                 }
@@ -825,7 +827,8 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        //return RedirectToAction("Import", "Bookmark");
                     }                    
                 }
             }
@@ -916,7 +919,8 @@ namespace Bookmark.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Import", "Bookmark");
+                        return RedirectToAction("MyBookmarks", "Bookmark");
+                        //return RedirectToAction("Import", "Bookmark");
                     }
                 }
             }
