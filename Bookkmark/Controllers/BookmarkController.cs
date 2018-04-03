@@ -370,6 +370,18 @@ namespace Bookmark.Controllers
             return View(lstBookmarks);
         }
 
+        public ActionResult ExtBookmarks2(string txtSearch)
+        {
+            Users user = (Users)Session["User"];
+            List<BookmarkCls> lstBookmarks = bmrk.GetBookmarks(txtSearch, null, null, user.UserId.ToString(), null, null);
+            if (lstBookmarks == null || lstBookmarks.Count <= 1)
+            {
+                ViewBag.Count = 0;
+            }
+            Utilities.LogMessage("I", "ExtBookmarks", user.Email);
+            return View(lstBookmarks);
+        }
+
         public ActionResult Domains(string txtDomain, int page = 1, string sort = "Name", string sortdir = "asc", string search = "")
         {
             if (Request.Form["AddDomain"] != null)
@@ -992,6 +1004,7 @@ namespace Bookmark.Controllers
 
         public void extImport(string Id, string Bookmarks)
         {
+            Utilities.LogMessage("I", "extImport Id", Id);
             List<ChromeBookmark> lstChromeBmrks = JsonConvert.DeserializeObject<List<ChromeBookmark>>(Bookmarks);
             string lclipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(lclipAddr, ref lclCity, ref lclState, ref lclCountry);
@@ -999,6 +1012,7 @@ namespace Bookmark.Controllers
             user = user.GetUser(Id.Substring(6));
 
             Utilities.LogMessage("I", "extImport", user.Email);
+            Utilities.LogMessage("I", "extImport", Bookmarks);
             try
             {
                 if (user.UserId != 0)
