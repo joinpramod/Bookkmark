@@ -25,7 +25,7 @@
 
     .treeview {
         /*background-color:#f7f6f6;*/
-        border-radius:10px;
+        border-radius: 10px;
         /*border-color:#fcd767;
         border-width:1px;*/
         /*border-width:1px;
@@ -33,29 +33,29 @@
         border:groove;*/
     }
 
-    .treeview ul {
-        font: 20px;
-        margin: 0px;
-        padding-left: 2%;
-        list-style: none;
-    }
-
-    .treeview > li > a {
-        font-weight: bold;
-    }
-
-    .treeview li {
-    }
-
-        .treeview li a {
-            padding: 4px;
-            font-size: 16px;
-            display: inline-block;
-            text-decoration: none;
-            width: auto;
-             color:#333;
-             font-weight:400;
+        .treeview ul {
+            font: 20px;
+            margin: 0px;
+            padding-left: 2%;
+            list-style: none;
         }
+
+        .treeview > li > a {
+            font-weight: bold;
+        }
+
+        .treeview li {
+        }
+
+            .treeview li a {
+                padding: 4px;
+                font-size: 16px;
+                display: inline-block;
+                text-decoration: none;
+                width: auto;
+                color: #333;
+                font-weight: 400;
+            }
 
     /* context menu */
 
@@ -94,13 +94,13 @@
         padding: 4px 12px;
         color: #333;
         text-decoration: none;
-          font-weight:400;
+        font-weight: 400;
     }
 
         .context-menu__link:hover {
             color: #333;
             background-color: #F3CD50;
-              font-weight:400;
+            font-weight: 400;
         }
 </style>
 
@@ -112,24 +112,42 @@
         </div>
         @using (Html.BeginForm("MyBookmarks", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
         {
-        <nav class="navbar navbar-default">
-            <div class="form-inline">
-                <div class="row">
-                    @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:250px", placeholder = "Link like" })
-                    <div class="form_search">
-                        <button type="submit" name="Search" id="Search" value="Search" class="btn btn-block" style="width:100px">Search</button>
+            <nav class="navbar navbar-default">
+                <div class="form-inline">
+                    <div class="row">
+                        @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:250px", placeholder = "Link like" })
+                        <div class="form_search">
+                            <button type="submit" name="Search" id="Search" value="Search" class="btn btn-block" style="width:100px">Search</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
         }
+        <br />
         <div class="treeview">
             @if (Model != null && Model.Count() > 0)
-        {
-            <ul>
-                @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
-            </ul>
-    }
+            {
+                <ul>
+                    @Treeview.GetTreeView(Model, Model.FirstOrDefault().FolderId)
+                </ul>
+            }
+            @if (Model != null && Model.Count() == 1)
+            {
+                <br />
+                <br />
+
+                <ul class="fa-ul list-colored mt20" style="font-weight:500;">
+                    <li>
+                        <i class="fa-li fa fa-arrow-circle-o-right"></i><span style="color:green">There are no bookmarks currently.</span>
+                    </li>
+                    <li>
+                        <i class="fa-li fa fa-arrow-circle-o-right"></i><span style="color:green">You can either import bookmarks from <a href="/Bookmark/Import" style="color:blue;font-size:16px;font-weight:bold">Import</a> tab or create new ones by just right clicking on the <b>Default</b> folder </span>.
+                    </li>
+                    <li>
+                        <i class="fa-li fa fa-arrow-circle-o-right"></i><span style="color:green"> Go ahead and get started, very easy and handy tool.</span>
+                    </li>
+                </ul>
+            }
         </div>
         <div style="height:40px">&nbsp;</div>
         <nav id="context-menu" class="context-menu">
@@ -159,8 +177,8 @@
 
 
 
-    @section Scripts{
-        <script>
+@section Scripts{
+    <script>
                     $(document).ready(function () {
                         $(".treeview li>ul").css('display', 'show'); // Hide all 2-level ul
                         $(".treeview li>ul>li").children('ul').slideToggle();
@@ -170,9 +188,9 @@
                             $(this).closest('li').children('ul').slideToggle();
                         });
                     });
-        </script>
-        <script src="~/Scripts/main.js"></script>
-    }
+    </script>
+    <script src="~/Scripts/main.js"></script>
+}
 
 
 
@@ -182,16 +200,16 @@
 
 
 
-    @*<div style="height:100px"></div>
-        <h2>My Bookmarks</h2>*@
+@*<div style="height:100px"></div>
+    <h2>My Bookmarks</h2>*@
 
 
 
-    @*<div style="height:10px"></div>
-        <div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
+@*<div style="height:10px"></div>
+    <div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
 
-        </div>
+    </div>
 
-        <div style="height:10px"></div>*@
+    <div style="height:10px"></div>*@
 
 
