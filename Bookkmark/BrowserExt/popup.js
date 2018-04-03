@@ -37,7 +37,7 @@ function process_bookmark(bookmarks) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/json");
     http.send(JSON.stringify(data));
-    alert("Imported successfully");
+    alert("Imported successfully, please open the window again to view your bookmarks if not visible after this.");
     document.getElementById('iframe_id').src = "http://booqmarqs.com/bookmark/ExtBookmarks2";
 }
 
