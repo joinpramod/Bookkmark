@@ -37,7 +37,7 @@ function process_bookmark(bookmarks) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/json");
     http.send(JSON.stringify(data));
-    alert("Imported successfully, please open the window again to view your bookmarks if not visible by now");
+    alert("Imported successfully");
     document.getElementById('iframe_id').src = "http://booqmarqs.com/bookmark/ExtBookmarks2";
 }
 
@@ -47,7 +47,7 @@ document.getElementById("import").addEventListener("click", function (e) {
 
 
 
-
+//    alert("Imported successfully, please open the window again to view your bookmarks if not visible after this.");
 //function getCookies(domain, name, callback) {
 //    debugger;
 //    chrome.cookies.get({ "url": domain, "name": name }, function (cookie) {
