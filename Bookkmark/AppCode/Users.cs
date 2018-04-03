@@ -150,18 +150,31 @@ namespace Bookmark
                 _user.FirstName = dt.Rows[i]["FirstName"].ToString();
                 _user.LastName = dt.Rows[i]["LastName"].ToString();
 
-
-                if (dt.Rows[i]["IsPublisher"] == null || string.IsNullOrEmpty(dt.Rows[i]["IsPublisher"].ToString()))
-                    _user.IsPublisher = false;
-                else
-                _user.IsPublisher = bool.Parse(dt.Rows[i]["IsPublisher"].ToString());
-
-                if (_user.IsPublisher)
+                try
                 {
-                    if (dt.Rows[i]["IsOwner"] == null || string.IsNullOrEmpty(dt.Rows[i]["IsOwner"].ToString()))
-                        _user.IsOwner = false;
+                    if (dt.Rows[i]["IsPublisher"] == null)
+                        _user.IsPublisher = false;
                     else
-                        _user.IsOwner = bool.Parse(dt.Rows[i]["IsOwner"].ToString());
+                        _user.IsPublisher = bool.Parse(dt.Rows[i]["IsPublisher"].ToString());
+                }
+                catch
+                {
+                    _user.IsPublisher = false;
+                }
+
+                try
+                {
+                    if (_user.IsPublisher)
+                    {
+                        if (dt.Rows[i]["IsOwner"] == null)
+                            _user.IsOwner = false;
+                        else
+                            _user.IsOwner = bool.Parse(dt.Rows[i]["IsOwner"].ToString());
+                    }
+                }
+                catch
+                {
+                    _user.IsOwner = false;
                 }
             }
 
