@@ -1,0 +1,196 @@
+@{
+    ViewBag.Title = "My Bookmarks";
+    Layout = "~/Views/Shared/Ext_Manage_Bookmark.cshtml";
+}
+@model List<BookmarkCls>
+
+<style>
+    .collapse1 {
+        width: 28px;
+        background-image: url('../Images/Folder.png');
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .expand1 {
+        width: 28px;
+        background-image: url('../Images/FolderOpen2.png');
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+
+    .treeview {
+        border-radius: 10px;
+    }
+
+        .treeview ul {
+            margin: 0px;
+            padding-left: 2%;
+            list-style: none;
+        }
+
+        .treeview > li > a {
+            font-weight: bold;
+        }
+
+        .treeview li {
+              margin: 5px;
+        }
+
+            .treeview li a {
+                font-size: 14px;
+                text-decoration: none;
+                color: #333;
+                font-weight: 400;
+                padding-right:20px;
+            }
+
+    /* context menu */
+
+    .context-menu {
+        display: none;
+        position: absolute;
+        z-index: 10;
+        padding: 0px 0;
+        width: 180px;
+        background-color: #fff;
+        border: solid 1px #dfdfdf;
+        box-shadow: 1px 1px 2px #cfcfcf;
+    }
+
+    .context-menu--active {
+        display: inline-block;
+    }
+
+    .context-menu__items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .context-menu__item {
+        display: block;
+        margin-bottom: 0px;
+    }
+
+        .context-menu__item:last-child {
+            margin-bottom: 0;
+        }
+
+    .context-menu__link {
+        display: block;
+        padding: 4px 12px;
+        color: #333;
+        text-decoration: none;
+        font-weight: 400;
+           font-size: 14px;
+    }
+
+        .context-menu__link:hover {
+            color: #333;
+            background-color: #F3CD50;
+            font-weight: 400;
+        }
+</style>
+
+
+<div class="container">
+    <div class="span12">
+        @if (ViewBag.Count == 0)
+        {
+            <ul class="fa-ul list-colored mt20" style="font-weight:400;width:240px">
+                
+                <li style="color:#4e4d4d">Almost done, just 1 click on Import button above and feel the comfort of having all your favourites anytime anywhere</li>
+                <li></li>
+                <li style="color:#4e4d4d">
+                    <i class="fa-li fa fa-arrow-circle-o-right"></i>be it Chrome, Firefox, Safari, Edge, IE, Opera or any.
+                </li>
+                <li style="color:#4e4d4d">
+                    <i class="fa-li fa fa-arrow-circle-o-right"></i>be it Personal laptop or official laptop or public machine or any.
+                </li>
+            </ul>
+
+        }
+        @using (Html.BeginForm("ExtBookmarks", "Bookmark", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+    {
+                <div class="row justify-content-center">
+                    <div class="col-xs-10">
+                        @Html.TextBox("txtSearch", "", new { @class = "form-control", style = "width:230px", placeholder = "Link like" })
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit" id="Search" class="icon" style="width:40px;height:38px"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+        }
+        <div class="treeview">
+            @if (Model != null && Model.Count() > 0)
+        {
+            <ul>
+                @ExtTreeview.GetTreeViewExt(Model, Model.FirstOrDefault().FolderId)
+            </ul>
+    }
+        </div>
+        <div style="height:40px">&nbsp;</div>
+        <nav id="context-menu" class="context-menu">
+            <ul class="context-menu__items">
+                <li class="context-menu__item">
+                    <a href="#" class="context-menu__link" data-action="Edit">Edit</a>
+                </li>
+                <li class="context-menu__item">
+                    <a href="#" class="context-menu__link" data-action="Move">Move</a>
+                </li>
+                <li class="context-menu__item">
+                    <a href="#" class="context-menu__link" data-action="Delete">Delete</a>
+                </li>
+                <li class="context-menu__item">
+                    <a href="#" class="context-menu__link" data-action="AddB">Add New Bookmark</a>
+                </li>
+                <li class="context-menu__item">
+                    <a href="#" class="context-menu__link" data-action="AddF">Add New Folder</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script>
+                    $(document).ready(function () {
+                        $(".treeview li>ul").css('display', 'show'); // Hide all 2-level ul
+                        $(".treeview li>ul>li").children('ul').slideToggle();
+                        $(".collapsible").click(function (e) {
+                            e.preventDefault();
+                            $(this).toggleClass("collapse1 expand1");
+                            $(this).closest('li').children('ul').slideToggle();
+                        });
+                    });
+    </script>
+    <script src="~/Scripts/main.js"></script>
+}
+
+
+
+
+
+
+
+
+
+@*<div style="height:100px"></div>
+    <h2>My Bookmarks</h2>*@
+
+
+
+@*<div style="height:10px"></div>
+    <div style="border:solid 1px black; padding:10px; border-radius:5px; background-color:#FAFAFA;border-color:lightgrey;">
+
+    </div>
+
+    <div style="height:10px"></div>*@
+
+
