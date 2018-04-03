@@ -112,7 +112,7 @@ namespace Bookmark
         public string SendMail()
         {
             string ErrDesc = "";
-            MailAddress FrmMailAdd = new MailAddress(StrFromAdd);
+            MailAddress FrmMailAdd = new MailAddress(StrFromAdd, "Booqmarqs Team");
             MlMessage.From = FrmMailAdd;
             MlMessage.To.Add(StrToAdd);
             if (!string.IsNullOrEmpty(StrCCAdds))
