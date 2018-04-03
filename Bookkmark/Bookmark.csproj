@@ -249,6 +249,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="EMailBody2.txt" />
     <Content Include="EMailBody.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont3e6e.svg" />
