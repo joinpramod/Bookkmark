@@ -339,7 +339,6 @@
     <Content Include="Views\Bookmark\Delete.cshtml" />
     <Content Include="Views\Shared\Manage_Bookmark.cshtml" />
     <Content Include="Views\Bookmark\Import.cshtml" />
-    <Content Include="Views\Account\QuickLogin.cshtml" />
     <Content Include="Views\Bookmark\EditBMFolder.cshtml" />
     <Content Include="Views\Bookmark\BMAdded.cshtml" />
     <Content Include="Views\Bookmark\NewBMFolder.cshtml" />
