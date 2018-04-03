@@ -37,7 +37,8 @@ function process_bookmark(bookmarks) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/json");
     http.send(JSON.stringify(data));
-    alert("Imported successfully, please click Booqmarqs icon again to refresh");
+    alert("Imported successfully");
+    document.getElementById('iframe_id').src = document.getElementById('iframeid').src;
 }
 
 document.getElementById("import").addEventListener("click", function (e) {
