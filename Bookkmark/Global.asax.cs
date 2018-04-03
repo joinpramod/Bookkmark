@@ -93,6 +93,7 @@ namespace Bookmark
                 }
                 else
                 {
+                    Utilities.LogMessage("E", "Exception", ex.ToString());
 
                     // Code that runs when an unhandled error occurs
                     Mail mail = new Mail();
