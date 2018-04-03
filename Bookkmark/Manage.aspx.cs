@@ -69,12 +69,23 @@ namespace Bookmark
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
-                mail.Body = string.Format(EMailBody, "My Bookmarks", "You are having your bookmarks always handy. View your " + strCA + " and access them on any machine or browser <br/> <br/> Also you use our browser extension");
+                string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
+                mail.Body = string.Format(EMailBody, "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
                 mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = txtSubject.Text;
                 mail.ToAdd = txtEmailId.Text;
                 mail.IsBodyHtml = true;
                 mail.SendMail();
+           
+                //<p style = "font-family:Calibri;font-size:12px;font-weight:bold">
+                //    {0}
+                //</p>
+                //<pre style = "font-family:Calibri;font-size:12px">
+                //    {1}
+                //        thanks
+                //        Booqmarqs Team
+                //</pre>
+          
             }
             catch
             {
@@ -99,9 +110,10 @@ namespace Bookmark
                         Mail mail = new Mail();
                         string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
                         string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
-                        mail.Body = string.Format(EMailBody, "My Bookmarks", "You are having your bookmarks always handy. View your " + strCA + " and access them on any machine or browser.  <br/> <br/> Also you can use our browser extension");
+                        string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
+                        mail.Body = string.Format(EMailBody, "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
                         mail.FromAdd = "admin@booqmarqs.com";
-                        mail.Subject = "Booqmarqs - View your bookmarks";
+                        mail.Subject = "View your bookmarks";
                         mail.ToAdd = dr["EMAil"].ToString();
                         mail.IsBodyHtml = true;
                         mail.SendMail();
@@ -122,9 +134,10 @@ namespace Bookmark
             Mail mail = new Mail();
             string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
             string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>here</a>";
-            mail.Body = string.Format(EMailBody, "My Bookmarks", "You can have your bookmarks always handy. Quick import " + strCA + " and access them on any machine or browser <br/> <br/> Also you use our browser extension");
+            string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
+            mail.Body = string.Format(EMailBody, "", "You can have your bookmarks always handy. Quick import " + strCA + " and access them on any machine or browser. <br/> <br/> Also you use our browser extensions from " + strBrowExt);
             mail.FromAdd = "admin@booqmarqs.com";
-            mail.Subject = "Booqmarqs - View your bookmarks";
+            mail.Subject = "View your bookmarks";
             mail.ToAdd = txtEmailId.Text;
             mail.IsBodyHtml = true;
             mail.SendMail();

@@ -16,7 +16,8 @@
     <meta name="robots" content="noindex" />
 </head>
 <body>
-    <form id="form1" runat="server">
+        <form id="form1" runat="server">
+
     <div>
             <table style="width:100%;">
             <tr>
@@ -78,8 +79,7 @@
 
 
         </div>
-
-
     </form>
+
 </body>
 </html>
