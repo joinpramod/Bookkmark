@@ -11,11 +11,11 @@ namespace Bookmark
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            user = (Users)Session["User"];
-            if (user == null || user.Email == null || user.Email != "admin@booqmarqs.com")
-            {
-                Response.Redirect("http://www.booqmarqs.com");
-            }
+            //user = (Users)Session["User"];
+            //if (user == null || user.Email == null || user.Email != "admin@booqmarqs.com")
+            //{
+            //    Response.Redirect("http://www.booqmarqs.com");
+            //}
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -67,10 +67,10 @@ namespace Bookmark
             try
             {
                 Mail mail = new Mail();
-                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+                string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody2.txt"));
                 string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
                 string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
-                mail.Body = string.Format(EMailBody, "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
+                mail.Body = string.Format(EMailBody, "", "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
                 mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = txtSubject.Text;
                 mail.ToAdd = txtEmailId.Text;
@@ -108,10 +108,10 @@ namespace Bookmark
                     try
                     {
                         Mail mail = new Mail();
-                        string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+                        string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody2.txt"));
                         string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
                         string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
-                        mail.Body = string.Format(EMailBody, "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
+                        mail.Body = string.Format(EMailBody, "", "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
                         mail.FromAdd = "admin@booqmarqs.com";
                         mail.Subject = "View your bookmarks";
                         mail.ToAdd = dr["EMAil"].ToString();
@@ -132,7 +132,7 @@ namespace Bookmark
         protected void btnSendBulkEMailsWhoDontHaveBookmarks_Click(object sender, EventArgs e)
         {
             Mail mail = new Mail();
-            string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody.txt"));
+            string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody2.txt"));
             string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>here</a>";
             string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
             mail.Body = string.Format(EMailBody, "", "You can have your bookmarks always handy. Quick import " + strCA + " and access them on any machine or browser. <br/> <br/> Also you use our browser extensions from " + strBrowExt);

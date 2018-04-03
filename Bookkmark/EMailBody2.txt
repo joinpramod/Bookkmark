@@ -22,10 +22,6 @@
                 <td>
                     </td>
             </tr>
-           <tr>
-                <td colspan="3" style="font-size: medium; font-family: Calibri; padding-left: 50px;font-weight:bold" height="100px">
-                    {0}</td>
-            </tr>
             <tr>
                 <td colspan="3" style="font-size: medium; font-family: Calibri; padding-left: 50px" height="100px">
                     {1}</td>
