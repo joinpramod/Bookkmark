@@ -36,16 +36,16 @@ namespace Bookmark.Controllers
             return View();
         }
 
-        public ActionResult QuickLogin()
-        {
-            user = (Users)Session["User"];
-            if (user != null && !string.IsNullOrEmpty(user.Email))
-            {
-                GetUserRefType(user);
-                return View("../Account/ViewUser", user);
-            }
-            return View();
-        }
+        //public ActionResult QuickLogin()
+        //{
+        //    user = (Users)Session["User"];
+        //    if (user != null && !string.IsNullOrEmpty(user.Email))
+        //    {
+        //        GetUserRefType(user);
+        //        return View("../Account/ViewUser", user);
+        //    }
+        //    return View();
+        //}
 
         public ActionResult ExtLogin()
         {

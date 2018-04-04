@@ -923,6 +923,7 @@ namespace Bookmark.Controllers
 
         public ActionResult Extensions()
         {
+            Utilities.LogMessage("I", "Extensions", "Extensions View");
             return View();
         }
 
@@ -1025,7 +1026,7 @@ namespace Bookmark.Controllers
             }
             catch (Exception ex)
             {
-                Utilities.LogMessage("I", "extImport", Bookmarks);
+                Utilities.LogMessage("E", "extImport", Bookmarks);
                 Utilities.EmailException(ex);
             }
             //return View();
