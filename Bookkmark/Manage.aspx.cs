@@ -68,9 +68,15 @@ namespace Bookmark
             {
                 Mail mail = new Mail();
                 string EMailBody = System.IO.File.ReadAllText(Server.MapPath("~/EMailBody2.txt"));
-                string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>bookmarks</a>";
+                //string strCA = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/MyBookmarks>here</a>";
+                //string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
+                //mail.Body = string.Format(EMailBody, "", "Greetings!! <br/><br/> You are having your bookmarks always with you handy. Access your bookmarks " + strCA + " anytime, any machine and any browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt + ". <br/><br/> We sincerely appreciate your time for using Booqmarqs and would be glad to help in any ways possible as we always try hard to get the best user experience. You could also reply to email anytime.");
+
+                string strImport = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Import>here</a>";
                 string strBrowExt = "<a id=HyperLink1 style=font-size: medium; font-weight: bold; color:White href=http://booqmarqs.com/Bookmark/Extensions>here</a>";
-                mail.Body = string.Format(EMailBody, "", "You are having your bookmarks always handy. Here are your " + strCA + ", access them on any machine or browser. <br/> <br/> Also you can use our browser extensions from " + strBrowExt);
+                mail.Body = string.Format(EMailBody, "", "Greetings!!<br/><br/>You are just one step away in having all your bookmarks handy online anytime, any machine and browser.<br/><br/>Use our browser extensions to import all your bookmarks in 1 shot i.e. with one button click from " + strBrowExt + ".<br/><br/>Or do it in 2 easy steps from the website " + strImport + ".  Take a look <br/><br/>Feel the comfort of having all your valuable links with you always.<br/><br/>");
+
+
                 mail.FromAdd = "admin@booqmarqs.com";
                 mail.Subject = txtSubject.Text;
                 mail.ToAdd = txtEmailId.Text;
