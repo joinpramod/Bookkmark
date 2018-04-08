@@ -1013,7 +1013,7 @@ namespace Bookmark.Controllers
             user = user.GetUser(Id.Substring(6));
 
             Utilities.LogMessage("I", "extImport", user.Email);
-            Utilities.LogMessage("I", "extImport", Bookmarks);
+            //Utilities.LogMessage("I", "extImport", Bookmarks);
             try
             {
                 if (user.UserId != 0)
