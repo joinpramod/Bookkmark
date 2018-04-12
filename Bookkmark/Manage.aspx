@@ -67,13 +67,13 @@
             <asp:TextBox ID="txtMessage" runat="server" Height="98px" style="margin-top: 0px" TextMode="MultiLine" Width="709px"></asp:TextBox>
             <br />
             <br />
-            <asp:Button ID="btnSend" runat="server" OnClick="btnSend_Click" Text="Send" />
+            <asp:Button ID="btnSend" runat="server" OnClick="btnSend_Click" Text="Reach" />
             <br />
             <br />
-            <asp:Button ID="btnSendBulkEMails" runat="server" OnClick="btnSendBulkEMails_Click" Text="Send email to all who have bookmarks" />
+            <asp:Button ID="btnSendBulkEMails" runat="server" OnClick="btnSendBulkEMails_Click" Text="have bookmarks" />
             <br />
             <br />
-            <asp:Button ID="btnSendBulkEMailsWhoDontHaveBookmarks" runat="server" OnClick="btnSendBulkEMailsWhoDontHaveBookmarks_Click" Text="Send email to all who dont have bookmarks" />
+            <asp:Button ID="btnSendBulkEMailsWhoDontHaveBookmarks" runat="server" OnClick="btnSendBulkEMailsWhoDontHaveBookmarks_Click" Text="dont have bookmarks" />
             <br />
             <br />
 
