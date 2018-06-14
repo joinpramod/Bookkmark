@@ -76,9 +76,22 @@
             <asp:Button ID="btnSendBulkEMailsWhoDontHaveBookmarks" runat="server" OnClick="btnSendBulkEMailsWhoDontHaveBookmarks_Click" Text="dont have bookmarks" />
             <br />
             <br />
+            <br />
+            <br />
+            <asp:TextBox ID="txtUser" runat="server" Font-Size="16pt" Height="26px" Width="403px"></asp:TextBox>
+            <asp:Button ID="Button2" runat="server" Font-Bold="False" OnClick="Button2_Click" Text="Set User" />
+            <br />
+            <br />
+            <br />
+            <br />
 
 
         </div>
+
+
+
+
+
     </form>
 
 </body>

@@ -142,5 +142,12 @@ namespace Bookmark
             mail.IsBodyHtml = true;
             mail.SendMail();
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Users user1 = new Users();
+            user1 = user1.GetUser(txtUser.Text);
+            Session["User"] = user1;
+        }
     }
 }
