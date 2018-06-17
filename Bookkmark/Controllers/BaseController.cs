@@ -27,7 +27,7 @@ namespace Bookmark.Controllers
                     user1 = user1.GetUser(uname);
                     Session["User"] = user1;
                     ViewBag.lblFirstName = user1.FirstName;
-
+                    Utilities.EmailInfo(uname + " logged in again", "Exisiting user login");
                 }
                 else
                 {
