@@ -311,6 +311,21 @@ namespace Bookmark
         }
 
 
+        public static void EmailInfo(string txt, string subject)
+        {
+            Mail mail = new Mail();
+            string strBody = txt;
+            mail.Body = strBody;
+            mail.FromAdd = "admin@booqmarqs.com";
+            mail.Subject = subject;
+            mail.ToAdd = "admin@booqmarqs.com";
+            mail.IsBodyHtml = true;
+            mail.SendMail();
+
+
+        }
+
+
         public static void LogMessage(string Type, string Method, string Description)
         {
             try

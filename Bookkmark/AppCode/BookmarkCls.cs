@@ -20,6 +20,7 @@ namespace Bookmark
         public string City { get; set; }
         public string Country { get; set; }
         public string Count { get; set; }
+        public string FaviconFile { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public string ModifiedDate { get; set; }
@@ -38,6 +39,7 @@ namespace Bookmark
             SqlParameter ParamIpAddr = Cmd.Parameters.Add("@IpAddr", SqlDbType.VarChar);
             SqlParameter ParamCity = Cmd.Parameters.Add("@City", SqlDbType.VarChar);
             SqlParameter ParamCountry = Cmd.Parameters.Add("@Country", SqlDbType.VarChar);
+            SqlParameter ParamFaviconFile = Cmd.Parameters.Add("@FaviconFile", SqlDbType.VarChar);
             SqlParameter ParamCreatedDate = Cmd.Parameters.Add("@CreatedDateTime", SqlDbType.DateTime);
             SqlParameter ParamCreatedUserId = Cmd.Parameters.Add("@CreatedUser", SqlDbType.VarChar);
             SqlParameter ParamModifiedDate = Cmd.Parameters.Add("@ModifiedDateTime", SqlDbType.DateTime);
@@ -61,6 +63,8 @@ namespace Bookmark
             ParamCity.Direction = ParameterDirection.Input;
             ParamCountry.Value = Country;
             ParamCountry.Direction = ParameterDirection.Input;
+            ParamFaviconFile.Value = Country;
+            ParamFaviconFile.Direction = ParameterDirection.Input;
             ParamCreatedUserId.Value = CreatedUserId;
             ParamCreatedUserId.Direction = ParameterDirection.Input;
             ParamCreatedDate.Value = CreatedDate;
@@ -255,6 +259,7 @@ namespace Bookmark
                 _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.FaviconFile = dt.Rows[i]["FaviconFile"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
@@ -276,12 +281,12 @@ namespace Bookmark
                 conn.Open();
                 if (string.IsNullOrEmpty(search))
                 { 
-                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder desc";
+                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder, name";
                 }
                 else
                 {
                     strWhere = "(Select * from VwUserBookmarks where id in (Select folderid from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ))";
-                    strWhere += " Union (Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ) order by isfolder desc";
+                    strWhere += " Union (Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ) order by isfolder,  name";
                 }
 
                 using (SqlDataAdapter sda = new SqlDataAdapter(strWhere, conn))
@@ -308,6 +313,7 @@ namespace Bookmark
                 _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.FaviconFile = dt.Rows[i]["FaviconFile"].ToString();                
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
@@ -348,6 +354,7 @@ namespace Bookmark
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Count = dt.Rows[i]["URLCount"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.FaviconFile = dt.Rows[i]["FaviconFile"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
@@ -435,6 +442,7 @@ namespace Bookmark
                 //_Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.FaviconFile = dt.Rows[i]["FaviconFile"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
                 lstBookmarks.Add(_Bookmark);
                 _Bookmark = new BookmarkCls();
@@ -532,6 +540,7 @@ namespace Bookmark
                 _Bookmark.IpAddr = dt.Rows[i]["IpAddr"].ToString();
                 _Bookmark.City = dt.Rows[i]["City"].ToString();
                 _Bookmark.Country = dt.Rows[i]["Country"].ToString();
+                _Bookmark.FaviconFile = dt.Rows[i]["FaviconFile"].ToString();
                 _Bookmark.CreatedDate = dt.Rows[i]["CreatedDateTime"].ToString();
             }
 
