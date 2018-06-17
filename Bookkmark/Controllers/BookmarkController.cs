@@ -8,6 +8,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.Helpers;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Bookmark.Controllers
 {
@@ -721,6 +722,7 @@ namespace Bookmark.Controllers
             string ipAddr = Utilities.GetIPAddress();
             Utilities.GetLocation(ipAddr, ref strCity, ref strState, ref strCountry);
             List<BookmarkCls> lstFolders = new List<BookmarkCls>();
+            string faviconFilename = string.Empty;
 
             if (!string.IsNullOrEmpty(txtLink))
             {
@@ -730,6 +732,7 @@ namespace Bookmark.Controllers
                 }
                 bmrk.URL = txtLink;
                 bmrk.IsFolder = false;
+                faviconFilename = SaveFaviconFile(faviconFilename, bmrk.URL);
             }
             else
             {
@@ -810,6 +813,8 @@ namespace Bookmark.Controllers
         {
             string folderId = string.Empty;
             bool IfPartialSuccess = false;
+            string faviconFilename = string.Empty;
+
             try
             {
 
@@ -861,12 +866,14 @@ namespace Bookmark.Controllers
                                     bmrk.IsFolder = false;
                                     bmrk.URL = node.Attributes[0].Value;
                                     bmrk.FolderId = double.Parse(folderId);
+                                    faviconFilename = SaveFaviconFile(faviconFilename, bmrk.URL);
+
                                 }
                                 else
                                 {
                                     continue;
                                 }
-
+                                
                                 bmrk.Name = node.InnerText;
                                 bmrk.OptID = 1;
                                 bmrk.CreatedUserId = user.UserId.ToString();
@@ -874,6 +881,7 @@ namespace Bookmark.Controllers
                                 bmrk.City = strCity;
                                 bmrk.Country = strState;
                                 bmrk.IpAddr = ipAddr;
+                                bmrk.FaviconFile = faviconFilename;
 
                                 if (bmrk.IsFolder)
                                 {
@@ -912,13 +920,38 @@ namespace Bookmark.Controllers
                 }
                 else
                 {
-                    Utilities.EmailException(ex);
+                   // Utilities.EmailException(ex);
                     ViewBag.Ack = "Please try again, there seem to be an error";
                 }
             }
 
 
             return View();
+        }
+
+        private string SaveFaviconFile(string faviconFilename, string bmrkURL)
+        {
+            try
+            {
+                byte[] data;
+                Uri uri = new Uri("http://www.google.com/s2/favicons?domain_url=" + bmrkURL);
+                faviconFilename = uri.Host + DateTime.Now.ToString("MMddyyyyss") + ".jpg";
+
+                faviconFilename = System.Web.HttpContext.Current.Server.MapPath("~/Favicons/") + faviconFilename;
+
+                using (WebClient client = new WebClient())
+                {
+                    data = client.DownloadData("http://www.google.com/s2/favicons?domain_url=" + bmrk.URL);
+                }
+
+                System.IO.File.WriteAllBytes(faviconFilename, data);
+
+            }
+            catch
+            {
+
+            }
+            return faviconFilename;
         }
 
         public ActionResult Extensions()
@@ -1026,14 +1059,15 @@ namespace Bookmark.Controllers
             }
             catch (Exception ex)
             {
-                Utilities.LogMessage("E", "extImport", Bookmarks);
-                Utilities.EmailException(ex);
+              //  Utilities.LogMessage("E", "extImport", Bookmarks);
+                //Utilities.EmailException(ex);
             }
             //return View();
         }
 
         private void ProcessBookmarks(string userId, List<ChromeBookmark> lstChromeBmrks, string folderId)
         {
+            string faviconFilename = string.Empty;
             foreach (ChromeBookmark chromeBmrk in lstChromeBmrks)
             {
                 try
@@ -1052,6 +1086,10 @@ namespace Bookmark.Controllers
                         bmrk.IsFolder = false;
                         bmrk.URL = chromeBmrk.url;
                         bmrk.FolderId = double.Parse(folderId);
+
+                        faviconFilename = SaveFaviconFile(faviconFilename, bmrk.URL);
+                        bmrk.FaviconFile = faviconFilename;
+
                     }
                     else
                     {
