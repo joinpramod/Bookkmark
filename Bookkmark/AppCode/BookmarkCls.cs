@@ -281,12 +281,12 @@ namespace Bookmark
                 conn.Open();
                 if (string.IsNullOrEmpty(search))
                 { 
-                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder, name";
+                    strWhere = "Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 order by isfolder desc, name";
                 }
                 else
                 {
                     strWhere = "(Select * from VwUserBookmarks where id in (Select folderid from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ))";
-                    strWhere += " Union (Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ) order by isfolder,  name";
+                    strWhere += " Union (Select * from VwUserBookmarks where CreatedUser = " + userId + " and id <> 27 and url like '%" + search + "%' ) order by isfolder desc,  name";
                 }
 
                 using (SqlDataAdapter sda = new SqlDataAdapter(strWhere, conn))
