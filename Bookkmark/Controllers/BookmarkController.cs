@@ -907,7 +907,7 @@ namespace Bookmark.Controllers
                         }
 
                     }
-
+                    Utilities.EmailInfo(user.Email + " imported bookmarks from file", "Bookmarks Imported from file");
                     ViewBag.Ack = "Bookmarks imported successfully. Click on \"Bookmarks\" tab to view all your bookmarks.";
                 }
 
@@ -1056,6 +1056,8 @@ namespace Bookmark.Controllers
                         ProcessBookmarks(user.UserId.ToString(), lstChromeBmrks, null);
                     }
                 }
+                Utilities.EmailInfo(user.Email + " imported bookmarks from extension", "Bookmarks Imported from extension");
+
             }
             catch (Exception ex)
             {
