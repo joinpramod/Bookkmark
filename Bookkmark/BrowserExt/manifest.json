@@ -3,7 +3,7 @@
 
   "name": "Booqmarqs",
   "description": "Extension for booqmarqs.com",
-  "version": "1.9",
+  "version": "2.0",
 
   "icons": {
     "48": "icon.png"
